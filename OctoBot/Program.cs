@@ -5,7 +5,9 @@ using Discord.WebSocket;
 using OctoBot.Automated;
 using OctoBot.Commands;
 using OctoBot.Commands.PersonalCommands;
+using OctoBot.Commands.ShadowCItyCOmmand;
 using OctoBot.Configs;
+using OctoBot.Games.Game2048;
 using OctoBot.Games.OctoGame;
 using OctoBot.Handeling;
 
@@ -34,10 +36,11 @@ namespace OctoBot
 
             //event subsciption
             _client.Log += Log;
-            _client.ReactionAdded += Reaction.ReactionAddedFor2048;   ////////////// УДАЛИ ЭТО ГОВНО
-                                                                     
-           _client.ReactionAdded += OctoGameReaction.ReactionAddedForOctoGameAsync;
 
+           _client.ReactionAdded += Reaction.ReactionAddedFor2048;                                                        
+           _client.ReactionAdded += OctoGameReaction.ReactionAddedForOctoGameAsync;
+           _client.ReactionAdded += ColorRoleReaction.ReactionAddedForRole;
+            _client.ReactionAdded += RoomRoleReaction.ReactionAddedForRole;
             _client.Ready += GreenBuuTimerClass.StartTimer;             ////////////// Timer1 Green Boo starts
            
             _client.Ready += DailyPull.CheckTimerForPull;                 ////////////// Timer3 For Pulls   
