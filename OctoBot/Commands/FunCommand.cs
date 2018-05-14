@@ -35,16 +35,26 @@ namespace OctoBot.Commands
         }
         [Command("roll")]
         [Alias("Роллл", "Ролл")]
-        public async Task Roll(int times, int number)
+        public async Task Roll(int times, ulong number)
         {
-
-            string mess = "";
-            
+            try { 
+                string mess = "";
+            if(times >= 100)
+                {
+                    await ReplyAsync("Boole! We are not going to roll that many times!");
+                    return;
+                }
+            if(number > 999999999)
+            {
+                await ReplyAsync("Boole! This numbers is way too big for us :c");
+                return;
+            }
             for (var i = 0; i < times; i++)
             {
                 var randRoll = new Random();
-                var randomIndexRoll = randRoll.Next(number + 1);
-                
+                var randomIndexRoll = randRoll.Next((int)number+1);
+                if (randomIndexRoll == 0)
+                    randomIndexRoll = 1;
                 mess += ($"выпало {randomIndexRoll}\n");
             }
 
@@ -52,20 +62,37 @@ namespace OctoBot.Commands
             embed.WithFooter("Записная книжечка Осьминожек");
             embed.WithTitle($"Ролл {times} раз:");
             embed.WithDescription($"{mess}");
-            await Context.Channel.SendMessageAsync("", embed: embed);
+           await Context.Channel.SendMessageAsync("", embed: embed);
+            }
+            catch
+            {
+                await ReplyAsync("Boole! This numbers is way too big for us :c");
+                return;
+            }
+
 
         }
 
 
         [Command("roll")]
         [Alias("Роллл", "Ролл")]
-        public async Task Roll(int number)
+        public async Task Roll(ulong number)
         {
-            var randRoll = new Random();
-            var randomIndexRoll = randRoll.Next(number + 1);
-
-            await Context.Channel.SendMessageAsync($"выпало {randomIndexRoll}");
-
+            
+            
+            try
+            {
+                var randRoll = new Random();
+                var randomIndexRoll = randRoll.Next((int)number + 1);
+                if (randomIndexRoll == 0)
+                    randomIndexRoll = 1;
+                await Context.Channel.SendMessageAsync($"выпало {randomIndexRoll}");
+            }
+            catch
+            {
+                await ReplyAsync("Boole! This numbers is way too big for us :c");
+                return;
+            }
         }
 
 

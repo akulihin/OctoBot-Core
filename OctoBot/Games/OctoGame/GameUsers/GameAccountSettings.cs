@@ -24,6 +24,7 @@ namespace OctoBot.Games.OctoGame.GameUsers
          public int OctopusFighterAp { get; set; }    //0
          public int OctopusFighterAgility { get; set; }  //0
          public double OctopusFighterCritDmg { get; set; } 
+         public int OctopusFighterCritChance { get; set; } 
          public int OctopusFighterDodge{ get; set; } 
          public int OctopusFighterArmor { get; set; } //1 LVL
          public int OctopusFighterMagicResist { get; set; } //1 LVL
@@ -48,6 +49,8 @@ namespace OctoBot.Games.OctoGame.GameUsers
         public int CurrentOctopusFighterAp { get; set; }    //0
         public int CurrentOctopusFighterAgility { get; set; }  //0
         public double CurrentOctopusFighterCritDmg { get; set; } 
+        public int  CurrentOctopusFighterCritChance { get; set; } 
+        public int CurrentOctopusAbilityToCrit { get; set; } 
         public int CurrentOctopusFighterDodge{ get; set; } 
         public int CurrentOctopusFighterArmor { get; set; } //1 LVL
         public int CurrentOctopusFighterMagicResist { get; set; } //1 LVL
@@ -63,6 +66,8 @@ namespace OctoBot.Games.OctoGame.GameUsers
         public string CurrentOctopusFighterSkillSetAgi { get; set; }
         public string CurrentOctopusFighterSkillSetAp { get; set; }
         public List<OctopusFighterStats> CurrentOctopusFighterList { get; internal set; } = new List<OctopusFighterStats>();
+
+
 
 
         public string CurrentEnemyName{ get; set; }

@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Discord.Rest;
+using OctoBot.Configs;
+using OctoBot.Configs.Users;
 
 namespace OctoBot.Games.Game2048
 {
@@ -47,30 +49,62 @@ namespace OctoBot.Games.Game2048
             UpdateMessage(game, userId);
         }
 
-        public static void MakeMove(ulong userId, GameWork.MoveDirection direction)
+        public static void MakeMove(ulong userId, GameWork.MoveDirection direction, RestUserMessage socketMsg)
         {
-            if (!UserIsPlaying(userId)) return;
+            for (var i = 0; i < Global.OctopusGameMessIdList2048.Count ; i++) {
+               
+                if (userId == Global.OctopusGameMessIdList2048[i].OctoGameUserIdToTrack2048)
+                {
+                    
+                    var game = Games.FirstOrDefault(g => g.PlayerId == userId);
+                    var gamesId = Games.IndexOf(game);
 
+                    var result = GameWork.MakeMove(game.Grid, direction);
 
-            var game = Games.FirstOrDefault(g => g.PlayerId == userId);
-            var gamesId = Games.IndexOf(game);
+                    game.Score += result.GainedScore;
+                    game.State = result.State;
+                    game.Grid = result.Board;
+                    game.Move++;
 
-            var result = GameWork.MakeMove(game.Grid, direction);
-
-            game.Score += result.GainedScore;
-            game.State = result.State;
-            game.Grid = result.Board;
-            game.Move++;
-
-            Games[gamesId] = game;
-
-            UpdateMessage(game, userId);
+                    Games[gamesId] = game;
+                  
+                    UpdateMessage(game, userId);
+                }
+            }
         }
+
+        public static async void EndGame(ulong userId)
+        {
+            try
+            {
+                var game = Games.FirstOrDefault(g => g.PlayerId == userId);
+                Games.Remove(game);
+                var builder = new StringBuilder();
+                builder.Append($"буль... куда подевалось?");
+
+                await game.Message.ModifyAsync(m => m.Content = builder.ToString());
+                await game.Message.RemoveAllReactionsAsync();
+            }
+            catch
+            {
+                // ignored
+            }
+
+        }
+      
 
         public static async void UpdateMessage(GameStruct game, ulong userId)
         {
             try
             {
+                var globalAccount = Global.Client.GetUser(userId);
+                var account = UserAccounts.GetAccount(globalAccount);
+                if (game.Score > account.Best2048Score)
+                {
+                    account.Best2048Score = game.Score;
+                    UserAccounts.SaveAccounts();
+                }
+
                 var builder = new StringBuilder();
                 builder.Append("Счёт: ");
                 builder.Append(game.Score);
@@ -88,7 +122,7 @@ namespace OctoBot.Games.Game2048
                     builder.Append("Счёт: ");
                     builder.Append(game.Score);
 
-                    Games.Remove(game);
+                    EndGame(userId);
                 }
                 else if (game.State == GameWork.GameState.Won)
                 {
@@ -97,10 +131,10 @@ namespace OctoBot.Games.Game2048
                     builder.Append("Счёт: ");
                     builder.Append(game.Score);
 
-                    Games.Remove(game);
+                    EndGame(userId);
                 }
 
-                builder.Append("\n```");
+                builder.Append($"\n```");
 
                 await game.Message.ModifyAsync(m => m.Content = builder.ToString());
             }

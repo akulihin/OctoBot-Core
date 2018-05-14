@@ -110,25 +110,93 @@ namespace OctoBot.Games.OctoGame.GameSpells
             return dmg;
         }
 
+        public static int DmgHealthHandeling(int dmgWhere, double dmg, GameAccountSettings account)
+        {
 
+              /*
+               0 = Regular
+               1 = To health
+               2 = only to stamina
+               */
+            var status = 0;
+
+            if (dmgWhere == 0)
+            {
+                if (account.CurrentEnemyStamina > 0)
+                {
+                    account.CurrentEnemyStamina -= Math.Ceiling(dmg);
+                    GameUserAccounts.SaveAccounts();
+
+                                       
+
+                    if (account.CurrentEnemyStamina < 0)
+                    {
+                        account.CurrentEnemyHealth += account.CurrentEnemyStamina;
+                        account.CurrentEnemyStamina = 0;
+                        GameUserAccounts.SaveAccounts();
+                       
+                    }
+                
+                }
+
+                else if (account.CurrentEnemyStamina <= 0)
+                {
+
+                    account.CurrentEnemyHealth -= Math.Ceiling(dmg);
+                    GameUserAccounts.SaveAccounts();
+                                      
+                    if (account.CurrentEnemyHealth <= 0)
+                    {
+                        status = 1;
+                        return status;
+                    
+                    }
+                }
+
+            } 
+            else if (dmgWhere == 1)
+            {
+                account.CurrentEnemyHealth -= Math.Ceiling(dmg);
+                GameUserAccounts.SaveAccounts();
+                                      
+                if (account.CurrentEnemyHealth <= 0)
+                {
+                    status = 1;
+                    return status;
+
+                }
+               
+            }
+            else if (dmgWhere == 2)
+            {
+                account.CurrentEnemyStamina -= Math.Ceiling(dmg);
+                if (account.CurrentEnemyStamina < 0)
+                    account.CurrentEnemyStamina = 0;
+                GameUserAccounts.SaveAccounts();
+            }
+
+            return status;
+        }
 
 
         public static double AdSkills(ulong skillId, GameAccountSettings account)
         {
-            double dmg = 0;
+            double dmg = 99;
+            
+            /*
             if (skillId == 1001)
             {
                 var skill = SpellUserAccounts.GetAccount(skillId);
-                dmg = account.CurrentOctopusFighterStrength +
-                      (account.CurrentOctopusFighterStrength * (0.02 * account.CurrentOctopusFighterLvl));
 
-                dmg = ArmorHandeling(account.CurrentOctopusFighterArmPen, account.CurrentEnemyArmor, dmg);
+               if (account.CurrentEnemyStamina <= 0)
+                    dmg = 99;
+                
+               dmg = ArmorHandeling(account.CurrentOctopusFighterArmPen, account.CurrentEnemyArmor, dmg);
 
-                account.CurrentLogString +=
-                    $"{account.OctopusFighterName} used **{skill.SpellName}** damaging {(int)dmg}({skill.SpellDmgType})\n";
+              
                 return dmg;
             }
-
+            */
             return dmg;
         }
 

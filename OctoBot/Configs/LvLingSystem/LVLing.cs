@@ -21,14 +21,7 @@ namespace OctoBot.Configs.LvLingSystem
             userAccount.LvlPoinnts += 30;
             userAccount.UserName = user.Username;
             
-           
-
-            if (userAccount.LastJoinTime == null)
-            {
-                userAccount.LastJoinTime = "буль.";
-                Users.UserAccounts.SaveAccounts();
-            }
-
+          
 
             if (userAccount.ExtraUserName != null)
             {

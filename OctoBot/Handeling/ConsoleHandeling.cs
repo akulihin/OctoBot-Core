@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Discord;
 using Discord.WebSocket;
 using OctoBot.Configs;
 
@@ -28,35 +27,42 @@ namespace OctoBot.Handeling
 
         private static async void ConsoleSendMessage(DiscordSocketClient client)
         {
-            Console.WriteLine("Guilds: ");
-            var guild = GetSelectedGuild(client.Guilds);
-            var textChannel = GetSelectedTextChannel(guild.TextChannels);
-            var msg = string.Empty;
-
-
-
-            while (msg != null && msg.Trim() == string.Empty)
+            try
             {
-                Console.WriteLine("Сообщение: ");
-                msg = Console.ReadLine();
+                Console.WriteLine("Guilds: ");
+                var guild = GetSelectedGuild(client.Guilds);
+                var textChannel = GetSelectedTextChannel(guild.TextChannels);
+                var msg = string.Empty;
+
+
+
+                while (msg != null && msg.Trim() == string.Empty)
+                {
+                    Console.WriteLine("Сообщение: ");
+                    msg = Console.ReadLine();
+                }
+
+
+                if (msg == null) return;
+                var prefixCheck = msg.ToCharArray();
+                var prefix = Config.Bot.Prefix.ToCharArray();
+                if (prefixCheck[0] == prefix[0])
+                {
+                  var mesToDel =  await textChannel.SendMessageAsync(msg);
+                   await mesToDel.DeleteAsync();
+                 
+
+                    Console.WriteLine("Команда выполненая каппатан бу!");
+                }
+                else
+                {
+                    await textChannel.SendMessageAsync(msg);
+                    Console.WriteLine("Отправлено!");
+                }
             }
-
-
-            if (msg == null) return;
-            var prefixCheck = msg.ToCharArray();
-            var prefix = Config.Bot.Prefix.ToCharArray();
-            if (prefixCheck[0] == prefix[0])
+            catch(Exception)
             {
-                await textChannel.SendMessageAsync(msg);
-                var items = await textChannel.GetMessagesAsync(1).Flatten();
-                await textChannel.DeleteMessagesAsync(items);
-
-                Console.WriteLine("Команда выполненая каппатан бу!");
-            }
-            else
-            {
-                await textChannel.SendMessageAsync(msg);
-                Console.WriteLine("Отправлено!");
+                Console.WriteLine($"Осьминожки не могут сюда писать()");
             }
         }
 

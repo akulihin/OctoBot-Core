@@ -32,7 +32,7 @@ namespace OctoBot.Commands
                     if (account.DailyPullPoints == 20)
                     {
                         await ReplyAsync(
-                            $"**Поит записан!** У тебя все {account.DailyPullPoints} поинтов!! В течении часа наши черепашки или осьминожки вышлют тебе в ЛС ключик!");
+                            $"**Поит записан!** У тебя все {account.DailyPullPoints} поинтов!! В течении минуты наши черепашки вышлют тебе в ЛС ключик!");
                     }
                     else
                     {
@@ -236,13 +236,20 @@ namespace OctoBot.Commands
             var account = UserAccounts.GetAccount(Context.User);
           
                 var fuckts = account.KeyPull.Split(new[] {'|'}, StringSplitOptions.RemoveEmptyEntries);
-
+            var keys = "";
 
                 for (var i = 0; i < fuckts.Length; i++)
                 {
-                    await Context.Channel.SendMessageAsync($"index: {i} | {fuckts[i]}");
+                    keys += $"index: {i} | {fuckts[i]}\n";
+                   
                 }
-                await Context.Channel.SendMessageAsync($"**KeyDel [index]** Чтобы удалить");
+
+            var embed = new EmbedBuilder();
+            embed.WithAuthor(Context.User);
+            embed.AddField("Ключи:", $"{keys}\n**KeyDel [index]** Чтобы удалить ");
+            embed.WithFooter("Записная книжечка Осьминожек");
+
+            await Context.Channel.SendMessageAsync("", embed: embed);
 
         }
 

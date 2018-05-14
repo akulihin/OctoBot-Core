@@ -101,6 +101,7 @@ namespace OctoBot.Commands
             var embed = new EmbedBuilder();
             embed.WithColor(Color.Purple);
             embed.WithAuthor(user);
+            embed.WithFooter("Записная книжечка Осьминожек");
             if (randomNick != null)
             {
                 embed.AddField("Был замечен под ником: ", " " + randomNick);
@@ -167,6 +168,7 @@ namespace OctoBot.Commands
                 var embed = new EmbedBuilder();
                 embed.WithColor(Color.Purple);
                 embed.WithAuthor(user);
+                embed.WithFooter("Записная книжечка Осьминожек");
                 if (randomNick != null)
                 {
                     embed.AddField("Был замечен под ником: ", " " + randomNick);

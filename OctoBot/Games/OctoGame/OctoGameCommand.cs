@@ -8,7 +8,6 @@ using OctoBot.Games.OctoGame.GameUsers;
 using OctoBot.Games.OctoGame.GameSpells;
 using Newtonsoft.Json;
 using System.Collections.Generic;
-using System.Security.Cryptography.X509Certificates;
 
 namespace OctoBot.Games.OctoGame
 {
@@ -113,6 +112,7 @@ namespace OctoBot.Games.OctoGame
         [Command("Fight")]
         public async Task CreateFight()
         {
+
             var account = GameUserAccounts.GetAccount(Context.User);
             account.CurrentOctopusFighterStrength = account.OctopusFighterStrength;
             account.CurrentOctopusFighterAd =  account.OctopusFighterAd;
@@ -166,16 +166,14 @@ namespace OctoBot.Games.OctoGame
                 await message.AddReactionAsync(new Emoji("3⃣"));
                 await message.AddReactionAsync(new Emoji("❌"));
                 
-                var newOctoGame = new Global.OctoGameMessAndUserTrack(message.Id, Context.User.Id, message);
+                var newOctoGame = new Global.OctoGameMessAndUserTrack(message.Id, Context.User.Id, message, Context.User);
 
          
 
                 Global.OctopusGameMessIdList.Add(newOctoGame);
                 Global.OctoGamePlaying += 1;
                 account.OctopusFightPlayingStatus = 1;
-                GameUserAccounts.SaveAccounts();
-
-               
+                GameUserAccounts.SaveAccounts();                        
             }
             else
                 await ReplyAsync("У тебя нет осьминога! создай его командой **CreateOcto**");

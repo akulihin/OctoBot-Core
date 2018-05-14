@@ -86,20 +86,21 @@ namespace OctoBot.Commands
             embed.WithAuthor(Context.User);
             embed.AddInlineField("ID", "" + Context.User.Id);
             embed.AddInlineField("Статус", "" + Context.User.Status);
-            embed.AddInlineField("Зарегистрирован:", "" + Context.User.CreatedAt.UtcDateTime);
+           
             embed.AddInlineField("UserName", "" + Context.User);
-            embed.AddInlineField("Присоединился", "" + account.LastJoinTime);
+           
             embed.AddInlineField("NickName", "" + Context.User.Mention);
-            embed.AddInlineField("ОктоПоинтов:", "" + account.Points);
+            embed.AddInlineField("ОктоПоинтов", "" + account.Points);
             embed.AddInlineField("ОктоРепы", "" + account.Rep);
-            embed.AddInlineField("Уровень Доступа:", "" + account.OctoPass);
+            embed.AddInlineField("Уровень Доступа", "" + account.OctoPass);
             embed.AddInlineField("Уровень", "" + account.Lvl);
             embed.AddInlineField("Pull поинты", "" + account.DailyPullPoints);
             if(warns != null)
             embed.AddInlineField("Предупреждений", "" + warns.Length);
             else
             embed.AddInlineField("Предупреждений", "Нету." );
-            embed.AddField("Коллекция Осьминогов", "" + octopuses);
+            embed.AddField("Best 2048 Game Score", $"{account.Best2048Score}");
+            embed.AddField("Коллекция Осьминогов", "" + octopuses);   
             embed.AddField("Использованные никнеймы", "" + usedNicks);
             embed.WithThumbnailUrl($"{avatar}");
             //embed.AddField("Роли", ""+avatar);
@@ -236,21 +237,22 @@ namespace OctoBot.Commands
                     }
                 }
                 var embed = new EmbedBuilder();
-
+               
                 embed.WithColor(Color.Purple);
                 embed.WithAuthor(user);
                 embed.AddInlineField("ID", "" + user.Id);
                 embed.AddInlineField("Статус", "" + user.Status);
-                embed.AddInlineField("Зарегистрирован:", "" + user.CreatedAt);
+                embed.AddInlineField("Зарегистрирован", "" + user.CreatedAt);
                 embed.AddInlineField("UserName", "" + user);
-                embed.AddInlineField("Присоединился", "" + account.LastJoinTime);
+                embed.AddInlineField("Присоединился", "" +  user.JoinedAt);
                 embed.AddInlineField("NickName", "" + user.Mention);
-                embed.AddInlineField("ОктоПоинтов:", "" + account.Points);
+                embed.AddInlineField("ОктоПоинтов", "" + account.Points);
                 embed.AddInlineField("ОктоРепы", "" + account.Rep);
-                embed.AddInlineField("Уровень Доступа:", "" + account.OctoPass);
+                embed.AddInlineField("Уровень Доступа", "" + account.OctoPass);
                 embed.AddInlineField("Уровень", "" + account.Lvl);
                 embed.AddInlineField("Pull поинты", "" + account.DailyPullPoints);
                 embed.AddField("Предупреждения", "" + warnings);
+                embed.AddField("Best 2048 Game Score", $"{account.Best2048Score}");
                 embed.AddField("Коллекция Осьминогов", "" + octopuses);
                 embed.AddField("Использованные никнеймы", "" + usedNicks);
                 embed.WithThumbnailUrl($"{avatar}");

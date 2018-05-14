@@ -19,8 +19,7 @@ namespace OctoBot.Automated
             var time = DateTime.Now.ToString("");
             UserAccounts.SaveAccounts();
 
-            account.JoinTime += ($"{time} || ");
-            account.LastJoinTime = time;
+
 
             var kek = 1;  // DELETE
             if (kek != 1) // DELETE

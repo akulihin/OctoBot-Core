@@ -77,11 +77,87 @@ namespace OctoBot.Commands
             "https://i.imgur.com/YiW43ad.jpg", //61 GreenBoo With a knife
             "https://i.imgur.com/yMSGQYu.jpg",  //62 Братишки
             "https://i.imgur.com/GCKywPO.jpg",  //63 братишка за компом
-            "https://i.imgur.com/i7CsKuk.jpg" //64 братишка и много осьминогов
+            "https://i.imgur.com/i7CsKuk.jpg", //64 братишка и много осьминогов
+                       "https://i.imgur.com/CVkzrjJ.jpg",
+  "https://i.imgur.com/bW57jhq.jpg",
+  "https://i.imgur.com/mJxMuLu.jpg",
+  "https://i.imgur.com/4EPD5kc.jpg",
+  "https://i.imgur.com/Es7Lo8Z.jpg",
+  "https://i.imgur.com/BqV2Oey.jpg",
+  "https://i.imgur.com/WN3T2yE.jpg",
+  "https://i.imgur.com/tQQ2Xpy.jpg",
+  "https://i.imgur.com/kxT0aEj.jpg",
+  "https://i.imgur.com/5caqVQg.jpg",
+  "https://i.imgur.com/LB6oLLQ.jpg",
+  "https://i.imgur.com/LpqeU77.jpg",
+  "https://i.imgur.com/r85Dn8t.jpg",
+  "https://i.imgur.com/Kr3umkC.jpg",
+  "https://i.imgur.com/kB1vV39.jpg",
+  "https://i.imgur.com/IGLBtax.jpg",
+  "https://i.imgur.com/GXIKFvR.jpg",
+  "https://i.imgur.com/rG8gwaZ.jpg",
+  "https://i.imgur.com/wo0lJcw.jpg",
+  "https://i.imgur.com/rv5YnTm.jpg",
+  "https://i.imgur.com/4anWFFb.jpg",
+  "https://i.imgur.com/I6eAl2d.jpg",
+  "https://i.imgur.com/3i22uVz.jpg",
+  "https://i.imgur.com/eMTolZz.jpg",
+  "https://i.imgur.com/fxjxQCh.jpg",
+  "https://i.imgur.com/QK6hZ5B.jpg",
+  "https://i.imgur.com/iQ7XFAF.jpg",
+  "https://i.imgur.com/wG8q6E1.jpg",
+  "https://i.imgur.com/IJCrm1b.jpg",
+  "https://i.imgur.com/bAzj6zr.jpg",
+  "https://i.imgur.com/LtRVQDq.jpg",
+  "https://i.imgur.com/OpOhpvs.jpg",
+  "https://i.imgur.com/N4Wyye0.jpg",
+  "https://i.imgur.com/qQCpt6g.jpg",
+  "https://i.imgur.com/i8MjyRR.jpg",
+  "https://i.imgur.com/baQMObw.jpg",
+  "https://i.imgur.com/DavR8C7.jpg",
+  "https://i.imgur.com/JyI8PNU.jpg",
+  "https://i.imgur.com/ZtrESXP.jpg",
+  "https://i.imgur.com/OTcCJwX.jpg",
+  "https://i.imgur.com/OXoFjjr.jpg",
+  "https://i.imgur.com/wiskanY.jpg",
+  "https://i.imgur.com/fO8YZGA.jpg",
+  "https://i.imgur.com/q9D4TVK.png",
+  "https://i.imgur.com/kdc2b9z.jpg",
+  "https://i.imgur.com/xAYL5vM.jpg",
+  "https://i.imgur.com/VLJNGRG.jpg",
+  "https://i.imgur.com/cTqk5ci.jpg",
+  "https://i.imgur.com/vxTe2sM.jpg",
+  "https://i.imgur.com/sn9qfSb.jpg",
+  "https://i.imgur.com/5hmem4s.jpg",
+  "https://i.imgur.com/gmsOGAF.jpg",
+  "https://i.imgur.com/6CiWZjK.jpg",
+  "https://i.imgur.com/ZWSwSDS.jpg",
+  "https://i.imgur.com/NyTHBeV.jpg",
+  "https://i.imgur.com/dqppxFf.jpg",
+  "https://i.imgur.com/4MykFJm.jpg",
+  "https://i.imgur.com/RoqjD7C.jpg",
+  "https://i.imgur.com/eHQEjjK.jpg",
+  "https://i.imgur.com/231MgpJ.jpg",
+  "https://cdn.discordapp.com/attachments/425865177813090314/445366377067577354/JPEG_20180218_032048.jpg",
+  "https://cdn.discordapp.com/attachments/425865177813090314/445366374731218944/JPEG_20180201_211154.jpg",
+  "https://cdn.discordapp.com/attachments/425865177813090314/445366379869241344/JPEG_20180223_120340.jpg",
+  "https://cdn.discordapp.com/attachments/425865177813090314/445366384558604290/JPEG_20180410_083052.jpg",
+  "https://cdn.discordapp.com/attachments/425865177813090314/445366382939471884/JPEG_20180314_221039.jpg",
+  "https://cdn.discordapp.com/attachments/425865177813090314/445366388597587968/JPEG_20171005_002230.jpg",
+  "https://cdn.discordapp.com/attachments/425865177813090314/445366386110365697/JPEG_20180413_004513.jpg",
+  "https://cdn.discordapp.com/attachments/425865177813090314/445366387536560128/JPEG_20171005_001804.jpg",
+  "https://cdn.discordapp.com/attachments/425865177813090314/445366606575435777/JPEG_20171006_173629.jpg",
+  "https://cdn.discordapp.com/attachments/425865177813090314/445366619842019339/JPEG_20171014_075205.jpg",
+  "https://cdn.discordapp.com/attachments/425865177813090314/445366639274491904/JPEG_20180124_141420.jpg",
+  "https://cdn.discordapp.com/attachments/425865177813090314/445366662880034839/JPEG_20180128_211126.jpg",
+  "https://cdn.discordapp.com/attachments/425865177813090314/445366385934204929/Screenshot_44.png"
                  };
 
 
     }
+    /*
+
+    */
 
 
 

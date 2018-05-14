@@ -13,8 +13,7 @@ namespace OctoBot.Configs.Users
 
         public ulong Id { get; set; }
         public string ExtraUserName { get; set; }
-        public string JoinTime { get; set; }
-        public string LastJoinTime { get; set; }
+
         public long Rep { get; set; }
         public string Warnings { get; set; }
 
@@ -61,6 +60,8 @@ namespace OctoBot.Configs.Users
             }
         }
 
-     
+        public int Best2048Score { get; set; }
+
+
     }
 }

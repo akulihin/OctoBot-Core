@@ -47,7 +47,7 @@ namespace OctoBot.Games.OctoGame
                 await socketMsg.AddReactionAsync(new Emoji("1⃣"));             
                 await socketMsg.AddReactionAsync(new Emoji("2⃣"));           
                 await socketMsg.AddReactionAsync(new Emoji("3⃣"));
-               /* await socketMsg.AddReactionAsync(new Emoji("4⃣"));
+              /*await socketMsg.AddReactionAsync(new Emoji("4⃣"));
                 await socketMsg.AddReactionAsync(new Emoji("5⃣"));
                 await socketMsg.AddReactionAsync(new Emoji("6⃣"));
                 await socketMsg.AddReactionAsync(new Emoji("7⃣"));
@@ -57,7 +57,7 @@ namespace OctoBot.Games.OctoGame
 
                 account.OctopusFightPlayingStatus = 2;
                 GameUserAccounts.SaveAccounts();
-
+                
                 await MainPage(reaction, socketMsg);
             }
 
@@ -71,14 +71,14 @@ namespace OctoBot.Games.OctoGame
                 string[] skills;
                 var tree = "";
                 double dmg ;
-                var skillString = "";
-               
+            var skillString = "You dont have any skills here."; 
 
-                if (account.MoveListPage == 1)
+                if (account.MoveListPage == 1 && account.CurrentOctopusFighterSkillSetAd != null)
                 {
+                    skillString = null;
                     skills = account.CurrentOctopusFighterSkillSetAd.Split(new[] {'|'}, StringSplitOptions.RemoveEmptyEntries);
                     tree = "AD";
-                    
+
                     for (var i = 0; i < skills.Length; i++)
                     {
 
@@ -86,7 +86,6 @@ namespace OctoBot.Games.OctoGame
                         var skill = SpellUserAccounts.GetAccount(ski);
 
                         dmg = GameSpellHandeling.AdSkills(skill.SpellId, account);
-
                         if (skill.SpellDmgType == "PASS")
                         {
                             skillString +=
@@ -97,11 +96,11 @@ namespace OctoBot.Games.OctoGame
                             skillString +=
                                 $"{i + 1}. {skill.SpellName} ({skill.SpellDmgType}): **{Math.Ceiling(dmg)}** \n";
                         }
-
                     }
                 }
-                else if (account.MoveListPage == 2)
+                else if (account.MoveListPage == 2 && account.CurrentOctopusFighterSkillSetDef != null)
                 {
+                    skillString = null;
                     skills = account.CurrentOctopusFighterSkillSetDef.Split(new[] {'|'}, StringSplitOptions.RemoveEmptyEntries);
                     tree = "DEF";
                     for (var i = 0; i < skills.Length; i++)
@@ -123,8 +122,9 @@ namespace OctoBot.Games.OctoGame
                         }
                     }
                 }
-                else if (account.MoveListPage == 3)
+                else if (account.MoveListPage == 3 && account.CurrentOctopusFighterSkillSetAgi != null)
                 {
+                    skillString = null;
                     skills = account.CurrentOctopusFighterSkillSetAgi.Split(new[] {'|'}, StringSplitOptions.RemoveEmptyEntries);
                     tree = "AGI";
                     for (var i = 0; i < skills.Length; i++)
@@ -146,8 +146,9 @@ namespace OctoBot.Games.OctoGame
                         }
                     }
                 }
-                else if (account.MoveListPage == 4)
+                else if (account.MoveListPage == 4 && account.CurrentOctopusFighterSkillSetAp != null)
                 {
+                    skillString = null;
                     skills = account.CurrentOctopusFighterSkillSetAp.Split(new[] {'|'}, StringSplitOptions.RemoveEmptyEntries);
                     tree = "AP";
 
@@ -157,7 +158,6 @@ namespace OctoBot.Games.OctoGame
                         var skill = SpellUserAccounts.GetAccount(ski);
 
                          dmg = GameSpellHandeling.ApSkills(skill.SpellId, account);
-                       
                         if (skill.SpellDmgType == "PASS")
                         {
                             skillString +=
@@ -170,8 +170,8 @@ namespace OctoBot.Games.OctoGame
                         }
                     }
                 }
-                
-
+               
+              
                 var mainPage = new EmbedBuilder();
                 
                 mainPage.WithAuthor(globalAccount);
@@ -191,14 +191,14 @@ namespace OctoBot.Games.OctoGame
                     $"**LVL:** {account.CurrentOctopusFighterLvl}\n" +
                     $"**Strength:** {account.CurrentOctopusFighterStrength}\n" +
                     $"**AD:** {account.CurrentOctopusFighterAd + account.CurrentOctopusFighterStrength}  **AP:** {account.CurrentOctopusFighterAp}\n" +
-                    $"**Health:** {account.CurrentOctopusFighterHealth}\n" +                  
+                    $"**Health:** {account.CurrentOctopusFighterHealth}\n" +
                     $"**Stamina:** {account.CurrentOctopusFighterStamina}\n" +
                     $"**Armor:** {account.CurrentOctopusFighterArmor} LVL  **MagRes:** {account.CurrentOctopusFighterMagicResist} LVL\n" +
-                    $"**ArmPen:** {account.CurrentOctopusFighterArmPen}  **MagPen:** {account.CurrentOctopusFighterMagPen}\n" + 
-                    $"**Agility:** {account.CurrentOctopusFighterAgility}\n" + 
+                    $"**ArmPen:** {account.CurrentOctopusFighterArmPen}  **MagPen:** {account.CurrentOctopusFighterMagPen}\n" +
+                    $"**Agility:** {account.CurrentOctopusFighterAgility}\n" +
                     $"**________________**\n" +
                     $"{new Emoji("⬅")} - Move List Page Left , {new Emoji("➡")} - Move List Page Right {new Emoji("📖")} - History, {new Emoji("❌")} - **END GAME**");
-                mainPage.AddField($"{tree} Move List", $"{skillString}");    
+                mainPage.AddField($"(Move List", $"{skillString}");    
 
 
 

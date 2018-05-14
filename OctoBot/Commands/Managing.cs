@@ -34,9 +34,9 @@ namespace OctoBot.Commands
             var comander = UserAccounts.GetAccount(Context.User);
             if (comander.OctoPass >= 100)
             {
-
+                var time = DateTime.Now.ToString("");
             var account = UserAccounts.GetAccount((SocketUser)user);
-            account.Warnings += $"{Context.Message.Timestamp} {Context.User}: " + message + "|";
+            account.Warnings += $"{time} {Context.User}: " + message + "|";
             UserAccounts.SaveAccounts();
             await Context.Channel.SendMessageAsync(user.Mention + " Был Предупреждён");
             }
