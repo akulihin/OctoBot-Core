@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Net;
 using System.Threading.Tasks;
 using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
-using Newtonsoft.Json;
 using OctoBot.Configs.Users;
 
 namespace OctoBot.Commands
@@ -12,29 +10,7 @@ namespace OctoBot.Commands
 
     public class Fact : ModuleBase<SocketCommandContext>
     {
-        [Command("рандом")]
-        public async Task GetRandomPerson()
-        {
-            string json;
-            using (var client = new WebClient())
-            {
-                json = client.DownloadString("https://randomuser.me/api/");
-            }
 
-            var dataObject = JsonConvert.DeserializeObject<dynamic>(json);
-
-            string firstName = dataObject.results[0].name.first.ToString();
-            string lastName = dataObject.results[0].name.last.ToString();
-            string avatarUrl = dataObject.results[0].picture.large.ToString();
-
-            var embed = new EmbedBuilder();
-            embed.WithThumbnailUrl(avatarUrl);
-            embed.WithTitle("Странный API");
-            embed.AddInlineField("First name", firstName);
-            embed.AddInlineField("Last name", lastName);
-
-            await Context.Channel.SendMessageAsync("", embed: embed);
-        }
 
         [Command("записать")]
         [Alias("факт")]

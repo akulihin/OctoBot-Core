@@ -42,10 +42,12 @@ namespace OctoBot
            _client.ReactionAdded += ColorRoleReaction.ReactionAddedForRole;
             _client.ReactionAdded += RoomRoleReaction.ReactionAddedForRole;
             _client.Ready += GreenBuuTimerClass.StartTimer;             ////////////// Timer1 Green Boo starts
-           
             _client.Ready += DailyPull.CheckTimerForPull;                 ////////////// Timer3 For Pulls   
             _client.Ready += Reminder.CheckTimer;                       ////////////// Timer4 For For Reminders
+            _client.Ready += ForBot.TimerForBotAvatar;   
+            _client.Ready += EveryLogHandeling._client_Ready;
             _client.UserJoined += Announcer.AnnounceUserJoin;
+         
             //  _client.Ready += YellowTurtle.StartTimer; //// Timer3
 
 
@@ -59,6 +61,9 @@ namespace OctoBot
             ConsoleHandeling.ConsoleInput(_client);
             await Task.Delay(-1);
         }
+
+
+
         private static Task Log(LogMessage arg)
         {
 

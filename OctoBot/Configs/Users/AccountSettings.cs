@@ -6,7 +6,7 @@ namespace OctoBot.Configs.Users
 
 
 
-    public class AccountSettings
+    public class AccountSettings 
     {
 
         public string UserName { get; set; }

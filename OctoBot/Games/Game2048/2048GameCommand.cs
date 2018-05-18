@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using Discord;
 using Discord.Commands;
 using OctoBot.Configs;
@@ -27,6 +28,7 @@ namespace OctoBot.Games.Game2048
             await message.AddReactionAsync(new Emoji("➡"));
             await message.AddReactionAsync(new Emoji("⬆"));
             await message.AddReactionAsync(new Emoji("⬇"));
+            await message.AddReactionAsync(new Emoji("🔃"));
             await message.AddReactionAsync(new Emoji("❌"));
 
 

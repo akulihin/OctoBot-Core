@@ -78,145 +78,141 @@ namespace OctoBot.Games.OctoGame
                                 double dmg;
 
 
-                                if (account.MoveListPage == 1)
+                                switch (account.MoveListPage)
                                 {
-                                    skills = account.CurrentOctopusFighterSkillSetAd.Split(new[] { '|' }, StringSplitOptions.RemoveEmptyEntries);
+                                    case 1:
+                                        {
+                                            skills = account.CurrentOctopusFighterSkillSetAd.Split(new[] { '|' }, StringSplitOptions.RemoveEmptyEntries);
 
-                                    var ski = Convert.ToUInt64(skills[0]);
-                                    var skill = SpellUserAccounts.GetAccount(ski);
+                                            var ski = Convert.ToUInt64(skills[0]);
+                                            var skill = SpellUserAccounts.GetAccount(ski);
 
-                                    Console.WriteLine($"{skill.SpellName} + {skill.SpellId}");
+                                            Console.WriteLine($"{skill.SpellName} + {skill.SpellId}");
 
-                                    dmg = GameSpellHandeling.AdSkills(skill.SpellId, account);
+                                            dmg = GameSpellHandeling.AdSkills(skill.SpellId, account);
 
-                                    if (account.CurrentOctopusAbilityToCrit == 0)
-                                    {
-                                        dmg = GameSpellHandeling.CritHandeling(account.CurrentOctopusFighterAgility, dmg, account);
-                                    }
-                                    else
-                                    {
-                                        account.CurrentOctopusAbilityToCrit = 0;
-                                        GameUserAccounts.SaveAccounts();
-                                    }
+                                            if (account.CurrentOctopusAbilityToCrit == 0)
+                                            {
+                                                dmg = GameSpellHandeling.CritHandeling(account.CurrentOctopusFighterAgility, dmg, account);
+                                            }
+                                            else
+                                            {
+                                                account.CurrentOctopusAbilityToCrit = 0;
+                                                GameUserAccounts.SaveAccounts();
+                                            }
 
-                                    dmg = GameSpellHandeling.DodgeHandeling(account.CurrentOctopusFighterAgility, dmg, account);
-
-
-                                    var status = GameSpellHandeling.DmgHealthHandeling(skill.WhereDmg, dmg, account);
-                                    if (status == 1)
-                                    {
-                                        await reaction.Channel.SendMessageAsync("Буль, ты победил!");
-                                        await OctoGameUpdateMess.FighhtReaction.MainPage(reaction, Global.OctopusGameMessIdList[i].SocketMsg);
-                                    }
-                                    else
-                                        await OctoGameUpdateMess.FighhtReaction.MainPage(reaction, Global.OctopusGameMessIdList[i].SocketMsg);
+                                            dmg = GameSpellHandeling.DodgeHandeling(account.CurrentOctopusFighterAgility, dmg, account);
 
 
-                                }
-                                ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                                            var status = GameSpellHandeling.DmgHealthHandeling(skill.WhereDmg, dmg, account);
+                                            if (status == 1)
+                                            {
+                                                await reaction.Channel.SendMessageAsync("Буль, ты победил!");
+                                                await OctoGameUpdateMess.FighhtReaction.MainPage(reaction, Global.OctopusGameMessIdList[i].SocketMsg);
+                                            }
+                                            else
+                                                await OctoGameUpdateMess.FighhtReaction.MainPage(reaction, Global.OctopusGameMessIdList[i].SocketMsg);
+                                            break;
+                                        }
 
-                                //////////////////////////////////////////////////////////////DEF Skill///////////////////////////////////////////////////////////////////////////
-                                else if (account.MoveListPage == 2)
-                                {
+                                    case 2:
+                                        {
 
-                                    skills = account.CurrentOctopusFighterSkillSetDef.Split(new[] { '|' },
-                                        StringSplitOptions.RemoveEmptyEntries);
+                                            skills = account.CurrentOctopusFighterSkillSetDef.Split(new[] { '|' },
+                                                StringSplitOptions.RemoveEmptyEntries);
 
-                                    var ski = Convert.ToUInt64(skills[0]);
-                                    var skill = SpellUserAccounts.GetAccount(ski);
+                                            var ski = Convert.ToUInt64(skills[0]);
+                                            var skill = SpellUserAccounts.GetAccount(ski);
 
-                                    Console.WriteLine($"{skill.SpellName} + {skill.SpellId}");
+                                            Console.WriteLine($"{skill.SpellName} + {skill.SpellId}");
 
-                                    dmg = GameSpellHandeling.DefdSkills(skill.SpellId, account);
-                                    if (account.CurrentOctopusAbilityToCrit == 0)
-                                    {
-                                        dmg = GameSpellHandeling.CritHandeling(account.CurrentOctopusFighterAgility, dmg, account);
-                                    }
-                                    else
-                                    {
-                                        account.CurrentOctopusAbilityToCrit = 0;
-                                        GameUserAccounts.SaveAccounts();
-                                    }
-                                    dmg = GameSpellHandeling.DodgeHandeling(account.CurrentOctopusFighterAgility, dmg, account);
+                                            dmg = GameSpellHandeling.DefdSkills(skill.SpellId, account);
+                                            if (account.CurrentOctopusAbilityToCrit == 0)
+                                            {
+                                                dmg = GameSpellHandeling.CritHandeling(account.CurrentOctopusFighterAgility, dmg, account);
+                                            }
+                                            else
+                                            {
+                                                account.CurrentOctopusAbilityToCrit = 0;
+                                                GameUserAccounts.SaveAccounts();
+                                            }
+                                            dmg = GameSpellHandeling.DodgeHandeling(account.CurrentOctopusFighterAgility, dmg, account);
 
-                                    var status = GameSpellHandeling.DmgHealthHandeling(skill.WhereDmg, dmg, account);
-                                    if (status == 1)
-                                    {
-                                        await reaction.Channel.SendMessageAsync("Буль, ты победил!");
-                                        await OctoGameUpdateMess.FighhtReaction.MainPage(reaction, Global.OctopusGameMessIdList[i].SocketMsg);
-                                    }
-                                    else
-                                        await OctoGameUpdateMess.FighhtReaction.MainPage(reaction, Global.OctopusGameMessIdList[i].SocketMsg);
-                                }
-                                ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                                            var status = GameSpellHandeling.DmgHealthHandeling(skill.WhereDmg, dmg, account);
+                                            if (status == 1)
+                                            {
+                                                await reaction.Channel.SendMessageAsync("Буль, ты победил!");
+                                                await OctoGameUpdateMess.FighhtReaction.MainPage(reaction, Global.OctopusGameMessIdList[i].SocketMsg);
+                                            }
+                                            else
+                                                await OctoGameUpdateMess.FighhtReaction.MainPage(reaction, Global.OctopusGameMessIdList[i].SocketMsg);
+                                            break;
+                                        }
 
-                                /////////////////////////////////////////////////////////////////AGI skills///////////////////////////////////////////////////////////////////////////
+                                    case 3:
+                                        {
+                                            skills = account.CurrentOctopusFighterSkillSetAgi.Split(new[] { '|' }, StringSplitOptions.RemoveEmptyEntries);
 
+                                            var ski = Convert.ToUInt64(skills[0]);
+                                            var skill = SpellUserAccounts.GetAccount(ski);
 
-                                else if (account.MoveListPage == 3)
-                                {
-                                    skills = account.CurrentOctopusFighterSkillSetAgi.Split(new[] { '|' }, StringSplitOptions.RemoveEmptyEntries);
+                                            Console.WriteLine($"{skill.SpellName} + {skill.SpellId}");
 
-                                    var ski = Convert.ToUInt64(skills[0]);
-                                    var skill = SpellUserAccounts.GetAccount(ski);
+                                            dmg = GameSpellHandeling.AgiSkills(skill.SpellId, account);
+                                            if (account.CurrentOctopusAbilityToCrit == 0)
+                                            {
+                                                dmg = GameSpellHandeling.CritHandeling(account.CurrentOctopusFighterAgility, dmg, account);
+                                            }
+                                            else
+                                            {
+                                                account.CurrentOctopusAbilityToCrit = 0;
+                                                GameUserAccounts.SaveAccounts();
+                                            }
+                                            dmg = GameSpellHandeling.DodgeHandeling(account.CurrentOctopusFighterAgility, dmg, account);
 
-                                    Console.WriteLine($"{skill.SpellName} + {skill.SpellId}");
+                                            var status = GameSpellHandeling.DmgHealthHandeling(skill.WhereDmg, dmg, account);
+                                            if (status == 1)
+                                            {
+                                                await reaction.Channel.SendMessageAsync("Буль, ты победил!");
+                                                await OctoGameUpdateMess.FighhtReaction.MainPage(reaction, Global.OctopusGameMessIdList[i].SocketMsg);
+                                            }
+                                            else
+                                                await OctoGameUpdateMess.FighhtReaction.MainPage(reaction, Global.OctopusGameMessIdList[i].SocketMsg);
+                                            break;
+                                        }
 
-                                    dmg = GameSpellHandeling.AgiSkills(skill.SpellId, account);
-                                    if (account.CurrentOctopusAbilityToCrit == 0)
-                                    {
-                                        dmg = GameSpellHandeling.CritHandeling(account.CurrentOctopusFighterAgility, dmg, account);
-                                    }
-                                    else
-                                    {
-                                        account.CurrentOctopusAbilityToCrit = 0;
-                                        GameUserAccounts.SaveAccounts();
-                                    }
-                                    dmg = GameSpellHandeling.DodgeHandeling(account.CurrentOctopusFighterAgility, dmg, account);
+                                    case 4:
+                                        {
+                                            skills = account.CurrentOctopusFighterSkillSetAp.Split(new[] { '|' }, StringSplitOptions.RemoveEmptyEntries);
 
-                                    var status = GameSpellHandeling.DmgHealthHandeling(skill.WhereDmg, dmg, account);
-                                    if (status == 1)
-                                    {
-                                        await reaction.Channel.SendMessageAsync("Буль, ты победил!");
-                                        await OctoGameUpdateMess.FighhtReaction.MainPage(reaction, Global.OctopusGameMessIdList[i].SocketMsg);
-                                    }
-                                    else
-                                        await OctoGameUpdateMess.FighhtReaction.MainPage(reaction, Global.OctopusGameMessIdList[i].SocketMsg);
-                                }
-                                ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                                            var ski = Convert.ToUInt64(skills[0]);
+                                            var skill = SpellUserAccounts.GetAccount(ski);
 
-                                ////////////////////////////////////////////////////////////////AP Skills//////////////////////////////////////////////////////////////////////
+                                            Console.WriteLine($"{skill.SpellName} + {skill.SpellId}");
 
+                                            dmg = GameSpellHandeling.ApSkills(skill.SpellId, account);
+                                            if (account.CurrentOctopusAbilityToCrit == 0)
+                                            {
+                                                dmg = GameSpellHandeling.CritHandeling(account.CurrentOctopusFighterAgility, dmg, account);
+                                            }
+                                            else
+                                            {
+                                                account.CurrentOctopusAbilityToCrit = 0;
+                                                GameUserAccounts.SaveAccounts();
+                                            }
+                                            dmg = GameSpellHandeling.DodgeHandeling(account.CurrentOctopusFighterAgility, dmg, account);
 
-                                else if (account.MoveListPage == 4)
-                                {
-                                    skills = account.CurrentOctopusFighterSkillSetAp.Split(new[] { '|' }, StringSplitOptions.RemoveEmptyEntries);
+                                            var status = GameSpellHandeling.DmgHealthHandeling(skill.WhereDmg, dmg, account);
+                                            if (status == 1)
+                                            {
+                                                await reaction.Channel.SendMessageAsync("Буль, ты победил!");
+                                                await OctoGameUpdateMess.FighhtReaction.MainPage(reaction, Global.OctopusGameMessIdList[i].SocketMsg);
+                                            }
+                                            else
+                                                await OctoGameUpdateMess.FighhtReaction.MainPage(reaction, Global.OctopusGameMessIdList[i].SocketMsg);
+                                            break;
+                                        }
 
-                                    var ski = Convert.ToUInt64(skills[0]);
-                                    var skill = SpellUserAccounts.GetAccount(ski);
-
-                                    Console.WriteLine($"{skill.SpellName} + {skill.SpellId}");
-
-                                    dmg = GameSpellHandeling.ApSkills(skill.SpellId, account);
-                                    if (account.CurrentOctopusAbilityToCrit == 0)
-                                    {
-                                        dmg = GameSpellHandeling.CritHandeling(account.CurrentOctopusFighterAgility, dmg, account);
-                                    }
-                                    else
-                                    {
-                                        account.CurrentOctopusAbilityToCrit = 0;
-                                        GameUserAccounts.SaveAccounts();
-                                    }
-                                    dmg = GameSpellHandeling.DodgeHandeling(account.CurrentOctopusFighterAgility, dmg, account);
-
-                                    var status = GameSpellHandeling.DmgHealthHandeling(skill.WhereDmg, dmg, account);
-                                    if (status == 1)
-                                    {
-                                        await reaction.Channel.SendMessageAsync("Буль, ты победил!");
-                                        await OctoGameUpdateMess.FighhtReaction.MainPage(reaction, Global.OctopusGameMessIdList[i].SocketMsg);
-                                    }
-                                    else
-                                        await OctoGameUpdateMess.FighhtReaction.MainPage(reaction, Global.OctopusGameMessIdList[i].SocketMsg);
 
                                 }
                                 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -252,143 +248,139 @@ namespace OctoBot.Games.OctoGame
                                 double dmg;
 
 
-                                if (account.MoveListPage == 1)
+                                switch (account.MoveListPage)
                                 {
-                                    skills = account.CurrentOctopusFighterSkillSetAd.Split(new[] { '|' }, StringSplitOptions.RemoveEmptyEntries);
+                                    case 1:
+                                        {
+                                            skills = account.CurrentOctopusFighterSkillSetAd.Split(new[] { '|' }, StringSplitOptions.RemoveEmptyEntries);
 
-                                    var ski = Convert.ToUInt64(skills[1]);
-                                    var skill = SpellUserAccounts.GetAccount(ski);
+                                            var ski = Convert.ToUInt64(skills[1]);
+                                            var skill = SpellUserAccounts.GetAccount(ski);
 
-                                    Console.WriteLine($"{skill.SpellName} + {skill.SpellId}");
+                                            Console.WriteLine($"{skill.SpellName} + {skill.SpellId}");
 
-                                    dmg = GameSpellHandeling.AdSkills(skill.SpellId, account);
-                                    if (account.CurrentOctopusAbilityToCrit == 0)
-                                    {
-                                        dmg = GameSpellHandeling.CritHandeling(account.CurrentOctopusFighterAgility, dmg, account);
-                                    }
-                                    else
-                                    {
-                                        account.CurrentOctopusAbilityToCrit = 0;
-                                        GameUserAccounts.SaveAccounts();
-                                    }
-                                    dmg = GameSpellHandeling.DodgeHandeling(account.CurrentOctopusFighterAgility, dmg, account);
+                                            dmg = GameSpellHandeling.AdSkills(skill.SpellId, account);
+                                            if (account.CurrentOctopusAbilityToCrit == 0)
+                                            {
+                                                dmg = GameSpellHandeling.CritHandeling(account.CurrentOctopusFighterAgility, dmg, account);
+                                            }
+                                            else
+                                            {
+                                                account.CurrentOctopusAbilityToCrit = 0;
+                                                GameUserAccounts.SaveAccounts();
+                                            }
+                                            dmg = GameSpellHandeling.DodgeHandeling(account.CurrentOctopusFighterAgility, dmg, account);
 
-                                    var status = GameSpellHandeling.DmgHealthHandeling(skill.WhereDmg, dmg, account);
-                                    if (status == 1)
-                                    {
-                                        await reaction.Channel.SendMessageAsync("Буль, ты победил!");
-                                        await OctoGameUpdateMess.FighhtReaction.MainPage(reaction, Global.OctopusGameMessIdList[i].SocketMsg);
-                                    }
-                                    else
-                                        await OctoGameUpdateMess.FighhtReaction.MainPage(reaction, Global.OctopusGameMessIdList[i].SocketMsg);
+                                            var status = GameSpellHandeling.DmgHealthHandeling(skill.WhereDmg, dmg, account);
+                                            if (status == 1)
+                                            {
+                                                await reaction.Channel.SendMessageAsync("Буль, ты победил!");
+                                                await OctoGameUpdateMess.FighhtReaction.MainPage(reaction, Global.OctopusGameMessIdList[i].SocketMsg);
+                                            }
+                                            else
+                                                await OctoGameUpdateMess.FighhtReaction.MainPage(reaction, Global.OctopusGameMessIdList[i].SocketMsg);
+                                            break;
+                                        }
 
-                                }
-                                ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                                    case 2:
+                                        {
 
-                                //////////////////////////////////////////////////////////////DEF Skill///////////////////////////////////////////////////////////////////////////
-                                else if (account.MoveListPage == 2)
-                                {
+                                            skills = account.CurrentOctopusFighterSkillSetDef.Split(new[] { '|' },
+                                                StringSplitOptions.RemoveEmptyEntries);
 
-                                    skills = account.CurrentOctopusFighterSkillSetDef.Split(new[] { '|' },
-                                        StringSplitOptions.RemoveEmptyEntries);
+                                            var ski = Convert.ToUInt64(skills[1]);
+                                            var skill = SpellUserAccounts.GetAccount(ski);
 
-                                    var ski = Convert.ToUInt64(skills[1]);
-                                    var skill = SpellUserAccounts.GetAccount(ski);
-
-                                    Console.WriteLine($"{skill.SpellName} + {skill.SpellId}");
-
-
-                                    dmg = GameSpellHandeling.DefdSkills(skill.SpellId, account);
-                                    if (account.CurrentOctopusAbilityToCrit == 0)
-                                    {
-                                        dmg = GameSpellHandeling.CritHandeling(account.CurrentOctopusFighterAgility, dmg, account);
-                                    }
-                                    else
-                                    {
-                                        account.CurrentOctopusAbilityToCrit = 0;
-                                        GameUserAccounts.SaveAccounts();
-                                    }
-                                    dmg = GameSpellHandeling.DodgeHandeling(account.CurrentOctopusFighterAgility, dmg, account);
+                                            Console.WriteLine($"{skill.SpellName} + {skill.SpellId}");
 
 
-                                    var status = GameSpellHandeling.DmgHealthHandeling(skill.WhereDmg, dmg, account);
-                                    if (status == 1)
-                                    {
-                                        await reaction.Channel.SendMessageAsync("Буль, ты победил!");
-                                        await OctoGameUpdateMess.FighhtReaction.MainPage(reaction, Global.OctopusGameMessIdList[i].SocketMsg);
-                                    }
-                                    else
-                                        await OctoGameUpdateMess.FighhtReaction.MainPage(reaction, Global.OctopusGameMessIdList[i].SocketMsg);
-                                }
-                                ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-                                /////////////////////////////////////////////////////////////////AGI skills///////////////////////////////////////////////////////////////////////////
-
-
-                                else if (account.MoveListPage == 3)
-                                {
-                                    skills = account.CurrentOctopusFighterSkillSetAgi.Split(new[] { '|' }, StringSplitOptions.RemoveEmptyEntries);
-
-                                    var ski = Convert.ToUInt64(skills[1]);
-                                    var skill = SpellUserAccounts.GetAccount(ski);
-
-                                    Console.WriteLine($"{skill.SpellName} + {skill.SpellId}");
-
-                                    dmg = GameSpellHandeling.AgiSkills(skill.SpellId, account);
-                                    if (account.CurrentOctopusAbilityToCrit == 0)
-                                    {
-                                        dmg = GameSpellHandeling.CritHandeling(account.CurrentOctopusFighterAgility, dmg, account);
-                                    }
-                                    else
-                                    {
-                                        account.CurrentOctopusAbilityToCrit = 0;
-                                        GameUserAccounts.SaveAccounts();
-                                    }
-                                    dmg = GameSpellHandeling.DodgeHandeling(account.CurrentOctopusFighterAgility, dmg, account);
-
-                                    var status = GameSpellHandeling.DmgHealthHandeling(skill.WhereDmg, dmg, account);
-                                    if (status == 1)
-                                    {
-                                        await reaction.Channel.SendMessageAsync("Буль, ты победил!");
-                                        await OctoGameUpdateMess.FighhtReaction.MainPage(reaction, Global.OctopusGameMessIdList[i].SocketMsg);
-                                    }
-                                    else
-                                        await OctoGameUpdateMess.FighhtReaction.MainPage(reaction, Global.OctopusGameMessIdList[i].SocketMsg);
-                                }
-                                ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-                                ////////////////////////////////////////////////////////////////AP Skills//////////////////////////////////////////////////////////////////////
+                                            dmg = GameSpellHandeling.DefdSkills(skill.SpellId, account);
+                                            if (account.CurrentOctopusAbilityToCrit == 0)
+                                            {
+                                                dmg = GameSpellHandeling.CritHandeling(account.CurrentOctopusFighterAgility, dmg, account);
+                                            }
+                                            else
+                                            {
+                                                account.CurrentOctopusAbilityToCrit = 0;
+                                                GameUserAccounts.SaveAccounts();
+                                            }
+                                            dmg = GameSpellHandeling.DodgeHandeling(account.CurrentOctopusFighterAgility, dmg, account);
 
 
-                                else if (account.MoveListPage == 4)
-                                {
-                                    skills = account.CurrentOctopusFighterSkillSetAp.Split(new[] { '|' }, StringSplitOptions.RemoveEmptyEntries);
+                                            var status = GameSpellHandeling.DmgHealthHandeling(skill.WhereDmg, dmg, account);
+                                            if (status == 1)
+                                            {
+                                                await reaction.Channel.SendMessageAsync("Буль, ты победил!");
+                                                await OctoGameUpdateMess.FighhtReaction.MainPage(reaction, Global.OctopusGameMessIdList[i].SocketMsg);
+                                            }
+                                            else
+                                                await OctoGameUpdateMess.FighhtReaction.MainPage(reaction, Global.OctopusGameMessIdList[i].SocketMsg);
+                                            break;
+                                        }
 
-                                    var ski = Convert.ToUInt64(skills[1]);
-                                    var skill = SpellUserAccounts.GetAccount(ski);
+                                    case 3:
+                                        {
+                                            skills = account.CurrentOctopusFighterSkillSetAgi.Split(new[] { '|' }, StringSplitOptions.RemoveEmptyEntries);
 
-                                    Console.WriteLine($"{skill.SpellName} + {skill.SpellId}");
+                                            var ski = Convert.ToUInt64(skills[1]);
+                                            var skill = SpellUserAccounts.GetAccount(ski);
 
-                                    dmg = GameSpellHandeling.ApSkills(skill.SpellId, account);
-                                    if (account.CurrentOctopusAbilityToCrit == 0)
-                                    {
-                                        dmg = GameSpellHandeling.CritHandeling(account.CurrentOctopusFighterAgility, dmg, account);
-                                    }
-                                    else
-                                    {
-                                        account.CurrentOctopusAbilityToCrit = 0;
-                                        GameUserAccounts.SaveAccounts();
-                                    }
-                                    dmg = GameSpellHandeling.DodgeHandeling(account.CurrentOctopusFighterAgility, dmg, account);
+                                            Console.WriteLine($"{skill.SpellName} + {skill.SpellId}");
 
-                                    var status = GameSpellHandeling.DmgHealthHandeling(skill.WhereDmg, dmg, account);
-                                    if (status == 1)
-                                    {
-                                        await reaction.Channel.SendMessageAsync("Буль, ты победил!");
-                                        await OctoGameUpdateMess.FighhtReaction.MainPage(reaction, Global.OctopusGameMessIdList[i].SocketMsg);
-                                    }
-                                    else
-                                        await OctoGameUpdateMess.FighhtReaction.MainPage(reaction, Global.OctopusGameMessIdList[i].SocketMsg);
+                                            dmg = GameSpellHandeling.AgiSkills(skill.SpellId, account);
+                                            if (account.CurrentOctopusAbilityToCrit == 0)
+                                            {
+                                                dmg = GameSpellHandeling.CritHandeling(account.CurrentOctopusFighterAgility, dmg, account);
+                                            }
+                                            else
+                                            {
+                                                account.CurrentOctopusAbilityToCrit = 0;
+                                                GameUserAccounts.SaveAccounts();
+                                            }
+                                            dmg = GameSpellHandeling.DodgeHandeling(account.CurrentOctopusFighterAgility, dmg, account);
+
+                                            var status = GameSpellHandeling.DmgHealthHandeling(skill.WhereDmg, dmg, account);
+                                            if (status == 1)
+                                            {
+                                                await reaction.Channel.SendMessageAsync("Буль, ты победил!");
+                                                await OctoGameUpdateMess.FighhtReaction.MainPage(reaction, Global.OctopusGameMessIdList[i].SocketMsg);
+                                            }
+                                            else
+                                                await OctoGameUpdateMess.FighhtReaction.MainPage(reaction, Global.OctopusGameMessIdList[i].SocketMsg);
+                                            break;
+                                        }
+
+                                    case 4:
+                                        {
+                                            skills = account.CurrentOctopusFighterSkillSetAp.Split(new[] { '|' }, StringSplitOptions.RemoveEmptyEntries);
+
+                                            var ski = Convert.ToUInt64(skills[1]);
+                                            var skill = SpellUserAccounts.GetAccount(ski);
+
+                                            Console.WriteLine($"{skill.SpellName} + {skill.SpellId}");
+
+                                            dmg = GameSpellHandeling.ApSkills(skill.SpellId, account);
+                                            if (account.CurrentOctopusAbilityToCrit == 0)
+                                            {
+                                                dmg = GameSpellHandeling.CritHandeling(account.CurrentOctopusFighterAgility, dmg, account);
+                                            }
+                                            else
+                                            {
+                                                account.CurrentOctopusAbilityToCrit = 0;
+                                                GameUserAccounts.SaveAccounts();
+                                            }
+                                            dmg = GameSpellHandeling.DodgeHandeling(account.CurrentOctopusFighterAgility, dmg, account);
+
+                                            var status = GameSpellHandeling.DmgHealthHandeling(skill.WhereDmg, dmg, account);
+                                            if (status == 1)
+                                            {
+                                                await reaction.Channel.SendMessageAsync("Буль, ты победил!");
+                                                await OctoGameUpdateMess.FighhtReaction.MainPage(reaction, Global.OctopusGameMessIdList[i].SocketMsg);
+                                            }
+                                            else
+                                                await OctoGameUpdateMess.FighhtReaction.MainPage(reaction, Global.OctopusGameMessIdList[i].SocketMsg);
+                                            break;
+                                        }
 
                                 }
                                 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -428,141 +420,137 @@ namespace OctoBot.Games.OctoGame
                                 double dmg;
 
 
-                                if (account.MoveListPage == 1)
+                                switch (account.MoveListPage)
                                 {
-                                    skills = account.CurrentOctopusFighterSkillSetAd.Split(new[] { '|' }, StringSplitOptions.RemoveEmptyEntries);
+                                    case 1:
+                                        {
+                                            skills = account.CurrentOctopusFighterSkillSetAd.Split(new[] { '|' }, StringSplitOptions.RemoveEmptyEntries);
 
-                                    var ski = Convert.ToUInt64(skills[2]);
-                                    var skill = SpellUserAccounts.GetAccount(ski);
+                                            var ski = Convert.ToUInt64(skills[2]);
+                                            var skill = SpellUserAccounts.GetAccount(ski);
 
-                                    Console.WriteLine($"{skill.SpellName} + {skill.SpellId}");
+                                            Console.WriteLine($"{skill.SpellName} + {skill.SpellId}");
 
-                                    dmg = GameSpellHandeling.AdSkills(skill.SpellId, account);
-                                    if (account.CurrentOctopusAbilityToCrit == 0)
-                                    {
-                                        dmg = GameSpellHandeling.CritHandeling(account.CurrentOctopusFighterAgility, dmg, account);
-                                    }
-                                    else
-                                    {
-                                        account.CurrentOctopusAbilityToCrit = 0;
-                                        GameUserAccounts.SaveAccounts();
-                                    }
-                                    dmg = GameSpellHandeling.DodgeHandeling(account.CurrentOctopusFighterAgility, dmg, account);
+                                            dmg = GameSpellHandeling.AdSkills(skill.SpellId, account);
+                                            if (account.CurrentOctopusAbilityToCrit == 0)
+                                            {
+                                                dmg = GameSpellHandeling.CritHandeling(account.CurrentOctopusFighterAgility, dmg, account);
+                                            }
+                                            else
+                                            {
+                                                account.CurrentOctopusAbilityToCrit = 0;
+                                                GameUserAccounts.SaveAccounts();
+                                            }
+                                            dmg = GameSpellHandeling.DodgeHandeling(account.CurrentOctopusFighterAgility, dmg, account);
 
-                                    var status = GameSpellHandeling.DmgHealthHandeling(skill.WhereDmg, dmg, account);
-                                    if (status == 1)
-                                    {
-                                        await reaction.Channel.SendMessageAsync("Буль, ты победил!");
-                                        await OctoGameUpdateMess.FighhtReaction.MainPage(reaction, Global.OctopusGameMessIdList[i].SocketMsg);
-                                    }
-                                    else
-                                        await OctoGameUpdateMess.FighhtReaction.MainPage(reaction, Global.OctopusGameMessIdList[i].SocketMsg);
+                                            var status = GameSpellHandeling.DmgHealthHandeling(skill.WhereDmg, dmg, account);
+                                            if (status == 1)
+                                            {
+                                                await reaction.Channel.SendMessageAsync("Буль, ты победил!");
+                                                await OctoGameUpdateMess.FighhtReaction.MainPage(reaction, Global.OctopusGameMessIdList[i].SocketMsg);
+                                            }
+                                            else
+                                                await OctoGameUpdateMess.FighhtReaction.MainPage(reaction, Global.OctopusGameMessIdList[i].SocketMsg);
+                                            break;
+                                        }
 
-                                }
-                                ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                                    case 2:
+                                        {
 
-                                //////////////////////////////////////////////////////////////DEF Skill///////////////////////////////////////////////////////////////////////////
-                                else if (account.MoveListPage == 2)
-                                {
+                                            skills = account.CurrentOctopusFighterSkillSetDef.Split(new[] { '|' },
+                                                StringSplitOptions.RemoveEmptyEntries);
 
-                                    skills = account.CurrentOctopusFighterSkillSetDef.Split(new[] { '|' },
-                                        StringSplitOptions.RemoveEmptyEntries);
+                                            var ski = Convert.ToUInt64(skills[2]);
+                                            var skill = SpellUserAccounts.GetAccount(ski);
 
-                                    var ski = Convert.ToUInt64(skills[2]);
-                                    var skill = SpellUserAccounts.GetAccount(ski);
+                                            Console.WriteLine($"{skill.SpellName} + {skill.SpellId}");
 
-                                    Console.WriteLine($"{skill.SpellName} + {skill.SpellId}");
+                                            dmg = GameSpellHandeling.DefdSkills(skill.SpellId, account);
+                                            if (account.CurrentOctopusAbilityToCrit == 0)
+                                            {
+                                                dmg = GameSpellHandeling.CritHandeling(account.CurrentOctopusFighterAgility, dmg, account);
+                                            }
+                                            else
+                                            {
+                                                account.CurrentOctopusAbilityToCrit = 0;
+                                                GameUserAccounts.SaveAccounts();
+                                            }
+                                            dmg = GameSpellHandeling.DodgeHandeling(account.CurrentOctopusFighterAgility, dmg, account);
 
-                                    dmg = GameSpellHandeling.DefdSkills(skill.SpellId, account);
-                                    if (account.CurrentOctopusAbilityToCrit == 0)
-                                    {
-                                        dmg = GameSpellHandeling.CritHandeling(account.CurrentOctopusFighterAgility, dmg, account);
-                                    }
-                                    else
-                                    {
-                                        account.CurrentOctopusAbilityToCrit = 0;
-                                        GameUserAccounts.SaveAccounts();
-                                    }
-                                    dmg = GameSpellHandeling.DodgeHandeling(account.CurrentOctopusFighterAgility, dmg, account);
+                                            var status = GameSpellHandeling.DmgHealthHandeling(skill.WhereDmg, dmg, account);
+                                            if (status == 1)
+                                            {
+                                                await reaction.Channel.SendMessageAsync("Буль, ты победил!");
+                                                await OctoGameUpdateMess.FighhtReaction.MainPage(reaction, Global.OctopusGameMessIdList[i].SocketMsg);
+                                            }
+                                            else
+                                                await OctoGameUpdateMess.FighhtReaction.MainPage(reaction, Global.OctopusGameMessIdList[i].SocketMsg);
+                                            break;
+                                        }
 
-                                    var status = GameSpellHandeling.DmgHealthHandeling(skill.WhereDmg, dmg, account);
-                                    if (status == 1)
-                                    {
-                                        await reaction.Channel.SendMessageAsync("Буль, ты победил!");
-                                        await OctoGameUpdateMess.FighhtReaction.MainPage(reaction, Global.OctopusGameMessIdList[i].SocketMsg);
-                                    }
-                                    else
-                                        await OctoGameUpdateMess.FighhtReaction.MainPage(reaction, Global.OctopusGameMessIdList[i].SocketMsg);
-                                }
-                                ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                                    case 3:
+                                        {
+                                            skills = account.CurrentOctopusFighterSkillSetAgi.Split(new[] { '|' }, StringSplitOptions.RemoveEmptyEntries);
 
-                                /////////////////////////////////////////////////////////////////AGI skills///////////////////////////////////////////////////////////////////////////
+                                            var ski = Convert.ToUInt64(skills[2]);
+                                            var skill = SpellUserAccounts.GetAccount(ski);
 
+                                            Console.WriteLine($"{skill.SpellName} + {skill.SpellId}");
 
-                                else if (account.MoveListPage == 3)
-                                {
-                                    skills = account.CurrentOctopusFighterSkillSetAgi.Split(new[] { '|' }, StringSplitOptions.RemoveEmptyEntries);
+                                            dmg = GameSpellHandeling.AgiSkills(skill.SpellId, account);
+                                            if (account.CurrentOctopusAbilityToCrit == 0)
+                                            {
+                                                dmg = GameSpellHandeling.CritHandeling(account.CurrentOctopusFighterAgility, dmg, account);
+                                            }
+                                            else
+                                            {
+                                                account.CurrentOctopusAbilityToCrit = 0;
+                                                GameUserAccounts.SaveAccounts();
+                                            }
+                                            dmg = GameSpellHandeling.DodgeHandeling(account.CurrentOctopusFighterAgility, dmg, account);
 
-                                    var ski = Convert.ToUInt64(skills[2]);
-                                    var skill = SpellUserAccounts.GetAccount(ski);
+                                            var status = GameSpellHandeling.DmgHealthHandeling(skill.WhereDmg, dmg, account);
+                                            if (status == 1)
+                                            {
+                                                await reaction.Channel.SendMessageAsync("Буль, ты победил!");
+                                                await OctoGameUpdateMess.FighhtReaction.MainPage(reaction, Global.OctopusGameMessIdList[i].SocketMsg);
+                                            }
+                                            else
+                                                await OctoGameUpdateMess.FighhtReaction.MainPage(reaction, Global.OctopusGameMessIdList[i].SocketMsg);
+                                            break;
+                                        }
 
-                                    Console.WriteLine($"{skill.SpellName} + {skill.SpellId}");
+                                    case 4:
+                                        {
+                                            skills = account.CurrentOctopusFighterSkillSetAp.Split(new[] { '|' }, StringSplitOptions.RemoveEmptyEntries);
 
-                                    dmg = GameSpellHandeling.AgiSkills(skill.SpellId, account);
-                                    if (account.CurrentOctopusAbilityToCrit == 0)
-                                    {
-                                        dmg = GameSpellHandeling.CritHandeling(account.CurrentOctopusFighterAgility, dmg, account);
-                                    }
-                                    else
-                                    {
-                                        account.CurrentOctopusAbilityToCrit = 0;
-                                        GameUserAccounts.SaveAccounts();
-                                    }
-                                    dmg = GameSpellHandeling.DodgeHandeling(account.CurrentOctopusFighterAgility, dmg, account);
+                                            var ski = Convert.ToUInt64(skills[2]);
+                                            var skill = SpellUserAccounts.GetAccount(ski);
 
-                                    var status = GameSpellHandeling.DmgHealthHandeling(skill.WhereDmg, dmg, account);
-                                    if (status == 1)
-                                    {
-                                        await reaction.Channel.SendMessageAsync("Буль, ты победил!");
-                                        await OctoGameUpdateMess.FighhtReaction.MainPage(reaction, Global.OctopusGameMessIdList[i].SocketMsg);
-                                    }
-                                    else
-                                        await OctoGameUpdateMess.FighhtReaction.MainPage(reaction, Global.OctopusGameMessIdList[i].SocketMsg);
-                                }
-                                ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                                            Console.WriteLine($"{skill.SpellName} + {skill.SpellId}");
 
-                                ////////////////////////////////////////////////////////////////AP Skills//////////////////////////////////////////////////////////////////////
+                                            dmg = GameSpellHandeling.ApSkills(skill.SpellId, account);
+                                            if (account.CurrentOctopusAbilityToCrit == 0)
+                                            {
+                                                dmg = GameSpellHandeling.CritHandeling(account.CurrentOctopusFighterAgility, dmg, account);
+                                            }
+                                            else
+                                            {
+                                                account.CurrentOctopusAbilityToCrit = 0;
+                                                GameUserAccounts.SaveAccounts();
+                                            }
+                                            dmg = GameSpellHandeling.DodgeHandeling(account.CurrentOctopusFighterAgility, dmg, account);
 
-
-                                else if (account.MoveListPage == 4)
-                                {
-                                    skills = account.CurrentOctopusFighterSkillSetAp.Split(new[] { '|' }, StringSplitOptions.RemoveEmptyEntries);
-
-                                    var ski = Convert.ToUInt64(skills[2]);
-                                    var skill = SpellUserAccounts.GetAccount(ski);
-
-                                    Console.WriteLine($"{skill.SpellName} + {skill.SpellId}");
-
-                                    dmg = GameSpellHandeling.ApSkills(skill.SpellId, account);
-                                    if (account.CurrentOctopusAbilityToCrit == 0)
-                                    {
-                                        dmg = GameSpellHandeling.CritHandeling(account.CurrentOctopusFighterAgility, dmg, account);
-                                    }
-                                    else
-                                    {
-                                        account.CurrentOctopusAbilityToCrit = 0;
-                                        GameUserAccounts.SaveAccounts();
-                                    }
-                                    dmg = GameSpellHandeling.DodgeHandeling(account.CurrentOctopusFighterAgility, dmg, account);
-
-                                    var status = GameSpellHandeling.DmgHealthHandeling(skill.WhereDmg, dmg, account);
-                                    if (status == 1)
-                                    {
-                                        await reaction.Channel.SendMessageAsync("Буль, ты победил!");
-                                        await OctoGameUpdateMess.FighhtReaction.MainPage(reaction, Global.OctopusGameMessIdList[i].SocketMsg);
-                                    }
-                                    else
-                                        await OctoGameUpdateMess.FighhtReaction.MainPage(reaction, Global.OctopusGameMessIdList[i].SocketMsg);
+                                            var status = GameSpellHandeling.DmgHealthHandeling(skill.WhereDmg, dmg, account);
+                                            if (status == 1)
+                                            {
+                                                await reaction.Channel.SendMessageAsync("Буль, ты победил!");
+                                                await OctoGameUpdateMess.FighhtReaction.MainPage(reaction, Global.OctopusGameMessIdList[i].SocketMsg);
+                                            }
+                                            else
+                                                await OctoGameUpdateMess.FighhtReaction.MainPage(reaction, Global.OctopusGameMessIdList[i].SocketMsg);
+                                            break;
+                                        }
 
                                 }
                                 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -581,141 +569,137 @@ namespace OctoBot.Games.OctoGame
                                 double dmg;
 
 
-                                if (account.MoveListPage == 1)
+                                switch (account.MoveListPage)
                                 {
-                                    skills = account.CurrentOctopusFighterSkillSetAd.Split(new[] { '|' }, StringSplitOptions.RemoveEmptyEntries);
+                                    case 1:
+                                        {
+                                            skills = account.CurrentOctopusFighterSkillSetAd.Split(new[] { '|' }, StringSplitOptions.RemoveEmptyEntries);
 
-                                    var ski = Convert.ToUInt64(skills[3]);
-                                    var skill = SpellUserAccounts.GetAccount(ski);
+                                            var ski = Convert.ToUInt64(skills[3]);
+                                            var skill = SpellUserAccounts.GetAccount(ski);
 
-                                    Console.WriteLine($"{skill.SpellName} + {skill.SpellId}");
+                                            Console.WriteLine($"{skill.SpellName} + {skill.SpellId}");
 
-                                    dmg = GameSpellHandeling.AdSkills(skill.SpellId, account);
-                                    if (account.CurrentOctopusAbilityToCrit == 0)
-                                    {
-                                        dmg = GameSpellHandeling.CritHandeling(account.CurrentOctopusFighterAgility, dmg, account);
-                                    }
-                                    else
-                                    {
-                                        account.CurrentOctopusAbilityToCrit = 0;
-                                        GameUserAccounts.SaveAccounts();
-                                    }
-                                    dmg = GameSpellHandeling.DodgeHandeling(account.CurrentOctopusFighterAgility, dmg, account);
+                                            dmg = GameSpellHandeling.AdSkills(skill.SpellId, account);
+                                            if (account.CurrentOctopusAbilityToCrit == 0)
+                                            {
+                                                dmg = GameSpellHandeling.CritHandeling(account.CurrentOctopusFighterAgility, dmg, account);
+                                            }
+                                            else
+                                            {
+                                                account.CurrentOctopusAbilityToCrit = 0;
+                                                GameUserAccounts.SaveAccounts();
+                                            }
+                                            dmg = GameSpellHandeling.DodgeHandeling(account.CurrentOctopusFighterAgility, dmg, account);
 
-                                    var status = GameSpellHandeling.DmgHealthHandeling(skill.WhereDmg, dmg, account);
-                                    if (status == 1)
-                                    {
-                                        await reaction.Channel.SendMessageAsync("Буль, ты победил!");
-                                        await OctoGameUpdateMess.FighhtReaction.MainPage(reaction, Global.OctopusGameMessIdList[i].SocketMsg);
-                                    }
-                                    else
-                                        await OctoGameUpdateMess.FighhtReaction.MainPage(reaction, Global.OctopusGameMessIdList[i].SocketMsg);
+                                            var status = GameSpellHandeling.DmgHealthHandeling(skill.WhereDmg, dmg, account);
+                                            if (status == 1)
+                                            {
+                                                await reaction.Channel.SendMessageAsync("Буль, ты победил!");
+                                                await OctoGameUpdateMess.FighhtReaction.MainPage(reaction, Global.OctopusGameMessIdList[i].SocketMsg);
+                                            }
+                                            else
+                                                await OctoGameUpdateMess.FighhtReaction.MainPage(reaction, Global.OctopusGameMessIdList[i].SocketMsg);
+                                            break;
+                                        }
 
-                                }
-                                ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                                    case 2:
+                                        {
 
-                                //////////////////////////////////////////////////////////////DEF Skill///////////////////////////////////////////////////////////////////////////
-                                else if (account.MoveListPage == 2)
-                                {
+                                            skills = account.CurrentOctopusFighterSkillSetDef.Split(new[] { '|' },
+                                                StringSplitOptions.RemoveEmptyEntries);
 
-                                    skills = account.CurrentOctopusFighterSkillSetDef.Split(new[] { '|' },
-                                        StringSplitOptions.RemoveEmptyEntries);
+                                            var ski = Convert.ToUInt64(skills[3]);
+                                            var skill = SpellUserAccounts.GetAccount(ski);
 
-                                    var ski = Convert.ToUInt64(skills[3]);
-                                    var skill = SpellUserAccounts.GetAccount(ski);
+                                            Console.WriteLine($"{skill.SpellName} + {skill.SpellId}");
 
-                                    Console.WriteLine($"{skill.SpellName} + {skill.SpellId}");
+                                            dmg = GameSpellHandeling.DefdSkills(skill.SpellId, account);
+                                            if (account.CurrentOctopusAbilityToCrit == 0)
+                                            {
+                                                dmg = GameSpellHandeling.CritHandeling(account.CurrentOctopusFighterAgility, dmg, account);
+                                            }
+                                            else
+                                            {
+                                                account.CurrentOctopusAbilityToCrit = 0;
+                                                GameUserAccounts.SaveAccounts();
+                                            }
+                                            dmg = GameSpellHandeling.DodgeHandeling(account.CurrentOctopusFighterAgility, dmg, account);
 
-                                    dmg = GameSpellHandeling.DefdSkills(skill.SpellId, account);
-                                    if (account.CurrentOctopusAbilityToCrit == 0)
-                                    {
-                                        dmg = GameSpellHandeling.CritHandeling(account.CurrentOctopusFighterAgility, dmg, account);
-                                    }
-                                    else
-                                    {
-                                        account.CurrentOctopusAbilityToCrit = 0;
-                                        GameUserAccounts.SaveAccounts();
-                                    }
-                                    dmg = GameSpellHandeling.DodgeHandeling(account.CurrentOctopusFighterAgility, dmg, account);
+                                            var status = GameSpellHandeling.DmgHealthHandeling(skill.WhereDmg, dmg, account);
+                                            if (status == 1)
+                                            {
+                                                await reaction.Channel.SendMessageAsync("Буль, ты победил!");
+                                                await OctoGameUpdateMess.FighhtReaction.MainPage(reaction, Global.OctopusGameMessIdList[i].SocketMsg);
+                                            }
+                                            else
+                                                await OctoGameUpdateMess.FighhtReaction.MainPage(reaction, Global.OctopusGameMessIdList[i].SocketMsg);
+                                            break;
+                                        }
 
-                                    var status = GameSpellHandeling.DmgHealthHandeling(skill.WhereDmg, dmg, account);
-                                    if (status == 1)
-                                    {
-                                        await reaction.Channel.SendMessageAsync("Буль, ты победил!");
-                                        await OctoGameUpdateMess.FighhtReaction.MainPage(reaction, Global.OctopusGameMessIdList[i].SocketMsg);
-                                    }
-                                    else
-                                        await OctoGameUpdateMess.FighhtReaction.MainPage(reaction, Global.OctopusGameMessIdList[i].SocketMsg);
-                                }
-                                ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                                    case 3:
+                                        {
+                                            skills = account.CurrentOctopusFighterSkillSetAgi.Split(new[] { '|' }, StringSplitOptions.RemoveEmptyEntries);
 
-                                /////////////////////////////////////////////////////////////////AGI skills///////////////////////////////////////////////////////////////////////////
+                                            var ski = Convert.ToUInt64(skills[3]);
+                                            var skill = SpellUserAccounts.GetAccount(ski);
 
+                                            Console.WriteLine($"{skill.SpellName} + {skill.SpellId}");
 
-                                else if (account.MoveListPage == 3)
-                                {
-                                    skills = account.CurrentOctopusFighterSkillSetAgi.Split(new[] { '|' }, StringSplitOptions.RemoveEmptyEntries);
+                                            dmg = GameSpellHandeling.AgiSkills(skill.SpellId, account);
+                                            if (account.CurrentOctopusAbilityToCrit == 0)
+                                            {
+                                                dmg = GameSpellHandeling.CritHandeling(account.CurrentOctopusFighterAgility, dmg, account);
+                                            }
+                                            else
+                                            {
+                                                account.CurrentOctopusAbilityToCrit = 0;
+                                                GameUserAccounts.SaveAccounts();
+                                            }
+                                            dmg = GameSpellHandeling.DodgeHandeling(account.CurrentOctopusFighterAgility, dmg, account);
 
-                                    var ski = Convert.ToUInt64(skills[3]);
-                                    var skill = SpellUserAccounts.GetAccount(ski);
+                                            var status = GameSpellHandeling.DmgHealthHandeling(skill.WhereDmg, dmg, account);
+                                            if (status == 1)
+                                            {
+                                                await reaction.Channel.SendMessageAsync("Буль, ты победил!");
+                                                await OctoGameUpdateMess.FighhtReaction.MainPage(reaction, Global.OctopusGameMessIdList[i].SocketMsg);
+                                            }
+                                            else
+                                                await OctoGameUpdateMess.FighhtReaction.MainPage(reaction, Global.OctopusGameMessIdList[i].SocketMsg);
+                                            break;
+                                        }
 
-                                    Console.WriteLine($"{skill.SpellName} + {skill.SpellId}");
+                                    case 4:
+                                        {
+                                            skills = account.CurrentOctopusFighterSkillSetAp.Split(new[] { '|' }, StringSplitOptions.RemoveEmptyEntries);
 
-                                    dmg = GameSpellHandeling.AgiSkills(skill.SpellId, account);
-                                    if (account.CurrentOctopusAbilityToCrit == 0)
-                                    {
-                                        dmg = GameSpellHandeling.CritHandeling(account.CurrentOctopusFighterAgility, dmg, account);
-                                    }
-                                    else
-                                    {
-                                        account.CurrentOctopusAbilityToCrit = 0;
-                                        GameUserAccounts.SaveAccounts();
-                                    }
-                                    dmg = GameSpellHandeling.DodgeHandeling(account.CurrentOctopusFighterAgility, dmg, account);
+                                            var ski = Convert.ToUInt64(skills[3]);
+                                            var skill = SpellUserAccounts.GetAccount(ski);
 
-                                    var status = GameSpellHandeling.DmgHealthHandeling(skill.WhereDmg, dmg, account);
-                                    if (status == 1)
-                                    {
-                                        await reaction.Channel.SendMessageAsync("Буль, ты победил!");
-                                        await OctoGameUpdateMess.FighhtReaction.MainPage(reaction, Global.OctopusGameMessIdList[i].SocketMsg);
-                                    }
-                                    else
-                                        await OctoGameUpdateMess.FighhtReaction.MainPage(reaction, Global.OctopusGameMessIdList[i].SocketMsg);
-                                }
-                                ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                                            Console.WriteLine($"{skill.SpellName} + {skill.SpellId}");
 
-                                ////////////////////////////////////////////////////////////////AP Skills//////////////////////////////////////////////////////////////////////
+                                            dmg = GameSpellHandeling.ApSkills(skill.SpellId, account);
+                                            if (account.CurrentOctopusAbilityToCrit == 0)
+                                            {
+                                                dmg = GameSpellHandeling.CritHandeling(account.CurrentOctopusFighterAgility, dmg, account);
+                                            }
+                                            else
+                                            {
+                                                account.CurrentOctopusAbilityToCrit = 0;
+                                                GameUserAccounts.SaveAccounts();
+                                            }
+                                            dmg = GameSpellHandeling.DodgeHandeling(account.CurrentOctopusFighterAgility, dmg, account);
 
-
-                                else if (account.MoveListPage == 4)
-                                {
-                                    skills = account.CurrentOctopusFighterSkillSetAp.Split(new[] { '|' }, StringSplitOptions.RemoveEmptyEntries);
-
-                                    var ski = Convert.ToUInt64(skills[3]);
-                                    var skill = SpellUserAccounts.GetAccount(ski);
-
-                                    Console.WriteLine($"{skill.SpellName} + {skill.SpellId}");
-
-                                    dmg = GameSpellHandeling.ApSkills(skill.SpellId, account);
-                                    if (account.CurrentOctopusAbilityToCrit == 0)
-                                    {
-                                        dmg = GameSpellHandeling.CritHandeling(account.CurrentOctopusFighterAgility, dmg, account);
-                                    }
-                                    else
-                                    {
-                                        account.CurrentOctopusAbilityToCrit = 0;
-                                        GameUserAccounts.SaveAccounts();
-                                    }
-                                    dmg = GameSpellHandeling.DodgeHandeling(account.CurrentOctopusFighterAgility, dmg, account);
-
-                                    var status = GameSpellHandeling.DmgHealthHandeling(skill.WhereDmg, dmg, account);
-                                    if (status == 1)
-                                    {
-                                        await reaction.Channel.SendMessageAsync("Буль, ты победил!");
-                                        await OctoGameUpdateMess.FighhtReaction.MainPage(reaction, Global.OctopusGameMessIdList[i].SocketMsg);
-                                    }
-                                    else
-                                        await OctoGameUpdateMess.FighhtReaction.MainPage(reaction, Global.OctopusGameMessIdList[i].SocketMsg);
+                                            var status = GameSpellHandeling.DmgHealthHandeling(skill.WhereDmg, dmg, account);
+                                            if (status == 1)
+                                            {
+                                                await reaction.Channel.SendMessageAsync("Буль, ты победил!");
+                                                await OctoGameUpdateMess.FighhtReaction.MainPage(reaction, Global.OctopusGameMessIdList[i].SocketMsg);
+                                            }
+                                            else
+                                                await OctoGameUpdateMess.FighhtReaction.MainPage(reaction, Global.OctopusGameMessIdList[i].SocketMsg);
+                                            break;
+                                        }
 
                                 }
                                 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -734,141 +718,137 @@ namespace OctoBot.Games.OctoGame
                                 double dmg;
 
 
-                                if (account.MoveListPage == 1)
+                                switch (account.MoveListPage)
                                 {
-                                    skills = account.CurrentOctopusFighterSkillSetAd.Split(new[] { '|' }, StringSplitOptions.RemoveEmptyEntries);
+                                    case 1:
+                                        {
+                                            skills = account.CurrentOctopusFighterSkillSetAd.Split(new[] { '|' }, StringSplitOptions.RemoveEmptyEntries);
 
-                                    var ski = Convert.ToUInt64(skills[4]);
-                                    var skill = SpellUserAccounts.GetAccount(ski);
+                                            var ski = Convert.ToUInt64(skills[4]);
+                                            var skill = SpellUserAccounts.GetAccount(ski);
 
-                                    Console.WriteLine($"{skill.SpellName} + {skill.SpellId}");
+                                            Console.WriteLine($"{skill.SpellName} + {skill.SpellId}");
 
-                                    dmg = GameSpellHandeling.AdSkills(skill.SpellId, account);
-                                    if (account.CurrentOctopusAbilityToCrit == 0)
-                                    {
-                                        dmg = GameSpellHandeling.CritHandeling(account.CurrentOctopusFighterAgility, dmg, account);
-                                    }
-                                    else
-                                    {
-                                        account.CurrentOctopusAbilityToCrit = 0;
-                                        GameUserAccounts.SaveAccounts();
-                                    }
-                                    dmg = GameSpellHandeling.DodgeHandeling(account.CurrentOctopusFighterAgility, dmg, account);
+                                            dmg = GameSpellHandeling.AdSkills(skill.SpellId, account);
+                                            if (account.CurrentOctopusAbilityToCrit == 0)
+                                            {
+                                                dmg = GameSpellHandeling.CritHandeling(account.CurrentOctopusFighterAgility, dmg, account);
+                                            }
+                                            else
+                                            {
+                                                account.CurrentOctopusAbilityToCrit = 0;
+                                                GameUserAccounts.SaveAccounts();
+                                            }
+                                            dmg = GameSpellHandeling.DodgeHandeling(account.CurrentOctopusFighterAgility, dmg, account);
 
-                                    var status = GameSpellHandeling.DmgHealthHandeling(skill.WhereDmg, dmg, account);
-                                    if (status == 1)
-                                    {
-                                        await reaction.Channel.SendMessageAsync("Буль, ты победил!");
-                                        await OctoGameUpdateMess.FighhtReaction.MainPage(reaction, Global.OctopusGameMessIdList[i].SocketMsg);
-                                    }
-                                    else
-                                        await OctoGameUpdateMess.FighhtReaction.MainPage(reaction, Global.OctopusGameMessIdList[i].SocketMsg);
+                                            var status = GameSpellHandeling.DmgHealthHandeling(skill.WhereDmg, dmg, account);
+                                            if (status == 1)
+                                            {
+                                                await reaction.Channel.SendMessageAsync("Буль, ты победил!");
+                                                await OctoGameUpdateMess.FighhtReaction.MainPage(reaction, Global.OctopusGameMessIdList[i].SocketMsg);
+                                            }
+                                            else
+                                                await OctoGameUpdateMess.FighhtReaction.MainPage(reaction, Global.OctopusGameMessIdList[i].SocketMsg);
+                                            break;
+                                        }
 
-                                }
-                                ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                                    case 2:
+                                        {
 
-                                //////////////////////////////////////////////////////////////DEF Skill///////////////////////////////////////////////////////////////////////////
-                                else if (account.MoveListPage == 2)
-                                {
+                                            skills = account.CurrentOctopusFighterSkillSetDef.Split(new[] { '|' },
+                                                StringSplitOptions.RemoveEmptyEntries);
 
-                                    skills = account.CurrentOctopusFighterSkillSetDef.Split(new[] { '|' },
-                                        StringSplitOptions.RemoveEmptyEntries);
+                                            var ski = Convert.ToUInt64(skills[4]);
+                                            var skill = SpellUserAccounts.GetAccount(ski);
 
-                                    var ski = Convert.ToUInt64(skills[4]);
-                                    var skill = SpellUserAccounts.GetAccount(ski);
+                                            Console.WriteLine($"{skill.SpellName} + {skill.SpellId}");
 
-                                    Console.WriteLine($"{skill.SpellName} + {skill.SpellId}");
+                                            dmg = GameSpellHandeling.DefdSkills(skill.SpellId, account);
+                                            if (account.CurrentOctopusAbilityToCrit == 0)
+                                            {
+                                                dmg = GameSpellHandeling.CritHandeling(account.CurrentOctopusFighterAgility, dmg, account);
+                                            }
+                                            else
+                                            {
+                                                account.CurrentOctopusAbilityToCrit = 0;
+                                                GameUserAccounts.SaveAccounts();
+                                            }
+                                            dmg = GameSpellHandeling.DodgeHandeling(account.CurrentOctopusFighterAgility, dmg, account);
 
-                                    dmg = GameSpellHandeling.DefdSkills(skill.SpellId, account);
-                                    if (account.CurrentOctopusAbilityToCrit == 0)
-                                    {
-                                        dmg = GameSpellHandeling.CritHandeling(account.CurrentOctopusFighterAgility, dmg, account);
-                                    }
-                                    else
-                                    {
-                                        account.CurrentOctopusAbilityToCrit = 0;
-                                        GameUserAccounts.SaveAccounts();
-                                    }
-                                    dmg = GameSpellHandeling.DodgeHandeling(account.CurrentOctopusFighterAgility, dmg, account);
+                                            var status = GameSpellHandeling.DmgHealthHandeling(skill.WhereDmg, dmg, account);
+                                            if (status == 1)
+                                            {
+                                                await reaction.Channel.SendMessageAsync("Буль, ты победил!");
+                                                await OctoGameUpdateMess.FighhtReaction.MainPage(reaction, Global.OctopusGameMessIdList[i].SocketMsg);
+                                            }
+                                            else
+                                                await OctoGameUpdateMess.FighhtReaction.MainPage(reaction, Global.OctopusGameMessIdList[i].SocketMsg);
+                                            break;
+                                        }
 
-                                    var status = GameSpellHandeling.DmgHealthHandeling(skill.WhereDmg, dmg, account);
-                                    if (status == 1)
-                                    {
-                                        await reaction.Channel.SendMessageAsync("Буль, ты победил!");
-                                        await OctoGameUpdateMess.FighhtReaction.MainPage(reaction, Global.OctopusGameMessIdList[i].SocketMsg);
-                                    }
-                                    else
-                                        await OctoGameUpdateMess.FighhtReaction.MainPage(reaction, Global.OctopusGameMessIdList[i].SocketMsg);
-                                }
-                                ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                                    case 3:
+                                        {
+                                            skills = account.CurrentOctopusFighterSkillSetAgi.Split(new[] { '|' }, StringSplitOptions.RemoveEmptyEntries);
 
-                                /////////////////////////////////////////////////////////////////AGI skills///////////////////////////////////////////////////////////////////////////
+                                            var ski = Convert.ToUInt64(skills[4]);
+                                            var skill = SpellUserAccounts.GetAccount(ski);
 
+                                            Console.WriteLine($"{skill.SpellName} + {skill.SpellId}");
 
-                                else if (account.MoveListPage == 3)
-                                {
-                                    skills = account.CurrentOctopusFighterSkillSetAgi.Split(new[] { '|' }, StringSplitOptions.RemoveEmptyEntries);
+                                            dmg = GameSpellHandeling.AgiSkills(skill.SpellId, account);
+                                            if (account.CurrentOctopusAbilityToCrit == 0)
+                                            {
+                                                dmg = GameSpellHandeling.CritHandeling(account.CurrentOctopusFighterAgility, dmg, account);
+                                            }
+                                            else
+                                            {
+                                                account.CurrentOctopusAbilityToCrit = 0;
+                                                GameUserAccounts.SaveAccounts();
+                                            }
+                                            dmg = GameSpellHandeling.DodgeHandeling(account.CurrentOctopusFighterAgility, dmg, account);
 
-                                    var ski = Convert.ToUInt64(skills[4]);
-                                    var skill = SpellUserAccounts.GetAccount(ski);
+                                            var status = GameSpellHandeling.DmgHealthHandeling(skill.WhereDmg, dmg, account);
+                                            if (status == 1)
+                                            {
+                                                await reaction.Channel.SendMessageAsync("Буль, ты победил!");
+                                                await OctoGameUpdateMess.FighhtReaction.MainPage(reaction, Global.OctopusGameMessIdList[i].SocketMsg);
+                                            }
+                                            else
+                                                await OctoGameUpdateMess.FighhtReaction.MainPage(reaction, Global.OctopusGameMessIdList[i].SocketMsg);
+                                            break;
+                                        }
 
-                                    Console.WriteLine($"{skill.SpellName} + {skill.SpellId}");
+                                    case 4:
+                                        {
+                                            skills = account.CurrentOctopusFighterSkillSetAp.Split(new[] { '|' }, StringSplitOptions.RemoveEmptyEntries);
 
-                                    dmg = GameSpellHandeling.AgiSkills(skill.SpellId, account);
-                                    if (account.CurrentOctopusAbilityToCrit == 0)
-                                    {
-                                        dmg = GameSpellHandeling.CritHandeling(account.CurrentOctopusFighterAgility, dmg, account);
-                                    }
-                                    else
-                                    {
-                                        account.CurrentOctopusAbilityToCrit = 0;
-                                        GameUserAccounts.SaveAccounts();
-                                    }
-                                    dmg = GameSpellHandeling.DodgeHandeling(account.CurrentOctopusFighterAgility, dmg, account);
+                                            var ski = Convert.ToUInt64(skills[4]);
+                                            var skill = SpellUserAccounts.GetAccount(ski);
 
-                                    var status = GameSpellHandeling.DmgHealthHandeling(skill.WhereDmg, dmg, account);
-                                    if (status == 1)
-                                    {
-                                        await reaction.Channel.SendMessageAsync("Буль, ты победил!");
-                                        await OctoGameUpdateMess.FighhtReaction.MainPage(reaction, Global.OctopusGameMessIdList[i].SocketMsg);
-                                    }
-                                    else
-                                        await OctoGameUpdateMess.FighhtReaction.MainPage(reaction, Global.OctopusGameMessIdList[i].SocketMsg);
-                                }
-                                ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                                            Console.WriteLine($"{skill.SpellName} + {skill.SpellId}");
 
-                                ////////////////////////////////////////////////////////////////AP Skills//////////////////////////////////////////////////////////////////////
+                                            dmg = GameSpellHandeling.ApSkills(skill.SpellId, account);
+                                            if (account.CurrentOctopusAbilityToCrit == 0)
+                                            {
+                                                dmg = GameSpellHandeling.CritHandeling(account.CurrentOctopusFighterAgility, dmg, account);
+                                            }
+                                            else
+                                            {
+                                                account.CurrentOctopusAbilityToCrit = 0;
+                                                GameUserAccounts.SaveAccounts();
+                                            }
+                                            dmg = GameSpellHandeling.DodgeHandeling(account.CurrentOctopusFighterAgility, dmg, account);
 
-
-                                else if (account.MoveListPage == 4)
-                                {
-                                    skills = account.CurrentOctopusFighterSkillSetAp.Split(new[] { '|' }, StringSplitOptions.RemoveEmptyEntries);
-
-                                    var ski = Convert.ToUInt64(skills[4]);
-                                    var skill = SpellUserAccounts.GetAccount(ski);
-
-                                    Console.WriteLine($"{skill.SpellName} + {skill.SpellId}");
-
-                                    dmg = GameSpellHandeling.ApSkills(skill.SpellId, account);
-                                    if (account.CurrentOctopusAbilityToCrit == 0)
-                                    {
-                                        dmg = GameSpellHandeling.CritHandeling(account.CurrentOctopusFighterAgility, dmg, account);
-                                    }
-                                    else
-                                    {
-                                        account.CurrentOctopusAbilityToCrit = 0;
-                                        GameUserAccounts.SaveAccounts();
-                                    }
-                                    dmg = GameSpellHandeling.DodgeHandeling(account.CurrentOctopusFighterAgility, dmg, account);
-
-                                    var status = GameSpellHandeling.DmgHealthHandeling(skill.WhereDmg, dmg, account);
-                                    if (status == 1)
-                                    {
-                                        await reaction.Channel.SendMessageAsync("Буль, ты победил!");
-                                        await OctoGameUpdateMess.FighhtReaction.MainPage(reaction, Global.OctopusGameMessIdList[i].SocketMsg);
-                                    }
-                                    else
-                                        await OctoGameUpdateMess.FighhtReaction.MainPage(reaction, Global.OctopusGameMessIdList[i].SocketMsg);
+                                            var status = GameSpellHandeling.DmgHealthHandeling(skill.WhereDmg, dmg, account);
+                                            if (status == 1)
+                                            {
+                                                await reaction.Channel.SendMessageAsync("Буль, ты победил!");
+                                                await OctoGameUpdateMess.FighhtReaction.MainPage(reaction, Global.OctopusGameMessIdList[i].SocketMsg);
+                                            }
+                                            else
+                                                await OctoGameUpdateMess.FighhtReaction.MainPage(reaction, Global.OctopusGameMessIdList[i].SocketMsg);
+                                            break;
+                                        }
 
                                 }
                                 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -887,141 +867,137 @@ namespace OctoBot.Games.OctoGame
                                 double dmg;
 
 
-                                if (account.MoveListPage == 1)
+                                switch (account.MoveListPage)
                                 {
-                                    skills = account.CurrentOctopusFighterSkillSetAd.Split(new[] { '|' }, StringSplitOptions.RemoveEmptyEntries);
+                                    case 1:
+                                        {
+                                            skills = account.CurrentOctopusFighterSkillSetAd.Split(new[] { '|' }, StringSplitOptions.RemoveEmptyEntries);
 
-                                    var ski = Convert.ToUInt64(skills[5]);
-                                    var skill = SpellUserAccounts.GetAccount(ski);
+                                            var ski = Convert.ToUInt64(skills[5]);
+                                            var skill = SpellUserAccounts.GetAccount(ski);
 
-                                    Console.WriteLine($"{skill.SpellName} + {skill.SpellId}");
+                                            Console.WriteLine($"{skill.SpellName} + {skill.SpellId}");
 
-                                    dmg = GameSpellHandeling.AdSkills(skill.SpellId, account);
-                                    if (account.CurrentOctopusAbilityToCrit == 0)
-                                    {
-                                        dmg = GameSpellHandeling.CritHandeling(account.CurrentOctopusFighterAgility, dmg, account);
-                                    }
-                                    else
-                                    {
-                                        account.CurrentOctopusAbilityToCrit = 0;
-                                        GameUserAccounts.SaveAccounts();
-                                    }
-                                    dmg = GameSpellHandeling.DodgeHandeling(account.CurrentOctopusFighterAgility, dmg, account);
+                                            dmg = GameSpellHandeling.AdSkills(skill.SpellId, account);
+                                            if (account.CurrentOctopusAbilityToCrit == 0)
+                                            {
+                                                dmg = GameSpellHandeling.CritHandeling(account.CurrentOctopusFighterAgility, dmg, account);
+                                            }
+                                            else
+                                            {
+                                                account.CurrentOctopusAbilityToCrit = 0;
+                                                GameUserAccounts.SaveAccounts();
+                                            }
+                                            dmg = GameSpellHandeling.DodgeHandeling(account.CurrentOctopusFighterAgility, dmg, account);
 
-                                    var status = GameSpellHandeling.DmgHealthHandeling(skill.WhereDmg, dmg, account);
-                                    if (status == 1)
-                                    {
-                                        await reaction.Channel.SendMessageAsync("Буль, ты победил!");
-                                        await OctoGameUpdateMess.FighhtReaction.MainPage(reaction, Global.OctopusGameMessIdList[i].SocketMsg);
-                                    }
-                                    else
-                                        await OctoGameUpdateMess.FighhtReaction.MainPage(reaction, Global.OctopusGameMessIdList[i].SocketMsg);
+                                            var status = GameSpellHandeling.DmgHealthHandeling(skill.WhereDmg, dmg, account);
+                                            if (status == 1)
+                                            {
+                                                await reaction.Channel.SendMessageAsync("Буль, ты победил!");
+                                                await OctoGameUpdateMess.FighhtReaction.MainPage(reaction, Global.OctopusGameMessIdList[i].SocketMsg);
+                                            }
+                                            else
+                                                await OctoGameUpdateMess.FighhtReaction.MainPage(reaction, Global.OctopusGameMessIdList[i].SocketMsg);
+                                            break;
+                                        }
 
-                                }
-                                ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                                    case 2:
+                                        {
 
-                                //////////////////////////////////////////////////////////////DEF Skill///////////////////////////////////////////////////////////////////////////
-                                else if (account.MoveListPage == 2)
-                                {
+                                            skills = account.CurrentOctopusFighterSkillSetDef.Split(new[] { '|' },
+                                                StringSplitOptions.RemoveEmptyEntries);
 
-                                    skills = account.CurrentOctopusFighterSkillSetDef.Split(new[] { '|' },
-                                        StringSplitOptions.RemoveEmptyEntries);
+                                            var ski = Convert.ToUInt64(skills[5]);
+                                            var skill = SpellUserAccounts.GetAccount(ski);
 
-                                    var ski = Convert.ToUInt64(skills[5]);
-                                    var skill = SpellUserAccounts.GetAccount(ski);
+                                            Console.WriteLine($"{skill.SpellName} + {skill.SpellId}");
 
-                                    Console.WriteLine($"{skill.SpellName} + {skill.SpellId}");
+                                            dmg = GameSpellHandeling.DefdSkills(skill.SpellId, account);
+                                            if (account.CurrentOctopusAbilityToCrit == 0)
+                                            {
+                                                dmg = GameSpellHandeling.CritHandeling(account.CurrentOctopusFighterAgility, dmg, account);
+                                            }
+                                            else
+                                            {
+                                                account.CurrentOctopusAbilityToCrit = 0;
+                                                GameUserAccounts.SaveAccounts();
+                                            }
+                                            dmg = GameSpellHandeling.DodgeHandeling(account.CurrentOctopusFighterAgility, dmg, account);
 
-                                    dmg = GameSpellHandeling.DefdSkills(skill.SpellId, account);
-                                    if (account.CurrentOctopusAbilityToCrit == 0)
-                                    {
-                                        dmg = GameSpellHandeling.CritHandeling(account.CurrentOctopusFighterAgility, dmg, account);
-                                    }
-                                    else
-                                    {
-                                        account.CurrentOctopusAbilityToCrit = 0;
-                                        GameUserAccounts.SaveAccounts();
-                                    }
-                                    dmg = GameSpellHandeling.DodgeHandeling(account.CurrentOctopusFighterAgility, dmg, account);
+                                            var status = GameSpellHandeling.DmgHealthHandeling(skill.WhereDmg, dmg, account);
+                                            if (status == 1)
+                                            {
+                                                await reaction.Channel.SendMessageAsync("Буль, ты победил!");
+                                                await OctoGameUpdateMess.FighhtReaction.MainPage(reaction, Global.OctopusGameMessIdList[i].SocketMsg);
+                                            }
+                                            else
+                                                await OctoGameUpdateMess.FighhtReaction.MainPage(reaction, Global.OctopusGameMessIdList[i].SocketMsg);
+                                            break;
+                                        }
 
-                                    var status = GameSpellHandeling.DmgHealthHandeling(skill.WhereDmg, dmg, account);
-                                    if (status == 1)
-                                    {
-                                        await reaction.Channel.SendMessageAsync("Буль, ты победил!");
-                                        await OctoGameUpdateMess.FighhtReaction.MainPage(reaction, Global.OctopusGameMessIdList[i].SocketMsg);
-                                    }
-                                    else
-                                        await OctoGameUpdateMess.FighhtReaction.MainPage(reaction, Global.OctopusGameMessIdList[i].SocketMsg);
-                                }
-                                ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                                    case 3:
+                                        {
+                                            skills = account.CurrentOctopusFighterSkillSetAgi.Split(new[] { '|' }, StringSplitOptions.RemoveEmptyEntries);
 
-                                /////////////////////////////////////////////////////////////////AGI skills///////////////////////////////////////////////////////////////////////////
+                                            var ski = Convert.ToUInt64(skills[5]);
+                                            var skill = SpellUserAccounts.GetAccount(ski);
 
+                                            Console.WriteLine($"{skill.SpellName} + {skill.SpellId}");
 
-                                else if (account.MoveListPage == 3)
-                                {
-                                    skills = account.CurrentOctopusFighterSkillSetAgi.Split(new[] { '|' }, StringSplitOptions.RemoveEmptyEntries);
+                                            dmg = GameSpellHandeling.AgiSkills(skill.SpellId, account);
+                                            if (account.CurrentOctopusAbilityToCrit == 0)
+                                            {
+                                                dmg = GameSpellHandeling.CritHandeling(account.CurrentOctopusFighterAgility, dmg, account);
+                                            }
+                                            else
+                                            {
+                                                account.CurrentOctopusAbilityToCrit = 0;
+                                                GameUserAccounts.SaveAccounts();
+                                            }
+                                            dmg = GameSpellHandeling.DodgeHandeling(account.CurrentOctopusFighterAgility, dmg, account);
 
-                                    var ski = Convert.ToUInt64(skills[5]);
-                                    var skill = SpellUserAccounts.GetAccount(ski);
+                                            var status = GameSpellHandeling.DmgHealthHandeling(skill.WhereDmg, dmg, account);
+                                            if (status == 1)
+                                            {
+                                                await reaction.Channel.SendMessageAsync("Буль, ты победил!");
+                                                await OctoGameUpdateMess.FighhtReaction.MainPage(reaction, Global.OctopusGameMessIdList[i].SocketMsg);
+                                            }
+                                            else
+                                                await OctoGameUpdateMess.FighhtReaction.MainPage(reaction, Global.OctopusGameMessIdList[i].SocketMsg);
+                                            break;
+                                        }
 
-                                    Console.WriteLine($"{skill.SpellName} + {skill.SpellId}");
+                                    case 4:
+                                        {
+                                            skills = account.CurrentOctopusFighterSkillSetAp.Split(new[] { '|' }, StringSplitOptions.RemoveEmptyEntries);
 
-                                    dmg = GameSpellHandeling.AgiSkills(skill.SpellId, account);
-                                    if (account.CurrentOctopusAbilityToCrit == 0)
-                                    {
-                                        dmg = GameSpellHandeling.CritHandeling(account.CurrentOctopusFighterAgility, dmg, account);
-                                    }
-                                    else
-                                    {
-                                        account.CurrentOctopusAbilityToCrit = 0;
-                                        GameUserAccounts.SaveAccounts();
-                                    }
-                                    dmg = GameSpellHandeling.DodgeHandeling(account.CurrentOctopusFighterAgility, dmg, account);
+                                            var ski = Convert.ToUInt64(skills[5]);
+                                            var skill = SpellUserAccounts.GetAccount(ski);
 
-                                    var status = GameSpellHandeling.DmgHealthHandeling(skill.WhereDmg, dmg, account);
-                                    if (status == 1)
-                                    {
-                                        await reaction.Channel.SendMessageAsync("Буль, ты победил!");
-                                        await OctoGameUpdateMess.FighhtReaction.MainPage(reaction, Global.OctopusGameMessIdList[i].SocketMsg);
-                                    }
-                                    else
-                                        await OctoGameUpdateMess.FighhtReaction.MainPage(reaction, Global.OctopusGameMessIdList[i].SocketMsg);
-                                }
-                                ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                                            Console.WriteLine($"{skill.SpellName} + {skill.SpellId}");
 
-                                ////////////////////////////////////////////////////////////////AP Skills//////////////////////////////////////////////////////////////////////
+                                            dmg = GameSpellHandeling.ApSkills(skill.SpellId, account);
+                                            if (account.CurrentOctopusAbilityToCrit == 0)
+                                            {
+                                                dmg = GameSpellHandeling.CritHandeling(account.CurrentOctopusFighterAgility, dmg, account);
+                                            }
+                                            else
+                                            {
+                                                account.CurrentOctopusAbilityToCrit = 0;
+                                                GameUserAccounts.SaveAccounts();
+                                            }
+                                            dmg = GameSpellHandeling.DodgeHandeling(account.CurrentOctopusFighterAgility, dmg, account);
 
-
-                                else if (account.MoveListPage == 4)
-                                {
-                                    skills = account.CurrentOctopusFighterSkillSetAp.Split(new[] { '|' }, StringSplitOptions.RemoveEmptyEntries);
-
-                                    var ski = Convert.ToUInt64(skills[5]);
-                                    var skill = SpellUserAccounts.GetAccount(ski);
-
-                                    Console.WriteLine($"{skill.SpellName} + {skill.SpellId}");
-
-                                    dmg = GameSpellHandeling.ApSkills(skill.SpellId, account);
-                                    if (account.CurrentOctopusAbilityToCrit == 0)
-                                    {
-                                        dmg = GameSpellHandeling.CritHandeling(account.CurrentOctopusFighterAgility, dmg, account);
-                                    }
-                                    else
-                                    {
-                                        account.CurrentOctopusAbilityToCrit = 0;
-                                        GameUserAccounts.SaveAccounts();
-                                    }
-                                    dmg = GameSpellHandeling.DodgeHandeling(account.CurrentOctopusFighterAgility, dmg, account);
-
-                                    var status = GameSpellHandeling.DmgHealthHandeling(skill.WhereDmg, dmg, account);
-                                    if (status == 1)
-                                    {
-                                        await reaction.Channel.SendMessageAsync("Буль, ты победил!");
-                                        await OctoGameUpdateMess.FighhtReaction.MainPage(reaction, Global.OctopusGameMessIdList[i].SocketMsg);
-                                    }
-                                    else
-                                        await OctoGameUpdateMess.FighhtReaction.MainPage(reaction, Global.OctopusGameMessIdList[i].SocketMsg);
+                                            var status = GameSpellHandeling.DmgHealthHandeling(skill.WhereDmg, dmg, account);
+                                            if (status == 1)
+                                            {
+                                                await reaction.Channel.SendMessageAsync("Буль, ты победил!");
+                                                await OctoGameUpdateMess.FighhtReaction.MainPage(reaction, Global.OctopusGameMessIdList[i].SocketMsg);
+                                            }
+                                            else
+                                                await OctoGameUpdateMess.FighhtReaction.MainPage(reaction, Global.OctopusGameMessIdList[i].SocketMsg);
+                                            break;
+                                        }
 
                                 }
                                 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1040,141 +1016,137 @@ namespace OctoBot.Games.OctoGame
                                 double dmg;
 
 
-                                if (account.MoveListPage == 1)
+                                switch (account.MoveListPage)
                                 {
-                                    skills = account.CurrentOctopusFighterSkillSetAd.Split(new[] { '|' }, StringSplitOptions.RemoveEmptyEntries);
+                                    case 1:
+                                        {
+                                            skills = account.CurrentOctopusFighterSkillSetAd.Split(new[] { '|' }, StringSplitOptions.RemoveEmptyEntries);
 
-                                    var ski = Convert.ToUInt64(skills[6]);
-                                    var skill = SpellUserAccounts.GetAccount(ski);
+                                            var ski = Convert.ToUInt64(skills[6]);
+                                            var skill = SpellUserAccounts.GetAccount(ski);
 
-                                    Console.WriteLine($"{skill.SpellName} + {skill.SpellId}");
+                                            Console.WriteLine($"{skill.SpellName} + {skill.SpellId}");
 
-                                    dmg = GameSpellHandeling.AdSkills(skill.SpellId, account);
-                                    if (account.CurrentOctopusAbilityToCrit == 0)
-                                    {
-                                        dmg = GameSpellHandeling.CritHandeling(account.CurrentOctopusFighterAgility, dmg, account);
-                                    }
-                                    else
-                                    {
-                                        account.CurrentOctopusAbilityToCrit = 0;
-                                        GameUserAccounts.SaveAccounts();
-                                    }
-                                    dmg = GameSpellHandeling.DodgeHandeling(account.CurrentOctopusFighterAgility, dmg, account);
+                                            dmg = GameSpellHandeling.AdSkills(skill.SpellId, account);
+                                            if (account.CurrentOctopusAbilityToCrit == 0)
+                                            {
+                                                dmg = GameSpellHandeling.CritHandeling(account.CurrentOctopusFighterAgility, dmg, account);
+                                            }
+                                            else
+                                            {
+                                                account.CurrentOctopusAbilityToCrit = 0;
+                                                GameUserAccounts.SaveAccounts();
+                                            }
+                                            dmg = GameSpellHandeling.DodgeHandeling(account.CurrentOctopusFighterAgility, dmg, account);
 
-                                    var status = GameSpellHandeling.DmgHealthHandeling(skill.WhereDmg, dmg, account);
-                                    if (status == 1)
-                                    {
-                                        await reaction.Channel.SendMessageAsync("Буль, ты победил!");
-                                        await OctoGameUpdateMess.FighhtReaction.MainPage(reaction, Global.OctopusGameMessIdList[i].SocketMsg);
-                                    }
-                                    else
-                                        await OctoGameUpdateMess.FighhtReaction.MainPage(reaction, Global.OctopusGameMessIdList[i].SocketMsg);
+                                            var status = GameSpellHandeling.DmgHealthHandeling(skill.WhereDmg, dmg, account);
+                                            if (status == 1)
+                                            {
+                                                await reaction.Channel.SendMessageAsync("Буль, ты победил!");
+                                                await OctoGameUpdateMess.FighhtReaction.MainPage(reaction, Global.OctopusGameMessIdList[i].SocketMsg);
+                                            }
+                                            else
+                                                await OctoGameUpdateMess.FighhtReaction.MainPage(reaction, Global.OctopusGameMessIdList[i].SocketMsg);
+                                            break;
+                                        }
 
-                                }
-                                ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                                    case 2:
+                                        {
 
-                                //////////////////////////////////////////////////////////////DEF Skill///////////////////////////////////////////////////////////////////////////
-                                else if (account.MoveListPage == 2)
-                                {
+                                            skills = account.CurrentOctopusFighterSkillSetDef.Split(new[] { '|' },
+                                                StringSplitOptions.RemoveEmptyEntries);
 
-                                    skills = account.CurrentOctopusFighterSkillSetDef.Split(new[] { '|' },
-                                        StringSplitOptions.RemoveEmptyEntries);
+                                            var ski = Convert.ToUInt64(skills[6]);
+                                            var skill = SpellUserAccounts.GetAccount(ski);
 
-                                    var ski = Convert.ToUInt64(skills[6]);
-                                    var skill = SpellUserAccounts.GetAccount(ski);
+                                            Console.WriteLine($"{skill.SpellName} + {skill.SpellId}");
 
-                                    Console.WriteLine($"{skill.SpellName} + {skill.SpellId}");
+                                            dmg = GameSpellHandeling.DefdSkills(skill.SpellId, account);
+                                            if (account.CurrentOctopusAbilityToCrit == 0)
+                                            {
+                                                dmg = GameSpellHandeling.CritHandeling(account.CurrentOctopusFighterAgility, dmg, account);
+                                            }
+                                            else
+                                            {
+                                                account.CurrentOctopusAbilityToCrit = 0;
+                                                GameUserAccounts.SaveAccounts();
+                                            }
+                                            dmg = GameSpellHandeling.DodgeHandeling(account.CurrentOctopusFighterAgility, dmg, account);
 
-                                    dmg = GameSpellHandeling.DefdSkills(skill.SpellId, account);
-                                    if (account.CurrentOctopusAbilityToCrit == 0)
-                                    {
-                                        dmg = GameSpellHandeling.CritHandeling(account.CurrentOctopusFighterAgility, dmg, account);
-                                    }
-                                    else
-                                    {
-                                        account.CurrentOctopusAbilityToCrit = 0;
-                                        GameUserAccounts.SaveAccounts();
-                                    }
-                                    dmg = GameSpellHandeling.DodgeHandeling(account.CurrentOctopusFighterAgility, dmg, account);
+                                            var status = GameSpellHandeling.DmgHealthHandeling(skill.WhereDmg, dmg, account);
+                                            if (status == 1)
+                                            {
+                                                await reaction.Channel.SendMessageAsync("Буль, ты победил!");
+                                                await OctoGameUpdateMess.FighhtReaction.MainPage(reaction, Global.OctopusGameMessIdList[i].SocketMsg);
+                                            }
+                                            else
+                                                await OctoGameUpdateMess.FighhtReaction.MainPage(reaction, Global.OctopusGameMessIdList[i].SocketMsg);
+                                            break;
+                                        }
 
-                                    var status = GameSpellHandeling.DmgHealthHandeling(skill.WhereDmg, dmg, account);
-                                    if (status == 1)
-                                    {
-                                        await reaction.Channel.SendMessageAsync("Буль, ты победил!");
-                                        await OctoGameUpdateMess.FighhtReaction.MainPage(reaction, Global.OctopusGameMessIdList[i].SocketMsg);
-                                    }
-                                    else
-                                        await OctoGameUpdateMess.FighhtReaction.MainPage(reaction, Global.OctopusGameMessIdList[i].SocketMsg);
-                                }
-                                ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                                    case 3:
+                                        {
+                                            skills = account.CurrentOctopusFighterSkillSetAgi.Split(new[] { '|' }, StringSplitOptions.RemoveEmptyEntries);
 
-                                /////////////////////////////////////////////////////////////////AGI skills///////////////////////////////////////////////////////////////////////////
+                                            var ski = Convert.ToUInt64(skills[6]);
+                                            var skill = SpellUserAccounts.GetAccount(ski);
 
+                                            Console.WriteLine($"{skill.SpellName} + {skill.SpellId}");
 
-                                else if (account.MoveListPage == 3)
-                                {
-                                    skills = account.CurrentOctopusFighterSkillSetAgi.Split(new[] { '|' }, StringSplitOptions.RemoveEmptyEntries);
+                                            dmg = GameSpellHandeling.AgiSkills(skill.SpellId, account);
+                                            if (account.CurrentOctopusAbilityToCrit == 0)
+                                            {
+                                                dmg = GameSpellHandeling.CritHandeling(account.CurrentOctopusFighterAgility, dmg, account);
+                                            }
+                                            else
+                                            {
+                                                account.CurrentOctopusAbilityToCrit = 0;
+                                                GameUserAccounts.SaveAccounts();
+                                            }
+                                            dmg = GameSpellHandeling.DodgeHandeling(account.CurrentOctopusFighterAgility, dmg, account);
 
-                                    var ski = Convert.ToUInt64(skills[6]);
-                                    var skill = SpellUserAccounts.GetAccount(ski);
+                                            var status = GameSpellHandeling.DmgHealthHandeling(skill.WhereDmg, dmg, account);
+                                            if (status == 1)
+                                            {
+                                                await reaction.Channel.SendMessageAsync("Буль, ты победил!");
+                                                await OctoGameUpdateMess.FighhtReaction.MainPage(reaction, Global.OctopusGameMessIdList[i].SocketMsg);
+                                            }
+                                            else
+                                                await OctoGameUpdateMess.FighhtReaction.MainPage(reaction, Global.OctopusGameMessIdList[i].SocketMsg);
+                                            break;
+                                        }
 
-                                    Console.WriteLine($"{skill.SpellName} + {skill.SpellId}");
+                                    case 4:
+                                        {
+                                            skills = account.CurrentOctopusFighterSkillSetAp.Split(new[] { '|' }, StringSplitOptions.RemoveEmptyEntries);
 
-                                    dmg = GameSpellHandeling.AgiSkills(skill.SpellId, account);
-                                    if (account.CurrentOctopusAbilityToCrit == 0)
-                                    {
-                                        dmg = GameSpellHandeling.CritHandeling(account.CurrentOctopusFighterAgility, dmg, account);
-                                    }
-                                    else
-                                    {
-                                        account.CurrentOctopusAbilityToCrit = 0;
-                                        GameUserAccounts.SaveAccounts();
-                                    }
-                                    dmg = GameSpellHandeling.DodgeHandeling(account.CurrentOctopusFighterAgility, dmg, account);
+                                            var ski = Convert.ToUInt64(skills[6]);
+                                            var skill = SpellUserAccounts.GetAccount(ski);
 
-                                    var status = GameSpellHandeling.DmgHealthHandeling(skill.WhereDmg, dmg, account);
-                                    if (status == 1)
-                                    {
-                                        await reaction.Channel.SendMessageAsync("Буль, ты победил!");
-                                        await OctoGameUpdateMess.FighhtReaction.MainPage(reaction, Global.OctopusGameMessIdList[i].SocketMsg);
-                                    }
-                                    else
-                                        await OctoGameUpdateMess.FighhtReaction.MainPage(reaction, Global.OctopusGameMessIdList[i].SocketMsg);
-                                }
-                                ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                                            Console.WriteLine($"{skill.SpellName} + {skill.SpellId}");
 
-                                ////////////////////////////////////////////////////////////////AP Skills//////////////////////////////////////////////////////////////////////
+                                            dmg = GameSpellHandeling.ApSkills(skill.SpellId, account);
+                                            if (account.CurrentOctopusAbilityToCrit == 0)
+                                            {
+                                                dmg = GameSpellHandeling.CritHandeling(account.CurrentOctopusFighterAgility, dmg, account);
+                                            }
+                                            else
+                                            {
+                                                account.CurrentOctopusAbilityToCrit = 0;
+                                                GameUserAccounts.SaveAccounts();
+                                            }
+                                            dmg = GameSpellHandeling.DodgeHandeling(account.CurrentOctopusFighterAgility, dmg, account);
 
-
-                                else if (account.MoveListPage == 4)
-                                {
-                                    skills = account.CurrentOctopusFighterSkillSetAp.Split(new[] { '|' }, StringSplitOptions.RemoveEmptyEntries);
-
-                                    var ski = Convert.ToUInt64(skills[6]);
-                                    var skill = SpellUserAccounts.GetAccount(ski);
-
-                                    Console.WriteLine($"{skill.SpellName} + {skill.SpellId}");
-
-                                    dmg = GameSpellHandeling.ApSkills(skill.SpellId, account);
-                                    if (account.CurrentOctopusAbilityToCrit == 0)
-                                    {
-                                        dmg = GameSpellHandeling.CritHandeling(account.CurrentOctopusFighterAgility, dmg, account);
-                                    }
-                                    else
-                                    {
-                                        account.CurrentOctopusAbilityToCrit = 0;
-                                        GameUserAccounts.SaveAccounts();
-                                    }
-                                    dmg = GameSpellHandeling.DodgeHandeling(account.CurrentOctopusFighterAgility, dmg, account);
-
-                                    var status = GameSpellHandeling.DmgHealthHandeling(skill.WhereDmg, dmg, account);
-                                    if (status == 1)
-                                    {
-                                        await reaction.Channel.SendMessageAsync("Буль, ты победил!");
-                                        await OctoGameUpdateMess.FighhtReaction.MainPage(reaction, Global.OctopusGameMessIdList[i].SocketMsg);
-                                    }
-                                    else
-                                        await OctoGameUpdateMess.FighhtReaction.MainPage(reaction, Global.OctopusGameMessIdList[i].SocketMsg);
+                                            var status = GameSpellHandeling.DmgHealthHandeling(skill.WhereDmg, dmg, account);
+                                            if (status == 1)
+                                            {
+                                                await reaction.Channel.SendMessageAsync("Буль, ты победил!");
+                                                await OctoGameUpdateMess.FighhtReaction.MainPage(reaction, Global.OctopusGameMessIdList[i].SocketMsg);
+                                            }
+                                            else
+                                                await OctoGameUpdateMess.FighhtReaction.MainPage(reaction, Global.OctopusGameMessIdList[i].SocketMsg);
+                                            break;
+                                        }
 
                                 }
                                 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1193,141 +1165,137 @@ namespace OctoBot.Games.OctoGame
                                 double dmg;
 
 
-                                if (account.MoveListPage == 1)
+                                switch (account.MoveListPage)
                                 {
-                                    skills = account.CurrentOctopusFighterSkillSetAd.Split(new[] { '|' }, StringSplitOptions.RemoveEmptyEntries);
+                                    case 1:
+                                        {
+                                            skills = account.CurrentOctopusFighterSkillSetAd.Split(new[] { '|' }, StringSplitOptions.RemoveEmptyEntries);
 
-                                    var ski = Convert.ToUInt64(skills[7]);
-                                    var skill = SpellUserAccounts.GetAccount(ski);
+                                            var ski = Convert.ToUInt64(skills[7]);
+                                            var skill = SpellUserAccounts.GetAccount(ski);
 
-                                    Console.WriteLine($"{skill.SpellName} + {skill.SpellId}");
+                                            Console.WriteLine($"{skill.SpellName} + {skill.SpellId}");
 
-                                    dmg = GameSpellHandeling.AdSkills(skill.SpellId, account);
-                                    if (account.CurrentOctopusAbilityToCrit == 0)
-                                    {
-                                        dmg = GameSpellHandeling.CritHandeling(account.CurrentOctopusFighterAgility, dmg, account);
-                                    }
-                                    else
-                                    {
-                                        account.CurrentOctopusAbilityToCrit = 0;
-                                        GameUserAccounts.SaveAccounts();
-                                    }
-                                    dmg = GameSpellHandeling.DodgeHandeling(account.CurrentOctopusFighterAgility, dmg, account);
+                                            dmg = GameSpellHandeling.AdSkills(skill.SpellId, account);
+                                            if (account.CurrentOctopusAbilityToCrit == 0)
+                                            {
+                                                dmg = GameSpellHandeling.CritHandeling(account.CurrentOctopusFighterAgility, dmg, account);
+                                            }
+                                            else
+                                            {
+                                                account.CurrentOctopusAbilityToCrit = 0;
+                                                GameUserAccounts.SaveAccounts();
+                                            }
+                                            dmg = GameSpellHandeling.DodgeHandeling(account.CurrentOctopusFighterAgility, dmg, account);
 
-                                    var status = GameSpellHandeling.DmgHealthHandeling(skill.WhereDmg, dmg, account);
-                                    if (status == 1)
-                                    {
-                                        await reaction.Channel.SendMessageAsync("Буль, ты победил!");
-                                        await OctoGameUpdateMess.FighhtReaction.MainPage(reaction, Global.OctopusGameMessIdList[i].SocketMsg);
-                                    }
-                                    else
-                                        await OctoGameUpdateMess.FighhtReaction.MainPage(reaction, Global.OctopusGameMessIdList[i].SocketMsg);
+                                            var status = GameSpellHandeling.DmgHealthHandeling(skill.WhereDmg, dmg, account);
+                                            if (status == 1)
+                                            {
+                                                await reaction.Channel.SendMessageAsync("Буль, ты победил!");
+                                                await OctoGameUpdateMess.FighhtReaction.MainPage(reaction, Global.OctopusGameMessIdList[i].SocketMsg);
+                                            }
+                                            else
+                                                await OctoGameUpdateMess.FighhtReaction.MainPage(reaction, Global.OctopusGameMessIdList[i].SocketMsg);
+                                            break;
+                                        }
 
-                                }
-                                ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                                    case 2:
+                                        {
 
-                                //////////////////////////////////////////////////////////////DEF Skill///////////////////////////////////////////////////////////////////////////
-                                else if (account.MoveListPage == 2)
-                                {
+                                            skills = account.CurrentOctopusFighterSkillSetDef.Split(new[] { '|' },
+                                                StringSplitOptions.RemoveEmptyEntries);
 
-                                    skills = account.CurrentOctopusFighterSkillSetDef.Split(new[] { '|' },
-                                        StringSplitOptions.RemoveEmptyEntries);
+                                            var ski = Convert.ToUInt64(skills[7]);
+                                            var skill = SpellUserAccounts.GetAccount(ski);
 
-                                    var ski = Convert.ToUInt64(skills[7]);
-                                    var skill = SpellUserAccounts.GetAccount(ski);
+                                            Console.WriteLine($"{skill.SpellName} + {skill.SpellId}");
 
-                                    Console.WriteLine($"{skill.SpellName} + {skill.SpellId}");
+                                            dmg = GameSpellHandeling.DefdSkills(skill.SpellId, account);
+                                            if (account.CurrentOctopusAbilityToCrit == 0)
+                                            {
+                                                dmg = GameSpellHandeling.CritHandeling(account.CurrentOctopusFighterAgility, dmg, account);
+                                            }
+                                            else
+                                            {
+                                                account.CurrentOctopusAbilityToCrit = 0;
+                                                GameUserAccounts.SaveAccounts();
+                                            }
+                                            dmg = GameSpellHandeling.DodgeHandeling(account.CurrentOctopusFighterAgility, dmg, account);
 
-                                    dmg = GameSpellHandeling.DefdSkills(skill.SpellId, account);
-                                    if (account.CurrentOctopusAbilityToCrit == 0)
-                                    {
-                                        dmg = GameSpellHandeling.CritHandeling(account.CurrentOctopusFighterAgility, dmg, account);
-                                    }
-                                    else
-                                    {
-                                        account.CurrentOctopusAbilityToCrit = 0;
-                                        GameUserAccounts.SaveAccounts();
-                                    }
-                                    dmg = GameSpellHandeling.DodgeHandeling(account.CurrentOctopusFighterAgility, dmg, account);
+                                            var status = GameSpellHandeling.DmgHealthHandeling(skill.WhereDmg, dmg, account);
+                                            if (status == 1)
+                                            {
+                                                await reaction.Channel.SendMessageAsync("Буль, ты победил!");
+                                                await OctoGameUpdateMess.FighhtReaction.MainPage(reaction, Global.OctopusGameMessIdList[i].SocketMsg);
+                                            }
+                                            else
+                                                await OctoGameUpdateMess.FighhtReaction.MainPage(reaction, Global.OctopusGameMessIdList[i].SocketMsg);
+                                            break;
+                                        }
 
-                                    var status = GameSpellHandeling.DmgHealthHandeling(skill.WhereDmg, dmg, account);
-                                    if (status == 1)
-                                    {
-                                        await reaction.Channel.SendMessageAsync("Буль, ты победил!");
-                                        await OctoGameUpdateMess.FighhtReaction.MainPage(reaction, Global.OctopusGameMessIdList[i].SocketMsg);
-                                    }
-                                    else
-                                        await OctoGameUpdateMess.FighhtReaction.MainPage(reaction, Global.OctopusGameMessIdList[i].SocketMsg);
-                                }
-                                ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                                    case 3:
+                                        {
+                                            skills = account.CurrentOctopusFighterSkillSetAgi.Split(new[] { '|' }, StringSplitOptions.RemoveEmptyEntries);
 
-                                /////////////////////////////////////////////////////////////////AGI skills///////////////////////////////////////////////////////////////////////////
+                                            var ski = Convert.ToUInt64(skills[7]);
+                                            var skill = SpellUserAccounts.GetAccount(ski);
 
+                                            Console.WriteLine($"{skill.SpellName} + {skill.SpellId}");
 
-                                else if (account.MoveListPage == 3)
-                                {
-                                    skills = account.CurrentOctopusFighterSkillSetAgi.Split(new[] { '|' }, StringSplitOptions.RemoveEmptyEntries);
+                                            dmg = GameSpellHandeling.AgiSkills(skill.SpellId, account);
+                                            if (account.CurrentOctopusAbilityToCrit == 0)
+                                            {
+                                                dmg = GameSpellHandeling.CritHandeling(account.CurrentOctopusFighterAgility, dmg, account);
+                                            }
+                                            else
+                                            {
+                                                account.CurrentOctopusAbilityToCrit = 0;
+                                                GameUserAccounts.SaveAccounts();
+                                            }
+                                            dmg = GameSpellHandeling.DodgeHandeling(account.CurrentOctopusFighterAgility, dmg, account);
 
-                                    var ski = Convert.ToUInt64(skills[7]);
-                                    var skill = SpellUserAccounts.GetAccount(ski);
+                                            var status = GameSpellHandeling.DmgHealthHandeling(skill.WhereDmg, dmg, account);
+                                            if (status == 1)
+                                            {
+                                                await reaction.Channel.SendMessageAsync("Буль, ты победил!");
+                                                await OctoGameUpdateMess.FighhtReaction.MainPage(reaction, Global.OctopusGameMessIdList[i].SocketMsg);
+                                            }
+                                            else
+                                                await OctoGameUpdateMess.FighhtReaction.MainPage(reaction, Global.OctopusGameMessIdList[i].SocketMsg);
+                                            break;
+                                        }
 
-                                    Console.WriteLine($"{skill.SpellName} + {skill.SpellId}");
+                                    case 4:
+                                        {
+                                            skills = account.CurrentOctopusFighterSkillSetAp.Split(new[] { '|' }, StringSplitOptions.RemoveEmptyEntries);
 
-                                    dmg = GameSpellHandeling.AgiSkills(skill.SpellId, account);
-                                    if (account.CurrentOctopusAbilityToCrit == 0)
-                                    {
-                                        dmg = GameSpellHandeling.CritHandeling(account.CurrentOctopusFighterAgility, dmg, account);
-                                    }
-                                    else
-                                    {
-                                        account.CurrentOctopusAbilityToCrit = 0;
-                                        GameUserAccounts.SaveAccounts();
-                                    }
-                                    dmg = GameSpellHandeling.DodgeHandeling(account.CurrentOctopusFighterAgility, dmg, account);
+                                            var ski = Convert.ToUInt64(skills[7]);
+                                            var skill = SpellUserAccounts.GetAccount(ski);
 
-                                    var status = GameSpellHandeling.DmgHealthHandeling(skill.WhereDmg, dmg, account);
-                                    if (status == 1)
-                                    {
-                                        await reaction.Channel.SendMessageAsync("Буль, ты победил!");
-                                        await OctoGameUpdateMess.FighhtReaction.MainPage(reaction, Global.OctopusGameMessIdList[i].SocketMsg);
-                                    }
-                                    else
-                                        await OctoGameUpdateMess.FighhtReaction.MainPage(reaction, Global.OctopusGameMessIdList[i].SocketMsg);
-                                }
-                                ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                                            Console.WriteLine($"{skill.SpellName} + {skill.SpellId}");
 
-                                ////////////////////////////////////////////////////////////////AP Skills//////////////////////////////////////////////////////////////////////
+                                            dmg = GameSpellHandeling.ApSkills(skill.SpellId, account);
+                                            if (account.CurrentOctopusAbilityToCrit == 0)
+                                            {
+                                                dmg = GameSpellHandeling.CritHandeling(account.CurrentOctopusFighterAgility, dmg, account);
+                                            }
+                                            else
+                                            {
+                                                account.CurrentOctopusAbilityToCrit = 0;
+                                                GameUserAccounts.SaveAccounts();
+                                            }
+                                            dmg = GameSpellHandeling.DodgeHandeling(account.CurrentOctopusFighterAgility, dmg, account);
 
-
-                                else if (account.MoveListPage == 4)
-                                {
-                                    skills = account.CurrentOctopusFighterSkillSetAp.Split(new[] { '|' }, StringSplitOptions.RemoveEmptyEntries);
-
-                                    var ski = Convert.ToUInt64(skills[7]);
-                                    var skill = SpellUserAccounts.GetAccount(ski);
-
-                                    Console.WriteLine($"{skill.SpellName} + {skill.SpellId}");
-
-                                    dmg = GameSpellHandeling.ApSkills(skill.SpellId, account);
-                                    if (account.CurrentOctopusAbilityToCrit == 0)
-                                    {
-                                        dmg = GameSpellHandeling.CritHandeling(account.CurrentOctopusFighterAgility, dmg, account);
-                                    }
-                                    else
-                                    {
-                                        account.CurrentOctopusAbilityToCrit = 0;
-                                        GameUserAccounts.SaveAccounts();
-                                    }
-                                    dmg = GameSpellHandeling.DodgeHandeling(account.CurrentOctopusFighterAgility, dmg, account);
-
-                                    var status = GameSpellHandeling.DmgHealthHandeling(skill.WhereDmg, dmg, account);
-                                    if (status == 1)
-                                    {
-                                        await reaction.Channel.SendMessageAsync("Буль, ты победил!");
-                                        await OctoGameUpdateMess.FighhtReaction.MainPage(reaction, Global.OctopusGameMessIdList[i].SocketMsg);
-                                    }
-                                    else
-                                        await OctoGameUpdateMess.FighhtReaction.MainPage(reaction, Global.OctopusGameMessIdList[i].SocketMsg);
+                                            var status = GameSpellHandeling.DmgHealthHandeling(skill.WhereDmg, dmg, account);
+                                            if (status == 1)
+                                            {
+                                                await reaction.Channel.SendMessageAsync("Буль, ты победил!");
+                                                await OctoGameUpdateMess.FighhtReaction.MainPage(reaction, Global.OctopusGameMessIdList[i].SocketMsg);
+                                            }
+                                            else
+                                                await OctoGameUpdateMess.FighhtReaction.MainPage(reaction, Global.OctopusGameMessIdList[i].SocketMsg);
+                                            break;
+                                        }
 
                                 }
                                 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

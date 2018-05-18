@@ -11,7 +11,7 @@ using OctoBot.Configs.LvLingSystem;
 
 namespace OctoBot.Handeling
 {
-    class CommandHandeling
+   public class CommandHandeling
     {
       
         DiscordSocketClient _client;

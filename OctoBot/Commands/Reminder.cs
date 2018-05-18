@@ -7,8 +7,6 @@ using System.Globalization;
 using Discord;
 using OctoBot.Configs;
 using Discord.WebSocket;
-using Newtonsoft.Json;
-using System.Collections.Generic;
 using static OctoBot.Configs.Users.AccountSettings;
 
 namespace OctoBot.Commands
@@ -366,72 +364,53 @@ namespace OctoBot.Commands
         //client.GetUser(userId);
         public static async void CheckReminders(object sender, ElapsedEventArgs e)
         {
-
-            try{
-
-            string result;
             try
             {
-                result = new System.Net.WebClient().DownloadString(@"OctoDataBase/accounts.json");
-            }
-            catch (Exception errorToRead)
-            {
-                Console.WriteLine("Failed To ReadFile(Reminder). Will ty in 5 sec: '{0}'", errorToRead);
-                return;
-            }
+                var allUserAccounts = UserAccounts.GetAllAccounts();
+                var now = DateTime.UtcNow;
 
-            var data = JsonConvert.DeserializeObject<List<AccountSettings>>(result);
-            var now = DateTime.UtcNow;
-
-                try
+                for (var index = 0; index < allUserAccounts.Count; index++)
                 {
-                    for (var index = 0; index < data.Count; index++)
+                    if (Global.Client.GetUser(allUserAccounts[index].Id) != null)
                     {
-                        if (Global.Client.GetUser(data[index].Id) != null)
+
+                        var globalAccount = Global.Client.GetUser(allUserAccounts[index].Id);
+                        var account = UserAccounts.GetAccount(globalAccount);
+
+                        for (var j = 0; j < account.ReminderList.Count; j++)
                         {
 
-                            var globalAccount = Global.Client.GetUser(data[index].Id);
-                            var account = UserAccounts.GetAccount(globalAccount);
-
-                            for (var j = 0; j < account.ReminderList.Count; j++)
+                            if (account.ReminderList[j].DateToPost <= now)
                             {
-
-                                if (account.ReminderList[j].DateToPost <= now)
+                                try
                                 {
-                                    try
-                                    {
-                                        var dmChannel = await globalAccount.GetOrCreateDMChannelAsync();
-                                        var embed = new EmbedBuilder();
-                                        embed.WithFooter("Записная книжечка Осьминожек");
-                                        embed.WithTitle("Ты просил нас напомнить тебе в это время:");
-                                        embed.WithDescription($"{account.ReminderList[j].ReminderMessage}");
+                                    var dmChannel = await globalAccount.GetOrCreateDMChannelAsync();
+                                    var embed = new EmbedBuilder();
+                                    embed.WithFooter("Записная книжечка Осьминожек");
+                                    embed.WithTitle("Ты просил нас напомнить тебе в это время:");
+                                    embed.WithDescription($"{account.ReminderList[j].ReminderMessage}");
 
-                                        await dmChannel.SendMessageAsync("", embed: embed);
+                                    await dmChannel.SendMessageAsync("", embed: embed);
 
-                                        account.ReminderList.RemoveAt(j);
-                                        UserAccounts.SaveAccounts();
-                                    }
-                                    catch (Exception closedDm)
-                                    {
-                                        Console.WriteLine($"ERROR DM SENING {account.UserName} Closed DM: '{0}'",
-                                            closedDm);
-                                        account.ReminderList = null;
-                                        UserAccounts.SaveAccounts();
-                                        return;
+                                    account.ReminderList.RemoveAt(j);
+                                    UserAccounts.SaveAccounts();
+                                }
+                                catch (Exception closedDm)
+                                {
+                                    Console.WriteLine($"ERROR DM SENING {account.UserName} Closed DM: '{0}'",
+                                        closedDm);
+                                    account.ReminderList = null;
+                                    UserAccounts.SaveAccounts();
+                                    return;
 
-                                    }
                                 }
                             }
-
                         }
+
                     }
                 }
-                catch (Exception error)
-                {
-                    Console.WriteLine("ERROR!!! (REMINDER) Does not work: '{0}'", error);
-                }
             }
-            catch(Exception error)
+            catch (Exception error)
             {
                 Console.WriteLine("ERROR!!! (REMINDER(Big try) Does not work: '{0}'", error);
             }

@@ -4,7 +4,9 @@ using Discord.WebSocket;
 using OctoBot.Configs.Users;
 using OctoBot.Handeling;
 using System;
+using System.Linq;
 using System.Threading.Tasks;
+using OctoBot.Configs;
 
 
 namespace OctoBot.Commands
@@ -354,7 +356,89 @@ namespace OctoBot.Commands
             }
         }
 
-      
+        [Command("top")]
+        public async Task TopByOctoPoints(int page = 1)
+        {
+            if (page < 1)
+            {
+                await ReplyAsync("Are you fucking sure about that?");
+                return;
+            }
+
+            var currentGuildUsersId = Context.Guild.Users.Select(user => user.Id);
+            // Get only accounts of this server
+            var accounts = UserAccounts.GetFilteredAccounts(acc => currentGuildUsersId.Contains(acc.Id));
+
+            const int usersPerPage = 9;
+
+            var lastPage = 1 + (accounts.Count / (usersPerPage+1));
+            if (page > lastPage)
+            {
+                await ReplyAsync($"Boole. Last Page is {lastPage}");
+                return;
+            }
+       
+            var ordered = accounts.OrderByDescending(acc => acc.Points).ToList();
+
+            var embB = new EmbedBuilder()
+                .WithTitle("Top By Octo Points:")
+                .WithFooter($"Page {page}/{lastPage}");
+
+
+            page--;
+            for (var i = 1; i <= usersPerPage && i + usersPerPage * page <= ordered.Count; i++)
+            {
+              
+                var account = ordered[i - 1 + usersPerPage * page];
+                var user = Global.Client.GetUser(account.Id);
+                embB.AddField($"#{i + usersPerPage * page} {user.Username}", $"{account.Points} OctoPoints", true);
+            }
+
+            await ReplyAsync("", false, embB.Build());
+        }
+        [Command("tops")]
+        public async Task TopBySubc(int page = 1)
+        {
+            if (page < 1)
+            {
+                await ReplyAsync("Are you fucking sure about that?");
+                return;
+            }
+
+            // Get only accounts of this server
+            var accounts = UserAccounts.GetFilteredAccounts(acc => Context.Guild.Users.Select(user => user.Id).Contains(acc.Id));
+
+            const int usersPerPage = 9;
+
+            var lastPage = 1 + (accounts.Count / (usersPerPage+1));
+            if (page > lastPage)
+            {
+                await ReplyAsync($"Boole. Last Page is {lastPage}");
+                return;
+            }
+         
+            var ordered = accounts.OrderByDescending(acc => acc.SubedToYou.Split(new[] {'|'}, StringSplitOptions.RemoveEmptyEntries).Length).ToList();
+
+            var embB = new EmbedBuilder()
+                .WithTitle("Top By Octo Points:")
+                .WithFooter($"Page {page}/{lastPage}");
+            
+
+            page--;
+            for (var i = 1; i <= usersPerPage && i + usersPerPage * page <= ordered.Count; i++)
+            {
+               
+                var account = ordered[i - 1 + usersPerPage * page];
+                var user = Global.Client.GetUser(account.Id);
+
+                var size = account.SubedToYou.Split(new[] {'|'}, StringSplitOptions.RemoveEmptyEntries).Length;
+                if ( size == 1)
+                    size = 0;
+                embB.AddField($"#{i + usersPerPage * page} {user.Username}", $"{size} Subscribers", true);
+            }
+
+            await ReplyAsync("", false, embB.Build());
+        }
 
     }
 }

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Discord;
 
@@ -47,6 +48,22 @@ namespace OctoBot.Configs.Users
 
             return account;
         }
+
+       
+
+
+        internal static List<AccountSettings> GetAllAccounts()
+        {
+            return _accounts.ToList();
+        }
+
+            internal static List<AccountSettings> GetFilteredAccounts(Func<AccountSettings, bool> filter)
+            {
+               
+                return _accounts.Where(filter).ToList();
+            }
+
+
         private static AccountSettings CreateUserAccount(ulong id)
         {
             var newAccount = new AccountSettings()

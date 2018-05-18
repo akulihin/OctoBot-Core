@@ -6,8 +6,6 @@ using OctoBot.Configs.Users;
 using Discord;
 using OctoBot.Configs;
 using Discord.WebSocket;
-using Newtonsoft.Json;
-using System.Collections.Generic;
 
 namespace OctoBot.Commands
 {
@@ -39,11 +37,8 @@ namespace OctoBot.Commands
                         await ReplyAsync(
                             $"**Поит записан!** У тебя **теперь** есть {account.DailyPullPoints} поинтов. Приходи через 1 день за новым!");
                     }
-
                     break;
             }
-           
-
 
         }
 
@@ -86,28 +81,17 @@ namespace OctoBot.Commands
         }
         
         public static async void CheckPulls(object sender, ElapsedEventArgs e)
-        {
+        {          
             try
-            {
-            string result;
-            try
-            {
-                    result = new System.Net.WebClient().DownloadString(@"OctoDataBase/accounts.json");
-            } catch {
-                Console.WriteLine("Failed To ReadFile(CheckPulls). Will ty in 1 min");
-               return; 
-            }
+             {      
+                var allUserAccounts = UserAccounts.GetAllAccounts();
 
-            var data = JsonConvert.DeserializeObject<List<AccountSettings>>(result);
-
-           
-                for (var index = 0; index < data.Count; index++)
+                for (var index = 0; index < allUserAccounts.Count; index++)
                 {
-                    if (Global.Client.GetUser(data[index].Id) != null)
+                    if (Global.Client.GetUser(allUserAccounts[index].Id) != null)
                     {
 
-
-                        var globalAccount = Global.Client.GetUser(data[index].Id);
+                        var globalAccount = Global.Client.GetUser(allUserAccounts[index].Id);
                         var account = UserAccounts.GetAccount(globalAccount);
                         var difference = DateTime.Now - account.LastDailyPull;
 
@@ -134,7 +118,6 @@ namespace OctoBot.Commands
 
                             }
                         }
-
                         if (account.DailyPullPoints == 20)
                         {
                             var mylorikGlobal = Global.Client.GetUser(181514288278536193);
@@ -153,7 +136,7 @@ namespace OctoBot.Commands
                                 embed.WithFooter("Записная книжечка Осьминожек");
                                 embed.WithTitle("OctoNotification");
                                 embed.WithDescription($"Вот и ключик подъехал!\n\n**{randomKeyList[randomKey]}**\n\n" +
-                                                      $"Если ты  **НЕ будешь играть в эту игру**, а просто добавишь ее и забьешь, **прошу** верни ее осьминожкам, и мы подарим ее другому. Мы не любим расходовать ресурсы просто так. Спасибо!");
+                                                      $"Если ты  **НЕ будешь играть в эту игру**, а просто добавишь ее и забьешь, **прошу** верни ее осьминожкам, и мы подарим ее другому через команду **addkey [любой текст]**. Мы не любим расходовать ресурсы просто так. Спасибо!");
                                 await dmChannel.SendMessageAsync("", embed: embed);
 
                                 mylorik.KeyPull = null;
@@ -162,6 +145,7 @@ namespace OctoBot.Commands
                                     if (i != randomKey)
                                         mylorik.KeyPull += ($"{randomKeyList[i]}|");
                                 }
+
                                 account.KeyPull += (randomKeyList[randomKey] + "|");
                                 account.DailyPullPoints = 0;
                                 UserAccounts.SaveAccounts();
@@ -174,19 +158,13 @@ namespace OctoBot.Commands
                                 embed.WithTitle("OctoNotification");
                                 embed.WithDescription($"Буууль... ключики кончились ;c");
                                 await dmChannel.SendMessageAsync("", embed: embed);
-
                             }
-
                         }
-
-
+                    }
                 }
-                }
-
             } catch {
                 Console.WriteLine("Failed To ReadFile(CheckPulls). Will ty in 5 sec.");
             }
-
         }
 
 

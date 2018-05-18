@@ -181,22 +181,26 @@ namespace OctoBot.Games.OctoGame.GameSpells
 
         public static double AdSkills(ulong skillId, GameAccountSettings account)
         {
-            double dmg = 99;
+            double dmg = 0;
             
-            /*
-            if (skillId == 1001)
+            
+            if (skillId == 1001 || skillId == 1000)
             {
                 var skill = SpellUserAccounts.GetAccount(skillId);
 
                if (account.CurrentEnemyStamina <= 0)
-                    dmg = 99;
+                    dmg = 10009;
+               else
+               {
+                   dmg = 5;
+               }
                 
                dmg = ArmorHandeling(account.CurrentOctopusFighterArmPen, account.CurrentEnemyArmor, dmg);
 
               
                 return dmg;
             }
-            */
+            
             return dmg;
         }
 
