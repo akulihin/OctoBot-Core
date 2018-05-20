@@ -17,11 +17,11 @@ namespace OctoBot.Games.Game2048
             if (NewGame.UserIsPlaying(Context.User.Id))
             {
 
-                await ReplyAsync("Ты **уже** играешь, нужно закончить начатое. Ну или закончи ее командой `*e2`");
+                await ReplyAsync("you are **already** playing, you need to finish what you started (well... or just use `*e2` command)");
                 return;
             }
 
-            var message = await Context.Channel.SendMessageAsync("**Пожалуйста подожди**");
+            var message = await Context.Channel.SendMessageAsync("**Please wait**");
 
 
             await message.AddReactionAsync(new Emoji("⬅"));

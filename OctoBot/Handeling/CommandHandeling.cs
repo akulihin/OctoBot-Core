@@ -19,6 +19,8 @@ namespace OctoBot.Handeling
         private static string LogFile = @"OctoDataBase/Log.json";
        
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        /// Await for user input in chat
+ 
         public static async Task<SocketMessage> AwaitMessage(ulong userId, ulong channelId, int delayInMs)
         {
             SocketMessage response = null;
@@ -42,6 +44,7 @@ namespace OctoBot.Handeling
                 await Task.CompletedTask;
             }
         }
+        
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public async Task InitializeAsync(DiscordSocketClient client)
         {
@@ -90,55 +93,7 @@ namespace OctoBot.Handeling
 
             // Leveling up
                 LvLing.UserSentMess((SocketGuildUser)context.User, (SocketTextChannel)context.Channel, message);
-         
-            /////////////////////////////////////////CAPS Check////////////////////////////////////////////////////////////
-           var upper = 0;
-            for (int i = 0; i < message.ToString().Length; i++)
-            {
-                if (Char.IsLetter(message.ToString()[i]) && Char.IsUpper(message.ToString()[i]) || Char.IsNumber(message.ToString()[i])
-                    || Char.IsPunctuation(message.ToString()[i]) || Char.IsSurrogate(message.ToString()[i]) || Char.IsDigit(message.ToString()[i]) || Char.IsControl(message.ToString()[i])
-                    || Char.IsSeparator(message.ToString()[i]) || Char.IsHighSurrogate(message.ToString()[i]) )
-                {
-                    upper++;
-                }
 
-                if (upper == message.ToString().Length && upper > 50)
-                {
-                    
-                    var embed = new EmbedBuilder();
-                    embed.WithAuthor(message.Author);
-                    embed.WithDescription("Буль-БУУУУЛЬ! А ну перестань капсить!");
-                    embed.WithImageUrl("https://i.imgur.com/5MRKrbr.jpg");
-                    await message.Channel.SendMessageAsync("", embed: embed);
-                    Console.WriteLine($"CAPS: {message.CreatedAt.UtcDateTime} '{context.Channel}' {context.User}: {message}");
-                    File.AppendAllText(LogFile, $"CAPS: {message.CreatedAt.UtcDateTime} '{context.Channel}' {context.User}: {message} \n");
-                   
-                }
-            }
-            ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-            /////////////////////////////////////////////LOL_Commands////////////////////////////////////////////////////////
-            if (message.HasStringPrefix("Я ", ref argPos) || message.HasStringPrefix("Кто ", ref argPos)
-                || message.HasStringPrefix("я ", ref argPos) || message.HasStringPrefix("кто ", ref argPos) || message.HasStringPrefix("КТО ", ref argPos) || message.HasStringPrefix("КТО", ref argPos)
-                || message.HasStringPrefix("кто", ref argPos) || message.HasStringPrefix("Кто", ref argPos))
-            {
-
-                var result = await _service.ExecuteAsync(context, argPos);
-
-                if (!result.IsSuccess)
-                {
-                   // Console.WriteLine($"ERROR { message.CreatedAt.UtcDateTime} '{context.Channel}' { context.User}: {message} || {result.ErrorReason}");
-
-                    File.AppendAllText(LogFile, $"ERROR { message.CreatedAt.UtcDateTime} '{context.Channel}' { context.User}: {message} || {result.ErrorReason} \n");
-                }
-
-                else
-                {
-                    Console.WriteLine($"LOL: {message.CreatedAt.UtcDateTime} '{context.Channel}' {context.User}: {message}");
-
-                    File.AppendAllText(LogFile, $"LOL: {message.CreatedAt.UtcDateTime} '{context.Channel}' {context.User}: {message} \n");
-                }
-            }
             ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
           
             if (message.HasStringPrefix(Config.Bot.Prefix, ref argPos) || message.HasMentionPrefix(_client.CurrentUser, ref argPos))
@@ -148,17 +103,43 @@ namespace OctoBot.Handeling
 
                 if (!result.IsSuccess)
                 {
-                    Console.WriteLine($"ERROR { message.CreatedAt.UtcDateTime} '{context.Channel}' { context.User}: {message} || {result.ErrorReason}");
+                    Console.ForegroundColor = LogColor("red");
+                    Console.WriteLine($"{DateTime.Now.ToLongTimeString()} - ERROR '{context.Channel}' { context.User}: {message} || {result.ErrorReason}");
+                    Console.ResetColor();
 
-                    File.AppendAllText(LogFile, $"ERROR { message.CreatedAt.UtcDateTime} '{context.Channel}' { context.User}: {message} || {result.ErrorReason} \n");
+                    File.AppendAllText(LogFile, $"{DateTime.Now.ToLongTimeString()} - ERROR '{context.Channel}' { context.User}: {message} || {result.ErrorReason} \n");
                 }
 
                 else
                 {
-                    Console.WriteLine($"{message.CreatedAt.UtcDateTime} '{context.Channel}' {context.User}: {message}");
+                    Console.ForegroundColor = LogColor("white");
+                    Console.WriteLine($"{DateTime.Now.ToLongTimeString()} - '{context.Channel}' {context.User}: {message}");
+                    Console.ResetColor();
 
-                    File.AppendAllText(LogFile, $"{message.CreatedAt.UtcDateTime} '{context.Channel}' {context.User}: {message} \n");
+                    File.AppendAllText(LogFile, $"{DateTime.Now.ToLongTimeString()} - '{context.Channel}' {context.User}: {message} \n");
+                  
                 }
+            }
+        }
+
+        //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+        private static ConsoleColor LogColor(string color)
+        {
+            switch (color)
+            {
+                case "red":  //Critical or Error
+                    return ConsoleColor.Red;
+                case "green":    //Debug
+                    return ConsoleColor.Green;
+                case "cyan":     //Info
+                    return ConsoleColor.Cyan;
+                case "white":   //Regular
+                    return ConsoleColor.White;
+                case "yellow":  // Warning
+                    return ConsoleColor.Yellow;
+                default:
+                    return ConsoleColor.White;
             }
         }
 

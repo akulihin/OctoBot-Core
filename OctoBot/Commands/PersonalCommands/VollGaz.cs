@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using Discord;
 using Discord.Commands;
+using OctoBot.Configs;
 
 namespace OctoBot.Commands.PersonalCommands
 {
@@ -141,6 +143,7 @@ namespace OctoBot.Commands.PersonalCommands
             }
         }
 
+
         [Command("ETIAM")]
         public async Task Etiam()
         {
@@ -159,6 +162,7 @@ namespace OctoBot.Commands.PersonalCommands
             await Context.Channel.SendMessageAsync("", embed: embed);
 
         }
+
     }
 
 }

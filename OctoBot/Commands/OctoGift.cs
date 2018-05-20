@@ -18,7 +18,7 @@ namespace OctoBot.Commands
             var account = UserAccounts.GetAccount((SocketUser)user);
             if (account.Cooki >= 1)
             {
-                await Context.Channel.SendMessageAsync($"У пользователя {user.Mention} уже есть Куки, выбери другого осьминога или черепашку!");
+                await Context.Channel.SendMessageAsync($"{user.Mention} Already have Cooki, you should choose another Octopus or Turtle!");
                 return;
             }
 
@@ -29,14 +29,14 @@ namespace OctoBot.Commands
                 UserAccounts.SaveAccounts();
 
                 account.Cooki += 1;
-                account.Octopuses += ("Куки|");
+                account.Octopuses += ("Cooki|");
                 UserAccounts.SaveAccounts();
 
                 var embed = new EmbedBuilder();
                 embed.WithColor(244, 66, 107);
-                embed.WithTitle($"Вы подарили {user} Куки!!");
-                embed.WithDescription("Плата составила 1488 ОткоПоинтов.");
-                embed.AddField("Осталось ОктоПоинтов: ", " " + contextUser.Points);
+                embed.WithTitle($"You gave {user} Cooki!!");
+                embed.WithFooter("lil octo notebook");
+                embed.AddField("Fees was applied (1488 OctoPoints)", $"{contextUser.Points} Octo Points left");
                 embed.WithImageUrl("https://i.imgur.com/dCJwloV.jpg");
 
                 await Context.Channel.SendMessageAsync("", embed: embed);
@@ -44,7 +44,7 @@ namespace OctoBot.Commands
             }
             else
             {
-                await Context.Channel.SendMessageAsync($"У вас не достаточко ОктоПоинтов, чтобы подарить **Куки**!");
+                await Context.Channel.SendMessageAsync($"You do not have enough OktoPoints to give **Cooki**!");
             }
 
         }
@@ -59,7 +59,7 @@ namespace OctoBot.Commands
             var account = UserAccounts.GetAccount((SocketUser)user);
             if (account.Pinki >= 1)
             {
-                await Context.Channel.SendMessageAsync($"У пользователя {user.Mention} уже есть Пинки, выбери другого осьминога или черепашку!");
+                await Context.Channel.SendMessageAsync($"{user.Mention} Already have Pinki, you should choose another Octopus or Turtle!");
                 return;
             }
 
@@ -70,14 +70,14 @@ namespace OctoBot.Commands
                 UserAccounts.SaveAccounts();
 
                 account.Pinki += 1;
-                account.Octopuses += ("Пинки|");
+                account.Octopuses += ("Pinki|");
                 UserAccounts.SaveAccounts();
 
                 var embed = new EmbedBuilder();
                 embed.WithColor(244, 66, 107);
-                embed.WithTitle($"Вы подарили {user} Пинки!!");
-                embed.WithDescription("Плата составила 1488 ОктоПоинтов.");
-                embed.AddField("Осталось ОктоПоинтов: ", " " + contextUser.Points);
+                embed.WithTitle($"You gave {user} Pinki!!");
+                embed.WithFooter("lil octo notebook");
+                embed.AddField("Fees was applied (1488 OctoPoints)", $"{contextUser.Points} Octo Points left");
                 embed.WithImageUrl("https://i.imgur.com/xxE7EeX.jpg");
 
                 await Context.Channel.SendMessageAsync("", embed: embed);
@@ -85,7 +85,7 @@ namespace OctoBot.Commands
             }
             else
             {
-                await Context.Channel.SendMessageAsync($"У вас не достаточко ОктоПоинтов, чтобы подарить **Пинки**!");
+                await Context.Channel.SendMessageAsync($"You do not have enough OktoPoints to give **Pinki**!");
             }
 
         }
@@ -103,25 +103,25 @@ namespace OctoBot.Commands
             var account = UserAccounts.GetAccount((SocketUser)user);
             if (account.Raqinbow >= 1)
             {
-                await Context.Channel.SendMessageAsync($"У пользователя {user.Mention} уже есть Радужная Осьминожка, выбери другого осьминога или черепашку!");
+                await Context.Channel.SendMessageAsync($"{user.Mention} Already have Rainbow, you should choose another Octopus or Turtle!");
                 return;
             }
 
-            if (contextUser.Points >= 1000)
+            if (contextUser.Points >= 1488)
             {
 
-                contextUser.Points -= 1000;
+                contextUser.Points -= 1488;
                 UserAccounts.SaveAccounts();
 
                 account.Raqinbow += 1;
-                account.Octopuses += ("Радужный|");
+                account.Octopuses += ("Rainbow|");
                 UserAccounts.SaveAccounts();
 
                 var embed = new EmbedBuilder();
                 embed.WithColor(244, 66, 107);
-                embed.WithTitle($"Вы подарили {user} Радужную Осьминожку!!");
-                embed.WithDescription("Плата составила 1000 ОктоПоинтов.");
-                embed.AddField("Осталось ОктоПоинтов: ", " " + contextUser.Points);
+                embed.WithFooter("lil octo notebook");
+                embed.WithTitle($"You gave {user} Rainbow!!");
+                embed.AddField("Fees was applied (1488 OctoPoints)", $"{contextUser.Points} Octo Points left");
                 embed.WithImageUrl("https://i.imgur.com/Ufky6UB.jpg");
 
                 await Context.Channel.SendMessageAsync("", embed: embed);
@@ -129,7 +129,7 @@ namespace OctoBot.Commands
             }
             else
             {
-                await Context.Channel.SendMessageAsync($"У вас не достаточко ОктоПоинтов, чтобы подарить **Радужную Осьминожку**!");
+                await Context.Channel.SendMessageAsync($"You do not have enough OktoPoints to give **Rainbow**!");
             }
 
         }
@@ -140,10 +140,11 @@ namespace OctoBot.Commands
         {
             var embed = new EmbedBuilder();
             embed.WithColor(Color.Blue);
-            embed.WithTitle("Доступные Осьминоги:");
-            embed.AddField("**Куки!**", "`GiftCooki [user]` стоимость: **1488** ОктоПоинтов");
-            embed.AddField("**Пинки~**", "`GiftPinki [user]` стоимость: **1488** ОктоПоинтов");
-            embed.AddField("**Радужный Осьминога** :gay_pride_flag:", "`GiftRainbow [user]` стоимость: **1000** ОктоПоинтов");
+            embed.WithFooter("lil octo notebook");
+            embed.WithTitle("Available Octopus:");
+            embed.AddField("**Cooki!**", "`GiftCooki [user]` cost: **1488** ОктоПоинтов");
+            embed.AddField("**Pinki~**", "`GiftPinki [user]` cost: **1488** ОктоПоинтов");
+            embed.AddField("**Rainbow** :gay_pride_flag:", "`GiftRainbow [user]` cost: **1488** Octo Points");
             await Context.Channel.SendMessageAsync("", embed: embed);
 
 

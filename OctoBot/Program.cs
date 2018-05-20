@@ -1,5 +1,4 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Discord;
 using Discord.WebSocket;
 using OctoBot.Automated;
@@ -30,12 +29,18 @@ namespace OctoBot
             {
                 LogLevel = LogSeverity.Verbose
             });
-       
-    
+
+            var discordSocketConfig = new DiscordSocketConfig()
+            {
+                LogLevel = LogSeverity.Verbose,
+                MessageCacheSize = 10000
+            };
+
+            _client = new DiscordSocketClient(discordSocketConfig);
             var botToken = Config.Bot.Token;
 
             //event subsciption
-            _client.Log += Log;
+            _client.Log += Logger.Log;
 
            _client.ReactionAdded += Reaction.ReactionAddedFor2048;                                                        
            _client.ReactionAdded += OctoGameReaction.ReactionAddedForOctoGameAsync;
@@ -45,13 +50,14 @@ namespace OctoBot
             _client.Ready += DailyPull.CheckTimerForPull;                 ////////////// Timer3 For Pulls   
             _client.Ready += Reminder.CheckTimer;                       ////////////// Timer4 For For Reminders
             _client.Ready += ForBot.TimerForBotAvatar;   
-            _client.Ready += EveryLogHandeling._client_Ready;
             _client.UserJoined += Announcer.AnnounceUserJoin;
+            _client.Ready += EveryLogHandeling._client_Ready;
+           
          
             //  _client.Ready += YellowTurtle.StartTimer; //// Timer3
 
 
-            await _client.SetGameAsync("Осьминожек!");
+            await _client.SetGameAsync("Осьминожек! | *help");
             _handler = new CommandHandeling();
             await _handler.InitializeAsync(_client);
             await _client.LoginAsync(TokenType.Bot, botToken);
@@ -60,17 +66,6 @@ namespace OctoBot
 
             ConsoleHandeling.ConsoleInput(_client);
             await Task.Delay(-1);
-        }
-
-
-
-        private static Task Log(LogMessage arg)
-        {
-
-            
-            Console.WriteLine(arg.Message);
-
-            return Task.CompletedTask;
         }
     }
 }

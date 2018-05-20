@@ -45,7 +45,7 @@ namespace OctoBot.Commands
 
             }
             else
-                usedNicks = "Нету.";
+                usedNicks = "No one :c";
 
             var octopuses = "";
             if (account.Octopuses != null)
@@ -73,7 +73,7 @@ namespace OctoBot.Commands
             }
             else
             {
-                octopuses = "Нету.";
+                octopuses = "No one :c";
             }
 
             string[] warns = null;
@@ -86,24 +86,25 @@ namespace OctoBot.Commands
 
             embed.WithColor(Color.Blue);
             embed.WithAuthor(Context.User);
+            embed.WithFooter("lil octo notebook");
             embed.AddInlineField("ID", "" + Context.User.Id);
-            embed.AddInlineField("Статус", "" + Context.User.Status);
+            embed.AddInlineField("Status", "" + Context.User.Status);
            
             embed.AddInlineField("UserName", "" + Context.User);
            
             embed.AddInlineField("NickName", "" + Context.User.Mention);
-            embed.AddInlineField("ОктоПоинтов", "" + account.Points);
-            embed.AddInlineField("ОктоРепы", "" + account.Rep);
-            embed.AddInlineField("Уровень Доступа", "" + account.OctoPass);
-            embed.AddInlineField("Уровень", "" + account.Lvl);
-            embed.AddInlineField("Pull поинты", "" + account.DailyPullPoints);
+            embed.AddInlineField("Octo Points", "" + account.Points);
+            embed.AddInlineField("Octo Reputation", "" + account.Rep);
+            embed.AddInlineField("Access LVL", "" + account.OctoPass);
+            embed.AddInlineField("User LVL", "" + account.Lvl);
+            embed.AddInlineField("Pull Points", "" + account.DailyPullPoints);
             if(warns != null)
-            embed.AddInlineField("Предупреждений", "" + warns.Length);
+            embed.AddInlineField("Warnings", "" + warns.Length);
             else
-            embed.AddInlineField("Предупреждений", "Нету." );
+            embed.AddInlineField("Warnings", "Clear." );
             embed.AddField("Best 2048 Game Score", $"{account.Best2048Score}");
-            embed.AddField("Коллекция Осьминогов", "" + octopuses);   
-            embed.AddField("Использованные никнеймы", "" + usedNicks);
+            embed.AddField("OctoCollection ", "" + octopuses);   
+            embed.AddField("Used Nicknames", "" + usedNicks);
             embed.WithThumbnailUrl($"{avatar}");
             //embed.AddField("Роли", ""+avatar);
 
@@ -111,7 +112,7 @@ namespace OctoBot.Commands
 
 
 
-            //await Context.Channel.SendMessageAsync($"У тебя {account.Points} ОктоПоинтов и {account.Rep} ОктоРепы");
+            //await Context.Channel.SendMessageAsync($"У тебя {account.Points} Octo Points и {account.Rep} Octo Reputation");
         }
 
         [Command("OctoRep")]
@@ -126,10 +127,10 @@ namespace OctoBot.Commands
                 account.Rep += rep;
                 UserAccounts.SaveAccounts();
                 await Context.Channel.SendMessageAsync(
-                    $"Было зачислено {rep}, всего у {user.Mention} {account.Rep} ОктоРепы!");
+                    $"{rep} Octo Reputation were credited, altogether {user.Mention} have {account.Rep} Octo Reputation!");
             }
             else
-                await Context.Channel.SendMessageAsync("буль-буль, у тебя нет допуска такого уровня!");
+                await Context.Channel.SendMessageAsync("Boole! You do not have a tolerance of this level!");
         }
 
         [Command("OctoPoint")]
@@ -146,10 +147,10 @@ namespace OctoBot.Commands
                 account.Points += points;
                 UserAccounts.SaveAccounts();
                 await Context.Channel.SendMessageAsync(
-                    $"Было зачислено {points}, всего у {user.Mention} {account.Points} ОктоПоинтов!");
+                    $"{points} Octo Points were credited, altogether {user.Mention} have {account.Points} Octo Points!");
             }
             else
-                await Context.Channel.SendMessageAsync("буль-буль, у тебя нет допуска такого уровня!");
+                await Context.Channel.SendMessageAsync("Boole! You do not have a tolerance of this level!");
         }
 
 
@@ -195,7 +196,7 @@ namespace OctoBot.Commands
 
                 }
                 else
-                    usedNicks = "Нету.";
+                    usedNicks = "No one :c";
 
 
                 var octopuses = "";
@@ -224,10 +225,10 @@ namespace OctoBot.Commands
                 }
                 else
                 {
-                    octopuses = "Нету.";
+                    octopuses = "No one :c";
                 }
 
-                var warnings = "Нету";
+                var warnings = "No one :c";
                 if (account.Warnings != null)
                 {
                     var warns = account.Warnings.Split(new[] { '|' }, StringSplitOptions.RemoveEmptyEntries);
@@ -242,33 +243,34 @@ namespace OctoBot.Commands
                
                 embed.WithColor(Color.Purple);
                 embed.WithAuthor(user);
+                embed.WithFooter("lil octo notebook");
                 embed.AddInlineField("ID", "" + user.Id);
-                embed.AddInlineField("Статус", "" + user.Status);
-                embed.AddInlineField("Зарегистрирован", "" + user.CreatedAt);
+                embed.AddInlineField("Status", "" + user.Status);
+                embed.AddInlineField("Registered", "" + user.CreatedAt);
                 embed.AddInlineField("UserName", "" + user);
-                embed.AddInlineField("Присоединился", "" +  user.JoinedAt);
+                embed.AddInlineField("Joined", "" +  user.JoinedAt);
                 embed.AddInlineField("NickName", "" + user.Mention);
-                embed.AddInlineField("ОктоПоинтов", "" + account.Points);
-                embed.AddInlineField("ОктоРепы", "" + account.Rep);
-                embed.AddInlineField("Уровень Доступа", "" + account.OctoPass);
-                embed.AddInlineField("Уровень", "" + account.Lvl);
-                embed.AddInlineField("Pull поинты", "" + account.DailyPullPoints);
-                embed.AddField("Предупреждения", "" + warnings);
+                embed.AddInlineField("Octo Points", "" + account.Points);
+                embed.AddInlineField("Octo Reputation", "" + account.Rep);
+                embed.AddInlineField("Access LVL", "" + account.OctoPass);
+                embed.AddInlineField("User LVL", "" + account.Lvl);
+                embed.AddInlineField("Pull Points", "" + account.DailyPullPoints);
+                embed.AddField("Warnings", "" + warnings);
                 embed.AddField("Best 2048 Game Score", $"{account.Best2048Score}");
-                embed.AddField("Коллекция Осьминогов", "" + octopuses);
-                embed.AddField("Использованные никнеймы", "" + usedNicks);
+                embed.AddField("OctoCollection ", "" + octopuses);
+                embed.AddField("Used Nicknames", "" + usedNicks);
                 embed.WithThumbnailUrl($"{avatar}");
 
                 await Context.Channel.SendMessageAsync("", embed: embed);
             }else
-                await Context.Channel.SendMessageAsync("буль-буль, у тебя нет допуска такого уровня!");
+                await Context.Channel.SendMessageAsync("Boole! You do not have a tolerance of this level!");
         }
 
 
 
 
-        [Command("Доступ", RunMode = RunMode.Async)]
-        [Alias("ПАсс", "Купить Пропуск", "Пропуск", "КупитьПропуск", "pass")]
+        [Command("pass", RunMode = RunMode.Async)]
+        [Alias("ПАсс", "Купить Пропуск", "Пропуск", "КупитьПропуск", "Доступ")]
         public async Task BuyPass()
         {
                 var account = UserAccounts.GetAccount(Context.User);
@@ -277,25 +279,25 @@ namespace OctoBot.Commands
             if (account.Points >= cost)
             {
                 await Context.Channel.SendMessageAsync(
-                    $"Ты точно хочешь купить пасс #{account.OctoPass + 1} за {cost} ОктоПоинтов? Тогда пиши **да**!");
+                    $"Are you sure about buying pass #{account.OctoPass + 1} for {cost} Octo Points? Than write **yes**!");
                 var response = await CommandHandeling.AwaitMessage(Context.User.Id, Context.Channel.Id, 6000);
                
-                if (response.Content == "да" || response.Content == "Да")
+                if (response.Content == "yes" || response.Content == "Yes")
                 {
                     account.OctoPass += 1;
                     account.Points -= cost;
                     UserAccounts.SaveAccounts();
-                    await Context.Channel.SendMessageAsync($"Буууль! Ты получил Доступ **#{account.OctoPass}**");
+                    await Context.Channel.SendMessageAsync($"Booole! You've Got Access **#{account.OctoPass}**");
                 }
                 else
                 {
-                    await Context.Channel.SendMessageAsync("Нужно ответить `да` или `Да` в течении 6 секунд.");
+                    await Context.Channel.SendMessageAsync("You should say `yes` или `Yes` in 6s to get the pass.");
                 }
             }
             else
             {
                 await Context.Channel.SendMessageAsync(
-                    $"Ты не заработал достаточное Количество ОктоПоинтов, текущее количество: **{account.Points}**\nДля доступа #{account.OctoPass + 1} нужно **{cost}** ОктоПоинтов!");
+                    $"You did not earn enough Octo Points, current amount: **{account.Points}**\nFor pass #{account.OctoPass + 1} you will need **{cost}** Octo Points!");
             }
         }
 
@@ -322,7 +324,7 @@ namespace OctoBot.Commands
 
                 if (points <= 0)
                 {
-                    await Context.Channel.SendMessageAsync("Нельзя передавать минус или ноль, бу!");
+                    await Context.Channel.SendMessageAsync("You cannot send 0 or -number, boo!");
                     return;
                 }
 
@@ -343,16 +345,16 @@ namespace OctoBot.Commands
                     bot.Points += (int) toBank;
                     UserAccounts.SaveAccounts();
                     await Context.Channel.SendMessageAsync(
-                        $"Было передано {points}\nУ {user.Mention} теперь {account.Points} ОктоПоинтов!\nА у тебя осталось {passCheck.Points}");
+                        $"Was transferred{points}\n {user.Mention} now have {account.Points} Octo Points!\nyou have left {passCheck.Points}\ntaxes: {taxes}");
 
                 }
                 else
-                    await Context.Channel.SendMessageAsync($"У вас не достаточно ОктоПоинтов чтобы передать их");
+                    await Context.Channel.SendMessageAsync($"You do not have enough Octo Points to pass them.");
 
             }
             else
             {
-                await Context.Channel.SendMessageAsync("буль-буль, у тебя нет допуска такого уровня!");
+                await Context.Channel.SendMessageAsync("Boole! You do not have a tolerance of this level!");
             }
         }
 
@@ -416,15 +418,22 @@ namespace OctoBot.Commands
                 await ReplyAsync($"Boole. Last Page is {lastPage}");
                 return;
             }
-         
+
+            for (var j = 0; j < accounts.Count; j++)
+            {
+                if (accounts[j].SubedToYou == null)
+                    accounts[j].SubedToYou = "0";
+            }
             var ordered = accounts.OrderByDescending(acc => acc.SubedToYou.Split(new[] {'|'}, StringSplitOptions.RemoveEmptyEntries).Length).ToList();
 
             var embB = new EmbedBuilder()
                 .WithTitle("Top By Octo Points:")
                 .WithFooter($"Page {page}/{lastPage}");
-            
-
+   
             page--;
+
+        
+            
             for (var i = 1; i <= usersPerPage && i + usersPerPage * page <= ordered.Count; i++)
             {
                
@@ -436,7 +445,7 @@ namespace OctoBot.Commands
                     size = 0;
                 embB.AddField($"#{i + usersPerPage * page} {user.Username}", $"{size} Subscribers", true);
             }
-
+            
             await ReplyAsync("", false, embB.Build());
         }
 

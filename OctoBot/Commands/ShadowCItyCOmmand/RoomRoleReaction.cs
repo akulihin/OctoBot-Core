@@ -43,7 +43,7 @@ namespace OctoBot.Commands.ShadowCItyCOmmand
 
                             await guildUser.AddRoleAsync(roleToGive);
                             break;
-                        }
+                        }   
                         case "realy":
                         {
                             var guildUser = Global.Client.GetGuild(338355570669256705).GetUser(reaction.UserId);
@@ -319,8 +319,9 @@ namespace OctoBot.Commands.ShadowCItyCOmmand
                             var gacHiPride = Emote.Parse("<:gacHIPride:394782921749430273>");
                             var pekaohmy = Emote.Parse("<:pekaohmy:374656330742497280>");
                             var warframe = Emote.Parse("<:warframe:445467639242948618>");
+                            var nintendoswitch = Emote.Parse("<:nintendoswitch:447209808064413707>");
 
-                             await cash.DownloadAsync().Result.RemoveAllReactionsAsync();
+                            await cash.DownloadAsync().Result.RemoveAllReactionsAsync();
                             await cash.DownloadAsync().Result.AddReactionAsync(rkn);
                             await cash.DownloadAsync().Result.AddReactionAsync(realy);
                             await cash.DownloadAsync().Result.AddReactionAsync(feelsBadMan);
@@ -335,6 +336,7 @@ namespace OctoBot.Commands.ShadowCItyCOmmand
                             await cash.DownloadAsync().Result.AddReactionAsync(yasuo);
                             await cash.DownloadAsync().Result.AddReactionAsync(gacHiPride);
                             await cash.DownloadAsync().Result.AddReactionAsync(warframe);
+                            await cash.DownloadAsync().Result.AddReactionAsync(nintendoswitch);
                             await cash.DownloadAsync().Result.AddReactionAsync(pekaohmy);
                             
                               
@@ -351,6 +353,27 @@ namespace OctoBot.Commands.ShadowCItyCOmmand
                             for (var i = 0; i < roleList.Length; i++)
                             {
                                 if (roleList[i].Name == "warframe")
+                                {
+                                    await guildUser.RemoveRoleAsync(roleToGive);
+                                    await cash.DownloadAsync().Result
+                                        .RemoveReactionAsync(reaction.Emote, globalAccount, RequestOptions.Default);
+                                    return;
+                                }
+                            }
+
+                            await guildUser.AddRoleAsync(roleToGive);
+                            break;
+                        }
+                        case "nintendoswitch":
+                        {
+                            var guildUser = Global.Client.GetGuild(338355570669256705).GetUser(reaction.UserId);
+                            var roleToGive = Global.Client.GetGuild(338355570669256705).Roles
+                                .SingleOrDefault(x => x.Name.ToString() == "switcher");
+
+                            var roleList = guildUser.Roles.ToArray();
+                            for (var i = 0; i < roleList.Length; i++)
+                            {
+                                if (roleList[i].Name == "switcher")
                                 {
                                     await guildUser.RemoveRoleAsync(roleToGive);
                                     await cash.DownloadAsync().Result

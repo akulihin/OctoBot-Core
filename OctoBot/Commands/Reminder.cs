@@ -36,11 +36,11 @@ namespace OctoBot.Commands
 
             if (splittedArgs == null || splittedArgs.Length < 2)
             {
-                await ReplyAsync("буль-буль... ты не правильно использываешь напоминалку!\n" +
-                                 "Нужно так: `Напомнить [любой текст] через [время]`\n" +
-                                 "Между сообщением и временем должно быть написанно `через`" +
-                                 "(Время может быть разное, но соблюдай правила! **день-час-минута-секунда**. Любую из частей можно не писать. Один пробел или без него между каждой из частей\n" +
-                                 "Я любящая порядок осьминожка!");
+                await ReplyAsync("boole-boole... you are using this command incorrectly!!\n" +
+                                 "Right way: `Remind [text] in [time]`\n" +
+                                 "Between message and time **HAVE TO BE** written `in` part" +
+                                 "(Time can be different, but follow the rules! **day-hour-minute-second**. You can skip any of those parts, but they have to be in the same order. One space or without it between each of the parts\n" +
+                                 "I'm a loving order octopus!");
                 return;
             }
 
@@ -73,10 +73,10 @@ namespace OctoBot.Commands
             };
             var timeDateTime = DateTime.UtcNow + TimeSpan.ParseExact(timeString, formats, CultureInfo.CurrentCulture);
 
-            await Context.Channel.SendMessageAsync($"Осьминоги тебе напомнят\n" +
+            await Context.Channel.SendMessageAsync($"An Octopus will remind you\n" +
                                                    $"*{reminderString}*\n\n" +
-                                                   $"Мы пришём тебе ЛС в __**{timeDateTime}**__ `по UTC`\n" +
-                                                   $"**Время сейчас:                  {DateTime.UtcNow}** `по UTC`");
+                                                   $"We will send you a DM in  __**{timeDateTime}**__ `by UTC`\n" +
+                                                   $"**Time Now:                  {DateTime.UtcNow}** `by UTC`");
 
             var account = UserAccounts.GetAccount(Context.User);
             var newReminder = new CreateReminder(timeDateTime, reminderString);
@@ -94,7 +94,7 @@ namespace OctoBot.Commands
             if (minute > 1439)
             {
                 await Context.Channel.SendMessageAsync(
-                    "буль-бууууль. Значение **в минутах** должно быть в ренже 0-1439");
+                    "Booole. [time] have to be in range 0-1439 (in minutes)");
                 return;
 
             }
@@ -143,10 +143,10 @@ namespace OctoBot.Commands
             };
             var timeDateTime = DateTime.UtcNow + TimeSpan.ParseExact(timeString, formats, CultureInfo.CurrentCulture);
 
-            await Context.Channel.SendMessageAsync($"Осьминоги тебе напомнят\n" +
+            await Context.Channel.SendMessageAsync($"An Octopus will remind you\n" +
                                                    $"*{reminderString}*\n\n" +
-                                                   $"Мы пришём тебе ЛС в __**{timeDateTime}**__ `по UTC`\n" +
-                                                   $"**Время сейчас:                  {DateTime.UtcNow}** `по UTC`");
+                                                   $"We will send you a DM in  __**{timeDateTime}**__ `by UTC`\n" +
+                                                   $"**Time Now:                                {DateTime.UtcNow}** `by UTC`");
 
             var account = UserAccounts.GetAccount(Context.User);
             //account.SocketUser = SocketGuildUser(Context.User);
@@ -183,11 +183,11 @@ namespace OctoBot.Commands
 
             if (splittedArgs == null || splittedArgs.Length < 2)
             {
-                await ReplyAsync("буль-буль... ты не правильно использываешь напоминалку!\n" +
-                                 "Нужно так: `Напомнить [user ID] [любой текст] через [время]`\n" +
-                                 "Между сообщением и временем должно быть написанно `через`" +
-                                 "(Время может быть разное, но соблюдай правила! **день-час-минута-секунда**. Любую из частей можно не писать. Один пробел или без него между каждой из частей\n" +
-                                 "Я любящая порядок осьминожка!");
+                await ReplyAsync("boole-boole... you are using this command incorrectly!!\n" +
+                                 "Right way: `Remind [text] in [time]`\n" +
+                                 "Between message and time **HAVE TO BE** written `in` part" +
+                                 "(Time can be different, but follow the rules! **day-hour-minute-second**. You can skip any of those parts, but they have to be in the same order. One space or without it between each of the parts\n" +
+                                 "I'm a loving order octopus!");
                 return;
             }
 
@@ -224,13 +224,13 @@ namespace OctoBot.Commands
 
             var user = Global.Client.GetUser(userId);
 
-            await Context.Channel.SendMessageAsync($"Осьминоги напомнят {user.Mention}\n" +
+            await Context.Channel.SendMessageAsync($"An Octopus will remind {user.Mention}\n" +
                                                    $"*{reminderString}*\n\n" +
-                                                   $"Мы пришём ему  ЛС в __**{timeDateTime}**__ `по UTC`\n" +
-                                                   $"**Время сейчас:                  {DateTime.UtcNow}** `по UTC`");
+                                                   $"We will send him a DM in  __**{timeDateTime}**__ `by UTC`\n" +
+                                                   $"**Time Now:                                {DateTime.UtcNow}** `by UTC`");
 
             var account = UserAccounts.GetAccount(user);
-            var newReminder = new CreateReminder(timeDateTime, $"От {Context.User.Username}: " + reminderString);
+            var newReminder = new CreateReminder(timeDateTime, $"From {Context.User.Username}: " + reminderString);
 
             account.ReminderList.Add(newReminder);
             UserAccounts.SaveAccounts();
@@ -244,19 +244,19 @@ namespace OctoBot.Commands
             if (account.ReminderList.Count == 0)
             {
                 await ReplyAsync(
-                    "бууууль. У тебя нет напоминаний! Ты можешь создать новое использую команду `Напомнить [любой текст] через [время]`\n" +
-                    "(Время может быть разное, но соблюдай правила! **день-час-минута-секунда**. Любую из частей можно не писать. Один пробел или без него между каждой из частей\n" +
-                    "Я любящая порядок осьминожка!");
+                    "Booole... You have no reminders! You can create one by using the command `Remind [text] in [time]`\n" +
+                    "(Time can be different, but follow the rules! **day-hour-minute-second**. You can skip any of those parts, but they have to be in the same order. One space or without it between each of the parts\n" +
+                    "I'm a loving order octopus!");
                 return;
 
             }
 
             var reminders = account.ReminderList;
             var embed = new EmbedBuilder();
-            embed.WithTitle("Твои Напоминания");
-            embed.WithDescription($"**Твое текщее время по UTC: {DateTime.UtcNow}**\n" +
-                                  "Чтобы удалить одно из них пропиши команду `*удалить индекс`");
-            embed.WithFooter("Записная книжечка Осьминожек");
+            embed.WithTitle("Your Reminders:");
+            embed.WithDescription($"**Your current time by UTC: {DateTime.UtcNow}**\n" +
+                                  "To delete one of them, type the command `*del [index]`");
+            embed.WithFooter("lil octo notebook");
 
             for (var i = 0; i < reminders.Count; i++)
             {
@@ -278,19 +278,19 @@ namespace OctoBot.Commands
                 if (account.ReminderList.Count == 0)
                 {
                     await ReplyAsync(
-                        "бууууль. У тебя нет напоминаний! Ты можешь создать новое использую команду `Напомнить [любой текст] через [время]`\n" +
-                        "(Время может быть разное, но соблюдай правила! **день-час-минута-секунда**. Любую из частей можно не писать. Один пробел или без него между каждой из частей\n" +
-                        "Я любящая порядок осьминожка!");
+                    "Booole... You have no reminders! You can create one by using the command `Remind [text] in [time]`\n" +
+                        "(Time can be different, but follow the rules! **day-hour-minute-second**. You can skip any of those parts, but they have to be in the same order. One space or without it between each of the parts\n" +
+                        "I'm a loving order octopus!");
                     return;
 
                 }
 
                 var reminders = account.ReminderList;
                 var embed = new EmbedBuilder();
-                embed.WithTitle("Твои Напоминания");
-                embed.WithDescription($"**Твое текщее время по UTC: {DateTime.UtcNow}**\n" +
-                                      "Чтобы удалить одно из них пропиши команду `*удалить индекс`");
-                embed.WithFooter("Записная книжечка Осьминожек");
+                embed.WithTitle("Your Reminders:");
+                embed.WithDescription($"**Your current time by UTC: {DateTime.UtcNow}**\n" +
+                                      "To delete one of them, type the command `*del [index]`");
+                embed.WithFooter("lil octo notebook");
 
                 for (var i = 0; i < reminders.Count; i++)
                 {
@@ -301,14 +301,14 @@ namespace OctoBot.Commands
 
             }
             else
-                await Context.Channel.SendMessageAsync("Буль-буууль, у тебя нет допуска такого уровня!");
+                await Context.Channel.SendMessageAsync("Boole! You do not have a tolerance of this level!");
         }
 
 
 
 
         [Command("Delete")]
-        [Alias("Удалить Напоминания", "Удалить", "Удалить Напоминание")]
+        [Alias("Удалить Напоминания", "Удалить", "Удалить Напоминание", "del")]
         public async Task DeleteReminder(int index)
         {
             var account = UserAccounts.GetAccount(Context.User);
@@ -321,16 +321,16 @@ namespace OctoBot.Commands
                 UserAccounts.SaveAccounts();
                 var embed = new EmbedBuilder();
                 // embed.WithImageUrl("");
-                embed.WithTitle("буль.буль.");
-                embed.WithDescription($"Сообщение под номером **{index}** было удаленно, Буль!");
-                embed.WithFooter("Записная книжечка Осьминожек");
+                embed.WithTitle("Boole.");
+                embed.WithDescription($"Message by index **{index}** was removed!");
+                embed.WithFooter("lil octo notebook");
                 await Context.Channel.SendMessageAsync("", embed: embed);
                 return;
             }
 
             await Context.Channel.SendMessageAsync(
-                $"бууууль. Мы не смогли найти этого напоминания, может произошла ошибка?\n" +
-                $"Попробуй посмотреть свои напоминание через команду `*Мои Напоминания` или `*Напоминания`");
+                $"Booole...We could not find this reminder, could there be an error?\n" +
+                $"Try to see all of your reminders through the command `list`");
         }
 
 
@@ -338,7 +338,7 @@ namespace OctoBot.Commands
         [Alias("time", "date")]
         public async Task CheckTime()
         {
-            await ReplyAsync($"**UTC Время сейчас: {DateTime.UtcNow}**");
+            await ReplyAsync($"**UTC Current Tшme: {DateTime.UtcNow}**");
         }
 
         private static Timer _loopingTimer;
@@ -386,8 +386,8 @@ namespace OctoBot.Commands
                                 {
                                     var dmChannel = await globalAccount.GetOrCreateDMChannelAsync();
                                     var embed = new EmbedBuilder();
-                                    embed.WithFooter("Записная книжечка Осьминожек");
-                                    embed.WithTitle("Ты просил нас напомнить тебе в это время:");
+                                    embed.WithFooter("lil octo notebook");
+                                    embed.WithTitle("Pink Octopus is reminding you:");
                                     embed.WithDescription($"{account.ReminderList[j].ReminderMessage}");
 
                                     await dmChannel.SendMessageAsync("", embed: embed);

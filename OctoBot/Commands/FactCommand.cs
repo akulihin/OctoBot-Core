@@ -13,7 +13,7 @@ namespace OctoBot.Commands
 
 
         [Command("записать")]
-        [Alias("факт")]
+        [Alias("факт", "write", "write down", "fact")]
         public async Task WriteFuckt(IGuildUser user, [Remainder] string message)
         {
 
@@ -29,18 +29,19 @@ namespace OctoBot.Commands
             var msg = await Context.Channel.GetMessageAsync(id);
             await msg.DeleteAsync();
             
-            await Context.Channel.SendMessageAsync($"Мы записали этот факт о {user.Mention}!");
+            await Context.Channel.SendMessageAsync($"We wrote down this fact about {user.Mention}!");
 
         }
 
         [Command("факт")]
+        [Alias("fact")]
         public async Task ReadFuckt(SocketUser user)
         {
             var account = UserAccounts.GetAccount(user);
 
             if (account.Fuckt == null)
             {
-                await Context.Channel.SendMessageAsync("бууууль :c\nмы не смогли найти фактов об этом юзере");
+                await Context.Channel.SendMessageAsync("boole. :c\nWe could not find the facts about this user");
                 return;
             }
 
@@ -77,10 +78,10 @@ namespace OctoBot.Commands
             var embed = new EmbedBuilder();
             embed.WithColor(Color.Purple);
             embed.WithAuthor(user);
-            embed.WithFooter("Записная книжечка Осьминожек");
+            embed.WithFooter("lil octo notebook");
             if (randomNick != null)
             {
-                embed.AddField("Был замечен под ником: ", " " + randomNick);
+                embed.AddField("Was seen under the nickname: ", " " + randomNick);
             }
 
             if (httpsCheck == "https")
@@ -88,7 +89,7 @@ namespace OctoBot.Commands
                 embed.WithImageUrl($"{randomFukt}");
             }
             else
-                embed.AddField("Рандомный факт: ", " " + randomFukt);
+                embed.AddField("Random fact: ", " " + randomFukt);
 
 
             await Context.Channel.SendMessageAsync("", embed: embed);
@@ -96,6 +97,7 @@ namespace OctoBot.Commands
         }
 
         [Command("факт")]
+        [Alias("fact")]
         public async Task ReadFucktIndex(SocketUser user, int index)
         {
             var account = UserAccounts.GetAccount(user);
@@ -107,7 +109,7 @@ namespace OctoBot.Commands
 
                 if (account.Fuckt == null)
                 {
-                    await Context.Channel.SendMessageAsync("бууууль :c\nмы не смогли найти фактов об этом юзере");
+                    await Context.Channel.SendMessageAsync("boole. :c\nWe could not find the facts about this user");
                     return;
                 }
 
@@ -144,10 +146,10 @@ namespace OctoBot.Commands
                 var embed = new EmbedBuilder();
                 embed.WithColor(Color.Purple);
                 embed.WithAuthor(user);
-                embed.WithFooter("Записная книжечка Осьминожек");
+                embed.WithFooter("lil octo notebook");
                 if (randomNick != null)
                 {
-                    embed.AddField("Был замечен под ником: ", " " + randomNick);
+                    embed.AddField("Was seen under the nickname: ", " " + randomNick);
                 }
 
                 if (httpsCheck == "https")
@@ -155,7 +157,7 @@ namespace OctoBot.Commands
                     embed.WithImageUrl($"{randomFukt}");
                 }
                 else
-                    embed.AddField("Рандомный факт: ", " " + randomFukt);
+                    embed.AddField("Random fact: ", " " + randomFukt);
 
 
                 await Context.Channel.SendMessageAsync("", embed: embed);
@@ -166,7 +168,7 @@ namespace OctoBot.Commands
 
 
         [Command("ВсеФакты")]
-        [Alias("Все Факты")]
+        [Alias("Все Факты", "allfact", "allfacts", "all fact", "all facts")]
         public async Task DeleteTheFucktUser( )
         {
          
@@ -184,19 +186,19 @@ namespace OctoBot.Commands
                 }
 
                 var embed = new EmbedBuilder();
-                embed.WithFooter("Записная книжечка Осьминожек");
-                embed.WithTitle("Твои подписки:");
-                embed.WithDescription($"{mess}\n**УдалитьФакт [index]** Чтобы удалить");
+                embed.WithFooter("lil octo notebook");
+                embed.WithTitle("All the facts about you:");
+                embed.WithDescription($"{mess}\n**del [index]** to delete the fact");
                 await Context.Channel.SendMessageAsync("", embed: embed);
             }
             else
-                await Context.Channel.SendMessageAsync("буль-буль, у тебя нет допуска 3го уровня!");
+                await Context.Channel.SendMessageAsync("Boole :< You do not have 3rd level tolerance");
 
         }
 
 
         [Command("ВсеФакты")]
-        [Alias("Все Факты")]
+        [Alias("Все Факты", "allfact", "allfacts", "all fact", "all facts")]
         public async Task DeleteTheFuckt(IGuildUser user)
         {
             var account = UserAccounts.GetAccount((SocketUser) user);
@@ -216,19 +218,19 @@ namespace OctoBot.Commands
                 }
 
                 var embed = new EmbedBuilder();
-                embed.WithFooter("Записная книжечка Осьминожек");
-                embed.WithTitle("Твои подписки:");
-                embed.WithDescription($"{mess}\n**УдалитьФакт [user] [index]** Чтобы удалить");
+                embed.WithFooter("lil octo notebook");
+                embed.WithTitle("All the facts about you:");
+                embed.WithDescription($"{mess}\n**del [index]** to delete the fact");
                 await Context.Channel.SendMessageAsync("", embed: embed);
           
             }
             else
-                await Context.Channel.SendMessageAsync("буль-буль, у тебя нет допуска 4го уровня!");
+                await Context.Channel.SendMessageAsync("Boole :< You do not have 4rd level tolerance");
         }
 
 
         [Command("УдалитьФакт")]
-        [Alias("Удалить Факт")]
+        [Alias("Удалить Факт", "del")]
         public async Task DeleteTheFucktUser(int index)
         {
             
@@ -248,17 +250,17 @@ namespace OctoBot.Commands
                 UserAccounts.SaveAccounts();
 
                 await Context.Channel.SendMessageAsync(
-                    $"факт под номером {index} был удален из записной книжечки Осьминожек ;c");
+                    $"fact under index {index} was removed from the lil octo notebook ;c");
 
             }
             else
-                await Context.Channel.SendMessageAsync("буль-буль, у тебя нет допуска 3го уровня!");
+                await Context.Channel.SendMessageAsync("Boole :< You do not have 3rd level tolerance");
         }
 
 
 
         [Command("УдалитьФакт")]
-        [Alias("Удалить Факт")]
+        [Alias("Удалить Факт", "del")]
         public async Task DeleteTheFuckt(IGuildUser user, int index)
         {
             var account = UserAccounts.GetAccount((SocketUser) user);
@@ -278,11 +280,11 @@ namespace OctoBot.Commands
                 UserAccounts.SaveAccounts();
 
                 await Context.Channel.SendMessageAsync(
-                    $"факт под номером {index} был удален из записной книжечки Осьминожек ;c");
+                    $"fact under index {index} was removed from the lil octo notebook ;c");
 
             }
             else
-                await Context.Channel.SendMessageAsync("буль-буль, у тебя нет допуска 10го уровня!");
+                await Context.Channel.SendMessageAsync("Boole :< You do not have 10th level tolerance");
         }
 
     }

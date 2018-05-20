@@ -202,6 +202,7 @@ namespace OctoBot.Commands
 
 
                 var embed = new EmbedBuilder();
+                embed.WithFooter("lil octo notebook");
                 embed.WithColor(color1Index, color2Index, color3Index);
                 embed.WithAuthor(Context.User);
                 embed.WithImageUrl("" + octoToPost);
@@ -212,15 +213,15 @@ namespace OctoBot.Commands
 
                 if (randomIndex == 19)
                 {
-                    await Context.Channel.SendMessageAsync("Оппа, это же я прошел ДаркСоулс!");
+                    await Context.Channel.SendMessageAsync("Oppa, it was I who passed Dark Souls!");
                 }
                 if (randomIndex == 9)
                 {
-                    await Context.Channel.SendMessageAsync("Рисую осьминога :3");
+                    await Context.Channel.SendMessageAsync("I'm drawing an octopus :3");
                 }
                 if (randomIndex == 26)
                 {
-                    await Context.Channel.SendMessageAsync("Новый Год, Новый Год, время дарить черепашек!!");
+                    await Context.Channel.SendMessageAsync("Oh, this is New Year! time to gift turtles!!");
                 }
 
             }
@@ -240,14 +241,14 @@ namespace OctoBot.Commands
                 if (index == 20 || index == 19 || index == 18)
                 {
 
-                    await Context.Channel.SendMessageAsync("буль");
+                    await Context.Channel.SendMessageAsync("boole");
                 }
                 else
                 {
                  
                     if ((OctoPull.OctoPics.Length - 1) < selection)
                     {
-                        await Context.Channel.SendMessageAsync($"буль-буль. Максимально доступный индекс {(OctoPull.OctoPics.Length - 1)}");
+                        await Context.Channel.SendMessageAsync($"Boole. The maximum available index is {(OctoPull.OctoPics.Length - 1)}");
                         return;
                     }
                     string octoToPost = OctoPull.OctoPics[selection];
@@ -265,31 +266,31 @@ namespace OctoBot.Commands
 
                     var embed = new EmbedBuilder();
                     embed.WithColor(color1Index, color2Index, color3Index);
+                    embed.WithFooter("lil octo notebook");
                     embed.WithAuthor(Context.User);
                     embed.WithImageUrl("" + octoToPost);
 
                     await Context.Channel.SendMessageAsync("", embed: embed);
 
 
-
                     if (selection == 19)
                     {
-                        await Context.Channel.SendMessageAsync("Оппа, это же я прошел ДаркСоулс!");
+                        await Context.Channel.SendMessageAsync("Oppa, it was I who passed Dark Souls!");
                     }
                     if (selection == 9)
                     {
-                        await Context.Channel.SendMessageAsync("Рисую осьминога :3");
+                        await Context.Channel.SendMessageAsync("I'm drawing an octopus :3");
                     }
                     if (selection == 26)
                     {
-                        await Context.Channel.SendMessageAsync("Новый Год, Новый Год, время дарить черепашек!!");
-                    }    
+                        await Context.Channel.SendMessageAsync("Oh, this is New Year! time to gift turtles!!");
+                    } 
 
                 }
             }
             else
             {
-                await Context.Channel.SendMessageAsync("бууууууууууль, у тебя нет пропуска!");
+                await Context.Channel.SendMessageAsync("Boole! You do not have a tolerance of this level!");
             }
         }
 

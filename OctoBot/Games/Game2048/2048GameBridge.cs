@@ -69,6 +69,7 @@ namespace OctoBot.Games.Game2048
                     Games[gamesId] = game;
                   
                     UpdateMessage(game, userId);
+                    return;
                 }
             }
         }
@@ -79,8 +80,9 @@ namespace OctoBot.Games.Game2048
             {
                 var game = Games.FirstOrDefault(g => g.PlayerId == userId);
                 Games.Remove(game);
+               
                 var builder = new StringBuilder();
-                builder.Append($"буль... куда подевалось?");
+                builder.Append($"boole... where did it go?");
 
                 await game.Message.ModifyAsync(m => m.Content = builder.ToString());
                 await game.Message.RemoveAllReactionsAsync();
@@ -105,10 +107,11 @@ namespace OctoBot.Games.Game2048
                     UserAccounts.SaveAccounts();
                 }
 
+               
                 var builder = new StringBuilder();
-                builder.Append("Счёт: ");
+                builder.Append("Score: ");
                 builder.Append(game.Score);
-                builder.Append("\nДвижений: ");
+                builder.Append("\nMoves: ");
                 builder.Append(game.Move);
                 builder.Append("\n```cpp\n");
                 builder.Append(FormatBoard(game.Grid));
@@ -119,7 +122,7 @@ namespace OctoBot.Games.Game2048
                 {
                     builder.Clear();
                     builder.Append("lol, you died, lol-lol you died\n");
-                    builder.Append("Счёт: ");
+                    builder.Append("Score: ");
                     builder.Append(game.Score);
 
                     EndGame(userId);
@@ -128,7 +131,7 @@ namespace OctoBot.Games.Game2048
                 {
                     builder.Clear();
                     builder.Append("**well done**\n"); //btw there is no winning point lol
-                    builder.Append("Счёт: ");
+                    builder.Append("Score: ");
                     builder.Append(game.Score);
 
                     EndGame(userId);
