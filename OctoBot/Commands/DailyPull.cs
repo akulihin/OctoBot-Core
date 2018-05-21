@@ -102,7 +102,7 @@ namespace OctoBot.Commands
                             {
                                 var dmChannel = await globalAccount.GetOrCreateDMChannelAsync();
                                 var embed = new EmbedBuilder();
-                                embed.WithFooter("Записная книжечка Осьминожек");
+                                embed.WithFooter("lil octo notebook");
                                 embed.WithTitle("OctoNotification");
                                 embed.WithDescription($"Ты потерял свои ежедневные поинты, буль ;c");
                                 await dmChannel.SendMessageAsync("", embed: embed);
@@ -133,7 +133,7 @@ namespace OctoBot.Commands
 
                                 var dmChannel = await globalAccount.GetOrCreateDMChannelAsync();
                                 var embed = new EmbedBuilder();
-                                embed.WithFooter("Записная книжечка Осьминожек");
+                                embed.WithFooter("lil octo notebook");
                                 embed.WithTitle("OctoNotification");
                                 embed.WithDescription($"Вот и ключик подъехал!\n\n**{randomKeyList[randomKey]}**\n\n" +
                                                       $"Если ты  **НЕ будешь играть в эту игру**, а просто добавишь ее и забьешь, **прошу** верни ее осьминожкам, и мы подарим ее другому через команду **addkey [любой текст]**. Мы не любим расходовать ресурсы просто так. Спасибо!");

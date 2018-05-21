@@ -72,19 +72,23 @@ namespace OctoBot.Handeling
 
                 if (!result.IsSuccess)
                 {
+                    Console.ForegroundColor = LogColor("red");
                     Console.WriteLine(
-                        $"ERROR :DM: {message.CreatedAt.UtcDateTime} '{context.Channel}' {context.User}: {message} || {result.ErrorReason}");
+                        $"{DateTime.Now.ToLongTimeString()} - DM: ERROR '{context.Channel}' {context.User}: {message} || {result.ErrorReason}");
+                    Console.ResetColor();
 
                     File.AppendAllText(LogFile,
-                        $"ERROR :DM: {message.CreatedAt.UtcDateTime} '{context.Channel}' {context.User}: {message} || {result.ErrorReason} \n");
+                        $"{DateTime.Now.ToLongTimeString()} - DM: ERROR '{context.Channel}' {context.User}: {message} || {result.ErrorReason} \n");
                 }
 
                 else
                 {
-                    Console.WriteLine($":DM: {message.CreatedAt.UtcDateTime} '{context.Channel}' {context.User}: {message}");
+                    Console.ForegroundColor = LogColor("white");
+                    Console.WriteLine($"{DateTime.Now.ToLongTimeString()} - DM: '{context.Channel}' {context.User}: {message}");
+                    Console.ResetColor();
 
                     File.AppendAllText(LogFile,
-                        $":DM: {message.CreatedAt.UtcDateTime} '{context.Channel}' {context.User}: {message} \n");
+                        $"{DateTime.Now.ToLongTimeString()} - DM: '{context.Channel}' {context.User}: {message} \n");
                 }
 
                 return;

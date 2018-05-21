@@ -40,7 +40,7 @@ namespace OctoBot
             var botToken = Config.Bot.Token;
 
             //event subsciption
-            _client.Log += Logger.Log;
+            _client.Log += ConsoleLogger.Log;
 
            _client.ReactionAdded += Reaction.ReactionAddedFor2048;                                                        
            _client.ReactionAdded += OctoGameReaction.ReactionAddedForOctoGameAsync;

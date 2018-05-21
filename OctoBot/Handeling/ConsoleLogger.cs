@@ -6,9 +6,9 @@ using Discord;
 
 namespace  OctoBot.Handeling
 {
-    internal static class Logger
+    internal static class ConsoleLogger
     {
-        static Logger()
+        static ConsoleLogger()
         {
            
             if (!File.Exists("runtime.log")) File.Create("OctoDataBase/runtime.log");
@@ -28,12 +28,12 @@ namespace  OctoBot.Handeling
             Console.WriteLine($"{DateTime.Now.ToLongTimeString()} - {message}");
             Console.ResetColor();
 
-            File.AppendAllText("runtime.log", $"\n{DateTime.Now.ToLongTimeString()} - {message}");
+            File.AppendAllText("OctoDataBase/runtime.log", $"\n{DateTime.Now.ToLongTimeString()} - {message}");
         }
 
         internal static void ClearLog()
         {
-            File.WriteAllText("runtime.log", "");
+            File.WriteAllText("OctoDataBase/runtime.log", "");
         }
 
         private static ConsoleColor SeverityToConsoleColor(LogSeverity severity)
