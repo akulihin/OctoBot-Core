@@ -1,11 +1,11 @@
-﻿using Discord.Commands;
-using System;
+﻿using System;
 using System.Threading.Tasks;
 using System.Timers;
-using OctoBot.Configs.Users;
 using Discord;
-using OctoBot.Configs;
+using Discord.Commands;
 using Discord.WebSocket;
+using OctoBot.Configs;
+using OctoBot.Configs.Users;
 
 namespace OctoBot.Commands
 {
@@ -68,7 +68,7 @@ namespace OctoBot.Commands
         {
 
 
-            _loopingTimerForPull = new Timer()
+            _loopingTimerForPull = new Timer
             {
                 AutoReset = true,
                 Interval = 60000,

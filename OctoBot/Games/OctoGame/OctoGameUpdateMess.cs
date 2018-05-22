@@ -1,12 +1,12 @@
-﻿using Discord.Commands;
+﻿using System;
 using System.Threading.Tasks;
 using Discord;
+using Discord.Commands;
+using Discord.Rest;
 using Discord.WebSocket;
 using OctoBot.Configs;
-using Discord.Rest;
-using OctoBot.Games.OctoGame.GameUsers;
-using System;
 using OctoBot.Games.OctoGame.GameSpells;
+using OctoBot.Games.OctoGame.GameUsers;
 
 namespace OctoBot.Games.OctoGame
 {

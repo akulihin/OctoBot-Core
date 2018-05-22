@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
+using System.IO;
+using Discord;
 using Discord.Rest;
 using Discord.WebSocket;
 using Newtonsoft.Json;
-using System.IO;
-using Discord;
 
 namespace OctoBot.Configs
 {
@@ -60,25 +60,37 @@ namespace OctoBot.Configs
             }
         }
 
+
+        public static List<BlogVotes> BlogVotesMessIdList { get; set; } = new List<BlogVotes>();
+
+        public struct BlogVotes
+        {
+           
+            public IUser BlogUser;
+            public IUserMessage SocketMsg;
+            public IUser ReactionUser;
+            public int Available;
+
+            public BlogVotes(IUser blogUser, IUserMessage socketMsg, IUser reactionUser,  int available )
+            {
+                
+                BlogUser = blogUser;
+                SocketMsg = socketMsg;
+                ReactionUser = reactionUser;
+                Available =  available;
+            }
+        }
     }
 
     internal class Config
     {
-       
-
         public static BotConfig Bot;
-
-                                    
-                     
+                                         
         static Config()
         {
- 
-
                 var json = File.ReadAllText(@"OctoDataBase/config.json");
                 Bot =  JsonConvert.DeserializeObject<BotConfig>(json);
-
-            
-
+     
         }
     }
     public struct BotConfig

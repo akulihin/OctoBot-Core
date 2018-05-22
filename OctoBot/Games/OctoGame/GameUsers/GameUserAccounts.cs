@@ -2,7 +2,6 @@
 using System.Linq;
 using Discord;
 
-
 namespace OctoBot.Games.OctoGame.GameUsers
 {
     public static class GameUserAccounts
@@ -52,7 +51,7 @@ namespace OctoBot.Games.OctoGame.GameUsers
         }
         private static GameAccountSettings CreateUserAccount(ulong id, string name)
         {
-            var newAccount = new GameAccountSettings()
+            var newAccount = new GameAccountSettings
             {
                 // Username = "буль"б
                 Id = id,

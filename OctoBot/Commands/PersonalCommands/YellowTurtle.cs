@@ -1,12 +1,12 @@
-﻿using Discord.WebSocket;
-using System;
+﻿using System;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Timers;
 using Discord;
-using OctoBot.Configs;
 using Discord.Commands;
+using Discord.WebSocket;
+using OctoBot.Configs;
 using OctoBot.Configs.Users;
 
 namespace OctoBot.Commands.PersonalCommands
@@ -28,13 +28,13 @@ namespace OctoBot.Commands.PersonalCommands
 
             Task StartTimer25()
             {
-                _loopingTimer = new Timer()
+                _loopingTimer = new Timer
                 {
                     AutoReset = false,
                     Interval = 5000,
                     Enabled = true
                 };
-                    _loopingTimer.Elapsed += YellowTurtle.YellowTurtleEvent;
+                    _loopingTimer.Elapsed += YellowTurtleEvent;
                   // _loopingTimer.Elapsed += Reminder.CheckReminders;
                 return Task.CompletedTask;
             }
@@ -114,7 +114,7 @@ namespace OctoBot.Commands.PersonalCommands
         {
            
 
-            _loopingTimer = new Timer()
+            _loopingTimer = new Timer
             {
                 AutoReset = false,
                 Interval = 5000,
@@ -160,8 +160,8 @@ namespace OctoBot.Commands.PersonalCommands
 
             Task StartTimer2()
             {
-               _loopingTimer = new Timer()
-                {
+               _loopingTimer = new Timer
+               {
                     AutoReset = false,
                     Interval = 10000,
                     Enabled = true
@@ -187,7 +187,7 @@ namespace OctoBot.Commands.PersonalCommands
 
             Task StartTimer3()
             {
-                _loopingTimer = new Timer()
+                _loopingTimer = new Timer
                 {
                     AutoReset = false,
                     Interval = 15000,

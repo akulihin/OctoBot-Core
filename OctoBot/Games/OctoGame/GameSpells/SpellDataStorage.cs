@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.IO;
 using Newtonsoft.Json;
 
-
 namespace OctoBot.Games.OctoGame.GameSpells
 {
     public static class SpellDataStorage

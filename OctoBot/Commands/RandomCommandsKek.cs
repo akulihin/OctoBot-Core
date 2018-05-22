@@ -8,6 +8,7 @@ using Discord;
 using Discord.Commands;
 using Newtonsoft.Json;
 using NReco.ImageGenerator;
+using ImageFormat = NReco.ImageGenerator.ImageFormat;
 
 namespace OctoBot.Commands
 {
@@ -24,7 +25,7 @@ namespace OctoBot.Commands
                 Width = 250,
                 Height = 75
             };
-            var jpgBytes = converter.GenerateImage(html, NReco.ImageGenerator.ImageFormat.Jpeg);
+            var jpgBytes = converter.GenerateImage(html, ImageFormat.Jpeg);
 
             await Context.Channel.SendFileAsync(new MemoryStream(jpgBytes), "lol.jpg");
         }
@@ -49,7 +50,7 @@ namespace OctoBot.Commands
                 Height = 90
             };
 
-            var jpegBytes = htmlToImageConv.GenerateImage(fullHtml, NReco.ImageGenerator.ImageFormat.Jpeg);
+            var jpegBytes = htmlToImageConv.GenerateImage(fullHtml, ImageFormat.Jpeg);
 
             await Context.Channel.SendFileAsync(new MemoryStream(jpegBytes), "captcha.jpg");
         }
@@ -86,12 +87,10 @@ namespace OctoBot.Commands
                     blue = userRole.Color.B;
                     break;
                 }
-                else
-                {
-                    red = 255;
-                    green = 255;
-                    blue = 255;
-                }
+
+                red = 255;
+                green = 255;
+                blue = 255;
             }
 
             var namecolor = $"({red},{green},{blue})";
@@ -182,7 +181,7 @@ namespace OctoBot.Commands
                 Height = 80
             };
 
-            var jpegBytes = htmlToImageConv.GenerateImage(fullHtml, NReco.ImageGenerator.ImageFormat.Jpeg);
+            var jpegBytes = htmlToImageConv.GenerateImage(fullHtml, ImageFormat.Jpeg);
 
             await Context.Channel.SendFileAsync(new MemoryStream(jpegBytes), "quote.png");
         }
@@ -217,7 +216,7 @@ namespace OctoBot.Commands
             {
                 var html = CaretakerHtmLp1 + imageUrl + CaretakerHtmLp2;
                 var htmlToImageConv = new HtmlToImageConverter();
-                var jpegBytes = htmlToImageConv.GenerateImage(html, NReco.ImageGenerator.ImageFormat.Jpeg);
+                var jpegBytes = htmlToImageConv.GenerateImage(html, ImageFormat.Jpeg);
 
                 await Context.Channel.SendFileAsync(new MemoryStream(jpegBytes), "caretaker.jpg");
             }
@@ -251,12 +250,10 @@ namespace OctoBot.Commands
                     blue = userRole.Color.B;
                     break;
                 }
-                else
-                {
-                    red = 255;
-                    green = 255;
-                    blue = 255;
-                }
+
+                red = 255;
+                green = 255;
+                blue = 255;
             }
 
 

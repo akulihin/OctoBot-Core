@@ -17,7 +17,7 @@ namespace OctoBot.Commands.PersonalCommands
         {
             _channel = Global.Client.GetGuild(375104801018609665).GetTextChannel(375104801018609667);
 
-            _loopingTimer = new Timer()
+            _loopingTimer = new Timer
             {
                 AutoReset = true,
                 Interval = 5000,

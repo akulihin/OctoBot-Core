@@ -1,13 +1,14 @@
-﻿using Discord.Commands;
-using System;
+﻿using System;
+using System.Collections.Generic;
+using System.Net;
 using System.Threading.Tasks;
 using Discord;
-using OctoBot.Handeling;
-using OctoBot.Configs;
-using OctoBot.Games.OctoGame.GameUsers;
-using OctoBot.Games.OctoGame.GameSpells;
+using Discord.Commands;
 using Newtonsoft.Json;
-using System.Collections.Generic;
+using OctoBot.Configs;
+using OctoBot.Games.OctoGame.GameSpells;
+using OctoBot.Games.OctoGame.GameUsers;
+using OctoBot.Handeling;
 
 namespace OctoBot.Games.OctoGame
 {
@@ -299,7 +300,7 @@ namespace OctoBot.Games.OctoGame
             string result;
             try
             {
-                result = new System.Net.WebClient().DownloadString(@"OctoGameDataBase/SpellBook.json");
+                result = new WebClient().DownloadString(@"OctoGameDataBase/SpellBook.json");
             }
             catch
             {

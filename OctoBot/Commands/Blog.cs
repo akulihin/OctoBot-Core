@@ -1,12 +1,11 @@
-﻿using Discord.Commands;
-using System;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
+using Discord;
+using Discord.Commands;
 using Discord.WebSocket;
 using OctoBot.Configs.Users;
-using OctoBot.Configs;
-using Discord;
-using Newtonsoft.Json;
-using System.Collections.Generic;
+using static OctoBot.Configs.Global;
 
 namespace OctoBot.Commands
 {
@@ -31,7 +30,7 @@ namespace OctoBot.Commands
             
             for (var i = 0; i < accountSubs.Length; i++)
             {
-                var globalAccount = Global.Client.GetUser(Convert.ToUInt64(accountSubs[i]));
+                var globalAccount = Client.GetUser(Convert.ToUInt64(accountSubs[i]));
                 mess += ($"{i + 1}. {globalAccount.Username}\n");
             }
 
@@ -63,7 +62,7 @@ namespace OctoBot.Commands
             string mess = "";
             for (var i = 0; i < accountSubs.Length; i++)
             {
-                var globalAccount = Global.Client.GetUser(Convert.ToUInt64(accountSubs[i]));
+                var globalAccount = Client.GetUser(Convert.ToUInt64(accountSubs[i]));
                 mess += ($"{i + 1}. {globalAccount.Username}\n");
             }
 
@@ -84,14 +83,15 @@ namespace OctoBot.Commands
                 await ReplyAsync("Нельзя подписываться на осьминожку!");
                 return;
             }
-            else if (user.IsBot)
+
+            if (user.IsBot)
             {
                 await ReplyAsync("Нельзя подписываться на бота.");
                 return;
             }
 
             var account = UserAccounts.GetAccount(Context.User);
-            var EL = UserAccounts.GetAccount(user);
+            var el = UserAccounts.GetAccount(user);
 
 
             if (account.SubToPeople != null)
@@ -110,8 +110,8 @@ namespace OctoBot.Commands
 
 
 
-            account.SubToPeople += (user.Id.ToString() + "|");
-            EL.SubedToYou += (Context.User.Id.ToString() + "|");
+            account.SubToPeople += (user.Id + "|");
+            el.SubedToYou += (Context.User.Id + "|");
             UserAccounts.SaveAccounts();
             await Context.Channel.SendMessageAsync(
                 $"Ты подписался на {user.Username}!\nЕсли хочешь отписаться введи команду ***unsub [user]**");
@@ -129,7 +129,7 @@ namespace OctoBot.Commands
                 return;
             }
 
-            var EL = UserAccounts.GetAccount(user);
+            var el = UserAccounts.GetAccount(user);
             var accountSubs = account.SubToPeople.Split(new[] {'|'}, StringSplitOptions.RemoveEmptyEntries);
 
             
@@ -160,12 +160,12 @@ namespace OctoBot.Commands
 
             UserAccounts.SaveAccounts();
 
-            var ELSubs = EL.SubedToYou.Split(new[] {'|'}, StringSplitOptions.RemoveEmptyEntries);
-            EL.SubedToYou = null;
-            for (var i = 0; i < ELSubs.Length; i++)
+            var elSubs = el.SubedToYou.Split(new[] {'|'}, StringSplitOptions.RemoveEmptyEntries);
+            el.SubedToYou = null;
+            for (var i = 0; i < elSubs.Length; i++)
             {
-                if (Convert.ToUInt64(ELSubs[i]) != Context.User.Id)
-                    EL.SubedToYou += ($"{ELSubs[i]}|");
+                if (Convert.ToUInt64(elSubs[i]) != Context.User.Id)
+                    el.SubedToYou += ($"{elSubs[i]}|");
 
             }
 
@@ -175,13 +175,14 @@ namespace OctoBot.Commands
         }
 
 
-
-
+       
 
         [Command("Blog")]
         [Alias("блог", "пост", "пинг", "BlogPost", "Blog Post")]
         public async Task BlogPost([Remainder] string mess)
         {
+           
+
             var account = UserAccounts.GetAccount(Context.User);
             if (account.SubedToYou == null)
             {
@@ -191,12 +192,15 @@ namespace OctoBot.Commands
 
             var accountSubs = account.SubedToYou.Split(new[] {'|'}, StringSplitOptions.RemoveEmptyEntries);
             
+           var messList = new List<IUserMessage>();
+            
+
             for (var i = 0; i < accountSubs.Length; i++)
             {
                 try
                 {
 
-                    var globalAccount = Global.Client.GetUser(Convert.ToUInt64(accountSubs[i]));
+                    var globalAccount = Client.GetUser(Convert.ToUInt64(accountSubs[i]));
                     var dmChannel = await globalAccount.GetOrCreateDMChannelAsync();
 
 
@@ -204,7 +208,20 @@ namespace OctoBot.Commands
                     embed.WithFooter("Записная книжечка Осьминожек");
                     embed.WithTitle("OctoNotification");
                     embed.WithDescription($"**{Context.User.Mention}:** {mess}");
-                    await dmChannel.SendMessageAsync("", embed: embed);
+                   // embed.WithUrl("https://puu.sh/AqC2d/715e9eb16e.mp3");
+                    embed.AddField("Оценить творчество",
+                        "Если тебе нравится блоги этой/этого няши, почему бы не оценить?\n" +
+                        "Можешь оценить от 1 до zazz, оценка анонимная, но общую оценку можно посомтрет чрезе команду **topr**\n" +
+                        "https://puu.sh/AqC2d/715e9eb16e.mp3");
+                    var message =  await dmChannel.SendMessageAsync("", embed: embed);
+                    //await dmChannel.SendFileAsync("https://puu.sh/AqC2d/715e9eb16e.mp3");
+
+                    
+                    messList.Add(message);
+
+                    var voteMessToTrack = new BlogVotes(Context.User, message, globalAccount, 1);
+                  
+                    BlogVotesMessIdList.Add(voteMessToTrack);
 
                 }
                 catch
@@ -218,7 +235,7 @@ namespace OctoBot.Commands
                     }
                     UserAccounts.SaveAccounts();
                     
-                    var globalAccount = Global.Client.GetUser(Convert.ToUInt64(accountSubs[i]));
+                    var globalAccount = Client.GetUser(Convert.ToUInt64(accountSubs[i]));
                     var errorGuyAcc = UserAccounts.GetAccount(globalAccount);
                     var errorGuy = errorGuyAcc.SubToPeople.Split(new[] {'|'}, StringSplitOptions.RemoveEmptyEntries);
 
@@ -236,12 +253,22 @@ namespace OctoBot.Commands
                 } 
             }
 
+            await AddReactionForBlogMessages(messList);
             await ReplyAsync($"{Context.User.Mention}, твой блог был отправлен!");
         }
 
 
-        [Command("IBlog")]
-       
+        [Command("amaron")]
+        public static async Task AmaronLel()
+        {
+            var list = BlogVotesMessIdList;
+            for(var i = 0; i < list.Count; i++)
+                Console.WriteLine($"{list[i].BlogUser.Username} blog {i}");
+            await Task.CompletedTask;
+        }
+
+
+        [Command("IBlog")]     
         public async Task BlogPostWithUrl(string url, [Remainder] string mess)
         {
             var account = UserAccounts.GetAccount(Context.User);
@@ -267,20 +294,36 @@ namespace OctoBot.Commands
           
 
             var accountSubs = account.SubedToYou.Split(new[] {'|'}, StringSplitOptions.RemoveEmptyEntries);
+            var messList = new List<IUserMessage>();
+            
+                
 
             for (var i = 0; i < accountSubs.Length; i++)
             {
                 try
                 {
-                    var globalAccount = Global.Client.GetUser(Convert.ToUInt64(accountSubs[i]));
+                    var globalAccount = Client.GetUser(Convert.ToUInt64(accountSubs[i]));
                     var dmChannel = await globalAccount.GetOrCreateDMChannelAsync();
                     
                     var embed = new EmbedBuilder();
                     embed.WithFooter("Записная книжечка Осьминожек");
                     embed.WithTitle("OctoNotification");
                     embed.WithImageUrl($"{url}");
-                    embed.WithDescription($"**{Context.User.Mention}:** {mess}");
-                    await dmChannel.SendMessageAsync("", embed: embed);
+                    embed.WithDescription($"**{Context.User.Mention}:** {mess}\n");
+                    //https://puu.sh/AqCnq/8ac50e7232.mp3
+                    //https://puu.sh/AqCse/1e0dbed1d5.mp3
+                    //embed.WithUrl("https://puu.sh/AqC2d/715e9eb16e.mp3");
+                    embed.AddField("Оценить творчество",
+                        "Если тебе нравится блоги этой/этого няши, почему бы не оценить?\n" +
+                        "Можешь оценить от 1 до zazz, оценка анонимная, но общую оценку можно посомтрет чрезе команду **topr**\n" +
+                        "https://puu.sh/AqC2d/715e9eb16e.mp3");
+                    
+                    var message =  await dmChannel.SendMessageAsync("", embed: embed);
+                  //  await dmChannel.SendFileAsync("https://puu.sh/AqC2d/715e9eb16e.mp3");
+                    messList.Add(message);
+
+                    var voteMessToTrack = new BlogVotes(Context.User, message, Context.User, 1);
+                    BlogVotesMessIdList.Add(voteMessToTrack);
                 }
                 catch {  account.SubedToYou = null;
                     for (var j = 0; j < accountSubs.Length; j++)
@@ -291,7 +334,7 @@ namespace OctoBot.Commands
                     }
                     UserAccounts.SaveAccounts();
 
-                    var globalAccount = Global.Client.GetUser(Convert.ToUInt64(accountSubs[i]));
+                    var globalAccount = Client.GetUser(Convert.ToUInt64(accountSubs[i]));
                     var errorGuyAcc = UserAccounts.GetAccount(globalAccount);
                     var errorGuy = errorGuyAcc.SubToPeople.Split(new[] {'|'}, StringSplitOptions.RemoveEmptyEntries);
 
@@ -308,56 +351,38 @@ namespace OctoBot.Commands
 
             }
 
+            await AddReactionForBlogMessages(messList);
             await ReplyAsync($"{Context.User.Mention}, твой блог был отправлен!");
         }
 
 
 
-        [Command("topSub")]
-        [Alias("TopSubs")]
-        public async Task TopSubs()
-        {
 
-            
-                string result;
+        public static async Task AddReactionForBlogMessages(List<IUserMessage> messageList)
+        {
+            var zaaz = Emote.Parse("<:zazz:448323858492162049>");
+
+            Parallel.For(0, messageList.Count, async i =>
+            {
                 try
                 {
-                    result = new System.Net.WebClient().DownloadString(@"OctoDataBase/accounts.json");
+                    await messageList[i].AddReactionAsync(new Emoji("1⃣"));
+                    await messageList[i].AddReactionAsync(new Emoji("2⃣"));
+                    await messageList[i].AddReactionAsync(new Emoji("3⃣"));
+                    await messageList[i].AddReactionAsync(new Emoji("4⃣"));
+                    await messageList[i].AddReactionAsync(zaaz);
                 }
                 catch
                 {
-                    Console.WriteLine("Failed To ReadFile(TopSubs).");
-                    return;
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine("AddReactionForBlogMessages CATCH");
+                    Console.ResetColor();
+                   
+                 await AddReactionForBlogMessages(messageList);
                 }
+            });
 
-              var data = JsonConvert.DeserializeObject<List<AccountSettings>>(result);
-
-
-            string[]topu = new string[data.Count];
-            var j = 0;
-                for (var i = 0; i < data.Count; i++)
-                {
-                    if (data[i].SubedToYou !=null && data[i].Points != 0 )
-                    {
-                    
-                         var globalAccount = Global.Client.GetUser(data[i].Id);
-                         var account = UserAccounts.GetAccount(globalAccount);
-                         var accountSubs = account.SubedToYou.Split(new[] {'|'}, StringSplitOptions.RemoveEmptyEntries);
-
-
-                        topu[j] = $"{accountSubs.Length} {account.UserName}";
-                        j++;
-                    }
-                }
-
-            Array.Sort(topu);
-                var embed = new EmbedBuilder();
-                embed.WithFooter("Записная книжечка Осьминожек");
-                embed.WithTitle("OctoNotification");
-                embed.WithDescription($"{topu[topu.Length-1]}\n{topu[topu.Length - 2]}\n{topu[topu.Length - 3]}\n{topu[topu.Length - 4 ]}\n{topu[topu.Length - 5]}");
-                await ReplyAsync("", embed : embed);
-            
-
+            await Task.CompletedTask;
         }
     }
 }

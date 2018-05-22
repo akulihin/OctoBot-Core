@@ -62,6 +62,10 @@ namespace OctoBot.Configs.Users
 
         public int Best2048Score { get; set; }
 
+        public ulong BlogVotesQty { get; set; }
+        public ulong BlogVotesSum { get; set; }
+        public float AvarageScoreVotes { get; set; }
+
 
     }
 }

@@ -1,8 +1,7 @@
-﻿using Discord.WebSocket;
-using OctoBot.Configs.Users;
-using System;
+﻿using System;
 using System.Threading.Tasks;
-
+using Discord.WebSocket;
+using OctoBot.Configs.Users;
 
 namespace OctoBot.Automated
 {

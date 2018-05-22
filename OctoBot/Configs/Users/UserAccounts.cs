@@ -66,12 +66,12 @@ namespace OctoBot.Configs.Users
 
         private static AccountSettings CreateUserAccount(ulong id)
         {
-            var newAccount = new AccountSettings()
+            var newAccount = new AccountSettings
             {
                 // Username = "буль"б
                 Id = id,
                 Rep = 0,
-                Points = 0,
+                Points = 0
             };
 
             _accounts.Add(newAccount);

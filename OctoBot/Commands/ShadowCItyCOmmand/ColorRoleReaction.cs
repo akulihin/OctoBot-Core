@@ -6,7 +6,6 @@ using Discord;
 using Discord.WebSocket;
 using OctoBot.Configs;
 
-
 namespace OctoBot.Commands.ShadowCItyCOmmand
 {
     internal static class ColorRoleReaction

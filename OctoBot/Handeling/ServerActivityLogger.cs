@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Discord;
 using Discord.WebSocket;
 using OctoBot.Configs;
+using OctoBot.Configs.Users;
 
 namespace OctoBot.Handeling
 {
@@ -18,7 +19,8 @@ namespace OctoBot.Handeling
         public static Task _client_Ready()
         {
 
-            Client.ReactionAdded += Client_ReactionAddedAsync;//
+            Client.ReactionAdded += Client_ReactionAddedAsyncForBlog;
+            Client.ReactionRemoved += Client_ReactionRemovedForBlog;
             Client.Disconnected += Client_Disconnected;
             Client.Connected += Client_Connected;
             Client.MessageUpdated += Client_MessageUpdated;
@@ -37,6 +39,8 @@ namespace OctoBot.Handeling
             return Task.CompletedTask;
 
         }
+
+     
 
         private static async Task Client_ChannelDestroyed(IChannel  arg)
         {
@@ -113,15 +117,6 @@ namespace OctoBot.Handeling
             await LogTextChannel.SendMessageAsync($"OctoBot Disconnect: {arg.Message}");
         }
 
-
-        public static async Task Client_ReactionAddedAsync(Cacheable<IUserMessage, ulong> arg1,
-            Discord.WebSocket.ISocketMessageChannel arg2, Discord.WebSocket.SocketReaction arg3)
-        {
-            //  await LogTextChannel.SendMessageAsync($"<@{arg3.UserId}> placed **{arg3.Emote.Name}** emoji under **{arg3.Channel}** Channel");
-            await Task.CompletedTask;
-        }
-
-
         public static async Task Client_MessageUpdated(Cacheable<IMessage, ulong> messageBefore,
             SocketMessage messageAfter, ISocketMessageChannel arg3)
         {
@@ -192,5 +187,113 @@ namespace OctoBot.Handeling
             }
         }
 
+
+
+        public static async Task Client_ReactionAddedAsyncForBlog(Cacheable<IUserMessage, ulong> arg1,
+            ISocketMessageChannel arg2, SocketReaction arg3)
+        {
+            if(arg3.User.Value.IsBot)
+                return;
+
+           
+            
+            var blogList = Global.BlogVotesMessIdList;
+            for (var i = 0; i < blogList.Count; i++)
+            {
+                /*
+                if (blogList[i].BlogUser.Id == arg3.UserId)
+                {
+                    await arg3.Channel.SendMessageAsync("нельзя оценивать свои работы!");
+                  
+                    continue;
+
+                }
+                */
+                if (blogList[i].ReactionUser.Id == arg3.User.Value.Id && blogList[i].SocketMsg.Id == arg1.Value.Id)
+                {
+
+                    var account = UserAccounts.GetAccount(blogList[i].BlogUser);
+                    switch (arg3.Emote.Name)
+                    {
+
+                        case "1⃣":
+                            account.BlogVotesQty++;
+                            account.BlogVotesSum += 1;
+                            UserAccounts.SaveAccounts();
+                            
+                            break;
+                        case "2⃣":
+                            account.BlogVotesQty++;
+                            account.BlogVotesSum += 2;
+                            UserAccounts.SaveAccounts();
+                            break;
+                        case "3⃣":
+                            account.BlogVotesQty++;
+                            account.BlogVotesSum += 3;
+                            UserAccounts.SaveAccounts();
+                            break;
+                        case "4⃣":
+                            account.BlogVotesQty++;
+                            account.BlogVotesSum += 4;
+                            UserAccounts.SaveAccounts();
+                            break;
+                        case "zazz":
+                            account.BlogVotesQty++;
+                            account.BlogVotesSum += 5;
+                            UserAccounts.SaveAccounts();
+                            break;
+                        default:
+                            continue;
+                    }
+                }
+            }
+            await Task.CompletedTask;
+        }
+
+
+        public static async Task Client_ReactionRemovedForBlog(Cacheable<IUserMessage, ulong> arg1, ISocketMessageChannel arg2, SocketReaction arg3)
+        {
+            var blogList = Global.BlogVotesMessIdList;
+            for (var i = 0; i < blogList.Count; i++)
+            { 
+ 
+                if (blogList[i].ReactionUser.Id == arg3.User.Value.Id && blogList[i].SocketMsg.Id == arg1.Value.Id)
+                {
+                    var account = UserAccounts.GetAccount(blogList[i].BlogUser);
+                    switch (arg3.Emote.Name)
+                    {
+
+                        case "1⃣":
+                            account.BlogVotesQty--;
+                            account.BlogVotesSum -= 1;
+                            UserAccounts.SaveAccounts();
+                            break;
+                        case "2⃣":
+                            account.BlogVotesQty--;
+                            account.BlogVotesSum -= 2;
+                            UserAccounts.SaveAccounts();
+                            break;
+                        case "3⃣":
+                            account.BlogVotesQty--;
+                            account.BlogVotesSum -= 3;
+                            UserAccounts.SaveAccounts();
+                            break;
+                        case "4⃣":
+                            account.BlogVotesQty--;
+                            account.BlogVotesSum -= 4;
+                            UserAccounts.SaveAccounts();
+                            break;
+                        case "zazz":
+                            account.BlogVotesQty--;
+                            account.BlogVotesSum -= 5;
+                            UserAccounts.SaveAccounts();
+                            break;
+                        default:
+                            continue;
+                    }
+                }
+            }
+            await Task.CompletedTask;
+        }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using Discord.WebSocket;
+using OctoBot.Configs.Users;
 
 namespace OctoBot.Configs.LvLingSystem
 {
@@ -16,9 +17,10 @@ namespace OctoBot.Configs.LvLingSystem
             var words = option.Length;
 
             var wordsPoints = 0.1 * words;
-            var userAccount = Users.UserAccounts.GetAccount(user);
+            var wordsPointsActivity = 2.5 * words;
+            var userAccount = UserAccounts.GetAccount(user);
             userAccount.Points += 5 + (int)wordsPoints;
-            userAccount.LvlPoinnts += 30;
+            userAccount.LvlPoinnts += 30 + (uint)wordsPointsActivity;
             userAccount.UserName = user.Username;
             
           
@@ -41,9 +43,9 @@ namespace OctoBot.Configs.LvLingSystem
             else if (user.Nickname != null)
                 userAccount.ExtraUserName = (user.Nickname + "|");
 
-            userAccount.Lvl = (uint)Math.Sqrt(userAccount.LvlPoinnts / 250);
+            userAccount.Lvl = (uint)Math.Sqrt(userAccount.LvlPoinnts / 150);
 
-            Users.UserAccounts.SaveAccounts();
+            UserAccounts.SaveAccounts();
 
 
 

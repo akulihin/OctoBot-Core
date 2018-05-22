@@ -17,8 +17,6 @@ namespace OctoBot.Configs.Users
             File.WriteAllText(filePath, json);
             } catch {
                 Console.WriteLine("Failed To ReadFile(SaveAccountSettings). Will ty in 5 sec.");
-                return;
-                
             }
         }
 

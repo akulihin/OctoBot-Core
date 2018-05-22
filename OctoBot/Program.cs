@@ -30,7 +30,7 @@ namespace OctoBot
                 LogLevel = LogSeverity.Verbose
             });
 
-            var discordSocketConfig = new DiscordSocketConfig()
+            var discordSocketConfig = new DiscordSocketConfig
             {
                 LogLevel = LogSeverity.Verbose,
                 MessageCacheSize = 10000
@@ -52,7 +52,7 @@ namespace OctoBot
             _client.Ready += ForBot.TimerForBotAvatar;   
             _client.UserJoined += Announcer.AnnounceUserJoin;
             _client.Ready += EveryLogHandeling._client_Ready;
-           
+           // _client.Ready += Blog.BlogVotesChecker; 
          
             //  _client.Ready += YellowTurtle.StartTimer; //// Timer3
 
@@ -67,6 +67,8 @@ namespace OctoBot
             ConsoleHandeling.ConsoleInput(_client);
             await Task.Delay(-1);
         }
+
+
     }
 }
 

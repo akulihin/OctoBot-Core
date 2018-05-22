@@ -1,13 +1,12 @@
-﻿using Discord;
-using Discord.Commands;
-using Discord.WebSocket;
-using OctoBot.Configs.Users;
-using OctoBot.Handeling;
-using System;
+﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
+using Discord;
+using Discord.Commands;
+using Discord.WebSocket;
 using OctoBot.Configs;
-
+using OctoBot.Configs.Users;
+using OctoBot.Handeling;
 
 namespace OctoBot.Commands
 {
@@ -358,7 +357,8 @@ namespace OctoBot.Commands
             }
         }
 
-        [Command("top")]
+        [Command("topo")]
+        [Alias("topp")]
         public async Task TopByOctoPoints(int page = 1)
         {
             if (page < 1)
@@ -398,6 +398,7 @@ namespace OctoBot.Commands
 
             await ReplyAsync("", false, embB.Build());
         }
+
         [Command("tops")]
         public async Task TopBySubc(int page = 1)
         {
@@ -448,6 +449,116 @@ namespace OctoBot.Commands
             
             await ReplyAsync("", false, embB.Build());
         }
+
+        [Command("top")]
+        [Alias("topl", "topa")]
+        public async Task TopByLvL(int page = 1)
+        {
+            if (page < 1)
+            {
+                await ReplyAsync("Are you fucking sure about that?");
+                return;
+            }
+
+
+            var currentGuildUsersId = Context.Guild.Users.Select(user => user.Id);
+            // Get only accounts of this server
+            var accounts = UserAccounts.GetFilteredAccounts(acc => currentGuildUsersId.Contains(acc.Id));
+
+
+            for (var j = 0; j < accounts.Count; j++)
+            {
+
+                accounts[j].Lvl = (uint) Math.Sqrt(accounts[j].LvlPoinnts / 150);
+                UserAccounts.SaveAccounts();
+            }
+
+            const int usersPerPage = 9;
+
+            var lastPage = 1 + (accounts.Count / (usersPerPage+1));
+            if (page > lastPage)
+            {
+                await ReplyAsync($"Boole. Last Page is {lastPage}");
+                return;
+            }
+       
+            var ordered = accounts.OrderByDescending(acc => acc.Lvl).ToList();
+
+            var embB = new EmbedBuilder()
+                .WithTitle("Top By Activity:")
+                .WithFooter($"Page {page}/{lastPage}");
+
+
+            page--;
+            for (var i = 1; i <= usersPerPage && i + usersPerPage * page <= ordered.Count; i++)
+            {
+              
+                var account = ordered[i - 1 + usersPerPage * page];
+                var user = Global.Client.GetUser(account.Id);
+                embB.AddField($"#{i + usersPerPage * page} {user.Username}", $"{account.Lvl} LVL", true);
+            }
+
+            await ReplyAsync("", false, embB.Build());
+        }
+
+        [Command("topr")]
+        [Alias("topb")]
+        public async Task TopByRating(int page = 1)
+        {
+            if (page < 1)
+            {
+                await ReplyAsync("Are you fucking sure about that?");
+                return;
+            }
+
+
+            var currentGuildUsersId = Context.Guild.Users.Select(user => user.Id);
+            // Get only accounts of this server
+            var accounts = UserAccounts.GetFilteredAccounts(acc => currentGuildUsersId.Contains(acc.Id));
+
+
+            for (var j = 0; j < accounts.Count; j++)
+            {
+                if (accounts[j].AvarageScoreVotes <= 0.0)
+                {
+                    accounts[j].AvarageScoreVotes = 0;
+                }
+                else
+                {
+                    accounts[j].AvarageScoreVotes = accounts[j].BlogVotesSum / accounts[j].BlogVotesQty;
+                }
+
+                UserAccounts.SaveAccounts();
+            }
+
+            const int usersPerPage = 9;
+
+            var lastPage = 1 + (accounts.Count / (usersPerPage+1));
+            if (page > lastPage)
+            {
+                await ReplyAsync($"Boole. Last Page is {lastPage}");
+                return;
+            }
+       
+            var ordered = accounts.OrderByDescending(acc => acc.AvarageScoreVotes).ToList();
+
+            var embB = new EmbedBuilder()
+                .WithTitle("Top By Avarage Rating in Blog:")
+                .WithFooter($"Page {page}/{lastPage}");
+
+
+            page--;
+            for (var i = 1; i <= usersPerPage && i + usersPerPage * page <= ordered.Count; i++)
+            {
+              
+                var account = ordered[i - 1 + usersPerPage * page];
+                var user = Global.Client.GetUser(account.Id);
+                embB.AddField($"#{i + usersPerPage * page} {user.Username}", $"{account.AvarageScoreVotes} {new Emoji("⭐")} out of {account.BlogVotesQty} votes", true);
+            }
+
+            await ReplyAsync("", false, embB.Build());
+        }
+
 
     }
 }

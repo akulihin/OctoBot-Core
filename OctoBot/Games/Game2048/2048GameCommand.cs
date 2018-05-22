@@ -1,5 +1,4 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Discord;
 using Discord.Commands;
 using OctoBot.Configs;
@@ -47,7 +46,7 @@ namespace OctoBot.Games.Game2048
         [Alias("finish2048", "e2048", "e2")]
         public async Task End2048Gmae()
         {
-            OctoBot.Games.Game2048.NewGame.EndGame(Context.User.Id);
+            NewGame.EndGame(Context.User.Id);
             await Task.CompletedTask;
         }
     

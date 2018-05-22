@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-
 namespace OctoBot.Games.OctoGame.GameSpells
 {
     public static class SpellUserAccounts
@@ -50,10 +49,10 @@ namespace OctoBot.Games.OctoGame.GameSpells
         }
         private static SpellSetting CreateUserAccount(ulong id)
         {
-            var newAccount = new SpellSetting()
+            var newAccount = new SpellSetting
             {
                 // Username = "буль"б
-                SpellId = id,
+                SpellId = id
             
             };
 

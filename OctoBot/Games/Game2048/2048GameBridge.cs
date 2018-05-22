@@ -34,7 +34,7 @@ namespace OctoBot.Games.Game2048
 
         public static void CreateNewGame(ulong userId, RestUserMessage message)
         {
-            var game = new GameStruct()
+            var game = new GameStruct
             {
                 Grid = GameWork.GetNewGameBoard(),
                 Score = 0,
