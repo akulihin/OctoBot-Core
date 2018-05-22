@@ -192,73 +192,79 @@ namespace OctoBot.Handeling
         public static async Task Client_ReactionAddedAsyncForBlog(Cacheable<IUserMessage, ulong> arg1,
             ISocketMessageChannel arg2, SocketReaction arg3)
         {
-            if(arg3.User.Value.IsBot)
+            if (arg3.User.Value.IsBot)
                 return;
 
-           
-            
             var blogList = Global.BlogVotesMessIdList;
             for (var i = 0; i < blogList.Count; i++)
             {
-                /*
-                if (blogList[i].BlogUser.Id == arg3.UserId)
-                {
-                    await arg3.Channel.SendMessageAsync("нельзя оценивать свои работы!");
-                  
-                    continue;
 
-                }
-                */
-                if (blogList[i].ReactionUser.Id == arg3.User.Value.Id && blogList[i].SocketMsg.Id == arg1.Value.Id)
+
+                if (blogList[i].SocketMsg.Id == arg1.Id && blogList[i].ReactionUser.Id == arg3.User.Value.Id)
                 {
 
+                    if (arg3.User.Value.Id == blogList[i].BlogUser.Id)
+                    {
+                        
+                        await arg3.Channel.SendMessageAsync("Ты не можешь ставить оценку самому себе!");
+                        return;
+                    }
+                    /*
+                    if (blogList[i].Available == 0)
+                    {
+                       await arg3.Channel.SendMessageAsync($"Ты уже голосовал! Сними прошлую оценку, чтобы поставить новую.");
+                        continue;
+                    }*/
                     var account = UserAccounts.GetAccount(blogList[i].BlogUser);
+                    
                     switch (arg3.Emote.Name)
                     {
-
                         case "1⃣":
-                            account.BlogVotesQty++;
+                            account.BlogVotesQty += 1;
                             account.BlogVotesSum += 1;
                             UserAccounts.SaveAccounts();
-                            
                             break;
                         case "2⃣":
-                            account.BlogVotesQty++;
+                            account.BlogVotesQty += 1;
                             account.BlogVotesSum += 2;
                             UserAccounts.SaveAccounts();
                             break;
                         case "3⃣":
-                            account.BlogVotesQty++;
+                            account.BlogVotesQty += 1;
                             account.BlogVotesSum += 3;
                             UserAccounts.SaveAccounts();
                             break;
                         case "4⃣":
-                            account.BlogVotesQty++;
+                            account.BlogVotesQty += 1;
                             account.BlogVotesSum += 4;
                             UserAccounts.SaveAccounts();
                             break;
                         case "zazz":
-                            account.BlogVotesQty++;
+                            account.BlogVotesQty += 1;
                             account.BlogVotesSum += 5;
                             UserAccounts.SaveAccounts();
                             break;
-                        default:
-                            continue;
-                    }
+                    }   
                 }
             }
+
             await Task.CompletedTask;
         }
-
 
         public static async Task Client_ReactionRemovedForBlog(Cacheable<IUserMessage, ulong> arg1, ISocketMessageChannel arg2, SocketReaction arg3)
         {
             var blogList = Global.BlogVotesMessIdList;
             for (var i = 0; i < blogList.Count; i++)
-            { 
- 
-                if (blogList[i].ReactionUser.Id == arg3.User.Value.Id && blogList[i].SocketMsg.Id == arg1.Value.Id)
+            {
+
+
+                if (blogList[i].SocketMsg.Id == arg1.Id && blogList[i].ReactionUser.Id == arg3.User.Value.Id)
                 {
+                    if (arg3.User.Value.Id == blogList[i].BlogUser.Id)
+                    {
+                        return;
+                    }
+
                     var account = UserAccounts.GetAccount(blogList[i].BlogUser);
                     switch (arg3.Emote.Name)
                     {
@@ -288,11 +294,11 @@ namespace OctoBot.Handeling
                             account.BlogVotesSum -= 5;
                             UserAccounts.SaveAccounts();
                             break;
-                        default:
-                            continue;
                     }
+                    blogList[i].Available = 1;
                 }
             }
+
             await Task.CompletedTask;
         }
     }

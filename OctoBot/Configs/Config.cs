@@ -63,7 +63,7 @@ namespace OctoBot.Configs
 
         public static List<BlogVotes> BlogVotesMessIdList { get; set; } = new List<BlogVotes>();
 
-        public struct BlogVotes
+        public class BlogVotes
         {
            
             public IUser BlogUser;

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Discord;
 using Discord.Commands;
@@ -175,13 +176,13 @@ namespace OctoBot.Commands
         }
 
 
-       
+
 
         [Command("Blog")]
         [Alias("блог", "пост", "пинг", "BlogPost", "Blog Post")]
         public async Task BlogPost([Remainder] string mess)
         {
-           
+
 
             var account = UserAccounts.GetAccount(Context.User);
             if (account.SubedToYou == null)
@@ -191,9 +192,9 @@ namespace OctoBot.Commands
             }
 
             var accountSubs = account.SubedToYou.Split(new[] {'|'}, StringSplitOptions.RemoveEmptyEntries);
-            
-           var messList = new List<IUserMessage>();
-            
+
+            var messList = new List<IUserMessage>();
+
 
             for (var i = 0; i < accountSubs.Length; i++)
             {
@@ -208,20 +209,21 @@ namespace OctoBot.Commands
                     embed.WithFooter("Записная книжечка Осьминожек");
                     embed.WithTitle("OctoNotification");
                     embed.WithDescription($"**{Context.User.Mention}:** {mess}");
-                   // embed.WithUrl("https://puu.sh/AqC2d/715e9eb16e.mp3");
+                    // embed.WithUrl("https://puu.sh/AqC2d/715e9eb16e.mp3");
                     embed.AddField("Оценить творчество",
                         "Если тебе нравится блоги этой/этого няши, почему бы не оценить?\n" +
                         "Можешь оценить от 1 до zazz, оценка анонимная, но общую оценку можно посомтрет чрезе команду **topr**\n" +
                         "https://puu.sh/AqC2d/715e9eb16e.mp3");
-                    var message =  await dmChannel.SendMessageAsync("", embed: embed);
+                    var message = await dmChannel.SendMessageAsync("", embed: embed);
                     //await dmChannel.SendFileAsync("https://puu.sh/AqC2d/715e9eb16e.mp3");
 
-                    
+
                     messList.Add(message);
 
                     var voteMessToTrack = new BlogVotes(Context.User, message, globalAccount, 1);
-                  
+
                     BlogVotesMessIdList.Add(voteMessToTrack);
+
 
                 }
                 catch
@@ -233,8 +235,9 @@ namespace OctoBot.Commands
                             account.SubedToYou += ($"{accountSubs[j]}|");
 
                     }
+
                     UserAccounts.SaveAccounts();
-                    
+
                     var globalAccount = Client.GetUser(Convert.ToUInt64(accountSubs[i]));
                     var errorGuyAcc = UserAccounts.GetAccount(globalAccount);
                     var errorGuy = errorGuyAcc.SubToPeople.Split(new[] {'|'}, StringSplitOptions.RemoveEmptyEntries);
@@ -245,15 +248,17 @@ namespace OctoBot.Commands
                         if (Convert.ToUInt64(errorGuy[k]) != Context.User.Id)
                             errorGuyAcc.SubToPeople += ($"{errorGuy[k]}|");
                     }
+
                     UserAccounts.SaveAccounts();
                     var dmCommander = await Context.User.GetOrCreateDMChannelAsync();
-                    
-                    await dmCommander.SendMessageAsync($"Возникла проблема с {globalAccount.Username}, мы его удалили из списка.");
-                    
-                } 
+
+                    await dmCommander.SendMessageAsync(
+                        $"Возникла проблема с {globalAccount.Username}, мы его удалили из списка.");
+
+                }
             }
 
-            await AddReactionForBlogMessages(messList);
+            await AddReactionForBlogMessages(messList, Context.Channel);
             await ReplyAsync($"{Context.User.Mention}, твой блог был отправлен!");
         }
 
@@ -261,7 +266,7 @@ namespace OctoBot.Commands
         [Command("amaron")]
         public static async Task AmaronLel()
         {
-            var list = BlogVotesMessIdList;
+            var list = BlogVotesMessIdList.ToList();
             for(var i = 0; i < list.Count; i++)
                 Console.WriteLine($"{list[i].BlogUser.Username} blog {i}");
             await Task.CompletedTask;
@@ -324,6 +329,7 @@ namespace OctoBot.Commands
 
                     var voteMessToTrack = new BlogVotes(Context.User, message, Context.User, 1);
                     BlogVotesMessIdList.Add(voteMessToTrack);
+                   
                 }
                 catch {  account.SubedToYou = null;
                     for (var j = 0; j < accountSubs.Length; j++)
@@ -351,14 +357,14 @@ namespace OctoBot.Commands
 
             }
 
-            await AddReactionForBlogMessages(messList);
+            await AddReactionForBlogMessages(messList, Context.Channel);
             await ReplyAsync($"{Context.User.Mention}, твой блог был отправлен!");
         }
 
 
 
 
-        public static async Task AddReactionForBlogMessages(List<IUserMessage> messageList)
+        public static async Task AddReactionForBlogMessages(List<IUserMessage> messageList, ISocketMessageChannel contextChannel)
         {
             var zaaz = Emote.Parse("<:zazz:448323858492162049>");
 
@@ -374,12 +380,29 @@ namespace OctoBot.Commands
                 }
                 catch
                 {
-                    Console.ForegroundColor = ConsoleColor.Red;
-                    Console.WriteLine("AddReactionForBlogMessages CATCH");
-                    Console.ResetColor();
-                   
-                 await AddReactionForBlogMessages(messageList);
+                    try
+                    {
+                        Console.ForegroundColor = ConsoleColor.Red;
+                        Console.WriteLine("AddReactionForBlogMessages CATCH");
+                        Console.ResetColor();
+                        for (var j = 0; j < messageList.Count; j++)
+                        {
+                            await messageList[j].DeleteAsync();
+
+                        }
+
+                        await contextChannel.SendMessageAsync(
+                            $"Произошла какая-то ошибка, попробуй отправить снова");
+                    }
+                    catch
+                    {
+                        Console.ForegroundColor = ConsoleColor.Red;
+                        Console.WriteLine("AddReactionForBlogMessages CATCH-CATCH");
+                        Console.ResetColor();
+                    }
+
                 }
+
             });
 
             await Task.CompletedTask;
