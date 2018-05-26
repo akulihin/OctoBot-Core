@@ -16,7 +16,7 @@ namespace OctoBot.Commands
         [Alias("факт", "write", "write down", "fact")]
         public async Task WriteFuckt(IGuildUser user, [Remainder] string message)
         {
-
+            try {
             var account = UserAccounts.GetAccount((SocketUser) user);
             if (account == null)
                 return;
@@ -30,13 +30,19 @@ namespace OctoBot.Commands
             await msg.DeleteAsync();
             
             await Context.Channel.SendMessageAsync($"We wrote down this fact about {user.Mention}!");
-
+            }
+            catch
+            {
+                await ReplyAsync("boo... An error just appear >_< \nTry to use this command properly: **fact [user_ping(or user ID)] [message]**(write down a fact about user!)\n" +
+                                 "Alias: факт, write, fact, write down");
+            }
         }
 
         [Command("факт")]
         [Alias("fact")]
         public async Task ReadFuckt(SocketUser user)
         {
+            try {
             var account = UserAccounts.GetAccount(user);
 
             if (account.Fuckt == null)
@@ -45,11 +51,7 @@ namespace OctoBot.Commands
                 return;
             }
 
-
             var randomFuktArr = account.Fuckt.Split(new[] {'|'}, StringSplitOptions.RemoveEmptyEntries);
-
-
-
 
             var rand = new Random();
             var randomIndex = rand.Next(randomFuktArr.Length);
@@ -91,45 +93,40 @@ namespace OctoBot.Commands
             else
                 embed.AddField("Random fact: ", " " + randomFukt);
 
-
             await Context.Channel.SendMessageAsync("", embed: embed);
-
+            }
+            catch
+            {
+                await ReplyAsync("boo... An error just appear >_< \nTry to use this command properly: **fact [user_ping(or user ID)]**(show a random fact about user)");
+            }
         }
 
         [Command("факт")]
         [Alias("fact")]
         public async Task ReadFucktIndex(SocketUser user, int index)
         {
+            try {
             var account = UserAccounts.GetAccount(user);
             var comander = UserAccounts.GetAccount(Context.User);
             if (comander.OctoPass >= 10)
             {
-
-
-
                 if (account.Fuckt == null)
                 {
                     await Context.Channel.SendMessageAsync("boole. :c\nWe could not find the facts about this user");
                     return;
                 }
 
-
                 var randomFuktArr = account.Fuckt.Split(new[] {'|'}, StringSplitOptions.RemoveEmptyEntries);
-
-
-
 
                 var rand = new Random();
 
                 var randomFukt = ($"{randomFuktArr[index]}");
-
 
                 string httpsCheck = null;
                 if (randomFukt.Length >= 5)
                 {
                     httpsCheck = ($"{randomFukt[0]}{randomFukt[1]}{randomFukt[2]}{randomFukt[3]}{randomFukt[4]}");
                 }
-
 
                 //onsole.WriteLine($"Длина: {RandomFuktArr.Length} | Индекс: {randomIndex} | HTTP Check: {httpsCheck}");
 
@@ -162,8 +159,11 @@ namespace OctoBot.Commands
 
                 await Context.Channel.SendMessageAsync("", embed: embed);
             }
-            
-
+            }
+            catch
+            {
+                await ReplyAsync("boo... An error just appear >_< \nTry to use this command properly: **fact [user_ping(or user ID)] [index]**(show [index] fact about user)");
+            }
         }
 
 
@@ -171,7 +171,7 @@ namespace OctoBot.Commands
         [Alias("Все Факты", "allfact", "allfacts", "all fact", "all facts")]
         public async Task DeleteTheFucktUser( )
         {
-         
+         try {
             var account = UserAccounts.GetAccount(Context.User);
             if (account.OctoPass >= 3)
             {
@@ -193,7 +193,11 @@ namespace OctoBot.Commands
             }
             else
                 await Context.Channel.SendMessageAsync("Boole :< You do not have 3rd level tolerance");
-
+         }
+         catch
+         {
+             await ReplyAsync("boo... An error just appear >_< \nTry to use this command properly: **allfacts [user_ping(or user ID)]**(show all of your facts)\n");
+         }
         }
 
 
@@ -201,14 +205,13 @@ namespace OctoBot.Commands
         [Alias("Все Факты", "allfact", "allfacts", "all fact", "all facts")]
         public async Task DeleteTheFuckt(IGuildUser user)
         {
+            try {
             var account = UserAccounts.GetAccount((SocketUser) user);
             var comander = UserAccounts.GetAccount(Context.User);
             if (comander.OctoPass >= 4)
             {
 
-
                 var fuckts = account.Fuckt.Split(new[] {'|'}, StringSplitOptions.RemoveEmptyEntries);
-
 
                 string mess = "";
                 for (var i = 0; i < fuckts.Length; i++)
@@ -226,6 +229,12 @@ namespace OctoBot.Commands
             }
             else
                 await Context.Channel.SendMessageAsync("Boole :< You do not have 4rd level tolerance");
+            }
+            catch
+            {
+                await ReplyAsync("boo... An error just appear >_< \nTry to use this command properly: **allfacts [user_ping(or user ID)]**(show all facts about user)\n" +
+                                 "Alias: allfact, all facts, ВсеФакты, Все Факты ");
+            }
         }
 
 
@@ -233,7 +242,7 @@ namespace OctoBot.Commands
         [Alias("Удалить Факт", "del")]
         public async Task DeleteTheFucktUser(int index)
         {
-            
+           try { 
             var account = UserAccounts.GetAccount(Context.User);
             if (account.OctoPass >= 2)
             {
@@ -255,6 +264,12 @@ namespace OctoBot.Commands
             }
             else
                 await Context.Channel.SendMessageAsync("Boole :< You do not have 3rd level tolerance");
+           }
+           catch
+           {
+               await ReplyAsync("boo... An error just appear >_< \nTry to use this command properly: **del [index]**(delete [index] fact)\n" +
+                                "Alias: УдалитьФакт");
+           }
         }
 
 
@@ -263,6 +278,7 @@ namespace OctoBot.Commands
         [Alias("Удалить Факт", "del")]
         public async Task DeleteTheFuckt(IGuildUser user, int index)
         {
+            try {
             var account = UserAccounts.GetAccount((SocketUser) user);
             var comander = UserAccounts.GetAccount(Context.User);
             if (comander.OctoPass >= 100)
@@ -285,6 +301,12 @@ namespace OctoBot.Commands
             }
             else
                 await Context.Channel.SendMessageAsync("Boole :< You do not have 10th level tolerance");
+            }
+            catch
+            {
+                await ReplyAsync("boo... An error just appear >_< \nTry to use this command properly: **del [user_ping(or user ID)] [index]**(delete [index] fact of the user)\n" +
+                                 "Alias: УдалитьФакт");
+            }
         }
 
     }

@@ -14,10 +14,28 @@ namespace OctoBot.Configs.LvLingSystem
             var mess = ($"{arg}");
 
             var option = mess.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
-            var words = option.Length;
 
-            var wordsPoints = 0.1 * words;
-            var wordsPointsActivity = 2.5 * words;
+            
+
+            double wordsPoints = 0;
+            double wordsPointsActivity = 0;
+
+            for (var j = 0; j < option.Length; j++)
+            {
+                if (option[j].Length >= 4)
+                {
+                    wordsPoints = 0.1 * option[j].Length;
+                    wordsPointsActivity = 2.5 * option[j].Length;
+                }
+                else
+                {
+                    wordsPoints = 0;
+                    wordsPointsActivity = 0; 
+                }
+            }
+
+
+
             var userAccount = UserAccounts.GetAccount(user);
             userAccount.Points += 5 + (int)wordsPoints;
             userAccount.LvlPoinnts += 30 + (uint)wordsPointsActivity;
@@ -43,7 +61,7 @@ namespace OctoBot.Configs.LvLingSystem
             else if (user.Nickname != null)
                 userAccount.ExtraUserName = (user.Nickname + "|");
 
-            userAccount.Lvl = (uint)Math.Sqrt(userAccount.LvlPoinnts / 150);
+            userAccount.Lvl = Math.Sqrt(userAccount.LvlPoinnts / 150);
 
             UserAccounts.SaveAccounts();
 

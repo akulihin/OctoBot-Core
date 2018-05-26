@@ -16,29 +16,35 @@ namespace OctoBot.Commands
         [Alias("статы")]
         public async Task Xp()
         {
-            
+            try
+            {
             var account = UserAccounts.GetAccount(Context.User);
 
-            var avatar = ("https://cdn.discordapp.com/avatars/" + Context.User.Id + "/" + Context.User.AvatarId + ".png");
+            var avatar =
+                ("https://cdn.discordapp.com/avatars/" + Context.User.Id + "/" + Context.User.AvatarId + ".png");
 
             var usedNicks = "";
-
+            var usedNicks2 = "";
             if (account.ExtraUserName != null)
             {
 
                 var extra = account.ExtraUserName.Split(new[] {'|'}, StringSplitOptions.RemoveEmptyEntries);
-         
+
                 for (var i = 0; i < extra.Length; i++)
                 {
-                    
+
                     if (i == extra.Length - 1)
                     {
                         usedNicks += (extra[i]);
 
                     }
-                    else
+                    else if (usedNicks.Length <= 1000)
                     {
                         usedNicks += (extra[i] + ", ");
+                    }
+                    else
+                    {
+                        usedNicks2 += (extra[i] + ", ");
                     }
                 }
 
@@ -49,7 +55,7 @@ namespace OctoBot.Commands
             var octopuses = "";
             if (account.Octopuses != null)
             {
-                string[] octo = account.Octopuses.Split(new[] { '|' }, StringSplitOptions.RemoveEmptyEntries);
+                string[] octo = account.Octopuses.Split(new[] {'|'}, StringSplitOptions.RemoveEmptyEntries);
 
 
 
@@ -88,30 +94,33 @@ namespace OctoBot.Commands
             embed.WithFooter("lil octo notebook");
             embed.AddInlineField("ID", "" + Context.User.Id);
             embed.AddInlineField("Status", "" + Context.User.Status);
-           
+
             embed.AddInlineField("UserName", "" + Context.User);
-           
+
             embed.AddInlineField("NickName", "" + Context.User.Mention);
             embed.AddInlineField("Octo Points", "" + account.Points);
             embed.AddInlineField("Octo Reputation", "" + account.Rep);
             embed.AddInlineField("Access LVL", "" + account.OctoPass);
             embed.AddInlineField("User LVL", "" + account.Lvl);
             embed.AddInlineField("Pull Points", "" + account.DailyPullPoints);
-            if(warns != null)
-            embed.AddInlineField("Warnings", "" + warns.Length);
+            if (warns != null)
+                embed.AddInlineField("Warnings", "" + warns.Length);
             else
-            embed.AddInlineField("Warnings", "Clear." );
+                embed.AddInlineField("Warnings", "Clear.");
             embed.AddField("Best 2048 Game Score", $"{account.Best2048Score}");
-            embed.AddField("OctoCollection ", "" + octopuses);   
+            embed.AddField("OctoCollection ", "" + octopuses);
             embed.AddField("Used Nicknames", "" + usedNicks);
+            if (usedNicks2.Length >= 5)
+                embed.AddField("Extra Nicknames", "" + usedNicks2);
             embed.WithThumbnailUrl($"{avatar}");
             //embed.AddField("Роли", ""+avatar);
 
             await Context.Channel.SendMessageAsync("", embed: embed);
-
-
-
-            //await Context.Channel.SendMessageAsync($"У тебя {account.Points} Octo Points и {account.Rep} Octo Reputation");
+        }
+        catch
+        {
+                await ReplyAsync("boo... An error just appear >_< \nTry to use this command properly: **Stats**");
+            }
         }
 
         [Command("OctoRep")]
@@ -119,6 +128,7 @@ namespace OctoBot.Commands
         //[RequireUserPermission(GuildPermission.Administrator)]
         public async Task AddPoints(IGuildUser user, long rep)
         {
+            try{
             var comander = UserAccounts.GetAccount(Context.User);
             if (comander.OctoPass >= 100)
             {
@@ -130,13 +140,20 @@ namespace OctoBot.Commands
             }
             else
                 await Context.Channel.SendMessageAsync("Boole! You do not have a tolerance of this level!");
+            }
+            catch
+            {
+                await ReplyAsync("boo... An error just appear >_< \nTry to use this command properly: **OctoRep [ping_user(or user ID)] [number_of_points]**\n" +
+                                 "Alias: Rep, октоРепа, Репа, Окто Репа");
+            }
         }
 
         [Command("OctoPoint")]
-        [Alias("Octo Point", "OctoPoints", "Octo Points", "ОктоПоинты", "Окто Поинты", "Поинты", "points")]
+        [Alias("Octo Point", "OctoPoints", "Octo Points", "ОктоПоинты", "Окто Поинты", "Поинты", "points", "point")]
        // [RequireUserPermission(GuildPermission.Administrator)]
         public async Task GivePoints(IGuildUser user, long points)
         {
+            try {
             var comander = UserAccounts.GetAccount(Context.User);
             if (comander.OctoPass >= 100)
             {
@@ -150,17 +167,20 @@ namespace OctoBot.Commands
             }
             else
                 await Context.Channel.SendMessageAsync("Boole! You do not have a tolerance of this level!");
+            }
+            catch
+            {
+                await ReplyAsync("boo... An error just appear >_< \nTry to use this command properly: **OctoPoint [ping_user(or user ID)] [number_of_points]**\n" +
+                                 "Alias: OctoPoints, ОктоПоинты, Поинты, points, point");
+            }
         }
-
 
 
         [Command("stats")]
         [Alias("Статы")]
-
         public async Task CheckUser(IGuildUser user)
         {
-
-           
+            try {
             var comander = UserAccounts.GetAccount(Context.User);
             if (comander.OctoPass >= 4)
             {
@@ -171,31 +191,34 @@ namespace OctoBot.Commands
                 var avatar = ("https://cdn.discordapp.com/avatars/" + user.Id + "/" + user.AvatarId + ".png");
 
                 var usedNicks = "";
-
-
+                var usedNicks2 = "";
                 if (account.ExtraUserName != null)
                 {
-                    string[] extra = account.ExtraUserName.Split(new[] { '|' }, StringSplitOptions.RemoveEmptyEntries);
 
-
-
+                    var extra = account.ExtraUserName.Split(new[] {'|'}, StringSplitOptions.RemoveEmptyEntries);
+         
                     for (var i = 0; i < extra.Length; i++)
                     {
-                        
+                    
                         if (i == extra.Length - 1)
                         {
                             usedNicks += (extra[i]);
 
                         }
-                        else
+                        else if(usedNicks.Length <= 1000)
                         {
                             usedNicks += (extra[i] + ", ");
+                        }
+                        else
+                        {
+                            usedNicks2 += (extra[i] + ", ");
                         }
                     }
 
                 }
                 else
                     usedNicks = "No one :c";
+
 
 
                 var octopuses = "";
@@ -258,20 +281,25 @@ namespace OctoBot.Commands
                 embed.AddField("Best 2048 Game Score", $"{account.Best2048Score}");
                 embed.AddField("OctoCollection ", "" + octopuses);
                 embed.AddField("Used Nicknames", "" + usedNicks);
+                if(usedNicks2.Length >=5)
+                    embed.AddField("Extra Nicknames", "" + usedNicks2);
                 embed.WithThumbnailUrl($"{avatar}");
 
                 await Context.Channel.SendMessageAsync("", embed: embed);
             }else
                 await Context.Channel.SendMessageAsync("Boole! You do not have a tolerance of this level!");
+            }
+            catch
+            {
+                await ReplyAsync("boo... An error just appear >_< \nTry to use this command properly: **Stats [user_ping(or user ID)]**");
+            }
         }
 
-
-
-
         [Command("pass", RunMode = RunMode.Async)]
-        [Alias("ПАсс", "Купить Пропуск", "Пропуск", "КупитьПропуск", "Доступ")]
+        [Alias("Пасс", "Купить Пропуск", "Пропуск", "КупитьПропуск", "Доступ")]
         public async Task BuyPass()
         {
+            try {
                 var account = UserAccounts.GetAccount(Context.User);
                 var cost = 4000 * (account.OctoPass + 1);
 
@@ -298,25 +326,32 @@ namespace OctoBot.Commands
                 await Context.Channel.SendMessageAsync(
                     $"You did not earn enough Octo Points, current amount: **{account.Points}**\nFor pass #{account.OctoPass + 1} you will need **{cost}** Octo Points!");
             }
+            }
+            catch
+            {
+                await ReplyAsync("boo... An error just appear >_< \nTry to use this command properly: **pass**\n Alias: Пасс, Пропуск, Доступ, КупитьПропуск, Купить Пропуск");
+            }
         }
-
 
         [Command("CheckLvlLOL")]
         public async Task Check(uint xp)
         {
-
-            var level = (uint)Math.Sqrt(xp / 100);
+            try {
+            var level = (uint)Math.Sqrt((double)xp / 100);
             await Context.Channel.SendMessageAsync("Это " + level + "сможешь ли ты достичь высот?");
-
+            }
+            catch
+            {
+                await ReplyAsync("boo... An error just appear >_< \nTry to use this command properly: **Stats**");
+            }
         }
 
         [Command("GiftPoints")]
         [Alias("Gift Points", "GiftPoint", "Gift Point")]
         public async Task GidftPoints(IGuildUser user, long points)
         {
-
+            try {
             var passCheck = UserAccounts.GetAccount(Context.User);
-
 
             if (passCheck.OctoPass >= 1)
             {
@@ -355,210 +390,12 @@ namespace OctoBot.Commands
             {
                 await Context.Channel.SendMessageAsync("Boole! You do not have a tolerance of this level!");
             }
+            }
+            catch
+            {
+                await ReplyAsync("boo... An error just appear >_< \nTry to use this command properly: **GiftPoints [ping_user(or user ID)] [number_of_points]**\nAlias: GiftPoint ");
+            }
         }
-
-        [Command("topo")]
-        [Alias("topp")]
-        public async Task TopByOctoPoints(int page = 1)
-        {
-            if (page < 1)
-            {
-                await ReplyAsync("Are you fucking sure about that?");
-                return;
-            }
-
-            var currentGuildUsersId = Context.Guild.Users.Select(user => user.Id);
-            // Get only accounts of this server
-            var accounts = UserAccounts.GetFilteredAccounts(acc => currentGuildUsersId.Contains(acc.Id));
-
-            const int usersPerPage = 9;
-
-            var lastPage = 1 + (accounts.Count / (usersPerPage+1));
-            if (page > lastPage)
-            {
-                await ReplyAsync($"Boole. Last Page is {lastPage}");
-                return;
-            }
-       
-            var ordered = accounts.OrderByDescending(acc => acc.Points).ToList();
-
-            var embB = new EmbedBuilder()
-                .WithTitle("Top By Octo Points:")
-                .WithFooter($"Page {page}/{lastPage}");
-
-
-            page--;
-            for (var i = 1; i <= usersPerPage && i + usersPerPage * page <= ordered.Count; i++)
-            {
-              
-                var account = ordered[i - 1 + usersPerPage * page];
-                var user = Global.Client.GetUser(account.Id);
-                embB.AddField($"#{i + usersPerPage * page} {user.Username}", $"{account.Points} OctoPoints", true);
-            }
-
-            await ReplyAsync("", false, embB.Build());
-        }
-
-        [Command("tops")]
-        public async Task TopBySubc(int page = 1)
-        {
-            if (page < 1)
-            {
-                await ReplyAsync("Are you fucking sure about that?");
-                return;
-            }
-
-            // Get only accounts of this server
-            var accounts = UserAccounts.GetFilteredAccounts(acc => Context.Guild.Users.Select(user => user.Id).Contains(acc.Id));
-
-            const int usersPerPage = 9;
-
-            var lastPage = 1 + (accounts.Count / (usersPerPage+1));
-            if (page > lastPage)
-            {
-                await ReplyAsync($"Boole. Last Page is {lastPage}");
-                return;
-            }
-
-            for (var j = 0; j < accounts.Count; j++)
-            {
-                if (accounts[j].SubedToYou == null)
-                    accounts[j].SubedToYou = "0";
-            }
-            var ordered = accounts.OrderByDescending(acc => acc.SubedToYou.Split(new[] {'|'}, StringSplitOptions.RemoveEmptyEntries).Length).ToList();
-
-            var embB = new EmbedBuilder()
-                .WithTitle("Top By Octo Points:")
-                .WithFooter($"Page {page}/{lastPage}");
-   
-            page--;
-
-        
-            
-            for (var i = 1; i <= usersPerPage && i + usersPerPage * page <= ordered.Count; i++)
-            {
-               
-                var account = ordered[i - 1 + usersPerPage * page];
-                var user = Global.Client.GetUser(account.Id);
-
-                var size = account.SubedToYou.Split(new[] {'|'}, StringSplitOptions.RemoveEmptyEntries).Length;
-                if ( size == 1)
-                    size = 0;
-                embB.AddField($"#{i + usersPerPage * page} {user.Username}", $"{size} Subscribers", true);
-            }
-            
-            await ReplyAsync("", false, embB.Build());
-        }
-
-        [Command("top")]
-        [Alias("topl", "topa")]
-        public async Task TopByLvL(int page = 1)
-        {
-            if (page < 1)
-            {
-                await ReplyAsync("Are you fucking sure about that?");
-                return;
-            }
-
-
-            var currentGuildUsersId = Context.Guild.Users.Select(user => user.Id);
-            // Get only accounts of this server
-            var accounts = UserAccounts.GetFilteredAccounts(acc => currentGuildUsersId.Contains(acc.Id));
-
-
-            for (var j = 0; j < accounts.Count; j++)
-            {
-
-                accounts[j].Lvl = (uint) Math.Sqrt(accounts[j].LvlPoinnts / 150);
-                UserAccounts.SaveAccounts();
-            }
-
-            const int usersPerPage = 9;
-
-            var lastPage = 1 + (accounts.Count / (usersPerPage+1));
-            if (page > lastPage)
-            {
-                await ReplyAsync($"Boole. Last Page is {lastPage}");
-                return;
-            }
-       
-            var ordered = accounts.OrderByDescending(acc => acc.Lvl).ToList();
-
-            var embB = new EmbedBuilder()
-                .WithTitle("Top By Activity:")
-                .WithFooter($"Page {page}/{lastPage}");
-
-
-            page--;
-            for (var i = 1; i <= usersPerPage && i + usersPerPage * page <= ordered.Count; i++)
-            {
-              
-                var account = ordered[i - 1 + usersPerPage * page];
-                var user = Global.Client.GetUser(account.Id);
-                embB.AddField($"#{i + usersPerPage * page} {user.Username}", $"{account.Lvl} LVL", true);
-            }
-
-            await ReplyAsync("", false, embB.Build());
-        }
-
-        [Command("topr")]
-        [Alias("topb")]
-        public async Task TopByRating(int page = 1)
-        {
-            if (page < 1)
-            {
-                await ReplyAsync("Are you fucking sure about that?");
-                return;
-            }
-
-
-            var currentGuildUsersId = Context.Guild.Users.Select(user => user.Id);
-            // Get only accounts of this server
-            var accounts = UserAccounts.GetFilteredAccounts(acc => currentGuildUsersId.Contains(acc.Id));
-
-
-            for (var j = 0; j < accounts.Count; j++)
-            {
-                if (accounts[j].AvarageScoreVotes <= 0.0)
-                {
-                    accounts[j].AvarageScoreVotes = 0;
-                }
-                else
-                {
-                    accounts[j].AvarageScoreVotes = accounts[j].BlogVotesSum / accounts[j].BlogVotesQty;
-                }
-
-                UserAccounts.SaveAccounts();
-            }
-
-            const int usersPerPage = 9;
-
-            var lastPage = 1 + (accounts.Count / (usersPerPage+1));
-            if (page > lastPage)
-            {
-                await ReplyAsync($"Boole. Last Page is {lastPage}");
-                return;
-            }
-       
-            var ordered = accounts.OrderByDescending(acc => acc.AvarageScoreVotes).ToList();
-
-            var embB = new EmbedBuilder()
-                .WithTitle("Top By Avarage Rating in Blog:")
-                .WithFooter($"Page {page}/{lastPage}");
-
-
-            page--;
-            for (var i = 1; i <= usersPerPage && i + usersPerPage * page <= ordered.Count; i++)
-            {
-              
-                var account = ordered[i - 1 + usersPerPage * page];
-                var user = Global.Client.GetUser(account.Id);
-                embB.AddField($"#{i + usersPerPage * page} {user.Username}", $"{account.AvarageScoreVotes} {new Emoji("⭐")} out of {account.BlogVotesQty} votes", true);
-            }
-
-            await ReplyAsync("", false, embB.Build());
-        }
-
 
     }
 }

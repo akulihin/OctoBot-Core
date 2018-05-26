@@ -9,9 +9,9 @@ namespace OctoBot.Commands
     public static class OctoPull
     {
 
-        public static string[] OctoPics = 
-                 {
-                //индекс осьминога -1 к его номеру
+        public static string[] OctoPics =
+        {
+            //индекс осьминога -1 к его номеру
             "https://i.imgur.com/NQlAjwN.png", //1 розовый книга
             "https://i.imgur.com/rwQb4Zz.jpg", //2 Сервый верхтормашками
             "https://i.imgur.com/PoMF5Pn.jpg", //3
@@ -60,7 +60,7 @@ namespace OctoBot.Commands
             "https://i.imgur.com/HcsXFSr.jpg", //46 OCto-spider
             "https://i.imgur.com/KfmI8d3.jpg", //47
             "https://i.imgur.com/AlTg8Gi.jpg", //48 (-1)
-            "https://i.imgur.com/k9y6RmI.jpg",  //49 ДРЯКОООНЬ!
+            "https://i.imgur.com/k9y6RmI.jpg", //49 ДРЯКОООНЬ!
             "https://i.imgur.com/h1lVuBH.jpg", //50 (-1 alsways!)
             "https://i.imgur.com/I9xLycY.jpg", //51 пипашка в шапке!
             "https://i.imgur.com/OJvPxlQ.jpg", //52 дряконы!
@@ -73,91 +73,91 @@ namespace OctoBot.Commands
             "https://i.imgur.com/akfktDb.jpg", //59  Rainbow on YellowTurtle
             "https://i.imgur.com/Pn9Sgl0.jpg", //60 Rainbow LeCrisp
             "https://i.imgur.com/YiW43ad.jpg", //61 GreenBoo With a knife
-            "https://i.imgur.com/yMSGQYu.jpg",  //62 Братишки
-            "https://i.imgur.com/GCKywPO.jpg",  //63 братишка за компом
+            "https://i.imgur.com/yMSGQYu.jpg", //62 Братишки
+            "https://i.imgur.com/GCKywPO.jpg", //63 братишка за компом
             "https://i.imgur.com/i7CsKuk.jpg", //64 братишка и много осьминогов
-                       "https://i.imgur.com/CVkzrjJ.jpg",
-  "https://i.imgur.com/bW57jhq.jpg",
-  "https://i.imgur.com/mJxMuLu.jpg",
-  "https://i.imgur.com/4EPD5kc.jpg",
-  "https://i.imgur.com/Es7Lo8Z.jpg",
-  "https://i.imgur.com/BqV2Oey.jpg",
-  "https://i.imgur.com/WN3T2yE.jpg",
-  "https://i.imgur.com/tQQ2Xpy.jpg",
-  "https://i.imgur.com/kxT0aEj.jpg",
-  "https://i.imgur.com/5caqVQg.jpg",
-  "https://i.imgur.com/LB6oLLQ.jpg",
-  "https://i.imgur.com/LpqeU77.jpg",
-  "https://i.imgur.com/r85Dn8t.jpg",
-  "https://i.imgur.com/Kr3umkC.jpg",
-  "https://i.imgur.com/kB1vV39.jpg",
-  "https://i.imgur.com/IGLBtax.jpg",
-  "https://i.imgur.com/GXIKFvR.jpg",
-  "https://i.imgur.com/rG8gwaZ.jpg",
-  "https://i.imgur.com/wo0lJcw.jpg",
-  "https://i.imgur.com/rv5YnTm.jpg",
-  "https://i.imgur.com/4anWFFb.jpg",
-  "https://i.imgur.com/I6eAl2d.jpg",
-  "https://i.imgur.com/3i22uVz.jpg",
-  "https://i.imgur.com/eMTolZz.jpg",
-  "https://i.imgur.com/fxjxQCh.jpg",
-  "https://i.imgur.com/QK6hZ5B.jpg",
-  "https://i.imgur.com/iQ7XFAF.jpg",
-  "https://i.imgur.com/wG8q6E1.jpg",
-  "https://i.imgur.com/IJCrm1b.jpg",
-  "https://i.imgur.com/bAzj6zr.jpg",
-  "https://i.imgur.com/LtRVQDq.jpg",
-  "https://i.imgur.com/OpOhpvs.jpg",
-  "https://i.imgur.com/N4Wyye0.jpg",
-  "https://i.imgur.com/qQCpt6g.jpg",
-  "https://i.imgur.com/i8MjyRR.jpg",
-  "https://i.imgur.com/baQMObw.jpg",
-  "https://i.imgur.com/DavR8C7.jpg",
-  "https://i.imgur.com/JyI8PNU.jpg",
-  "https://i.imgur.com/ZtrESXP.jpg",
-  "https://i.imgur.com/OTcCJwX.jpg",
-  "https://i.imgur.com/OXoFjjr.jpg",
-  "https://i.imgur.com/wiskanY.jpg",
-  "https://i.imgur.com/fO8YZGA.jpg",
-  "https://i.imgur.com/q9D4TVK.png",
-  "https://i.imgur.com/kdc2b9z.jpg",
-  "https://i.imgur.com/xAYL5vM.jpg",
-  "https://i.imgur.com/VLJNGRG.jpg",
-  "https://i.imgur.com/cTqk5ci.jpg",
-  "https://i.imgur.com/vxTe2sM.jpg",
-  "https://i.imgur.com/sn9qfSb.jpg",
-  "https://i.imgur.com/5hmem4s.jpg",
-  "https://i.imgur.com/gmsOGAF.jpg",
-  "https://i.imgur.com/6CiWZjK.jpg",
-  "https://i.imgur.com/ZWSwSDS.jpg",
-  "https://i.imgur.com/NyTHBeV.jpg",
-  "https://i.imgur.com/dqppxFf.jpg",
-  "https://i.imgur.com/4MykFJm.jpg",
-  "https://i.imgur.com/RoqjD7C.jpg",
-  "https://i.imgur.com/eHQEjjK.jpg",
-  "https://i.imgur.com/231MgpJ.jpg",
-  "https://cdn.discordapp.com/attachments/425865177813090314/445366377067577354/JPEG_20180218_032048.jpg",
-  "https://cdn.discordapp.com/attachments/425865177813090314/445366374731218944/JPEG_20180201_211154.jpg",
-  "https://cdn.discordapp.com/attachments/425865177813090314/445366379869241344/JPEG_20180223_120340.jpg",
-  "https://cdn.discordapp.com/attachments/425865177813090314/445366384558604290/JPEG_20180410_083052.jpg",
-  "https://cdn.discordapp.com/attachments/425865177813090314/445366382939471884/JPEG_20180314_221039.jpg",
-  "https://cdn.discordapp.com/attachments/425865177813090314/445366388597587968/JPEG_20171005_002230.jpg",
-  "https://cdn.discordapp.com/attachments/425865177813090314/445366386110365697/JPEG_20180413_004513.jpg",
-  "https://cdn.discordapp.com/attachments/425865177813090314/445366387536560128/JPEG_20171005_001804.jpg",
-  "https://cdn.discordapp.com/attachments/425865177813090314/445366606575435777/JPEG_20171006_173629.jpg",
-  "https://cdn.discordapp.com/attachments/425865177813090314/445366619842019339/JPEG_20171014_075205.jpg",
-  "https://cdn.discordapp.com/attachments/425865177813090314/445366639274491904/JPEG_20180124_141420.jpg",
-  "https://cdn.discordapp.com/attachments/425865177813090314/445366662880034839/JPEG_20180128_211126.jpg",
-  "https://cdn.discordapp.com/attachments/425865177813090314/445366385934204929/Screenshot_44.png",
-  "https://media.discordapp.net/attachments/370950995133464587/442770494937104395/IMG_20180506_122658.jpg?width=936&height=702",
-  "https://media.discordapp.net/attachments/370950995133464587/442770494089986064/IMG_20180506_122840.jpg?width=936&height=702",
-  "https://media.discordapp.net/attachments/370950995133464587/442770494089986058/IMG_20180505_115422.jpg?width=936&height=702",
-  "https://media.discordapp.net/attachments/370950995133464587/442770493599383562/IMG_20180506_112852.jpg?width=936&height=702",
-  "https://media.discordapp.net/attachments/370950995133464587/442770492798009355/IMG_20180505_115640.jpg?width=936&height=702",
-                     "https://media.discordapp.net/attachments/370950995133464587/445467032176295947/IMG_20180506_121914.jpg?width=1872&height=1404"
-                     
+            "https://i.imgur.com/CVkzrjJ.jpg",
+            "https://i.imgur.com/bW57jhq.jpg",
+            "https://i.imgur.com/mJxMuLu.jpg",
+            "https://i.imgur.com/4EPD5kc.jpg",
+            "https://i.imgur.com/Es7Lo8Z.jpg",
+            "https://i.imgur.com/BqV2Oey.jpg",
+            "https://i.imgur.com/WN3T2yE.jpg",
+            "https://i.imgur.com/tQQ2Xpy.jpg",
+            "https://i.imgur.com/kxT0aEj.jpg",
+            "https://i.imgur.com/5caqVQg.jpg",
+            "https://i.imgur.com/LB6oLLQ.jpg",
+            "https://i.imgur.com/LpqeU77.jpg",
+            "https://i.imgur.com/r85Dn8t.jpg",
+            "https://i.imgur.com/Kr3umkC.jpg",
+            "https://i.imgur.com/kB1vV39.jpg",
+            "https://i.imgur.com/IGLBtax.jpg",
+            "https://i.imgur.com/GXIKFvR.jpg",
+            "https://i.imgur.com/rG8gwaZ.jpg",
+            "https://i.imgur.com/wo0lJcw.jpg",
+            "https://i.imgur.com/rv5YnTm.jpg",
+            "https://i.imgur.com/4anWFFb.jpg",
+            "https://i.imgur.com/I6eAl2d.jpg",
+            "https://i.imgur.com/3i22uVz.jpg",
+            "https://i.imgur.com/eMTolZz.jpg",
+            "https://i.imgur.com/fxjxQCh.jpg",
+            "https://i.imgur.com/QK6hZ5B.jpg",
+            "https://i.imgur.com/iQ7XFAF.jpg",
+            "https://i.imgur.com/wG8q6E1.jpg",
+            "https://i.imgur.com/IJCrm1b.jpg",
+            "https://i.imgur.com/bAzj6zr.jpg",
+            "https://i.imgur.com/LtRVQDq.jpg",
+            "https://i.imgur.com/OpOhpvs.jpg",
+            "https://i.imgur.com/N4Wyye0.jpg",
+            "https://i.imgur.com/qQCpt6g.jpg",
+            "https://i.imgur.com/i8MjyRR.jpg",
+            "https://i.imgur.com/baQMObw.jpg",
+            "https://i.imgur.com/DavR8C7.jpg",
+            "https://i.imgur.com/JyI8PNU.jpg",
+            "https://i.imgur.com/ZtrESXP.jpg",
+            "https://i.imgur.com/OTcCJwX.jpg",
+            "https://i.imgur.com/OXoFjjr.jpg",
+            "https://i.imgur.com/wiskanY.jpg",
+            "https://i.imgur.com/fO8YZGA.jpg",
+            "https://i.imgur.com/q9D4TVK.png",
+            "https://i.imgur.com/kdc2b9z.jpg",
+            "https://i.imgur.com/xAYL5vM.jpg",
+            "https://i.imgur.com/VLJNGRG.jpg",
+            "https://i.imgur.com/cTqk5ci.jpg",
+            "https://i.imgur.com/vxTe2sM.jpg",
+            "https://i.imgur.com/sn9qfSb.jpg",
+            "https://i.imgur.com/5hmem4s.jpg",
+            "https://i.imgur.com/gmsOGAF.jpg",
+            "https://i.imgur.com/6CiWZjK.jpg",
+            "https://i.imgur.com/ZWSwSDS.jpg",
+            "https://i.imgur.com/NyTHBeV.jpg",
+            "https://i.imgur.com/dqppxFf.jpg",
+            "https://i.imgur.com/4MykFJm.jpg",
+            "https://i.imgur.com/RoqjD7C.jpg",
+            "https://i.imgur.com/eHQEjjK.jpg",
+            "https://i.imgur.com/231MgpJ.jpg",
+            "https://cdn.discordapp.com/attachments/425865177813090314/445366377067577354/JPEG_20180218_032048.jpg",
+            "https://cdn.discordapp.com/attachments/425865177813090314/445366374731218944/JPEG_20180201_211154.jpg",
+            "https://cdn.discordapp.com/attachments/425865177813090314/445366379869241344/JPEG_20180223_120340.jpg",
+            "https://cdn.discordapp.com/attachments/425865177813090314/445366384558604290/JPEG_20180410_083052.jpg",
+            "https://cdn.discordapp.com/attachments/425865177813090314/445366382939471884/JPEG_20180314_221039.jpg",
+            "https://cdn.discordapp.com/attachments/425865177813090314/445366388597587968/JPEG_20171005_002230.jpg",
+            "https://cdn.discordapp.com/attachments/425865177813090314/445366386110365697/JPEG_20180413_004513.jpg",
+            "https://cdn.discordapp.com/attachments/425865177813090314/445366387536560128/JPEG_20171005_001804.jpg",
+            "https://cdn.discordapp.com/attachments/425865177813090314/445366606575435777/JPEG_20171006_173629.jpg",
+            "https://cdn.discordapp.com/attachments/425865177813090314/445366619842019339/JPEG_20171014_075205.jpg",
+            "https://cdn.discordapp.com/attachments/425865177813090314/445366639274491904/JPEG_20180124_141420.jpg",
+            "https://cdn.discordapp.com/attachments/425865177813090314/445366662880034839/JPEG_20180128_211126.jpg",
+            "https://cdn.discordapp.com/attachments/425865177813090314/445366385934204929/Screenshot_44.png",
+            "https://media.discordapp.net/attachments/370950995133464587/442770494937104395/IMG_20180506_122658.jpg?width=936&height=702",
+            "https://media.discordapp.net/attachments/370950995133464587/442770494089986064/IMG_20180506_122840.jpg?width=936&height=702",
+            "https://media.discordapp.net/attachments/370950995133464587/442770494089986058/IMG_20180505_115422.jpg?width=936&height=702",
+            "https://media.discordapp.net/attachments/370950995133464587/442770493599383562/IMG_20180506_112852.jpg?width=936&height=702",
+            "https://media.discordapp.net/attachments/370950995133464587/442770492798009355/IMG_20180505_115640.jpg?width=936&height=702",
+            "https://media.discordapp.net/attachments/370950995133464587/445467032176295947/IMG_20180506_121914.jpg?width=1872&height=1404"
 
-                 };
+
+        };
 
 
     }
@@ -170,71 +170,11 @@ namespace OctoBot.Commands
     public class OctopusPic : ModuleBase<SocketCommandContext>
     {
 
-    [Command("octo")]
-    [Alias("окто", "octopus", "Осьминог", "Осьминожка", "Осьминога")]
-        public async Task OctopusPicture()
-        {
-            var boo = new Random();
-            var  index = boo.Next(21);
-            if (index == 20 || index == 19 || index == 18)
-            {
-
-                await Context.Channel.SendMessageAsync("буль");
-            }
-            else
-            {
-
-                Random rand;
-                rand = new Random();
-                int randomIndex = rand.Next(OctoPull.OctoPics.Length);
-                string octoToPost = OctoPull.OctoPics[randomIndex];
-
-
-                Random color1;
-                Random color2;
-                Random color3;
-                color1 = new Random();
-                color2 = new Random();
-                color3 = new Random();
-                var color1Index = color1.Next(256);
-                var color2Index = color2.Next(256);
-                var color3Index = color3.Next(256);
-
-
-                var embed = new EmbedBuilder();
-                embed.WithFooter("lil octo notebook");
-                embed.WithColor(color1Index, color2Index, color3Index);
-                embed.WithAuthor(Context.User);
-                embed.WithImageUrl("" + octoToPost);
-
-                await Context.Channel.SendMessageAsync("", embed: embed);
-
-
-
-                if (randomIndex == 19)
-                {
-                    await Context.Channel.SendMessageAsync("Oppa, it was I who passed Dark Souls!");
-                }
-                if (randomIndex == 9)
-                {
-                    await Context.Channel.SendMessageAsync("I'm drawing an octopus :3");
-                }
-                if (randomIndex == 26)
-                {
-                    await Context.Channel.SendMessageAsync("Oh, this is New Year! time to gift turtles!!");
-                }
-
-            }
-        }
-
         [Command("octo")]
         [Alias("окто", "octopus", "Осьминог", "Осьминожка", "Осьминога")]
-        public async Task OctopusPictureSelector(int selection)
+        public async Task OctopusPicture()
         {
-            var passCheck = UserAccounts.GetAccount(Context.User);
-       
-            
-            if (passCheck.OctoPass >= 1)
+            try
             {
                 var boo = new Random();
                 var index = boo.Next(21);
@@ -245,59 +185,130 @@ namespace OctoBot.Commands
                 }
                 else
                 {
-                 
-                    if ((OctoPull.OctoPics.Length - 1) < selection)
-                    {
-                        await Context.Channel.SendMessageAsync($"Boole. The maximum available index is {(OctoPull.OctoPics.Length - 1)}");
-                        return;
-                    }
-                    string octoToPost = OctoPull.OctoPics[selection];
+                    var rand = new Random();
+                    var randomIndex = rand.Next(OctoPull.OctoPics.Length);
+                    var octoToPost = OctoPull.OctoPics[randomIndex];
 
-                    Random color1;
-                    Random color2;
-                    Random color3;
-                    color1 = new Random();
-                    color2 = new Random();
-                    color3 = new Random();
-                    int color1Index = color1.Next(256);
-                    int color2Index = color2.Next(256);
-                    int color3Index = color3.Next(256);
+
+                    var color1 = new Random();
+                    var color2 = new Random();
+                    var color3 = new Random();
+                    var color1Index = color1.Next(256);
+                    var color2Index = color2.Next(256);
+                    var color3Index = color3.Next(256);
 
 
                     var embed = new EmbedBuilder();
-                    embed.WithColor(color1Index, color2Index, color3Index);
                     embed.WithFooter("lil octo notebook");
+                    embed.WithColor(color1Index, color2Index, color3Index);
                     embed.WithAuthor(Context.User);
                     embed.WithImageUrl("" + octoToPost);
 
                     await Context.Channel.SendMessageAsync("", embed: embed);
 
 
-                    if (selection == 19)
+
+                    if (randomIndex == 19)
                     {
                         await Context.Channel.SendMessageAsync("Oppa, it was I who passed Dark Souls!");
                     }
-                    if (selection == 9)
+
+                    if (randomIndex == 9)
                     {
                         await Context.Channel.SendMessageAsync("I'm drawing an octopus :3");
                     }
-                    if (selection == 26)
+
+                    if (randomIndex == 26)
                     {
                         await Context.Channel.SendMessageAsync("Oh, this is New Year! time to gift turtles!!");
-                    } 
+                    }
 
                 }
             }
-            else
+            catch
             {
-                await Context.Channel.SendMessageAsync("Boole! You do not have a tolerance of this level!");
+                await ReplyAsync("boo... An error just appear >_< \nTry to use this command properly: **Octo**\n");
             }
         }
 
+        [Command("octo")]
+        [Alias("окто", "octopus", "Осьминог", "Осьминожка", "Осьминога")]
+        public async Task OctopusPictureSelector(int selection)
+        {
+            try
+            {
+                var passCheck = UserAccounts.GetAccount(Context.User);
 
 
+                if (passCheck.OctoPass >= 1)
+                {
+                    var boo = new Random();
+                    var index = boo.Next(21);
+                    if (index == 20 || index == 19 || index == 18)
+                    {
 
-   
-} 
+                        await Context.Channel.SendMessageAsync("boole");
+                    }
+                    else
+                    {
+
+                        if ((OctoPull.OctoPics.Length - 1) < selection)
+                        {
+                            await Context.Channel.SendMessageAsync(
+                                $"Boole. The maximum available index is {(OctoPull.OctoPics.Length - 1)}");
+                            return;
+                        }
+
+                        string octoToPost = OctoPull.OctoPics[selection];
+
+                        Random color1;
+                        Random color2;
+                        Random color3;
+                        color1 = new Random();
+                        color2 = new Random();
+                        color3 = new Random();
+                        int color1Index = color1.Next(256);
+                        int color2Index = color2.Next(256);
+                        int color3Index = color3.Next(256);
+
+
+                        var embed = new EmbedBuilder();
+                        embed.WithColor(color1Index, color2Index, color3Index);
+                        embed.WithFooter("lil octo notebook");
+                        embed.WithAuthor(Context.User);
+                        embed.WithImageUrl("" + octoToPost);
+
+                        await Context.Channel.SendMessageAsync("", embed: embed);
+
+
+                        if (selection == 19)
+                        {
+                            await Context.Channel.SendMessageAsync("Oppa, it was I who passed Dark Souls!");
+                        }
+
+                        if (selection == 9)
+                        {
+                            await Context.Channel.SendMessageAsync("I'm drawing an octopus :3");
+                        }
+
+                        if (selection == 26)
+                        {
+                            await Context.Channel.SendMessageAsync("Oh, this is New Year! time to gift turtles!!");
+                        }
+
+                    }
+                }
+                else
+                {
+                    await Context.Channel.SendMessageAsync("Boole! You do not have a tolerance of this level!");
+                }
+            }
+            catch
+            {
+                await ReplyAsync(
+                    "boo... An error just appear >_< \nTry to use this command properly: **Octo [Octo_index]**\n");
+            }
+        }
+    }
 
 }

@@ -13,7 +13,7 @@
     <PackageReference Include="Discord.Net.Rpc" Version="1.0.2" />
     <PackageReference Include="Discord.Net.Webhook" Version="1.0.2" />
     <PackageReference Include="Discord.Net.WebSocket" Version="1.0.2" />
-    <PackageReference Include="NReco.ImageGenerator.LT" Version="1.1.1" />
+    <PackageReference Include="Magick.NET-Q16-AnyCPU" Version="7.4.6" />
   </ItemGroup>
 
 </Project>

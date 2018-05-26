@@ -30,15 +30,12 @@ namespace OctoBot.Commands.ShadowCItyCOmmand
                                 .SingleOrDefault(x => x.Name.ToString() == "блок");
 
                             var roleList = guildUser.Roles.ToArray();
-                            for (var i = 0; i < roleList.Length; i++)
+                            if (roleList.Any(t => t.Name == "блок"))
                             {
-                                if (roleList[i].Name == "блок")
-                                {
-                                    await guildUser.RemoveRoleAsync(roleToGive);
-                                    await cash.DownloadAsync().Result
-                                        .RemoveReactionAsync(reaction.Emote, globalAccount, RequestOptions.Default);
-                                    return;
-                                }
+                                await guildUser.RemoveRoleAsync(roleToGive);
+                                await cash.DownloadAsync().Result
+                                    .RemoveReactionAsync(reaction.Emote, globalAccount, RequestOptions.Default);
+                                return;
                             }
 
                             await guildUser.AddRoleAsync(roleToGive);
@@ -51,15 +48,12 @@ namespace OctoBot.Commands.ShadowCItyCOmmand
                                 .SingleOrDefault(x => x.Name.ToString() == "антисрач");
 
                             var roleList = guildUser.Roles.ToArray();
-                            for (var i = 0; i < roleList.Length; i++)
+                            if (roleList.Any(t => t.Name == "антисрач"))
                             {
-                                if (roleList[i].Name == "антисрач")
-                                {
-                                    await guildUser.RemoveRoleAsync(roleToGive);
-                                    await cash.DownloadAsync().Result
-                                        .RemoveReactionAsync(reaction.Emote, globalAccount, RequestOptions.Default);
-                                    return;
-                                }
+                                await guildUser.RemoveRoleAsync(roleToGive);
+                                await cash.DownloadAsync().Result
+                                    .RemoveReactionAsync(reaction.Emote, globalAccount, RequestOptions.Default);
+                                return;
                             }
 
                             await guildUser.AddRoleAsync(roleToGive);
@@ -72,15 +66,12 @@ namespace OctoBot.Commands.ShadowCItyCOmmand
                                 .SingleOrDefault(x => x.Name.ToString() == "event block");
 
                             var roleList = guildUser.Roles.ToArray();
-                            for (var i = 0; i < roleList.Length; i++)
+                            if (roleList.Any(t => t.Name == "event block"))
                             {
-                                if (roleList[i].Name == "event block")
-                                {
-                                    await guildUser.RemoveRoleAsync(roleToGive);
-                                    await cash.DownloadAsync().Result
-                                        .RemoveReactionAsync(reaction.Emote, globalAccount, RequestOptions.Default);
-                                    return;
-                                }
+                                await guildUser.RemoveRoleAsync(roleToGive);
+                                await cash.DownloadAsync().Result
+                                    .RemoveReactionAsync(reaction.Emote, globalAccount, RequestOptions.Default);
+                                return;
                             }
 
                             await guildUser.AddRoleAsync(roleToGive);
@@ -93,15 +84,12 @@ namespace OctoBot.Commands.ShadowCItyCOmmand
                                 .SingleOrDefault(x => x.Name.ToString() == "voice-game");
 
                             var roleList = guildUser.Roles.ToArray();
-                            for (var i = 0; i < roleList.Length; i++)
+                            if (roleList.Any(t => t.Name == "voice-game"))
                             {
-                                if (roleList[i].Name == "voice-game")
-                                {
-                                    await guildUser.RemoveRoleAsync(roleToGive);
-                                    await cash.DownloadAsync().Result
-                                        .RemoveReactionAsync(reaction.Emote, globalAccount, RequestOptions.Default);
-                                    return;
-                                }
+                                await guildUser.RemoveRoleAsync(roleToGive);
+                                await cash.DownloadAsync().Result
+                                    .RemoveReactionAsync(reaction.Emote, globalAccount, RequestOptions.Default);
+                                return;
                             }
 
                             await guildUser.AddRoleAsync(roleToGive);
@@ -114,15 +102,12 @@ namespace OctoBot.Commands.ShadowCItyCOmmand
                                 .SingleOrDefault(x => x.Name.ToString() == "riddler");
 
                             var roleList = guildUser.Roles.ToArray();
-                            for (var i = 0; i < roleList.Length; i++)
+                            if (roleList.Any(t => t.Name == "riddler"))
                             {
-                                if (roleList[i].Name == "riddler")
-                                {
-                                    await guildUser.RemoveRoleAsync(roleToGive);
-                                    await cash.DownloadAsync().Result
-                                        .RemoveReactionAsync(reaction.Emote, globalAccount, RequestOptions.Default);
-                                    return;
-                                }
+                                await guildUser.RemoveRoleAsync(roleToGive);
+                                await cash.DownloadAsync().Result
+                                    .RemoveReactionAsync(reaction.Emote, globalAccount, RequestOptions.Default);
+                                return;
                             }
 
                             await guildUser.AddRoleAsync(roleToGive);
@@ -135,15 +120,12 @@ namespace OctoBot.Commands.ShadowCItyCOmmand
                                 .SingleOrDefault(x => x.Name.ToString() == "настолочник");
 
                             var roleList = guildUser.Roles.ToArray();
-                            for (var i = 0; i < roleList.Length; i++)
+                            if (roleList.Any(t => t.Name == "настолочник"))
                             {
-                                if (roleList[i].Name == "настолочник")
-                                {
-                                    await guildUser.RemoveRoleAsync(roleToGive);
-                                    await cash.DownloadAsync().Result
-                                        .RemoveReactionAsync(reaction.Emote, globalAccount, RequestOptions.Default);
-                                    return;
-                                }
+                                await guildUser.RemoveRoleAsync(roleToGive);
+                                await cash.DownloadAsync().Result
+                                    .RemoveReactionAsync(reaction.Emote, globalAccount, RequestOptions.Default);
+                                return;
                             }
 
                             await guildUser.AddRoleAsync(roleToGive);
@@ -156,15 +138,12 @@ namespace OctoBot.Commands.ShadowCItyCOmmand
                                 .SingleOrDefault(x => x.Name.ToString() == "Технарь");
 
                             var roleList = guildUser.Roles.ToArray();
-                            for (var i = 0; i < roleList.Length; i++)
+                            if (roleList.Any(t => t.Name == "Технарь"))
                             {
-                                if (roleList[i].Name == "Технарь")
-                                {
-                                    await guildUser.RemoveRoleAsync(roleToGive);
-                                    await cash.DownloadAsync().Result
-                                        .RemoveReactionAsync(reaction.Emote, globalAccount, RequestOptions.Default);
-                                    return;
-                                }
+                                await guildUser.RemoveRoleAsync(roleToGive);
+                                await cash.DownloadAsync().Result
+                                    .RemoveReactionAsync(reaction.Emote, globalAccount, RequestOptions.Default);
+                                return;
                             }
 
                             await guildUser.AddRoleAsync(roleToGive);
@@ -177,15 +156,12 @@ namespace OctoBot.Commands.ShadowCItyCOmmand
                                 .SingleOrDefault(x => x.Name.ToString() == "Аниме");
 
                             var roleList = guildUser.Roles.ToArray();
-                            for (var i = 0; i < roleList.Length; i++)
+                            if (roleList.Any(t => t.Name == "Аниме"))
                             {
-                                if (roleList[i].Name == "Аниме")
-                                {
-                                    await guildUser.RemoveRoleAsync(roleToGive);
-                                    await cash.DownloadAsync().Result
-                                        .RemoveReactionAsync(reaction.Emote, globalAccount, RequestOptions.Default);
-                                    return;
-                                }
+                                await guildUser.RemoveRoleAsync(roleToGive);
+                                await cash.DownloadAsync().Result
+                                    .RemoveReactionAsync(reaction.Emote, globalAccount, RequestOptions.Default);
+                                return;
                             }
 
                             await guildUser.AddRoleAsync(roleToGive);
@@ -198,15 +174,12 @@ namespace OctoBot.Commands.ShadowCItyCOmmand
                                 .SingleOrDefault(x => x.Name.ToString() == "card player");
 
                             var roleList = guildUser.Roles.ToArray();
-                            for (var i = 0; i < roleList.Length; i++)
+                            if (roleList.Any(t => t.Name == "card player"))
                             {
-                                if (roleList[i].Name == "card player")
-                                {
-                                    await guildUser.RemoveRoleAsync(roleToGive);
-                                    await cash.DownloadAsync().Result
-                                        .RemoveReactionAsync(reaction.Emote, globalAccount, RequestOptions.Default);
-                                    return;
-                                }
+                                await guildUser.RemoveRoleAsync(roleToGive);
+                                await cash.DownloadAsync().Result
+                                    .RemoveReactionAsync(reaction.Emote, globalAccount, RequestOptions.Default);
+                                return;
                             }
 
                             await guildUser.AddRoleAsync(roleToGive);
@@ -219,15 +192,12 @@ namespace OctoBot.Commands.ShadowCItyCOmmand
                                 .SingleOrDefault(x => x.Name.ToString() == "hots");
 
                             var roleList = guildUser.Roles.ToArray();
-                            for (var i = 0; i < roleList.Length; i++)
+                            if (roleList.Any(t => t.Name == "hots"))
                             {
-                                if (roleList[i].Name == "hots")
-                                {
-                                    await guildUser.RemoveRoleAsync(roleToGive);
-                                    await cash.DownloadAsync().Result
-                                        .RemoveReactionAsync(reaction.Emote, globalAccount, RequestOptions.Default);
-                                    return;
-                                }
+                                await guildUser.RemoveRoleAsync(roleToGive);
+                                await cash.DownloadAsync().Result
+                                    .RemoveReactionAsync(reaction.Emote, globalAccount, RequestOptions.Default);
+                                return;
                             }
 
                             await guildUser.AddRoleAsync(roleToGive);
@@ -240,15 +210,12 @@ namespace OctoBot.Commands.ShadowCItyCOmmand
                                 .SingleOrDefault(x => x.Name.ToString() == "Minecraft");
 
                             var roleList = guildUser.Roles.ToArray();
-                            for (var i = 0; i < roleList.Length; i++)
+                            if (roleList.Any(t => t.Name == "Minecraft"))
                             {
-                                if (roleList[i].Name == "Minecraft")
-                                {
-                                    await guildUser.RemoveRoleAsync(roleToGive);
-                                    await cash.DownloadAsync().Result
-                                        .RemoveReactionAsync(reaction.Emote, globalAccount, RequestOptions.Default);
-                                    return;
-                                }
+                                await guildUser.RemoveRoleAsync(roleToGive);
+                                await cash.DownloadAsync().Result
+                                    .RemoveReactionAsync(reaction.Emote, globalAccount, RequestOptions.Default);
+                                return;
                             }
 
                             await guildUser.AddRoleAsync(roleToGive);
@@ -262,22 +229,16 @@ namespace OctoBot.Commands.ShadowCItyCOmmand
                                 .SingleOrDefault(x => x.Name.ToString() == "LoL");
 
                             var roleList = guildUser.Roles.ToArray();
-                            for (var i = 0; i < roleList.Length; i++)
+                            if (roleList.Any(t => t.Name == "LoL"))
                             {
-                                if (roleList[i].Name == "LoL")
-                                {
-                                    await guildUser.RemoveRoleAsync(roleToGive);
-                                    await cash.DownloadAsync().Result
-                                        .RemoveReactionAsync(reaction.Emote, globalAccount, RequestOptions.Default);
-                                    return;
-                                }
+                                await guildUser.RemoveRoleAsync(roleToGive);
+                                await cash.DownloadAsync().Result
+                                    .RemoveReactionAsync(reaction.Emote, globalAccount, RequestOptions.Default);
+                                return;
                             }
 
                             await guildUser.AddRoleAsync(roleToGive);
-                            
-
-
-                            
+                                  
                             break;
                         }
                         case "gacHIPride":
@@ -287,15 +248,12 @@ namespace OctoBot.Commands.ShadowCItyCOmmand
                                 .SingleOrDefault(x => x.Name.ToString() == "Recruit");
 
                             var roleList = guildUser.Roles.ToArray();
-                            for (var i = 0; i < roleList.Length; i++)
+                            if (roleList.Any(t => t.Name == "Recruit"))
                             {
-                                if (roleList[i].Name == "Recruit")
-                                {
-                                    await guildUser.RemoveRoleAsync(roleToGive);
-                                    await cash.DownloadAsync().Result
-                                        .RemoveReactionAsync(reaction.Emote, globalAccount, RequestOptions.Default);
-                                    return;
-                                }
+                                await guildUser.RemoveRoleAsync(roleToGive);
+                                await cash.DownloadAsync().Result
+                                    .RemoveReactionAsync(reaction.Emote, globalAccount, RequestOptions.Default);
+                                return;
                             }
 
                             await guildUser.AddRoleAsync(roleToGive);
@@ -350,15 +308,12 @@ namespace OctoBot.Commands.ShadowCItyCOmmand
                                 .SingleOrDefault(x => x.Name.ToString() == "warframe");
 
                             var roleList = guildUser.Roles.ToArray();
-                            for (var i = 0; i < roleList.Length; i++)
+                            if (roleList.Any(t => t.Name == "warframe"))
                             {
-                                if (roleList[i].Name == "warframe")
-                                {
-                                    await guildUser.RemoveRoleAsync(roleToGive);
-                                    await cash.DownloadAsync().Result
-                                        .RemoveReactionAsync(reaction.Emote, globalAccount, RequestOptions.Default);
-                                    return;
-                                }
+                                await guildUser.RemoveRoleAsync(roleToGive);
+                                await cash.DownloadAsync().Result
+                                    .RemoveReactionAsync(reaction.Emote, globalAccount, RequestOptions.Default);
+                                return;
                             }
 
                             await guildUser.AddRoleAsync(roleToGive);
@@ -371,15 +326,12 @@ namespace OctoBot.Commands.ShadowCItyCOmmand
                                 .SingleOrDefault(x => x.Name.ToString() == "switcher");
 
                             var roleList = guildUser.Roles.ToArray();
-                            for (var i = 0; i < roleList.Length; i++)
+                            if (roleList.Any(t => t.Name == "switcher"))
                             {
-                                if (roleList[i].Name == "switcher")
-                                {
-                                    await guildUser.RemoveRoleAsync(roleToGive);
-                                    await cash.DownloadAsync().Result
-                                        .RemoveReactionAsync(reaction.Emote, globalAccount, RequestOptions.Default);
-                                    return;
-                                }
+                                await guildUser.RemoveRoleAsync(roleToGive);
+                                await cash.DownloadAsync().Result
+                                    .RemoveReactionAsync(reaction.Emote, globalAccount, RequestOptions.Default);
+                                return;
                             }
 
                             await guildUser.AddRoleAsync(roleToGive);

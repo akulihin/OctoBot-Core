@@ -27,21 +27,16 @@ namespace OctoBot
             if (string.IsNullOrEmpty(Config.Bot.Token)) return;
             _client = new DiscordSocketClient(new DiscordSocketConfig
             {
-                LogLevel = LogSeverity.Verbose
+                LogLevel = LogSeverity.Verbose,
+                DefaultRetryMode = RetryMode.AlwaysRetry,       
+                MessageCacheSize = 10000
             });
 
-            var discordSocketConfig = new DiscordSocketConfig
-            {
-                LogLevel = LogSeverity.Verbose,
-                MessageCacheSize = 10000
-            };
-
-            _client = new DiscordSocketClient(discordSocketConfig);
             var botToken = Config.Bot.Token;
 
             //event subsciption
             _client.Log += ConsoleLogger.Log;
-
+            
            _client.ReactionAdded += Reaction.ReactionAddedFor2048;                                                        
            _client.ReactionAdded += OctoGameReaction.ReactionAddedForOctoGameAsync;
            _client.ReactionAdded += ColorRoleReaction.ReactionAddedForRole;
@@ -52,7 +47,7 @@ namespace OctoBot
             _client.Ready += ForBot.TimerForBotAvatar;   
             _client.UserJoined += Announcer.AnnounceUserJoin;
             _client.Ready += EveryLogHandeling._client_Ready;
-           // _client.Ready += Blog.BlogVotesChecker; 
+          
          
             //  _client.Ready += YellowTurtle.StartTimer; //// Timer3
 

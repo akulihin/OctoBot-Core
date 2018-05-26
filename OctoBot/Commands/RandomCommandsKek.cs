@@ -1,14 +1,6 @@
-﻿using System;
-using System.Globalization;
-using System.IO;
-using System.Linq;
-using System.Net;
-using System.Threading.Tasks;
-using Discord;
+﻿
 using Discord.Commands;
-using Newtonsoft.Json;
-using NReco.ImageGenerator;
-using ImageFormat = NReco.ImageGenerator.ImageFormat;
+
 
 namespace OctoBot.Commands
 {
@@ -16,23 +8,7 @@ namespace OctoBot.Commands
     {
 
 
-            [Command("Gen")]
-        public async Task Generator(IGuildUser user, [Remainder]string message)
-        {
-           const string html = "<style> \n h1  { \n color: red; \n } \n  </style> \n \n <meta charset=\"utf-8\"> \n <h1>ЛОХ, ПИДР</h1> \n";
-            var converter = new HtmlToImageConverter
-            {
-                Width = 250,
-                Height = 75
-            };
-            var jpgBytes = converter.GenerateImage(html, ImageFormat.Jpeg);
-
-            await Context.Channel.SendFileAsync(new MemoryStream(jpgBytes), "lol.jpg");
-        }
-
-
-
-
+        /*
 
         internal static readonly string CaptchaCss = "<style>@import url('https://fonts.googleapis.com/css?family=Roboto');body{margin: 0px;font-family: 'Roboto', sans-serif;}</style> \n <meta charset=\"utf-8\"> \n";
         internal static readonly string CaptchaHtml = "<div style=\"background: url('https://i.imgur.com/j5Bo9iF.png'); width: 323px; height: 90px;\"><p style=\"color: white; font-size: 14px; font-weight: 400; position: fixed; top: 21px; left: 62px; text-overflow: ellipsis;width: 184px;white-space: nowrap; overflow: hidden;\">{0}</p></div>";
@@ -290,7 +266,7 @@ namespace OctoBot.Commands
 
             await Context.Channel.SendMessageAsync("", embed: embed);
         }
-
+        */
 
     }
 }

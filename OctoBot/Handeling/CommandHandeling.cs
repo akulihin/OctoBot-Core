@@ -101,7 +101,16 @@ namespace OctoBot.Handeling
           
             if (message.HasStringPrefix(Config.Bot.Prefix, ref argPos) || message.HasMentionPrefix(_client.CurrentUser, ref argPos))
             {
-
+                //Peter's server check
+                
+                if (context.Guild.Id == 377879473158356992)
+                {
+                    
+                    if(message.HasStringPrefix(Config.Bot.Prefix, ref argPos))
+                        return;
+                   
+                }
+                /////////////////////////
                 var result = await _service.ExecuteAsync(context, argPos);
 
                 if (!result.IsSuccess)

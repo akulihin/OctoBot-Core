@@ -20,6 +20,7 @@ namespace OctoBot.Commands
             " напиши мне", " напомни", " алярм", " Remind")]
         public async Task AddReminder([Remainder] string args)
         {
+            try {
             string[] splittedArgs = null;
 
             if (args.Contains("  через ")) splittedArgs = args.Split(new[] {"  через "}, StringSplitOptions.None);
@@ -30,8 +31,6 @@ namespace OctoBot.Commands
             else if (args.Contains(" in  ")) splittedArgs = args.Split(new[] { " in  " }, StringSplitOptions.None);
             else if (args.Contains("  in  ")) splittedArgs = args.Split(new[] { "  in  " }, StringSplitOptions.None);
             else if (args.Contains(" in ")) splittedArgs = args.Split(new[] { " in " }, StringSplitOptions.None);
-
-
 
 
             if (splittedArgs == null || splittedArgs.Length < 2)
@@ -83,14 +82,19 @@ namespace OctoBot.Commands
 
             account.ReminderList.Add(newReminder);
             UserAccounts.SaveAccounts();
-
+            }
+            catch
+            {
+                await ReplyAsync("boo... An error just appear >_< \nTry to use this command properly: **Remind [Any_text] [in] [time format]**\n" +
+                                 "Alias: Напомнить, напомни мне, напиши мне, напомни, алярм, ");
+            }
         }
 
         ///REMINDER FOR MINUTES!
         [Command("Re")]
         public async Task AddReminderMinute(uint minute, [Remainder] string reminderString)
         {
-
+            try {
             if (minute > 1439)
             {
                 await Context.Channel.SendMessageAsync(
@@ -105,6 +109,7 @@ namespace OctoBot.Commands
             if (minute >= 60)
             {
 
+                // ReSharper disable once NotAccessedVariable
                 for (var i = 0; minute >= 59; i++)
                 {
                     minute = minute - 59;
@@ -155,10 +160,12 @@ namespace OctoBot.Commands
             account.ReminderList.Add(newReminder);
             UserAccounts.SaveAccounts();
 
+            }
+            catch
+            {
+                await ReplyAsync("boo... An error just appear >_< \nTry to use this command properly: **Remind [time_in_minutes] [Any_text]**\n");
+            }
         }
-
-
-
 
         //REminder To A User
         [Command("Rem"), Priority(1)]
@@ -166,7 +173,7 @@ namespace OctoBot.Commands
             " напиши мне", " напомни", " алярм", " Remind", "Remind")]
         public async Task AddReminderToSomeOne(ulong userId, [Remainder] string args)
         {
-
+            try{
             //       var commander = UserAccounts.GetAccount(Context.User);
 
 
@@ -234,12 +241,19 @@ namespace OctoBot.Commands
 
             account.ReminderList.Add(newReminder);
             UserAccounts.SaveAccounts();
+            }
+            catch
+            {
+                await ReplyAsync("boo... An error just appear >_< \nTry to use this command properly: **Remind [user_id] [Any_text] [in] [time format]** (remind to another user in my DB)\n" +
+                                 "Alias: Напомнить, напомни мне, напиши мне, напомни, алярм, ");
+            }
         }
 
         [Command("List")]
         [Alias("Напоминания", "Мои Напоминания", "список")]
         public async Task ShowReminders()
         {
+            try {
             var account = UserAccounts.GetAccount(Context.User);
             if (account.ReminderList.Count == 0)
             {
@@ -264,6 +278,12 @@ namespace OctoBot.Commands
             }
 
             await ReplyAsync("", embed: embed);
+            }
+            catch
+            {
+                await ReplyAsync("boo... An error just appear >_< \nTry to use this command properly: **List**(list all of your reminders)\n" +
+                                 "Alias: Напоминания, список, Мои Напоминания");
+            }
         }
 
 
@@ -271,6 +291,7 @@ namespace OctoBot.Commands
         [Alias("Напоминания", "Мои Напоминания", "список")]
         public async Task ShowUserReminders(SocketUser user)
         {
+            try {
             var commander = UserAccounts.GetAccount(Context.User);
             if (commander.OctoPass >= 10)
             {
@@ -302,6 +323,12 @@ namespace OctoBot.Commands
             }
             else
                 await Context.Channel.SendMessageAsync("Boole! You do not have a tolerance of this level!");
+            }
+            catch
+            {
+                await ReplyAsync("boo... An error just appear >_< \nTry to use this command properly: **List [user_ping(or user ID)]**(list all of user's reminders)\n" +
+                                 "Alias: Напоминания, список, Мои Напоминания");
+            }
         }
 
 
@@ -311,6 +338,7 @@ namespace OctoBot.Commands
         [Alias("Удалить Напоминания", "Удалить", "Удалить Напоминание", "del")]
         public async Task DeleteReminder(int index)
         {
+            try {
             var account = UserAccounts.GetAccount(Context.User);
 
             var reminders = account.ReminderList;
@@ -331,6 +359,12 @@ namespace OctoBot.Commands
             await Context.Channel.SendMessageAsync(
                 $"Booole...We could not find this reminder, could there be an error?\n" +
                 $"Try to see all of your reminders through the command `list`");
+            }
+            catch
+            {
+                await ReplyAsync("boo... An error just appear >_< \nTry to use this command properly: **del [index_num]**(delete the reminder(see all of them though comm **list**))\n" +
+                                 "Alias: Удалить, Delete");
+            }
         }
 
 
@@ -338,7 +372,14 @@ namespace OctoBot.Commands
         [Alias("time", "date")]
         public async Task CheckTime()
         {
-            await ReplyAsync($"**UTC Current Tшme: {DateTime.UtcNow}**");
+            try {
+            await ReplyAsync($"**UTC Current Time: {DateTime.UtcNow}**");
+            }
+            catch
+            {
+                await ReplyAsync("boo... An error just appear >_< \nTry to use this command properly: **time**(see current time by UTC)\n" +
+                                 "Alias: Удалить, Delete");
+            }
         }
 
         private static Timer _loopingTimer;
@@ -369,15 +410,15 @@ namespace OctoBot.Commands
                 var allUserAccounts = UserAccounts.GetAllAccounts();
                 var now = DateTime.UtcNow;
 
-                for (var index = 0; index < allUserAccounts.Count; index++)
+                foreach (var t in allUserAccounts)
                 {
-                    if (Global.Client.GetUser(allUserAccounts[index].Id) != null)
+                    if (Global.Client.GetUser(t.Id) != null)
                     {
 
-                        var globalAccount = Global.Client.GetUser(allUserAccounts[index].Id);
+                        var globalAccount = Global.Client.GetUser(t.Id);
                         var account = UserAccounts.GetAccount(globalAccount);
 
-                        for (var j = 0; j < account.ReminderList.Count; j++)
+                        for (var j = 0; j < account.ReminderList?.Count; j++)
                         {
 
                             if (account.ReminderList[j].DateToPost <= now)
@@ -397,11 +438,20 @@ namespace OctoBot.Commands
                                 }
                                 catch (Exception closedDm)
                                 {
-                                    Console.WriteLine($"ERROR DM SENING {account.UserName} Closed DM: '{0}'",
-                                        closedDm);
-                                    account.ReminderList = null;
-                                    UserAccounts.SaveAccounts();
-                                    return;
+                                    try
+                                    {
+                                        Console.WriteLine($"ERROR DM SENING {account.UserName} Closed DM: '{0}'",
+                                            closedDm);
+                                        account.ReminderList = null;
+                                        UserAccounts.SaveAccounts();
+                                        return;
+                                    }
+                                    catch
+                                    {
+                                        Console.ForegroundColor = ConsoleColor.Red;
+                                        Console.WriteLine($"ERROR REMINDER (Catch-catch) {account.UserName}");
+                                        Console.ResetColor();
+                                    }
 
                                 }
                             }
@@ -412,7 +462,8 @@ namespace OctoBot.Commands
             }
             catch (Exception error)
             {
-                Console.WriteLine("ERROR!!! (REMINDER(Big try) Does not work: '{0}'", error);
+                Console.WriteLine("ERROR!!! REMINDER(Big try) Does not work: '{0}'", error);
+               
             }
         }
 

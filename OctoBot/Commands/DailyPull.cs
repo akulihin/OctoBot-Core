@@ -15,6 +15,7 @@ namespace OctoBot.Commands
 
         public async Task Pull()
         {
+            try {
             var account = UserAccounts.GetAccount(Context.User);
             var result = GetDailyPull(Context.User);
             var difference = DateTime.Now - account.LastDailyPull;
@@ -39,7 +40,11 @@ namespace OctoBot.Commands
                     }
                     break;
             }
-
+            }
+            catch
+            {
+                await ReplyAsync("boo... An error just appear >_< \nTry to use this command properly: **pull**\n");
+            }
         }
 
 
@@ -83,15 +88,15 @@ namespace OctoBot.Commands
         public static async void CheckPulls(object sender, ElapsedEventArgs e)
         {          
             try
-             {      
+            {
                 var allUserAccounts = UserAccounts.GetAllAccounts();
 
-                for (var index = 0; index < allUserAccounts.Count; index++)
+                foreach (var t in allUserAccounts)
                 {
-                    if (Global.Client.GetUser(allUserAccounts[index].Id) != null)
+                    if (Global.Client.GetUser(t.Id) != null)
                     {
 
-                        var globalAccount = Global.Client.GetUser(allUserAccounts[index].Id);
+                        var globalAccount = Global.Client.GetUser(t.Id);
                         var account = UserAccounts.GetAccount(globalAccount);
                         var difference = DateTime.Now - account.LastDailyPull;
 
@@ -172,17 +177,24 @@ namespace OctoBot.Commands
         [Command("AddKey")]
         public async Task JsonTask([Remainder] string mess)
         {
+            try {
             var mylorikGlobal = Global.Client.GetUser(181514288278536193);
             var mylorik = UserAccounts.GetAccount(mylorikGlobal);
             mylorik.KeyPull += (mess + "|");
             UserAccounts.SaveAccounts();
             await Context.Channel.SendMessageAsync("бууль-буль, записали!");
+            }
+            catch
+            {
+                await ReplyAsync("boo... An error just appear >_< \nTry to use this command properly: **AddKey [Gamename: key (platform)]**\n");
+            }
         }
         
 
         [Command("KeyDel")]
         public async Task JsonDel(int index)
         {
+            try {
             var account = UserAccounts.GetAccount(Context.User);
             if (account.OctoPass >= 100)
             {
@@ -202,6 +214,11 @@ namespace OctoBot.Commands
             }
             else
                 await Context.Channel.SendMessageAsync("буль-буль, у тебя нет допуска 10го уровня!");
+            }
+            catch
+            {
+                await ReplyAsync("boo... An error just appear >_< \nTry to use this command properly: **KeyDel [index]**\n");
+            }
         }
 
 
@@ -210,7 +227,7 @@ namespace OctoBot.Commands
         [Alias("Keys")]
         public async Task AllKeys( )
         {
-         
+         try {
             var account = UserAccounts.GetAccount(Context.User);
           
                 var fuckts = account.KeyPull.Split(new[] {'|'}, StringSplitOptions.RemoveEmptyEntries);
@@ -228,7 +245,11 @@ namespace OctoBot.Commands
             embed.WithFooter("Записная книжечка Осьминожек");
 
             await Context.Channel.SendMessageAsync("", embed: embed);
-
+         }
+         catch
+         {
+             await ReplyAsync("boo... An error just appear >_< \nTry to use this command properly: **Keys** (show all **YOUR** keys)\n");
+         }
         }
 
 

@@ -14,7 +14,7 @@ namespace OctoBot.Commands
         [Command("pick")]
         public async Task Pick([Remainder] string message)
         {
-
+            try{
             var option = message.Split(new[] {'|'}, StringSplitOptions.RemoveEmptyEntries);
 
             var rand = new Random();
@@ -28,6 +28,11 @@ namespace OctoBot.Commands
             embed.WithThumbnailUrl("https://i.imgur.com/I3o0bm4.jpg");
 
             await Context.Channel.SendMessageAsync("", false, embed);
+            }
+            catch
+            {
+                await ReplyAsync("boo... An error just appear >_< \nTry to use this command properly: **pick option1|option2|option3**(output random option (can be as many as you want))\n");
+            }
         }
 
         [Command("roll")]
@@ -55,7 +60,7 @@ namespace OctoBot.Commands
                     var randomIndexRoll = randRoll.Next((int) number + 1);
                     if (randomIndexRoll == 0)
                         randomIndexRoll = 1;
-                    mess += ($"{randomIndexRoll} dropped out\n");
+                    mess += ($"It's a {randomIndexRoll}!\n");
                 }
 
                 var embed = new EmbedBuilder();
@@ -66,10 +71,9 @@ namespace OctoBot.Commands
             }
             catch
             {
-                await ReplyAsync("Boole! This numbers is way too big for us :c");
+                await ReplyAsync("boo... An error just appear >_< \nTry to use this command properly: **roll [times] [max_value_of_roll]**\n" +
+                                 "Alias: Роллл, Ролл");
             }
-
-
         }
 
 
@@ -85,11 +89,12 @@ namespace OctoBot.Commands
                 var randomIndexRoll = randRoll.Next((int) number + 1);
                 if (randomIndexRoll == 0)
                     randomIndexRoll = 1;
-                await Context.Channel.SendMessageAsync($"{randomIndexRoll} dropped out");
+                await Context.Channel.SendMessageAsync($"It's a {randomIndexRoll}!");
             }
             catch
             {
-                await ReplyAsync("Boole! This numbers is way too big for us :c");
+                await ReplyAsync("boo... An error just appear >_< \nTry to use this command properly: **roll [max_value_of_roll]**\n" +
+                                 "Alias: Роллл, Ролл");
             }
         }
 
@@ -98,8 +103,14 @@ namespace OctoBot.Commands
         [Alias("пинг")]
         public async Task DefaultPing()
         {
+            try
+            {
             await ReplyAsync($"{Context.User.Mention} pong!");
-         
+            }
+            catch
+            {
+                await ReplyAsync("boo... An error just appear >_< \nTry to use this command properly: **ping**\n");
+            }
         }
 
 
@@ -107,16 +118,21 @@ namespace OctoBot.Commands
         [Command("DM")]
         public async Task DmMess()
         {
+            try {
             var dmChannel = await Context.User.GetOrCreateDMChannelAsync();
             await dmChannel.SendMessageAsync("Boole.");
-
+            }
+            catch
+            {
+                await ReplyAsync("boo... An error just appear >_< \nTry to use this command properly: **DM**(sends you a DM)\n");
+            }
         }
 
         [Command("guess", RunMode = RunMode.Async)]
         [Alias("Рулетка", "угадайка")]
         public async Task GuessGame(ulong enter)
         {
-
+            try {
             int amount = (int) enter;
 
             var userAccount = UserAccounts.GetAccount(Context.User);
@@ -171,9 +187,12 @@ namespace OctoBot.Commands
             else
                 await Context.Channel.SendMessageAsync(
                     $"The choice should be between 0 and {slots}, answer only with a number.");
+            }
+            catch
+            {
+                await ReplyAsync("boo... An error just appear >_< \nTry to use this command properly: **guess [rate_num]**(like cassino, ty it!)\n" +
+                                 "Alias: Рулетка, угадайка");
+            }
         }
-
-
-
     }
 }

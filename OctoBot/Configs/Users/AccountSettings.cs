@@ -19,7 +19,7 @@ namespace OctoBot.Configs.Users
 
 
         public long Points { get; set; }
-        public uint Lvl { get; set; }
+        public double Lvl { get; set; }
         public uint LvlPoinnts { get; set; }
 
         public string Fuckt { get; set; }
@@ -64,8 +64,12 @@ namespace OctoBot.Configs.Users
 
         public ulong BlogVotesQty { get; set; }
         public ulong BlogVotesSum { get; set; }
-        public float AvarageScoreVotes { get; set; }
+        public double BlogAvarageScoreVotes { get; set; }
 
+
+        public ulong ArtVotesQty { get; set; }
+        public ulong ArtVotesSum { get; set; }
+        public double ArtAvarageScoreVotes { get; set; }
 
     }
 }

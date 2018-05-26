@@ -13,7 +13,7 @@ namespace OctoBot.Configs
        
      
         internal static DiscordSocketClient Client { get; set; }
-        internal static ulong PlayingUserId { get; set; }
+        
 
         internal static ulong YellowTurlteChannelId { get; set; }
         internal static RestUserMessage YellowTurlteMessageTorack { get; set; }
@@ -66,20 +66,42 @@ namespace OctoBot.Configs
         public class BlogVotes
         {
            
-            public IUser BlogUser;
+            public IUser BlogAuthor;
             public IUserMessage SocketMsg;
             public IUser ReactionUser;
             public int Available;
 
-            public BlogVotes(IUser blogUser, IUserMessage socketMsg, IUser reactionUser,  int available )
+            public BlogVotes(IUser blogAuthor, IUserMessage socketMsg, IUser reactionUser,  int available )
             {
                 
-                BlogUser = blogUser;
+                BlogAuthor = blogAuthor;
                 SocketMsg = socketMsg;
                 ReactionUser = reactionUser;
                 Available =  available;
             }
         }
+
+
+        public static List<ArtVotes> ArtVotesList  { get; set; }  = new List<ArtVotes>();
+
+        public class ArtVotes
+        {
+           
+            public IUser BlogAuthor;
+            public IUserMessage SocketMsg;    
+            public List<IUser> UserVoted = new List<IUser>();
+            public List <string> Emotename = new List<string>();
+
+            public ArtVotes(IUser blogAuthor, IUserMessage socketMsg,  IUser userVoted, string emotename )
+            {
+                
+                BlogAuthor = blogAuthor;
+                SocketMsg = socketMsg;
+                UserVoted.Add(userVoted);
+                Emotename.Add(emotename);
+            }
+        }
+
     }
 
     internal class Config

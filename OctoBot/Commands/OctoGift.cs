@@ -12,7 +12,7 @@ namespace OctoBot.Commands
         [Alias("Gift Cooki","подаритьКуки", "Подарить Куки")]
         public async Task GiftCooki(IGuildUser user)
         {
-
+            try{
             var contextUser = UserAccounts.GetAccount(Context.User);
 
             var account = UserAccounts.GetAccount((SocketUser)user);
@@ -46,14 +46,19 @@ namespace OctoBot.Commands
             {
                 await Context.Channel.SendMessageAsync($"You do not have enough OktoPoints to give **Cooki**!");
             }
-
+            }
+            catch
+            {
+                await ReplyAsync("boo... An error just appear >_< \nTry to use this command properly: **GiftCooki**\n" +
+                                 "Alias: ПодаритьКуки");
+            }
         }
 
         [Command("GiftPinki")]
         [Alias("Gift Pinki", "Подарить Пинки", "ПодаритьПинки")]
         public async Task GiftPinki(IGuildUser user)
         {
-
+            try {
             var contextUser = UserAccounts.GetAccount(Context.User);
 
             var account = UserAccounts.GetAccount((SocketUser)user);
@@ -87,7 +92,12 @@ namespace OctoBot.Commands
             {
                 await Context.Channel.SendMessageAsync($"You do not have enough OktoPoints to give **Pinki**!");
             }
-
+            }
+            catch
+            {
+                await ReplyAsync("boo... An error just appear >_< \nTry to use this command properly: **GiftPinki**\n" +
+                                 "Alias: ПодаритьПинки");
+            }
         }
 
 
@@ -97,7 +107,7 @@ namespace OctoBot.Commands
         [Alias("Gift Rainbow", "Подарить рудужного", "Подарить радужный", "ПодаритьРадужный", "ПодаритьРадужного")]
         public async Task GiftRainbow(IGuildUser user)
         {
-
+            try {
             var contextUser = UserAccounts.GetAccount(Context.User);
 
             var account = UserAccounts.GetAccount((SocketUser)user);
@@ -131,13 +141,19 @@ namespace OctoBot.Commands
             {
                 await Context.Channel.SendMessageAsync($"You do not have enough OktoPoints to give **Rainbow**!");
             }
-
+            }
+            catch
+            {
+                await ReplyAsync("boo... An error just appear >_< \nTry to use this command properly: **GiftRainbow**\n" +
+                                 "Alias: ПодаритьРадужного");
+            }
         }
 
         [Command("AllOcto")]
         [Alias("All Octo", "ВсеОкто", "Все Окто")]
         public async Task AllOcto()
         {
+            try {
             var embed = new EmbedBuilder();
             embed.WithColor(Color.Blue);
             embed.WithFooter("lil octo notebook");
@@ -146,9 +162,12 @@ namespace OctoBot.Commands
             embed.AddField("**Pinki~**", "`GiftPinki [user]` cost: **1488** ОктоПоинтов");
             embed.AddField("**Rainbow** :gay_pride_flag:", "`GiftRainbow [user]` cost: **1488** Octo Points");
             await Context.Channel.SendMessageAsync("", embed: embed);
-
-
+            }
+            catch
+            {
+                await ReplyAsync("boo... An error just appear >_< \nTry to use this command properly: **AllOcto**\n" +
+                                 "Alias: ВсеОкто");
+            }
         }
-
     }
 }

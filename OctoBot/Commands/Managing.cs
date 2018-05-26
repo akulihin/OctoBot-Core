@@ -16,10 +16,10 @@ namespace OctoBot.Commands
 
         [Command("purge")]
         [Alias("clean", "убрать", "clear")]
-
         //[RequireUserPermission(GuildPermission.Administrator)]
         public async Task Delete(int number)
         {
+            try {
             var comander = UserAccounts.GetAccount(Context.User);
             if (comander.OctoPass >= 100)
             {
@@ -33,6 +33,12 @@ namespace OctoBot.Commands
             }
             else
                 await Context.Channel.SendMessageAsync("Boole! You do not have a tolerance of this level!");
+            }
+            catch
+            {
+                await ReplyAsync("boo... An error just appear >_< \nTry to use this command properly: **clear [number]**\n" +
+                                 "Alias: purge, clean, убрать");
+            }
         }
 
         [Command("warn")]
@@ -40,12 +46,13 @@ namespace OctoBot.Commands
        // [RequireUserPermission(GuildPermission.Administrator)]
         public async Task WarnUser(IGuildUser user, [Remainder]string message)
         {
+            try {
             var comander = UserAccounts.GetAccount(Context.User);
             if (comander.OctoPass >= 100)
             {
-                var time = DateTime.Now.ToString("");
+            var time = DateTime.Now.ToString("");
             var account = UserAccounts.GetAccount((SocketUser)user);
-            account.Warnings += $"{time} {Context.User}: " + message + "|";
+            account.Warnings += $"{time} {Context.User}: [warn]" + message + "|";
             UserAccounts.SaveAccounts();
             await Context.Channel.SendMessageAsync(user.Mention + " Was Forewarned");
 
@@ -58,7 +65,12 @@ namespace OctoBot.Commands
             }
             else
                 await Context.Channel.SendMessageAsync("Boole! You do not have a tolerance of this level!");
-
+            }
+            catch
+            {
+                await ReplyAsync("boo... An error just appear >_< \nTry to use this command properly: **warn [user_ping(or user ID)] [reason_mesasge]**\n" +
+                                 "Alias: варн, warning, предупреждение");
+            }
         }
 
         [Command("kick")]
@@ -67,14 +79,24 @@ namespace OctoBot.Commands
         [RequireBotPermission(GuildPermission.KickMembers)]
         public async Task KickUser(IGuildUser user, string reason)
         {
+            try{
             await user.KickAsync(reason);
-
+                var time = DateTime.Now.ToString("");
+                var account = UserAccounts.GetAccount((SocketUser)user);
+                account.Warnings += $"{time} {Context.User}: [kick]" + reason + "|";
+                UserAccounts.SaveAccounts();
             var embed = new EmbedBuilder()
                 .WithColor(Color.DarkRed)
                 .AddField("**kick** used", $"By {Context.User.Mention} in {Context.Channel}\n" +
                                            $"**Content:**\n" +
                                            $"{user.Mention} - {reason}");
             await LogTextChannel.SendMessageAsync("", embed: embed);
+            }
+            catch
+            {
+                await ReplyAsync("boo... An error just appear >_< \nTry to use this command properly: **kick [user_ping(or user ID)] [reason_mesasge]**\n" +
+                                 "Alias: кик");
+            }
         }
 
         [Command("ban")]
@@ -83,33 +105,38 @@ namespace OctoBot.Commands
         [RequireBotPermission(GuildPermission.BanMembers)]
         public async Task BanUser(IGuildUser user, string reason)
         {
+            try {
             await user.Guild.AddBanAsync(user, 0, reason);
-
+            var time = DateTime.Now.ToString("");
+            var account = UserAccounts.GetAccount((SocketUser)user);
+            account.Warnings += $"{time} {Context.User}: [ban]" + reason + "|";
+            UserAccounts.SaveAccounts();
             var embed = new EmbedBuilder()
                 .WithColor(Color.DarkRed)
                 .AddField("**ban** used", $"By {Context.User.Mention} in {Context.Channel}\n" +
                                            $"**Content:**\n" +
                                            $"{user.Mention} - {reason}");
             await LogTextChannel.SendMessageAsync("", embed: embed);
+            }
+            catch
+            {
+                await ReplyAsync("boo... An error just appear >_< \nTry to use this command properly: **ban [user_ping(or user ID)] [reason_mesasge]**\n" +
+                                 "Alias: бан");
+            }
         }
 
         [Command("sleep")]
         public async Task SleepMode(double time)
         {
-            
             var comander = UserAccounts.GetAccount(Context.User);
             if (comander.OctoPass >= 10000)
             {
-           time = TimeSpan.FromMinutes(time).TotalMilliseconds;
+            time = TimeSpan.FromMinutes(time).TotalMilliseconds;
             await Context.Channel.SendMessageAsync("Бууууль, спааатки");
             await Task.Delay((int)time);
             }
             else
                 await Context.Channel.SendMessageAsync("Boole! You do not have a tolerance of this level!");
-
         }
-
-
-
     }
 }

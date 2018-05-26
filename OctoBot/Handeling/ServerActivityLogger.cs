@@ -5,10 +5,11 @@ using Discord;
 using Discord.WebSocket;
 using OctoBot.Configs;
 using OctoBot.Configs.Users;
+using static OctoBot.Configs.Global;
 
 namespace OctoBot.Handeling
 {
-    public class EveryLogHandeling
+    public class EveryLogHandeling 
     {
         private static readonly DiscordSocketClient Client = Global.Client;
 
@@ -21,26 +22,190 @@ namespace OctoBot.Handeling
 
             Client.ReactionAdded += Client_ReactionAddedAsyncForBlog;
             Client.ReactionRemoved += Client_ReactionRemovedForBlog;
+
+            Client.ReactionAdded += Client_ReactionAddedForArtVotes;
+            Client.ReactionRemoved += Client_ReactionRemovedForArtVotes;
+
             Client.Disconnected += Client_Disconnected;
             Client.Connected += Client_Connected;
             Client.MessageUpdated += Client_MessageUpdated;
             Client.MessageDeleted += Client_MessageDeleted;
             Client.JoinedGuild += Client_JoinedGuild; // Please Check more options!
             Client.ChannelCreated += Client_ChannelCreated;
-            Client.ChannelDestroyed += Client_ChannelDestroyed;
-            
+            Client.ChannelDestroyed += Client_ChannelDestroyed; 
             Client.GuildMemberUpdated += Client_GuildMemberUpdated;
-
-
-
-
-            
 
             return Task.CompletedTask;
 
         }
 
      
+        public async Task NonStaticMethod(Cacheable<IUserMessage, ulong> arg1, SocketReaction arg3)
+        {
+            try
+            {
+               var artVoteMess = new ArtVotes(arg1.Value.Author, arg1.Value, arg1.Value.Author, arg3.Emote.Name);
+                ArtVotesList.Add(artVoteMess);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("NonStaticMethod");
+                Console.WriteLine(e.Message);
+            }
+
+            await Task.CompletedTask;
+        }
+
+        private static async Task Client_ReactionAddedForArtVotes(Cacheable<IUserMessage, ulong> arg1,
+            ISocketMessageChannel arg2, SocketReaction arg3)
+        {
+           
+
+            if (arg3.User.Value.IsBot)
+                return;
+
+
+            var artMessagesList = ArtVotesList;
+
+            if (arg3.Emote.Name == "📊" || arg3.Emote.Name == "🎨" || arg3.Emote.Name == "🏆")
+            {
+
+
+                foreach (ArtVotes v in artMessagesList)
+                {
+                    if (arg1.Value.Id == v.SocketMsg.Id)
+                        return;
+                }
+
+                try
+                {
+                    EveryLogHandeling everyLogHandeling = new EveryLogHandeling();
+                    await everyLogHandeling.NonStaticMethod(arg1, arg3);
+
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.Message);
+                }
+
+                await arg1.DownloadAsync().Result
+                    .RemoveReactionAsync(arg3.Emote, arg3.User.Value, RequestOptions.Default);            
+                await arg1.Value.AddReactionAsync(new Emoji("1⃣"));
+                await arg1.Value.AddReactionAsync(new Emoji("2⃣"));
+                await arg1.Value.AddReactionAsync(new Emoji("3⃣"));
+                await arg1.Value.AddReactionAsync(new Emoji("4⃣"));
+                await arg1.Value.AddReactionAsync(new Emoji("5⃣"));
+            }
+
+
+            if(arg3.User.Value.Id == arg1.Value.Author.Id)
+                return;
+            foreach (ArtVotes v1 in artMessagesList)
+            {
+                if (!v1.UserVoted.Contains(arg3.User.Value) && v1.SocketMsg == arg1.Value) 
+                {
+
+
+                 // Console.WriteLine($"working2");
+                    var account = UserAccounts.GetAccount(v1.BlogAuthor);
+                    switch (arg3.Emote.Name)
+                    {
+                        case "1⃣":
+                            account.ArtVotesQty += 1;
+                            account.ArtVotesSum += 1;
+                            UserAccounts.SaveAccounts();
+                            break;
+                        case "2⃣":
+                            account.ArtVotesQty += 1;
+                            account.ArtVotesSum += 2;
+                            UserAccounts.SaveAccounts();
+                            break;
+                        case "3⃣":
+                            account.ArtVotesQty += 1;
+                            account.ArtVotesSum += 3;
+                            UserAccounts.SaveAccounts();
+                            break;
+                        case "4⃣":
+                            account.ArtVotesQty += 1;
+                            account.ArtVotesSum += 4;
+                            UserAccounts.SaveAccounts();
+                            break;
+                        case "5⃣":
+                            account.ArtVotesQty += 1;
+                            account.ArtVotesSum += 5;
+                            UserAccounts.SaveAccounts();
+                            break;
+                    }
+
+                    v1.UserVoted.Add(arg3.User.Value);
+                    v1.Emotename.Add(arg3.Emote.Name);
+                }
+
+                //return;
+            }
+
+            await Task.CompletedTask;
+        }
+
+           private static async Task Client_ReactionRemovedForArtVotes(Cacheable<IUserMessage, ulong> arg1, ISocketMessageChannel arg2, SocketReaction arg3)
+        {
+            if (arg3.User.Value.IsBot)
+                return;
+            if(arg3.User.Value.Id == arg1.Value.Author.Id)
+                return;
+
+            var artMessagesList = ArtVotesList;
+            foreach (ArtVotes v in artMessagesList)
+            {
+                if (v.UserVoted.Contains(arg3.User.Value) && v.SocketMsg == arg1.Value)
+                {
+                    for (var j = 0; j < v.UserVoted.Count; j++)
+                    {
+                      //  Console.WriteLine($"working remove voted123 emote: {artMessagesList[i].Emotename[j]}  entered: {arg3.Emote.Name}");
+                        if (arg3.Emote.Name == v.Emotename[j] && arg3.User.Value.Id == v.UserVoted[j].Id)
+                        {
+                           // Console.WriteLine($"working remove voted = {artMessagesList[i].UserVoted.Count}");
+                            var account = UserAccounts.GetAccount(v.BlogAuthor);
+                            switch (arg3.Emote.Name)
+                            {
+                                case "1⃣":
+                                    account.ArtVotesQty -= 1;
+                                    account.ArtVotesSum -= 1;
+                                    UserAccounts.SaveAccounts();
+                                    break;
+                                case "2⃣":
+                                    account.ArtVotesQty -= 1;
+                                    account.ArtVotesSum -= 2;
+                                    UserAccounts.SaveAccounts();
+                                    break;
+                                case "3⃣":
+                                    account.ArtVotesQty -= 1;
+                                    account.ArtVotesSum -= 3;
+                                    UserAccounts.SaveAccounts();
+                                    break;
+                                case "4⃣":
+                                    account.ArtVotesQty -= 1;
+                                    account.ArtVotesSum -= 4;
+                                    UserAccounts.SaveAccounts();
+                                    break;
+                                case "5⃣":
+                                    account.ArtVotesQty -= 1;
+                                    account.ArtVotesSum -= 5;
+                                    UserAccounts.SaveAccounts();
+                                    break;
+                            }
+
+                            v.UserVoted.Remove(arg3.User.Value);
+                            v.Emotename.Remove(arg3.Emote.Name);
+                          //  Console.WriteLine($"removed from voted = {artMessagesList[i].UserVoted.Count}");
+                        }
+                    }
+                }
+            }
+
+            await Task.CompletedTask;
+        }
+
 
         private static async Task Client_ChannelDestroyed(IChannel  arg)
         {
@@ -138,14 +303,14 @@ namespace OctoBot.Handeling
                 if (arg3 == null)
                     return;
 
-                if (before.Content == after.Content)
+                if (before.Content == after?.Content)
                     return;
 
 
                 var embed = new EmbedBuilder();
                 embed.WithColor(Color.DarkPurple);
-                embed.WithTitle($"📝 Updated Message: {after.Channel.Name}");
-                embed.WithDescription($"**Mess Author: {after.Author}**");
+                embed.WithTitle($"📝 Updated Message: {after?.Channel.Name}");
+                embed.WithDescription($"**Mess Author: {after?.Author}**");
                 embed.AddField("Before:", $"{messageBefore.Value.Content}\n**______**");
                 if (messageBefore.Value.Attachments.Any())
                     embed.AddField("attachments", $"{messageBefore.Value.Attachments.FirstOrDefault()?.Url}");
@@ -195,15 +360,15 @@ namespace OctoBot.Handeling
             if (arg3.User.Value.IsBot)
                 return;
 
-            var blogList = Global.BlogVotesMessIdList;
-            for (var i = 0; i < blogList.Count; i++)
+            var blogList = BlogVotesMessIdList;
+            foreach (BlogVotes v in blogList)
             {
 
 
-                if (blogList[i].SocketMsg.Id == arg1.Id && blogList[i].ReactionUser.Id == arg3.User.Value.Id)
+                if (v.SocketMsg.Id == arg1.Id && v.ReactionUser.Id == arg3.User.Value.Id)
                 {
 
-                    if (arg3.User.Value.Id == blogList[i].BlogUser.Id)
+                    if (arg3.User.Value.Id == v.BlogAuthor.Id)
                     {
                         
                         await arg3.Channel.SendMessageAsync("Ты не можешь ставить оценку самому себе!");
@@ -215,7 +380,7 @@ namespace OctoBot.Handeling
                        await arg3.Channel.SendMessageAsync($"Ты уже голосовал! Сними прошлую оценку, чтобы поставить новую.");
                         continue;
                     }*/
-                    var account = UserAccounts.GetAccount(blogList[i].BlogUser);
+                    var account = UserAccounts.GetAccount(v.BlogAuthor);
                     
                     switch (arg3.Emote.Name)
                     {
@@ -253,19 +418,19 @@ namespace OctoBot.Handeling
 
         public static async Task Client_ReactionRemovedForBlog(Cacheable<IUserMessage, ulong> arg1, ISocketMessageChannel arg2, SocketReaction arg3)
         {
-            var blogList = Global.BlogVotesMessIdList;
-            for (var i = 0; i < blogList.Count; i++)
+            var blogList = BlogVotesMessIdList;
+            foreach (BlogVotes v in blogList)
             {
 
 
-                if (blogList[i].SocketMsg.Id == arg1.Id && blogList[i].ReactionUser.Id == arg3.User.Value.Id)
+                if (v.SocketMsg.Id == arg1.Id && v.ReactionUser.Id == arg3.User.Value.Id)
                 {
-                    if (arg3.User.Value.Id == blogList[i].BlogUser.Id)
+                    if (arg3.User.Value.Id == v.BlogAuthor.Id)
                     {
                         return;
                     }
 
-                    var account = UserAccounts.GetAccount(blogList[i].BlogUser);
+                    var account = UserAccounts.GetAccount(v.BlogAuthor);
                     switch (arg3.Emote.Name)
                     {
 
@@ -295,7 +460,7 @@ namespace OctoBot.Handeling
                             UserAccounts.SaveAccounts();
                             break;
                     }
-                    blogList[i].Available = 1;
+                    v.Available = 1;
                 }
             }
 

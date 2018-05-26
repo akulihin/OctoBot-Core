@@ -18,6 +18,7 @@ namespace OctoBot.Commands
         [Alias("MySubc", "subscribers", "Subc")]
         public async Task CheckMySu()
         {
+            try{
             var account = UserAccounts.GetAccount(Context.User);
             if (account.SubedToYou == null)
             {
@@ -27,7 +28,7 @@ namespace OctoBot.Commands
 
             var accountSubs = account.SubedToYou.Split(new[] {'|'}, StringSplitOptions.RemoveEmptyEntries);
 
-            string mess = "";
+            var mess = "";
             
             for (var i = 0; i < accountSubs.Length; i++)
             {
@@ -40,8 +41,12 @@ namespace OctoBot.Commands
             embed.WithTitle("Твои подписчики:");
             embed.WithDescription($"{mess}");
             await Context.Channel.SendMessageAsync("", embed: embed);
-
-
+            }
+            catch
+            {
+                await ReplyAsync("boo... An error just appear >_< \nTry to use this command properly: **Subc**(showing all of yuor followers)\n" +
+                                 "Alias: MySubc, subscribers, подписчики");
+            }
         }
 
 
@@ -50,6 +55,7 @@ namespace OctoBot.Commands
         [Alias("MySubs", "Subscriptions", "subs")]
         public async Task CheckMySubscriptions()
         {
+            try {
             var account = UserAccounts.GetAccount(Context.User);
             if (account.SubToPeople == null)
             {
@@ -60,7 +66,7 @@ namespace OctoBot.Commands
             var accountSubs = account.SubToPeople.Split(new[] {'|'}, StringSplitOptions.RemoveEmptyEntries);
 
             
-            string mess = "";
+            var mess = "";
             for (var i = 0; i < accountSubs.Length; i++)
             {
                 var globalAccount = Client.GetUser(Convert.ToUInt64(accountSubs[i]));
@@ -72,13 +78,21 @@ namespace OctoBot.Commands
             embed.WithTitle("Твои подписки:");
             embed.WithDescription($"{mess}");
             await Context.Channel.SendMessageAsync("", embed: embed);
+            }
+            catch
+            {
+                await ReplyAsync("boo... An error just appear >_< \nTry to use this command properly: **subs**(showing all people you follow)\n" +
+                                 "Alias: MySubs, Subscriptions, подписки");
+            }
 
         }
 
 
         [Command("Sub")]
+        [Alias("follow")]
         public async Task Sub(SocketUser user)
         {
+            try {
             if (user.Id == 423593006436712458)
             {
                 await ReplyAsync("Нельзя подписываться на осьминожку!");
@@ -99,13 +113,10 @@ namespace OctoBot.Commands
             {
                 var accountSubs = account.SubToPeople.Split(new[] {'|'}, StringSplitOptions.RemoveEmptyEntries);
 
-                for (var i = 0; i < accountSubs.Length; i++)
+                if (accountSubs.Any(t => t == user.Id.ToString()))
                 {
-                    if (accountSubs[i] == user.Id.ToString())
-                    {
-                        await ReplyAsync($"Ты уже подписан на {user.Username}.");
-                        return;
-                    }
+                    await ReplyAsync($"Ты уже подписан на {user.Username}.");
+                    return;
                 }
             }
 
@@ -116,65 +127,75 @@ namespace OctoBot.Commands
             UserAccounts.SaveAccounts();
             await Context.Channel.SendMessageAsync(
                 $"Ты подписался на {user.Username}!\nЕсли хочешь отписаться введи команду ***unsub [user]**");
-
+            }
+            catch
+            {
+                await ReplyAsync("boo... An error just appear >_< \nTry to use this command properly: **Sub [user_ping (or user ID)**(follow someone's blog)\n" +
+                                 "Alias: follow");
+            }
         }
 
 
         [Command("unsub")]
+        [Alias("unfollow")]
         public async Task Unsub(SocketUser user)
         {
-            var account = UserAccounts.GetAccount(Context.User);
-            if (account.SubToPeople == null)
+            try
             {
-                await ReplyAsync("Ты и так ни на кого не подписан, буль!");
-                return;
-            }
-
-            var el = UserAccounts.GetAccount(user);
-            var accountSubs = account.SubToPeople.Split(new[] {'|'}, StringSplitOptions.RemoveEmptyEntries);
-
-            
-            var check = 0;
-            for (var i = 0; i < accountSubs.Length; i++)
-            {
-                if (Convert.ToUInt64(accountSubs[i]) != user.Id)
+                var account = UserAccounts.GetAccount(Context.User);
+                if (account.SubToPeople == null)
                 {
-                    check++;
-                }
-
-                if (check >= accountSubs.Length && Convert.ToUInt64(accountSubs[i]) != user.Id )
-                {
-                    await ReplyAsync($"Ты **не был** подписан на {user.Username}.");
+                    await ReplyAsync("Ты и так ни на кого не подписан, буль!");
                     return;
                 }
-          
 
+                var el = UserAccounts.GetAccount(user);
+                var accountSubs = account.SubToPeople.Split(new[] {'|'}, StringSplitOptions.RemoveEmptyEntries);
+
+
+                var check = 0;
+                foreach (var t in accountSubs)
+                {
+                    if (Convert.ToUInt64(t) != user.Id)
+                    {
+                        check++;
+                    }
+
+                    if (check >= accountSubs.Length && Convert.ToUInt64(t) != user.Id)
+                    {
+                        await ReplyAsync($"Ты **не был** подписан на {user.Username}.");
+                        return;
+                    }
+                }
+
+                account.SubToPeople = null;
+                foreach (var t in accountSubs)
+                {
+                    if (Convert.ToUInt64(t) != user.Id)
+                        account.SubToPeople += ($"{t}|");
+                }
+
+                UserAccounts.SaveAccounts();
+
+                var elSubs = el.SubedToYou.Split(new[] {'|'}, StringSplitOptions.RemoveEmptyEntries);
+                el.SubedToYou = null;
+                foreach (var t in elSubs)
+                {
+                    if (Convert.ToUInt64(t) != Context.User.Id)
+                        el.SubedToYou += ($"{t}|");
+                }
+
+                UserAccounts.SaveAccounts();
+
+                await ReplyAsync($"Ты был успешно ансабнут от {user.Username}");
             }
-
-            account.SubToPeople = null;
-            for (var i = 0; i < accountSubs.Length; i++)
+            catch
             {
-                if (Convert.ToUInt64(accountSubs[i]) != user.Id)
-                    account.SubToPeople += ($"{accountSubs[i]}|");
-
+                await ReplyAsync(
+                    "boo... An error just appear >_< \nTry to use this command properly: **unSub [user_ping (or user ID)]**(unfollow someone's blog)\n" +
+                    "Alias: unfollow");
             }
-
-            UserAccounts.SaveAccounts();
-
-            var elSubs = el.SubedToYou.Split(new[] {'|'}, StringSplitOptions.RemoveEmptyEntries);
-            el.SubedToYou = null;
-            for (var i = 0; i < elSubs.Length; i++)
-            {
-                if (Convert.ToUInt64(elSubs[i]) != Context.User.Id)
-                    el.SubedToYou += ($"{elSubs[i]}|");
-
-            }
-
-            UserAccounts.SaveAccounts();
-
-            await ReplyAsync($"Ты был успешно ансабнут от {user.Username}");
         }
-
 
 
 
@@ -182,8 +203,7 @@ namespace OctoBot.Commands
         [Alias("блог", "пост", "пинг", "BlogPost", "Blog Post")]
         public async Task BlogPost([Remainder] string mess)
         {
-
-
+            try {
             var account = UserAccounts.GetAccount(Context.User);
             if (account.SubedToYou == null)
             {
@@ -220,10 +240,14 @@ namespace OctoBot.Commands
 
                     messList.Add(message);
 
+                    try {
                     var voteMessToTrack = new BlogVotes(Context.User, message, globalAccount, 1);
-
                     BlogVotesMessIdList.Add(voteMessToTrack);
-
+                    }
+                    catch (Exception e)
+                    {
+                        Console.WriteLine(e.Message);
+                    }
 
                 }
                 catch
@@ -243,10 +267,10 @@ namespace OctoBot.Commands
                     var errorGuy = errorGuyAcc.SubToPeople.Split(new[] {'|'}, StringSplitOptions.RemoveEmptyEntries);
 
                     errorGuyAcc.SubToPeople = null;
-                    for (var k = 0; k < errorGuy.Length; k++)
+                    foreach (var t in errorGuy)
                     {
-                        if (Convert.ToUInt64(errorGuy[k]) != Context.User.Id)
-                            errorGuyAcc.SubToPeople += ($"{errorGuy[k]}|");
+                        if (Convert.ToUInt64(t) != Context.User.Id)
+                            errorGuyAcc.SubToPeople += ($"{t}|");
                     }
 
                     UserAccounts.SaveAccounts();
@@ -260,22 +284,19 @@ namespace OctoBot.Commands
 
             await AddReactionForBlogMessages(messList, Context.Channel);
             await ReplyAsync($"{Context.User.Mention}, твой блог был отправлен!");
-        }
-
-
-        [Command("amaron")]
-        public static async Task AmaronLel()
-        {
-            var list = BlogVotesMessIdList.ToList();
-            for(var i = 0; i < list.Count; i++)
-                Console.WriteLine($"{list[i].BlogUser.Username} blog {i}");
-            await Task.CompletedTask;
+            }
+            catch
+            {
+                await ReplyAsync(
+                    "boo... An error just appear >_< \nTry to use this command properly: **Blog [any text you want]**(send a blog to all of your followers)\n");
+            }
         }
 
 
         [Command("IBlog")]     
         public async Task BlogPostWithUrl(string url, [Remainder] string mess)
         {
+            try {
             var account = UserAccounts.GetAccount(Context.User);
             if (account.SubedToYou == null)
             {
@@ -283,25 +304,20 @@ namespace OctoBot.Commands
                 return;
             }
 
-            string httpsCheck;
-            if (url.Length < 5)
+                if (url.Length < 5)
             {
                 await ReplyAsync("буууу! Ссылка не в правильном формате!");
                 return;
             }
-            httpsCheck = ($"{url[0]}{url[1]}{url[2]}{url[3]}{url[4]}");
+            var httpsCheck = ($"{url[0]}{url[1]}{url[2]}{url[3]}{url[4]}");
             if (httpsCheck != "https")
             {
                 await ReplyAsync("буууу! Ссылка не в правильном формате!");
                 return;
             }
 
-          
-
             var accountSubs = account.SubedToYou.Split(new[] {'|'}, StringSplitOptions.RemoveEmptyEntries);
             var messList = new List<IUserMessage>();
-            
-                
 
             for (var i = 0; i < accountSubs.Length; i++)
             {
@@ -326,9 +342,14 @@ namespace OctoBot.Commands
                     var message =  await dmChannel.SendMessageAsync("", embed: embed);
                   //  await dmChannel.SendFileAsync("https://puu.sh/AqC2d/715e9eb16e.mp3");
                     messList.Add(message);
-
+                    try {
                     var voteMessToTrack = new BlogVotes(Context.User, message, Context.User, 1);
                     BlogVotesMessIdList.Add(voteMessToTrack);
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.Message);
+                }
                    
                 }
                 catch {  account.SubedToYou = null;
@@ -345,10 +366,10 @@ namespace OctoBot.Commands
                     var errorGuy = errorGuyAcc.SubToPeople.Split(new[] {'|'}, StringSplitOptions.RemoveEmptyEntries);
 
                     errorGuyAcc.SubToPeople = null;
-                    for (var k = 0; k < errorGuy.Length; k++)
+                    foreach (var t in errorGuy)
                     {
-                        if (Convert.ToUInt64(errorGuy[k]) != Context.User.Id)
-                            errorGuyAcc.SubToPeople += ($"{errorGuy[k]}|");
+                        if (Convert.ToUInt64(t) != Context.User.Id)
+                            errorGuyAcc.SubToPeople += ($"{t}|");
                     }
                     UserAccounts.SaveAccounts();
                     var dmCommander = await Context.User.GetOrCreateDMChannelAsync();
@@ -359,6 +380,12 @@ namespace OctoBot.Commands
 
             await AddReactionForBlogMessages(messList, Context.Channel);
             await ReplyAsync($"{Context.User.Mention}, твой блог был отправлен!");
+            }
+            catch
+            {
+                await ReplyAsync(
+                    "boo... An error just appear >_< \nTry to use this command properly: **IBlog [HTTPS_url] [any text you want]**(send a blog **WITH PICTURE** to all of your followers)\n");
+            }
         }
 
 
@@ -366,46 +393,29 @@ namespace OctoBot.Commands
 
         public static async Task AddReactionForBlogMessages(List<IUserMessage> messageList, ISocketMessageChannel contextChannel)
         {
+            try
+            {
             var zaaz = Emote.Parse("<:zazz:448323858492162049>");
 
             Parallel.For(0, messageList.Count, async i =>
             {
-                try
-                {
                     await messageList[i].AddReactionAsync(new Emoji("1⃣"));
                     await messageList[i].AddReactionAsync(new Emoji("2⃣"));
                     await messageList[i].AddReactionAsync(new Emoji("3⃣"));
                     await messageList[i].AddReactionAsync(new Emoji("4⃣"));
                     await messageList[i].AddReactionAsync(zaaz);
-                }
-                catch
-                {
-                    try
-                    {
-                        Console.ForegroundColor = ConsoleColor.Red;
-                        Console.WriteLine("AddReactionForBlogMessages CATCH");
-                        Console.ResetColor();
-                        for (var j = 0; j < messageList.Count; j++)
-                        {
-                            await messageList[j].DeleteAsync();
-
-                        }
-
-                        await contextChannel.SendMessageAsync(
-                            $"Произошла какая-то ошибка, попробуй отправить снова");
-                    }
-                    catch
-                    {
-                        Console.ForegroundColor = ConsoleColor.Red;
-                        Console.WriteLine("AddReactionForBlogMessages CATCH-CATCH");
-                        Console.ResetColor();
-                    }
-
-                }
-
             });
 
             await Task.CompletedTask;
+            }
+            catch
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("AddReactionForBlogMessages CATCH");
+                Console.ResetColor();
+                await contextChannel.SendMessageAsync(
+                    $"Произошла какая-то ошибка, попробуй отправить снова");
+            }
         }
     }
 }

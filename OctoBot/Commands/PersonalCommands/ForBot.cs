@@ -1,13 +1,17 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
 using System.Net;
+using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using System.Timers;
 using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
+using ImageMagick;
 using OctoBot.Configs;
+using Color = Discord.Color;
 
 namespace OctoBot.Commands.PersonalCommands
 {
@@ -229,5 +233,45 @@ namespace OctoBot.Commands.PersonalCommands
             }
         }
 
+        [Command("draw")]
+        public async Task Drawing(SocketUser user)
+        {
+          
+
+           string url = user.GetAvatarUrl();
+         
+            byte[] imagebytes;
+
+            using (HttpClient client = new  HttpClient())
+            {
+                imagebytes = await client.GetByteArrayAsync(url);
+            }
+            MagickReadSettings settings = new MagickReadSettings();
+            settings.Width = 128;
+            settings.Height = 128;
+
+            MagickImage image = new MagickImage(imagebytes, settings);
+    /*
+
+            new Drawables()
+                // Draw text on the image
+                
+                .FontPointSize(5)
+                .Font("Comic Sans")
+                .StrokeColor(new MagickColor("yellow"))
+                .FillColor(MagickColors.Orange)
+                .TextAlignment(TextAlignment.Center)
+                .Text(50, 50, "boole")
+                // Add an ellipse
+                .StrokeColor(new MagickColor(0, Quantum.Max, 0))
+                .FillColor(MagickColors.SaddleBrown)
+                .Ellipse(256, 96, 192, 8, 0, 360)
+                
+                .Draw(image);
+            image.Format = MagickFormat.Png;
+        */
+            await Context.Channel.SendFileAsync(new MemoryStream(image.ToByteArray()), "boole.png");
+      
+        }
     }
 }

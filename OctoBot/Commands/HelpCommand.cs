@@ -52,10 +52,11 @@ namespace OctoBot.Commands
                                                
 
             embed.AddField("Help команды",
-                                                 "**HelpFull** Показать **Остальные** команды бота\n" +
+                                                 "**HelpFull** Показать **Допкоманды 1** команды бота\n" +
+                                                 "**HelpExtra** Показать **Допкоманды 2** команды бота" +
                                                  "**HelpRemind** Помощь по команде **Remind**\n" +
                                                  "**HelpPass** Информация о пассах и доступах\n" +
-                                                 "**HelpSub** Информация о системе Блогов (сабов)\n" +
+                                                 "**HelpBlog** Информация о системе Блогов (сабов)\n" +
                                                  "**HelpMod** Модерские команды\n" +
                                                  " \n" +
                                                  "**_______**\n" +
@@ -200,8 +201,8 @@ namespace OctoBot.Commands
         }
 
 
-        [Command("HelpSub")]
-        [Alias("Help Sub", "SubHelp")]
+        [Command("HelpBlog")]
+        [Alias("Help Sub", "SubHelp", "HelpSub")]
         public async Task HelpSub()
         {
             var embed = new EmbedBuilder();
@@ -212,6 +213,7 @@ namespace OctoBot.Commands
 
             embed.AddField("Система Блогов(Сабов)", "вы можете подписаться на человека, и когда тот пропишет команду **blog [что-то]** вы получите" +
                                                     "ЛС с этим [что-то] от осьминожек!\n" +
+                                                    "Так же под блогами будут оценки, и ваши подписчики могут оценивать ваши работы от 1 до 5, средний бал можно увидеть по команде **topr**" +
                                                     "**---------------------------------------------**\n" +
                                                     " _______\n");
             embed.AddField("Команды:", "**Sub [user]** Подписаться на юзера\n" +
@@ -227,6 +229,26 @@ namespace OctoBot.Commands
             await Context.Channel.SendMessageAsync("", false, embed);
 
 
+        }
+
+        [Command("HelpExtra")]
+        [Alias("Help Extra", "HelpE")]
+        public async Task HelpExtra()
+        {
+            var embed = new EmbedBuilder();
+            embed.AddField("Топы:", "По дефолту показывает первую страницу, страницу можно указать дописав номер страницы после команды\n" +
+                                    "**top** Топ по Активу сервера\n" +
+                                    "**topp** Топ по ОктоПоинтам\n" +
+                                    "**tops** Топ по количеству подписчиков\n" +
+                                    "**topr** Топ по рейтингу Блогов (подробно по команде HelpBlog)\n" +
+                                    "**topa** Топ по рейтингу сообщений, этот рейтинг можно вызвать под каждым сообщением поставив одну из этих эмоций (:bar_chart: :art: :trophy: :frame_photo:)");
+            embed.AddField("Extra Commands", "**GiftPoints [User] [number]** Передать свои поинты другому -10% комиссия\n" +
+                                             "**OctoPoint [User] [number]**  Дать Окто Поинты(админ)\n" +
+                                             "**OctoRep [User] [number]** Дать Окто Репу(админ)");
+            embed.AddField("Extra:", "Все доступные роли можно получить в #info нажам на определенную реакцию\n");
+            embed.WithFooter("Записная книжечка Осьминожек");
+            embed.WithColor(Color.LightOrange);
+            await Context.Channel.SendMessageAsync("", false, embed);
         }
         
     }
