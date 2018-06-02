@@ -243,7 +243,7 @@ namespace OctoBot.Commands
                 if (passCheck.OctoPass >= 1)
                 {
                     var boo = new Random();
-                    var index = boo.Next(21);
+                    var index = boo.Next(30);
                     if (index == 20 || index == 19 || index == 18)
                     {
 
@@ -309,6 +309,8 @@ namespace OctoBot.Commands
                     "boo... An error just appear >_< \nTry to use this command properly: **Octo [Octo_index]**\n");
             }
         }
+
+
     }
 
 }

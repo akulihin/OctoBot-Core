@@ -25,10 +25,10 @@ namespace OctoBot.Commands
 
 
                 case DailyPullResult.AlreadyRecieved:
-                    await ReplyAsync($"Ты **уже** получал 1 поинт, {Context.User.Username}, у тебя сейчас {account.DailyPullPoints} поинтов. попробуй ещё раз через {24 - (int)difference.TotalHours} часов");
+                    await ReplyAsync($"Ты **уже** получал 1 поинт, {Context.User.Username}, у тебя сейчас {account.DailyPullPoints} поинтов. попробуй ещё раз через {23 - (int)difference.TotalHours} часов");
                     break;
                 case DailyPullResult.Success:
-                    if (account.DailyPullPoints == 20)
+                    if (account.DailyPullPoints == 30)
                     {
                         await ReplyAsync(
                             $"**Поит записан!** У тебя все {account.DailyPullPoints} поинтов!! В течении минуты наши черепашки вышлют тебе в ЛС ключик!");
@@ -56,7 +56,7 @@ namespace OctoBot.Commands
             var account = UserAccounts.GetAccount(user);
             var difference = DateTime.Now - account.LastDailyPull;
 
-            if (difference.TotalHours < 24) return DailyPullResult.AlreadyRecieved;
+            if (difference.TotalHours < 23) return DailyPullResult.AlreadyRecieved;
 
             account.DailyPullPoints += 1;
             account.LastDailyPull = DateTime.UtcNow;
@@ -85,7 +85,7 @@ namespace OctoBot.Commands
             return Task.CompletedTask;
         }
         
-        public static async void CheckPulls(object sender, ElapsedEventArgs e)
+             public static async void CheckPulls(object sender, ElapsedEventArgs e)
         {          
             try
             {
@@ -123,35 +123,71 @@ namespace OctoBot.Commands
 
                             }
                         }
-                        if (account.DailyPullPoints == 20)
+                        
+                        if (account.DailyPullPoints >= 30)
                         {
                             var mylorikGlobal = Global.Client.GetUser(181514288278536193);
                             var mylorik = UserAccounts.GetAccount(mylorikGlobal);
 
-                            if (mylorik.KeyPull != null)
+                            if (mylorik.KeyPullName != null)
                             {
-                                var randomKeyList =
-                                    mylorik.KeyPull.Split(new[] {'|'}, StringSplitOptions.RemoveEmptyEntries);
+                                var fullKeysNameList =
+                                    mylorik.KeyPullName.Split(new[] {'|'}, StringSplitOptions.RemoveEmptyEntries);
+                                var fullKeysKeyList =
+                                    mylorik.KeyPullKey.Split(new[] {'|'}, StringSplitOptions.RemoveEmptyEntries);
+
+
+                                if (fullKeysNameList.Length == 1)
+                                {
+                                    Array.Resize(ref fullKeysNameList, fullKeysNameList.Length + 2);
+                                    Array.Resize(ref fullKeysKeyList, fullKeysKeyList.Length + 2);
+
+                                    fullKeysNameList[fullKeysNameList.Length - 2] = "Куда подевалось?";
+                                    fullKeysNameList[fullKeysNameList.Length - 1] = "Куда подевалось?";
+
+
+                                    fullKeysKeyList[fullKeysKeyList.Length - 2] = "228 %%Доволен?";
+                                    fullKeysKeyList[fullKeysKeyList.Length - 1] = "228 %%Доволен?";
+                                }
+                                else if (fullKeysNameList.Length == 2)
+                                {
+                                    Array.Resize(ref fullKeysNameList, fullKeysNameList.Length + 1);
+                                    Array.Resize(ref fullKeysKeyList, fullKeysKeyList.Length + 1);
+
+                                    fullKeysNameList[fullKeysNameList.Length - 1] = "Куда подевалось?";
+                                    fullKeysKeyList[fullKeysKeyList.Length - 1] = "228 %%Доволен?";
+                                }
+
+
+                                int randonKey1;
+                                int randonKey2;
+                                int randonKey3;
                                 var key = new Random();
-                                var randomKey = key.Next(randomKeyList.Length);
+                                do
+                                {
+                                    randonKey1 = key.Next(fullKeysNameList.Length);
+                                    randonKey2 = key.Next(fullKeysNameList.Length);
+                                    randonKey3 = key.Next(fullKeysNameList.Length);
+
+                                } while (randonKey1 == randonKey2 || randonKey2 == randonKey3 || randonKey1 == randonKey3);
+
+                                
+                                UserAccounts.SaveAccounts();
 
 
                                 var dmChannel = await globalAccount.GetOrCreateDMChannelAsync();
                                 var embed = new EmbedBuilder();
+
                                 embed.WithFooter("lil octo notebook");
                                 embed.WithTitle("OctoNotification");
-                                embed.WithDescription($"Вот и ключик подъехал!\n\n**{randomKeyList[randomKey]}**\n\n" +
-                                                      $"Если ты  **НЕ будешь играть в эту игру**, а просто добавишь ее и забьешь, **прошу** верни ее осьминожкам, и мы подарим ее другому через команду **addkey [любой текст]**. Мы не любим расходовать ресурсы просто так. Спасибо!");
+                                embed.WithDescription($"Вот и ключик подъе... буууль. Выбери одну:\nЧерез команду __cKey номер__\n\n**1. {fullKeysNameList[randonKey1]}**\n**2. {fullKeysNameList[randonKey2]}**\n**3. {fullKeysNameList[randonKey3]}**\n\n**0. Ничего не брать.**\n\n"+
+                                                      $"**ВАЖНО, прочти пожалуйста:**\nЕсли ты НЕ будешь играть в эту игру, а просто добавишь ее и забьешь, тогда **прошу** верни ее осьминожкам, а мы подарим ее другому! - \nПросто Проигнорь это сообщение, или выбери 0 В таком случае.\n__Мы не любим топить ресурсы__. Буль c:");
                                 await dmChannel.SendMessageAsync("", embed: embed);
 
-                                mylorik.KeyPull = null;
-                                for (var i = 0; i < randomKeyList.Length; i++)
-                                {
-                                    if (i != randomKey)
-                                        mylorik.KeyPull += ($"{randomKeyList[i]}|");
-                                }
-
-                                account.KeyPull += (randomKeyList[randomKey] + "|");
+                                account.PullToChoose = null;
+                                account.PullToChoose += $"{randonKey1} %% {fullKeysNameList[randonKey1]} {fullKeysKeyList[randonKey1]} |";
+                                account.PullToChoose += $"{randonKey2} %% {fullKeysNameList[randonKey2]} {fullKeysKeyList[randonKey2]} |";
+                                account.PullToChoose += $"{randonKey3} %% {fullKeysNameList[randonKey3]} {fullKeysKeyList[randonKey3]} |";
                                 account.DailyPullPoints = 0;
                                 UserAccounts.SaveAccounts();
                             }
@@ -173,14 +209,17 @@ namespace OctoBot.Commands
         }
 
 
-        
         [Command("AddKey")]
         public async Task JsonTask([Remainder] string mess)
         {
             try {
             var mylorikGlobal = Global.Client.GetUser(181514288278536193);
             var mylorik = UserAccounts.GetAccount(mylorikGlobal);
-            mylorik.KeyPull += (mess + "|");
+
+                var gameAndKey = mess.Split(new[] {"&&"}, StringSplitOptions.RemoveEmptyEntries);
+
+            mylorik.KeyPullName += (gameAndKey[0] + "|");
+            mylorik.KeyPullKey += (gameAndKey[1] + "|");
             UserAccounts.SaveAccounts();
             await Context.Channel.SendMessageAsync("бууль-буль, записали!");
             }
@@ -200,16 +239,23 @@ namespace OctoBot.Commands
             {
             var mylorikGlobal = Global.Client.GetUser(181514288278536193);
             var mylorik = UserAccounts.GetAccount(mylorikGlobal);
-            var keyList =
-                mylorik.KeyPull.Split(new[] {'|'}, StringSplitOptions.RemoveEmptyEntries);
+            var keyName =
+                mylorik.KeyPullName.Split(new[] {'|'}, StringSplitOptions.RemoveEmptyEntries);
+            var keykey =
+                    mylorik.KeyPullKey.Split(new[] {'|'}, StringSplitOptions.RemoveEmptyEntries);
+
   
-            mylorik.KeyPull = null;
-            for (var i = 0; i < keyList.Length; i++)
+            mylorik.KeyPullName = null;
+                mylorik.KeyPullKey= null;
+            for (var i = 0; i < keyName.Length; i++)
             {
                 if (i != index)
-                    mylorik.KeyPull += ($"{keyList[i]}|");
+                {
+                            mylorik.KeyPullName += ($"{keyName[i]}|");
+                            mylorik.KeyPullKey += ($"{keykey[i]}|");
+                }
             }
-            await Context.Channel.SendMessageAsync($"ключ **{keyList[index]}** был удалён");
+            await Context.Channel.SendMessageAsync($"ключ **{keyName[index]} {keykey[index]}** был удалён");
             UserAccounts.SaveAccounts();
             }
             else
@@ -230,19 +276,29 @@ namespace OctoBot.Commands
          try {
             var account = UserAccounts.GetAccount(Context.User);
           
-                var fuckts = account.KeyPull.Split(new[] {'|'}, StringSplitOptions.RemoveEmptyEntries);
+                var keyName = account.KeyPullName.Split(new[] {'|'}, StringSplitOptions.RemoveEmptyEntries);
+                var keyKey = account.KeyPullKey.Split(new[] {'|'}, StringSplitOptions.RemoveEmptyEntries);
             var keys = "";
+            var keysExtra = "";
 
-                for (var i = 0; i < fuckts.Length; i++)
+                for (var i = 0; i < keyName.Length; i++)
                 {
-                    keys += $"index: {i} | {fuckts[i]}\n";
-                   
+                    if (keys.Length >= 800)
+                    {
+                        keysExtra += $"index: {i} | {keyName[i]} {keyKey[i]} \n";
+                    }
+                    else
+                    {
+                        keys += $"index: {i} | {keyName[i]} {keyKey[i]}\n";
+                    }
                 }
 
             var embed = new EmbedBuilder();
             embed.WithAuthor(Context.User);
-            embed.AddField("Ключи:", $"{keys}\n**KeyDel [index]** Чтобы удалить ");
+            embed.AddInlineField("Ключи:", $"{keys}\n**KeyDel [index]** Чтобы удалить ");
             embed.WithFooter("Записная книжечка Осьминожек");
+             if(keysExtra.Length > 10)
+                 embed.AddInlineField("Ключи(cont):", $"{keysExtra}\n**KeyDel [index]** Чтобы удалить ");
 
             await Context.Channel.SendMessageAsync("", embed: embed);
          }
@@ -252,7 +308,89 @@ namespace OctoBot.Commands
          }
         }
 
+        [Command("cKey")]
+        public async Task ChooseKeyFromPull(int choice)
+        {
+            try
+            {
+              
 
+                if (choice < 0 || choice > 3)
+                {
+                    await ReplyAsync("бу!");
+                    return;
+                }
+                var account = UserAccounts.GetAccount(Context.User);
+                if (choice == 0)
+                {
+                    await ReplyAsync("Бульк~");
+                    account.PullToChoose = null;
+                    UserAccounts.SaveAccounts();
+                    return;
+                }
+
+                
+                var keysToChooseList=
+                    account.PullToChoose.Split(new[] {"%%"}, StringSplitOptions.RemoveEmptyEntries);
+
+
+                int index;
+                
+                if (choice == 1)
+                {
+                  var something = keysToChooseList[0].ToString().Split(new[] {"%%"}, StringSplitOptions.RemoveEmptyEntries);
+                    index = Convert.ToInt32(something[0]);
+                 
+                }
+                else if(choice == 2)
+                {
+                  var something = keysToChooseList[1].ToString().Split(new[] {"%%"}, StringSplitOptions.RemoveEmptyEntries);
+                    index = Convert.ToInt32(something[0]);
+                  
+                }
+                else
+                {
+                  var something = keysToChooseList[2].ToString().Split(new[] {"%%"}, StringSplitOptions.RemoveEmptyEntries);
+                    index = Convert.ToInt32(something[0]);
+                 
+                }
+            
+                var mylorikGlobal = Global.Client.GetUser(181514288278536193);
+                var mylorik = UserAccounts.GetAccount(mylorikGlobal);
+                var keyName =
+                    mylorik.KeyPullName.Split(new[] {'|'}, StringSplitOptions.RemoveEmptyEntries);
+                var keykey =
+                    mylorik.KeyPullKey.Split(new[] {'|'}, StringSplitOptions.RemoveEmptyEntries);
+
+
+                var embed = new EmbedBuilder();
+                embed.WithFooter("lil octo notebook");
+                embed.WithTitle("OctoNotification");
+                embed.WithDescription($"А вот и ключ!\n\n**{keyName[index]} : {keykey[index]}**\n\nБуль!");
+               
+              await  ReplyAsync("", embed:embed);
+
+                
+                mylorik.KeyPullName = null;
+                mylorik.KeyPullKey= null;
+                for (var i = 0; i < keyName.Length; i++)
+                {
+                    if (i != index)
+                    {
+                        mylorik.KeyPullName += ($"{keyName[i]}|");
+                        mylorik.KeyPullKey += ($"{keykey[i]}|");
+                    }
+                }
+
+                account.PullToChoose = null;
+                UserAccounts.SaveAccounts();
+            }
+            catch(Exception e)
+            {
+                Console.WriteLine(e);
+                await ReplyAsync("У тебя либо нет ключей на выбор, либо произошла какая-то ошибка.");
+            }
+        }
 
     }
 }

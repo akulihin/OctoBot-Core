@@ -29,7 +29,7 @@ namespace OctoBot
             {
                 LogLevel = LogSeverity.Verbose,
                 DefaultRetryMode = RetryMode.AlwaysRetry,       
-                MessageCacheSize = 10000
+                MessageCacheSize = 5000
             });
 
             var botToken = Config.Bot.Token;
@@ -47,6 +47,7 @@ namespace OctoBot
             _client.Ready += ForBot.TimerForBotAvatar;   
             _client.UserJoined += Announcer.AnnounceUserJoin;
             _client.Ready += EveryLogHandeling._client_Ready;
+            
           
          
             //  _client.Ready += YellowTurtle.StartTimer; //// Timer3

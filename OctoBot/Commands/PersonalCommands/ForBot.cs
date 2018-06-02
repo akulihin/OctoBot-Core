@@ -1,6 +1,5 @@
 ﻿using System;
 using System.IO;
-using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Text;
@@ -12,13 +11,16 @@ using Discord.WebSocket;
 using ImageMagick;
 using OctoBot.Configs;
 using Color = Discord.Color;
+using ApiAiSDK;
+
 
 namespace OctoBot.Commands.PersonalCommands
 {
     public class ForBot : ModuleBase<SocketCommandContext>
     {
+        private static string LogFile = @"OctoDataBase/AI.json";
+        private ApiAi apiAi;
 
-        
         private static Timer _loopingTimerForOctoAva;
       
         internal static Task TimerForBotAvatar()
@@ -62,7 +64,13 @@ namespace OctoBot.Commands.PersonalCommands
             }
         }
 
+        [Command("text")]
+        public async Task YoKErateMate([Remainder] string mess)
+        {
+            File.AppendAllText(LogFile, $"{mess}\n");
+          await  Task.CompletedTask;
 
+        }
 
 
         [Command("setAvatar")]
@@ -114,8 +122,22 @@ namespace OctoBot.Commands.PersonalCommands
 
         }
 
+        [Command("username")]
+        public async Task ChangeUsername([Remainder] string name)
+        {
+            await Context.Client.CurrentUser.ModifyAsync(usr => usr.Username = name);
+            await ReplyAsync($":ok_hand: Changed my username to {name}");
+        }
+
+        [Command("nickname")]
+        [RequireContext(ContextType.Guild)]
+        public async Task ChangeNickname([Remainder] string name)
+        {
+            await Context.Guild.GetUser(Context.Client.CurrentUser.Id).ModifyAsync(usr => usr.Nickname = name);
+            await ReplyAsync($":ok_hand: Changed my Nickname to {name}");
+        }
+
         [Command("nick")]
-        
         public async Task Nickname(SocketGuildUser username, [Remainder]string name)
         {
             if (Context.User.Id != 181514288278536193)

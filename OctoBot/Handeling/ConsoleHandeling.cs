@@ -24,7 +24,7 @@ namespace OctoBot.Handeling
             }
 
         }
-
+        
         private static async void ConsoleSendMessage(DiscordSocketClient client)
         {
             try
@@ -87,7 +87,6 @@ namespace OctoBot.Handeling
             return textChannels[selectedIndex];
         }
 
-
         private static SocketGuild GetSelectedGuild(IEnumerable<SocketGuild> guilds)
         {
             var socketGuilds = guilds.ToList();
@@ -108,13 +107,5 @@ namespace OctoBot.Handeling
             }
             return socketGuilds[selectedIndex];
         }
-
-
-
-
-
-
-
-
     }
 }

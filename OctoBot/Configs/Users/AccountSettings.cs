@@ -41,7 +41,9 @@ namespace OctoBot.Configs.Users
         public DateTime LastDailyPull { get; set; } = DateTime.UtcNow.AddDays(-2);
         public int DailyPullPoints { get; set; }
 
-        public string KeyPull { get; set; }
+        public string KeyPullName { get; set; }
+        public string KeyPullKey { get; set; }
+        public string PullToChoose { get; set; }
 
         ///////////Subscriptions////////////////
         public string SubToPeople { get; set; }
@@ -70,6 +72,7 @@ namespace OctoBot.Configs.Users
         public ulong ArtVotesQty { get; set; }
         public ulong ArtVotesSum { get; set; }
         public double ArtAvarageScoreVotes { get; set; }
+
 
     }
 }

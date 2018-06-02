@@ -276,7 +276,7 @@ namespace OctoBot.Commands.ShadowCItyCOmmand
                    
                     await cash.DownloadAsync().Result
                         .RemoveReactionAsync(reaction.Emote, globalAccount, RequestOptions.Default);
-                    Console.WriteLine($"REACTION ROLE: {Global.Client.GetGuild(338355570669256705).GetUser(reaction.UserId).Username} : {reaction.Emote.Name}");
+                    
                 }           
             }
             catch(Exception error)

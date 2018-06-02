@@ -9,7 +9,7 @@ namespace OctoBot.Commands.ShadowCItyCOmmand
 {
    public class UpdateShadowMess : ModuleBase<SocketCommandContext>
     {
-          [Command("буль")]
+          [Command("буль228")]
         public async Task Boole()
         {
         
@@ -57,7 +57,7 @@ namespace OctoBot.Commands.ShadowCItyCOmmand
         }
 
 
-        [Command("бууль")]
+        [Command("бууль228")]
         public async Task Boooole()
         {
             var roles = Context.Guild.Roles.ToArray();
@@ -69,7 +69,7 @@ namespace OctoBot.Commands.ShadowCItyCOmmand
             await Task.CompletedTask;
         }
 
-        [Command("буууль")]
+        [Command("буууль228")]
         public async Task Booooole()
         {
             var chanels = Context.Guild.TextChannels.ToArray();
@@ -81,7 +81,7 @@ namespace OctoBot.Commands.ShadowCItyCOmmand
             await Task.CompletedTask;
         }
 
-        [Command("бульк")]
+        [Command("бульк228")]
         public async Task Boolek()
         {
 

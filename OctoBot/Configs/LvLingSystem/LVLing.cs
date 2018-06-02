@@ -42,25 +42,6 @@ namespace OctoBot.Configs.LvLingSystem
             userAccount.UserName = user.Username;
             
           
-
-            if (userAccount.ExtraUserName != null)
-            {
-
-                var dublicate = 0;
-                var extra = userAccount.ExtraUserName.Split(new[] { '|' }, StringSplitOptions.RemoveEmptyEntries);
-                for (var i = 0; i < extra.Length; i++)
-                {
-                    if (extra[i] == user.Nickname && extra[i] != null)
-                        dublicate = 1;
-                }
-
-                if (dublicate != 1 && user.Nickname != null)
-                    userAccount.ExtraUserName += (user.Nickname + "|");
-
-            }
-            else if (user.Nickname != null)
-                userAccount.ExtraUserName = (user.Nickname + "|");
-
             userAccount.Lvl = Math.Sqrt(userAccount.LvlPoinnts / 150);
 
             UserAccounts.SaveAccounts();

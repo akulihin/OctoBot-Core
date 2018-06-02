@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Linq;
 using System.Threading.Tasks;
 using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
-using OctoBot.Configs;
 using OctoBot.Configs.Users;
 using OctoBot.Handeling;
 
@@ -119,7 +117,7 @@ namespace OctoBot.Commands
         }
         catch
         {
-                await ReplyAsync("boo... An error just appear >_< \nTry to use this command properly: **Stats**");
+              //  await ReplyAsync("boo... An error just appear >_< \nTry to use this command properly: **Stats**");
             }
         }
 
@@ -143,8 +141,8 @@ namespace OctoBot.Commands
             }
             catch
             {
-                await ReplyAsync("boo... An error just appear >_< \nTry to use this command properly: **OctoRep [ping_user(or user ID)] [number_of_points]**\n" +
-                                 "Alias: Rep, октоРепа, Репа, Окто Репа");
+             //   await ReplyAsync("boo... An error just appear >_< \nTry to use this command properly: **OctoRep [ping_user(or user ID)] [number_of_points]**\n" +
+             //                    "Alias: Rep, октоРепа, Репа, Окто Репа");
             }
         }
 
@@ -170,8 +168,8 @@ namespace OctoBot.Commands
             }
             catch
             {
-                await ReplyAsync("boo... An error just appear >_< \nTry to use this command properly: **OctoPoint [ping_user(or user ID)] [number_of_points]**\n" +
-                                 "Alias: OctoPoints, ОктоПоинты, Поинты, points, point");
+              //  await ReplyAsync("boo... An error just appear >_< \nTry to use this command properly: **OctoPoint [ping_user(or user ID)] [number_of_points]**\n" +
+               //                  "Alias: OctoPoints, ОктоПоинты, Поинты, points, point");
             }
         }
 
@@ -291,7 +289,7 @@ namespace OctoBot.Commands
             }
             catch
             {
-                await ReplyAsync("boo... An error just appear >_< \nTry to use this command properly: **Stats [user_ping(or user ID)]**");
+            //    await ReplyAsync("boo... An error just appear >_< \nTry to use this command properly: **Stats [user_ping(or user ID)]**");
             }
         }
 
@@ -329,7 +327,7 @@ namespace OctoBot.Commands
             }
             catch
             {
-                await ReplyAsync("boo... An error just appear >_< \nTry to use this command properly: **pass**\n Alias: Пасс, Пропуск, Доступ, КупитьПропуск, Купить Пропуск");
+               // await ReplyAsync("boo... An error just appear >_< \nTry to use this command properly: **pass**\n Alias: Пасс, Пропуск, Доступ, КупитьПропуск, Купить Пропуск");
             }
         }
 
@@ -393,7 +391,7 @@ namespace OctoBot.Commands
             }
             catch
             {
-                await ReplyAsync("boo... An error just appear >_< \nTry to use this command properly: **GiftPoints [ping_user(or user ID)] [number_of_points]**\nAlias: GiftPoint ");
+           //     await ReplyAsync("boo... An error just appear >_< \nTry to use this command properly: **GiftPoints [ping_user(or user ID)] [number_of_points]**\nAlias: GiftPoint ");
             }
         }
 
