@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Globalization;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Timers;
 using Discord;
@@ -72,7 +73,7 @@ namespace OctoBot.Commands
             };
             var timeDateTime = DateTime.UtcNow + TimeSpan.ParseExact(timeString, formats, CultureInfo.CurrentCulture);
 
-            await Context.Channel.SendMessageAsync($"An Octopus will remind you\n" +
+            await Context.Channel.SendMessageAsync($"Розовая черепашка напомнит тебе:\n" +
                                                    $"*{reminderString}*\n\n" +
                                                    $"We will send you a DM in  __**{timeDateTime}**__ `by UTC`\n" +
                                                    $"**Time Now:                  {DateTime.UtcNow}** `by UTC`");
@@ -395,6 +396,7 @@ namespace OctoBot.Commands
                 Enabled = true
             };
             _loopingTimer.Elapsed += CheckReminders;
+            _loopingTimer.Elapsed += CheckForMute;
 
 
             return Task.CompletedTask;
@@ -428,8 +430,9 @@ namespace OctoBot.Commands
                                     var dmChannel = await globalAccount.GetOrCreateDMChannelAsync();
                                     var embed = new EmbedBuilder();
                                     embed.WithFooter("lil octo notebook");
-                                    embed.WithTitle("Pink Octopus is reminding you:");
-                                    embed.WithDescription($"{account.ReminderList[j].ReminderMessage}");
+                                    embed.WithColor(Color.Teal);
+                                    embed.WithTitle("Розовенькая черепашка напоминает тебе:");
+                                    embed.WithDescription($"\n{account.ReminderList[j].ReminderMessage}");
 
                                     await dmChannel.SendMessageAsync("", embed: embed);
 
@@ -463,6 +466,65 @@ namespace OctoBot.Commands
             catch (Exception error)
             {
                 Console.WriteLine("ERROR!!! REMINDER(Big try) Does not work: '{0}'", error);
+               
+            }
+        }
+
+          public static async void CheckForMute(object sender, ElapsedEventArgs e)
+        {
+            try
+            {
+                var allUserAccounts = UserAccounts.GetAllAccounts();
+                var now = DateTime.UtcNow;
+
+                foreach (var t in allUserAccounts)
+                {
+                    if (Global.Client.GetUser(t.Id) != null)
+                    {
+                        var globalAccount = Global.Client.GetUser(t.Id);
+                        var account = UserAccounts.GetAccount(globalAccount);
+         
+                            if (account.MuteTimer <= now && account.MuteTimer != Convert.ToDateTime("0001-01-01T00:00:00"))
+                            {
+
+
+                                var roleToGive = Global.Client.GetGuild(338355570669256705).Roles
+                                    .SingleOrDefault(x => x.Name.ToString() == "Muted");
+                                var wtf = Global.Client.GetGuild(338355570669256705).GetUser(account.Id);
+                                await wtf.RemoveRoleAsync(roleToGive);
+
+                                account.MuteTimer = Convert.ToDateTime("0001-01-01T00:00:00");
+                                UserAccounts.SaveAccounts();
+
+                                try
+                                {
+                                    var dmChannel = await globalAccount.GetOrCreateDMChannelAsync();
+                                    var embed = new EmbedBuilder();
+                                    embed.WithFooter("lil octo notebook");
+                                    embed.WithColor(Color.Red);
+                                    embed.WithImageUrl("https://i.imgur.com/puNz7pu.jpg");
+                                    embed.WithDescription($"бу-бу-бу!\nБольше так не делай, тебя размутили.");
+
+                                    await dmChannel.SendMessageAsync("", embed: embed);
+                                }
+                                catch
+                                {
+                                    var embed = new EmbedBuilder();
+                                    embed.WithFooter("lil octo notebook");
+                                    embed.WithColor(Color.Red);
+                                    embed.WithImageUrl("https://i.imgur.com/puNz7pu.jpg");
+                                    embed.WithDescription($"бу-бу-бу!\nБольше так не делай, тебя размутили.");
+
+                                   await Global.Client.GetGuild(338355570669256705).GetTextChannel(374914059679694848)
+                                        .SendMessageAsync("", embed: embed);
+                                }
+                            }
+                    }
+                }
+            }
+            catch (Exception error)
+            {
+                Console.WriteLine("ERROR!!! CheckForMute(Big try) Does not work: '{0}'", error);
                
             }
         }

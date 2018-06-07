@@ -50,17 +50,6 @@ namespace OctoBot.Configs.Users
 
         public string SubedToYou { get; set; }
         
-        public struct CreateReminder
-        {
-            public DateTime DateToPost;
-            public string ReminderMessage;
-
-            public CreateReminder(DateTime dateToPost, string reminderMessage)
-            {
-                DateToPost = dateToPost;
-                ReminderMessage = reminderMessage;
-            }
-        }
 
         public int Best2048Score { get; set; }
 
@@ -73,6 +62,20 @@ namespace OctoBot.Configs.Users
         public ulong ArtVotesSum { get; set; }
         public double ArtAvarageScoreVotes { get; set; }
 
+        public DateTime MuteTimer { get; set; }
+
+
+        public struct CreateReminder
+        {
+            public DateTime DateToPost;
+            public string ReminderMessage;
+
+            public CreateReminder(DateTime dateToPost, string reminderMessage)
+            {
+                DateToPost = dateToPost;
+                ReminderMessage = reminderMessage;
+            }
+        }
 
     }
 }

@@ -203,24 +203,6 @@ namespace OctoBot.Commands.ShadowCItyCOmmand
                             await guildUser.AddRoleAsync(roleToGive);
                             break;
                         }
-                        case "Minecrafticonfilegzpvzfll":
-                        {
-                            var guildUser = Global.Client.GetGuild(338355570669256705).GetUser(reaction.UserId);
-                            var roleToGive = Global.Client.GetGuild(338355570669256705).Roles
-                                .SingleOrDefault(x => x.Name.ToString() == "Minecraft");
-
-                            var roleList = guildUser.Roles.ToArray();
-                            if (roleList.Any(t => t.Name == "Minecraft"))
-                            {
-                                await guildUser.RemoveRoleAsync(roleToGive);
-                                await cash.DownloadAsync().Result
-                                    .RemoveReactionAsync(reaction.Emote, globalAccount, RequestOptions.Default);
-                                return;
-                            }
-
-                            await guildUser.AddRoleAsync(roleToGive);
-                            break;
-                        }
                         case "yasuo":
                         {
                             
@@ -271,7 +253,7 @@ namespace OctoBot.Commands.ShadowCItyCOmmand
                             var kannNom = Emote.Parse("<:GWnanamiKannaNom:445321264169746434>");
                             var pogChamp = Emote.Parse("<:PogChamp:374656108117098517>");
                             var hanzo = Emote.Parse("<:hanzo:445324859690582018>");
-                            var mine = Emote.Parse("<:Minecrafticonfilegzpvzfll:445325226427940874>");
+                           
                             var yasuo = Emote.Parse("<:yasuo:445323301137547264>");
                             var gacHiPride = Emote.Parse("<:gacHIPride:394782921749430273>");
                             var pekaohmy = Emote.Parse("<:pekaohmy:374656330742497280>");
@@ -289,7 +271,7 @@ namespace OctoBot.Commands.ShadowCItyCOmmand
                             await cash.DownloadAsync().Result.AddReactionAsync(kannNom);
                             await cash.DownloadAsync().Result.AddReactionAsync(pogChamp);
                             await cash.DownloadAsync().Result.AddReactionAsync(hanzo);
-                            await cash.DownloadAsync().Result.AddReactionAsync(mine);
+                            
                             await cash.DownloadAsync().Result.AddReactionAsync(yasuo);
                             await cash.DownloadAsync().Result.AddReactionAsync(gacHiPride);
                             await cash.DownloadAsync().Result.AddReactionAsync(warframe);

@@ -48,7 +48,7 @@ namespace OctoBot.Commands
 
             }
             else
-                usedNicks = "No one :c";
+                usedNicks = "None";
 
             var octopuses = "";
             if (account.Octopuses != null)
@@ -76,7 +76,7 @@ namespace OctoBot.Commands
             }
             else
             {
-                octopuses = "No one :c";
+                octopuses = "None";
             }
 
             string[] warns = null;
@@ -99,7 +99,7 @@ namespace OctoBot.Commands
             embed.AddInlineField("Octo Points", "" + account.Points);
             embed.AddInlineField("Octo Reputation", "" + account.Rep);
             embed.AddInlineField("Access LVL", "" + account.OctoPass);
-            embed.AddInlineField("User LVL", "" + account.Lvl);
+            embed.AddInlineField("User LVL", "" + Math.Round(account.Lvl, 2) );
             embed.AddInlineField("Pull Points", "" + account.DailyPullPoints);
             if (warns != null)
                 embed.AddInlineField("Warnings", "" + warns.Length);
@@ -215,7 +215,7 @@ namespace OctoBot.Commands
 
                 }
                 else
-                    usedNicks = "No one :c";
+                    usedNicks = "None";
 
 
 
@@ -245,10 +245,10 @@ namespace OctoBot.Commands
                 }
                 else
                 {
-                    octopuses = "No one :c";
+                    octopuses = "None";
                 }
 
-                var warnings = "No one :c";
+                var warnings = "None";
                 if (account.Warnings != null)
                 {
                     var warns = account.Warnings.Split(new[] { '|' }, StringSplitOptions.RemoveEmptyEntries);
@@ -273,7 +273,7 @@ namespace OctoBot.Commands
                 embed.AddInlineField("Octo Points", "" + account.Points);
                 embed.AddInlineField("Octo Reputation", "" + account.Rep);
                 embed.AddInlineField("Access LVL", "" + account.OctoPass);
-                embed.AddInlineField("User LVL", "" + account.Lvl);
+                embed.AddInlineField("User LVL", "" + Math.Round(account.Lvl, 2));
                 embed.AddInlineField("Pull Points", "" + account.DailyPullPoints);
                 embed.AddField("Warnings", "" + warnings);
                 embed.AddField("Best 2048 Game Score", $"{account.Best2048Score}");

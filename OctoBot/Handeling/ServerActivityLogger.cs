@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using ApiAiSDK;
 using Discord;
 using Discord.WebSocket;
+using OctoBot.Automated;
+using OctoBot.Commands;
+using OctoBot.Commands.PersonalCommands;
 using OctoBot.Configs;
 using OctoBot.Configs.Users;
 using static OctoBot.Configs.Global;
@@ -36,41 +38,29 @@ namespace OctoBot.Handeling
             Client.ChannelCreated += Client_ChannelCreated;
             Client.ChannelDestroyed += Client_ChannelDestroyed; 
             Client.GuildMemberUpdated += Client_GuildMemberUpdated;
-            Client.GuildUpdated += Client_GuildUpdated;
-            Client.MessageReceived += BooleResponseEvent;
-
+          
+            Client.RoleDeleted += Client_RoleDeleted;
+            
             
 
             return Task.CompletedTask;
 
         }
 
-   
-        private static async Task BooleResponseEvent(SocketMessage arg)
+    
+        private static async Task Client_RoleDeleted(SocketRole arg)
         {
-            try
-            {
-                var message = arg as SocketUserMessage;
-                
+            var embed = new EmbedBuilder();
+            embed.WithColor(Color.DarkOrange);
+            embed.AddField("Role Deleted", $"Time: {DateTime.Now.ToLongTimeString()}\n" +
+                                           $"Name: {arg.Name} ({arg.Guild})\n" +
+                                           $"Color: {arg.Color}\n" +
+                                           $"ID: {arg.Id}\n");
 
-                if (message.Content.Contains("<@423593006436712458>"))
-                {
-                    var config = new AIConfiguration("60c5eb62648c4bdd98652d8f77660424", SupportedLanguage.Russian);
-
-                    var mess = message.Content.Replace("<@423593006436712458>", "");
-
-                    var apiAi = new ApiAi(config);
-                    var response = apiAi.TextRequest(mess);
-                    await arg.Channel.SendMessageAsync(response.Result.Fulfillment.Speech);
-                }
-        
-            }
-            catch
-            {
-                //
-            }
+            await LogTextChannel.SendMessageAsync("", embed: embed);
         }
 
+       
         public async Task NonStaticMethod(Cacheable<IUserMessage, ulong> arg1, SocketReaction arg3)
         {
             try
@@ -270,7 +260,7 @@ namespace OctoBot.Handeling
                     return;
 
                 var embed = new EmbedBuilder();
-                embed.WithColor(Color.DarkGreen);
+                embed.WithColor(Color.DarkBlue);
                 embed.AddField("Channel Created", $"Time: {DateTime.Now.ToLongTimeString()}\n" +
                                                   $"Name: {arg.Name}\n" +
                                                   $"NSFWL {arg.IsNsfw}\n" +
@@ -285,12 +275,6 @@ namespace OctoBot.Handeling
                //
             }
         }
-
-        private static Task Client_GuildUpdated(SocketGuild arg1, SocketGuild arg2)
-        {
-            throw new NotImplementedException();
-        }
-
 
         private static async Task Client_GuildMemberUpdated(SocketGuildUser before, SocketGuildUser after)
         {
@@ -415,7 +399,6 @@ namespace OctoBot.Handeling
             await LogTextChannel.SendMessageAsync($"<@181514288278536193> OctoBot have been connected to {arg.Name}");
         }
 
-
         public static async Task Client_Connected()
         {
             await LogTextChannel.SendMessageAsync($"OctoBot on Duty!");
@@ -423,7 +406,13 @@ namespace OctoBot.Handeling
 
         public static async Task Client_Disconnected(Exception arg)
         {
+            Global.Client.Ready -= GreenBuuTimerClass.StartTimer;             ////////////// Timer1 Green Boo starts
+            Global.Client.Ready -= DailyPull.CheckTimerForPull;                 ////////////// Timer3 For Pulls   
+            Global.Client.Ready -= Reminder.CheckTimer;                       ////////////// Timer4 For For Reminders
+            Global.Client.Ready -= ForBot.TimerForBotAvatar;   
+            Global.Client.Ready -= _client_Ready;
             await LogTextChannel.SendMessageAsync($"OctoBot Disconnect: {arg.Message}");
+            await LogTextChannel.SendMessageAsync($"<@181514288278536193> Disconnect!");
         }
 
         public static async Task Client_MessageUpdated(Cacheable<IMessage, ulong> messageBefore,
@@ -498,8 +487,6 @@ namespace OctoBot.Handeling
                 //
             }
         }
-
-
 
         public static async Task Client_ReactionAddedAsyncForBlog(Cacheable<IUserMessage, ulong> arg1,
             ISocketMessageChannel arg2, SocketReaction arg3)

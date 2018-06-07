@@ -12,7 +12,6 @@ namespace OctoBot.Commands
     public class DailyPull : ModuleBase<SocketCommandContext>
     {
         [Command("pull")]
-
         public async Task Pull()
         {
             try {
@@ -28,7 +27,7 @@ namespace OctoBot.Commands
                     await ReplyAsync($"Ты **уже** получал 1 поинт, {Context.User.Username}, у тебя сейчас {account.DailyPullPoints} поинтов. попробуй ещё раз через {23 - (int)difference.TotalHours} часов");
                     break;
                 case DailyPullResult.Success:
-                    if (account.DailyPullPoints == 30)
+                    if (account.DailyPullPoints == 31)
                     {
                         await ReplyAsync(
                             $"**Поит записан!** У тебя все {account.DailyPullPoints} поинтов!! В течении минуты наши черепашки вышлют тебе в ЛС ключик!");
@@ -47,8 +46,6 @@ namespace OctoBot.Commands
             }
         }
 
-
-
         public enum DailyPullResult { Success, AlreadyRecieved }
 
         public static DailyPullResult GetDailyPull(SocketUser user)
@@ -64,10 +61,7 @@ namespace OctoBot.Commands
             return DailyPullResult.Success;
         }
 
-
-
-
-         private static Timer _loopingTimerForPull;
+        private static Timer _loopingTimerForPull;
       
         internal static Task CheckTimerForPull()
         {
@@ -85,7 +79,7 @@ namespace OctoBot.Commands
             return Task.CompletedTask;
         }
         
-             public static async void CheckPulls(object sender, ElapsedEventArgs e)
+        public static async void CheckPulls(object sender, ElapsedEventArgs e)
         {          
             try
             {
@@ -101,7 +95,7 @@ namespace OctoBot.Commands
                         var difference = DateTime.Now - account.LastDailyPull;
 
 
-                        if (difference.TotalHours > 40 && account.DailyPullPoints >= 1)
+                        if (difference.TotalHours > 39 && account.DailyPullPoints >= 1)
                         {
                             try
                             {
@@ -124,7 +118,7 @@ namespace OctoBot.Commands
                             }
                         }
                         
-                        if (account.DailyPullPoints >= 30)
+                        if (account.DailyPullPoints >= 31)
                         {
                             var mylorikGlobal = Global.Client.GetUser(181514288278536193);
                             var mylorik = UserAccounts.GetAccount(mylorikGlobal);
@@ -146,8 +140,8 @@ namespace OctoBot.Commands
                                     fullKeysNameList[fullKeysNameList.Length - 1] = "Куда подевалось?";
 
 
-                                    fullKeysKeyList[fullKeysKeyList.Length - 2] = "228 %%Доволен?";
-                                    fullKeysKeyList[fullKeysKeyList.Length - 1] = "228 %%Доволен?";
+                                    fullKeysKeyList[fullKeysKeyList.Length - 2] = "Доволен?";
+                                    fullKeysKeyList[fullKeysKeyList.Length - 1] = "Доволен?";
                                 }
                                 else if (fullKeysNameList.Length == 2)
                                 {
@@ -155,7 +149,7 @@ namespace OctoBot.Commands
                                     Array.Resize(ref fullKeysKeyList, fullKeysKeyList.Length + 1);
 
                                     fullKeysNameList[fullKeysNameList.Length - 1] = "Куда подевалось?";
-                                    fullKeysKeyList[fullKeysKeyList.Length - 1] = "228 %%Доволен?";
+                                    fullKeysKeyList[fullKeysKeyList.Length - 1] = "Доволен?";
                                 }
 
 
@@ -179,15 +173,16 @@ namespace OctoBot.Commands
                                 var embed = new EmbedBuilder();
 
                                 embed.WithFooter("lil octo notebook");
+                                embed.WithColor(Color.Green);
                                 embed.WithTitle("OctoNotification");
                                 embed.WithDescription($"Вот и ключик подъе... буууль. Выбери одну:\nЧерез команду __cKey номер__\n\n**1. {fullKeysNameList[randonKey1]}**\n**2. {fullKeysNameList[randonKey2]}**\n**3. {fullKeysNameList[randonKey3]}**\n\n**0. Ничего не брать.**\n\n"+
                                                       $"**ВАЖНО, прочти пожалуйста:**\nЕсли ты НЕ будешь играть в эту игру, а просто добавишь ее и забьешь, тогда **прошу** верни ее осьминожкам, а мы подарим ее другому! - \nПросто Проигнорь это сообщение, или выбери 0 В таком случае.\n__Мы не любим топить ресурсы__. Буль c:");
                                 await dmChannel.SendMessageAsync("", embed: embed);
 
                                 account.PullToChoose = null;
-                                account.PullToChoose += $"{randonKey1} %% {fullKeysNameList[randonKey1]} {fullKeysKeyList[randonKey1]} |";
-                                account.PullToChoose += $"{randonKey2} %% {fullKeysNameList[randonKey2]} {fullKeysKeyList[randonKey2]} |";
-                                account.PullToChoose += $"{randonKey3} %% {fullKeysNameList[randonKey3]} {fullKeysKeyList[randonKey3]} |";
+                                account.PullToChoose += $"{randonKey1}%%";
+                                account.PullToChoose += $"{randonKey2}%%";
+                                account.PullToChoose += $"{randonKey3}%%";
                                 account.DailyPullPoints = 0;
                                 UserAccounts.SaveAccounts();
                             }
@@ -196,6 +191,7 @@ namespace OctoBot.Commands
                                 var dmChannel = await globalAccount.GetOrCreateDMChannelAsync();
                                 var embed = new EmbedBuilder();
                                 embed.WithFooter("Записная книжечка Осьминожек");
+                                embed.WithColor(Color.Green);
                                 embed.WithTitle("OctoNotification");
                                 embed.WithDescription($"Буууль... ключики кончились ;c");
                                 await dmChannel.SendMessageAsync("", embed: embed);
@@ -207,7 +203,6 @@ namespace OctoBot.Commands
                 Console.WriteLine("Failed To ReadFile(CheckPulls). Will ty in 5 sec.");
             }
         }
-
 
         [Command("AddKey")]
         public async Task JsonTask([Remainder] string mess)
@@ -229,7 +224,6 @@ namespace OctoBot.Commands
             }
         }
         
-
         [Command("KeyDel")]
         public async Task JsonDel(int index)
         {
@@ -267,8 +261,6 @@ namespace OctoBot.Commands
             }
         }
 
-
-        
         [Command("Ключи")]
         [Alias("Keys")]
         public async Task AllKeys( )
@@ -338,19 +330,19 @@ namespace OctoBot.Commands
                 
                 if (choice == 1)
                 {
-                  var something = keysToChooseList[0].ToString().Split(new[] {"%%"}, StringSplitOptions.RemoveEmptyEntries);
-                    index = Convert.ToInt32(something[0]);
+                  var something = keysToChooseList[0].Split(new[] {"%%"}, StringSplitOptions.RemoveEmptyEntries);
+                   index = Convert.ToInt32(something[0]);
                  
                 }
                 else if(choice == 2)
                 {
-                  var something = keysToChooseList[1].ToString().Split(new[] {"%%"}, StringSplitOptions.RemoveEmptyEntries);
+                  var something = keysToChooseList[1].Split(new[] {"%%"}, StringSplitOptions.RemoveEmptyEntries);
                     index = Convert.ToInt32(something[0]);
                   
                 }
                 else
                 {
-                  var something = keysToChooseList[2].ToString().Split(new[] {"%%"}, StringSplitOptions.RemoveEmptyEntries);
+                  var something = keysToChooseList[2].Split(new[] {"%%"}, StringSplitOptions.RemoveEmptyEntries);
                     index = Convert.ToInt32(something[0]);
                  
                 }
@@ -390,6 +382,25 @@ namespace OctoBot.Commands
                 Console.WriteLine(e);
                 await ReplyAsync("У тебя либо нет ключей на выбор, либо произошла какая-то ошибка.");
             }
+        }
+
+        [Command("pullp")]
+        public async Task GivePullPoints(SocketGuildUser user, int pullPoints)
+        {
+            var commander = UserAccounts.GetAccount(Context.User);
+            if (commander.OctoPass < 100)
+                return;
+            var account = UserAccounts.GetAccount(user);
+
+            account.DailyPullPoints += pullPoints;
+            UserAccounts.SaveAccounts();
+
+            var embed = new EmbedBuilder();
+            embed.WithColor(Color.DarkMagenta);
+            embed.AddInlineField("буууль~", $"Мы добавили {pullPoints} пулл Поинтов {user.Mention}. Теперь у него {account.DailyPullPoints} поинтов, буль!");
+
+            await Context.Channel.SendMessageAsync("", embed: embed);
+
         }
 
     }
