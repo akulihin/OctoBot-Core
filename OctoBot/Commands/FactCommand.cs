@@ -93,7 +93,7 @@ namespace OctoBot.Commands
             else
                 embed.AddField("Random fact: ", " " + randomFukt);
 
-            await Context.Channel.SendMessageAsync("", embed: embed);
+            await Context.Channel.SendMessageAsync("", false, embed.Build());
             }
             catch
             {
@@ -157,7 +157,7 @@ namespace OctoBot.Commands
                     embed.AddField("Random fact: ", " " + randomFukt);
 
 
-                await Context.Channel.SendMessageAsync("", embed: embed);
+                await Context.Channel.SendMessageAsync("", false, embed.Build());
             }
             }
             catch
@@ -189,7 +189,7 @@ namespace OctoBot.Commands
                 embed.WithFooter("lil octo notebook");
                 embed.WithTitle("All the facts about you:");
                 embed.WithDescription($"{mess}\n**del [index]** to delete the fact");
-                await Context.Channel.SendMessageAsync("", embed: embed);
+                await Context.Channel.SendMessageAsync("", false, embed.Build());
             }
             else
                 await Context.Channel.SendMessageAsync("Boole :< You do not have 3rd level tolerance");
@@ -224,7 +224,7 @@ namespace OctoBot.Commands
                 embed.WithFooter("lil octo notebook");
                 embed.WithTitle("All the facts about you:");
                 embed.WithDescription($"{mess}\n**del [index]** to delete the fact");
-                await Context.Channel.SendMessageAsync("", embed: embed);
+                await Context.Channel.SendMessageAsync("", false, embed.Build());
           
             }
             else

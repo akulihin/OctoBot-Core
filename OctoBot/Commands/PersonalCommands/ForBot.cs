@@ -9,13 +9,16 @@ using Discord.Commands;
 using Discord.WebSocket;
 using OctoBot.Configs;
 using Color = Discord.Color;
+using System.Linq;
+using OctoBot.Configs.Users;
+using OctoBot.Handeling;
 
 
 namespace OctoBot.Commands.PersonalCommands
 {
     public class ForBot : ModuleBase<SocketCommandContext>
     {
-        private static string LogFile = @"OctoDataBase/AI.json";
+       
         
 
         private static Timer _loopingTimerForOctoAva;
@@ -60,15 +63,59 @@ namespace OctoBot.Commands.PersonalCommands
              
             }
         }
-
+        /*
         [Command("text")]
-        public async Task YoKErateMate([Remainder] string mess)
+        public async Task YoKErateMate()
         {
-            File.AppendAllText(LogFile, $"{mess}\n");
-          await  Task.CompletedTask;
+            var log = await Context.Guild.GetAuditLogsAsync(5).FlattenAsync();
+            var audit = log.ToList();
 
+            for (var i = 0; i < audi.Count; i++)
+            {
+                if(audi[i].Action == ActionType.ChannelDeleted){
+                var embed = new EmbedBuilder();
+                embed.WithColor(Color.DarkGreen);
+                embed.AddField("Channel Deleted", $"User: {audi[i].User}\n" +
+                                                  $"???: {audi[i].Action.}" +
+                                       $"Data: {audi[i].Data}\n" +
+                                       $"Reason: {audi[i].Reason}");
+                await ReplyAsync($"", false, embed.Build());
+                }
+
+            }
+        }
+        */
+
+        [Command("marry", RunMode = RunMode.Async)]
+        public async Task MarryMe(SocketUser user, [Remainder] string rem)
+        {
+            await ReplyAsync($"{user.Mention} Ты согласна выйти замуж за этого осьминога?({Context.User}) буль.");
+            var response = await CommandHandeling.AwaitMessage(user.Id, Context.Channel.Id, 600000); 
+            var re = response.Content.ToLower();
+            if (re == "yes" || re == "yes." || re == "yes!" || re == "for sure!"|| re == "ofc." || re == "да"|| re == "да!" || re == "да." || re == "конечно!" || re == "конечно." || re == "конечно")
+            {
+                var contextAcc = UserAccounts.GetAccount(Context.User);
+                var userAcc = UserAccounts.GetAccount(user);
+                contextAcc.MarryTo = user.Id;
+                userAcc.MarryTo = Context.User.Id;
+                UserAccounts.SaveAccounts();
+                await ReplyAsync($"{Context.User.Username} и {user.Username} теперь женаты, бууууууль!");
+            }
+            else
+            {
+                await ReplyAsync("буль");
+            }
         }
 
+        [Command("marryed")]
+        [Alias("marryd")]
+        public async Task MarryMe()
+        {
+            var account = UserAccounts.GetAccount(Context.User);
+            var marr = Context.Guild.GetUser(account.MarryTo);
+            
+            await ReplyAsync($"ты женат/а на {marr.Username}!");
+        }
 
         [Command("setAvatar")]
         [Alias("ava")]
@@ -93,7 +140,7 @@ namespace OctoBot.Commands.PersonalCommands
                 var embed = new EmbedBuilder();
                 embed.WithFooter("Записная книжечка Осьминожек");
                 embed.AddField("Ошибка", $"Не можем поставить аватарку: {e.Message}");
-                await Context.Channel.SendMessageAsync("", embed: embed);
+                await Context.Channel.SendMessageAsync("", false, embed.Build());
             }
         }
 
@@ -114,7 +161,7 @@ namespace OctoBot.Commands.PersonalCommands
                 var embed = new EmbedBuilder();
                 embed.WithFooter("Записная книжечка Осьминожек");
                 embed.AddField("Ошибка", $"Не можем изменить игру: {e.Message}");
-                await Context.Channel.SendMessageAsync("", embed: embed);
+                await Context.Channel.SendMessageAsync("", false, embed.Build());
             }
 
         }
@@ -147,7 +194,7 @@ namespace OctoBot.Commands.PersonalCommands
                 var embed = new EmbedBuilder();
                 embed.WithFooter("Записная книжечка Осьминожек");
                 embed.AddField("Ошибка", $"Не можем изменить ник: {e.Message}");
-                await Context.Channel.SendMessageAsync("", embed: embed);
+                await Context.Channel.SendMessageAsync("", false, embed.Build());
             }
         }
 
@@ -164,19 +211,18 @@ namespace OctoBot.Commands.PersonalCommands
                 embed.WithColor(Color.Blue);
                 // embed.WithFooter("Записная книжечка Осьминожек");
                 embed.WithFooter("lil octo notebook");
-                embed.AddInlineField("Сообщение:",
+                embed.AddField("Сообщение:",
                     $"{messa}");
 
-                var textChannel = await Context.Guild.GetTextChannel(channeld)
-                    .GetMessageAsync(messId) as IUserMessage;
-
-                await textChannel.ModifyAsync(mess =>
-                {
-                    mess.Embed = embed.Build();
-                    // This somehow can't be empty or it won't update the 
-                    // embed propperly sometimes... I don't know why
-                    // message.Content =  Constants.InvisibleString;
-                });
+                if (await Context.Guild.GetTextChannel(channeld)
+                    .GetMessageAsync(messId) is IUserMessage textChannel)
+                    await textChannel.ModifyAsync(mess =>
+                    {
+                        mess.Embed = embed.Build();
+                        // This somehow can't be empty or it won't update the 
+                        // embed propperly sometimes... I don't know why
+                        // message.Content =  Constants.InvisibleString;
+                    });
                 await Context.Message.DeleteAsync();
             }
             catch
@@ -251,6 +297,47 @@ namespace OctoBot.Commands.PersonalCommands
                 //
             }
         }
+        [Command("stuff")]
+        public async Task Stuffening(string number){
+                //011111101111110
+           var array = number.Select(ch => ch - '0').ToArray();
 
+            var check = 0;
+            var afterStuff = "";
+            var times = 0;
+            try {
+            for(var i = 0; i <array.Length; i++ ){
+                if(array[i] == 1 && array[i] == array[i+1]){
+                    check +=1;
+                    afterStuff += $"{array[i].ToString()}";
+                    if(check == 5){
+                        afterStuff += "**__0__**";
+                        times++;
+                        check = 0;
+                    }
+                }
+                else{
+                     afterStuff += $"{array[i].ToString()}";
+                    check = 0;
+                }
+            }
+            }catch {
+                    afterStuff += $"{array[array.Length-1].ToString()}";
+            }
+
+
+
+            var embed = new EmbedBuilder();
+            embed.WithColor(Color.Green);
+            embed.AddField("Хм... что-бы это значило...", $"Before Stuffing: {number} - {number.Length} characters\n" +
+            $"After Stuffing: {afterStuff} - {afterStuff.Length-(times*8)} characters\n" +
+            $"After Framing: **01111110**{afterStuff}**01111110**");
+
+            await ReplyAsync("", false, embed.Build());
+            
+
+        }
+
+        
     }
 }

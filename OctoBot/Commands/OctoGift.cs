@@ -39,7 +39,7 @@ namespace OctoBot.Commands
                 embed.AddField("Fees was applied (1488 OctoPoints)", $"{contextUser.Points} Octo Points left");
                 embed.WithImageUrl("https://i.imgur.com/dCJwloV.jpg");
 
-                await Context.Channel.SendMessageAsync("", embed: embed);
+                await Context.Channel.SendMessageAsync("", false, embed.Build());
 
             }
             else
@@ -85,7 +85,7 @@ namespace OctoBot.Commands
                 embed.AddField("Fees was applied (1488 OctoPoints)", $"{contextUser.Points} Octo Points left");
                 embed.WithImageUrl("https://i.imgur.com/xxE7EeX.jpg");
 
-                await Context.Channel.SendMessageAsync("", embed: embed);
+                await Context.Channel.SendMessageAsync("", false, embed.Build());
 
             }
             else
@@ -134,7 +134,7 @@ namespace OctoBot.Commands
                 embed.AddField("Fees was applied (1488 OctoPoints)", $"{contextUser.Points} Octo Points left");
                 embed.WithImageUrl("https://i.imgur.com/Ufky6UB.jpg");
 
-                await Context.Channel.SendMessageAsync("", embed: embed);
+                await Context.Channel.SendMessageAsync("", false, embed.Build());
 
             }
             else
@@ -161,7 +161,7 @@ namespace OctoBot.Commands
             embed.AddField("**Cooki!**", "`GiftCooki [user]` cost: **1488** ОктоПоинтов");
             embed.AddField("**Pinki~**", "`GiftPinki [user]` cost: **1488** ОктоПоинтов");
             embed.AddField("**Rainbow** :gay_pride_flag:", "`GiftRainbow [user]` cost: **1488** Octo Points");
-            await Context.Channel.SendMessageAsync("", embed: embed);
+            await Context.Channel.SendMessageAsync("", false, embed.Build());
             }
             catch
             {

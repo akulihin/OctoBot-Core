@@ -69,7 +69,7 @@ namespace OctoBot.Games.OctoGame
 
 
                 string[] skills;
-                var tree = "";
+               // var tree = "";
                 double dmg ;
             var skillString = "You dont have any skills here."; 
 
@@ -77,7 +77,7 @@ namespace OctoBot.Games.OctoGame
                 {
                     skillString = null;
                     skills = account.CurrentOctopusFighterSkillSetAd.Split(new[] {'|'}, StringSplitOptions.RemoveEmptyEntries);
-                    tree = "AD";
+                  //  tree = "AD";
 
                     for (var i = 0; i < skills.Length; i++)
                     {
@@ -102,7 +102,7 @@ namespace OctoBot.Games.OctoGame
                 {
                     skillString = null;
                     skills = account.CurrentOctopusFighterSkillSetDef.Split(new[] {'|'}, StringSplitOptions.RemoveEmptyEntries);
-                    tree = "DEF";
+                    //tree = "DEF";
                     for (var i = 0; i < skills.Length; i++)
                     {
 
@@ -126,7 +126,7 @@ namespace OctoBot.Games.OctoGame
                 {
                     skillString = null;
                     skills = account.CurrentOctopusFighterSkillSetAgi.Split(new[] {'|'}, StringSplitOptions.RemoveEmptyEntries);
-                    tree = "AGI";
+                   // tree = "AGI";
                     for (var i = 0; i < skills.Length; i++)
                     {
 
@@ -150,7 +150,7 @@ namespace OctoBot.Games.OctoGame
                 {
                     skillString = null;
                     skills = account.CurrentOctopusFighterSkillSetAp.Split(new[] {'|'}, StringSplitOptions.RemoveEmptyEntries);
-                    tree = "AP";
+                    //tree = "AP";
 
                     for (var i = 0; i < skills.Length; i++)
                     {
@@ -177,7 +177,7 @@ namespace OctoBot.Games.OctoGame
                 mainPage.WithAuthor(globalAccount);
                 mainPage.WithFooter($"Move List Page {account.MoveListPage} from 4");
                 mainPage.WithColor(Color.DarkGreen);
-                mainPage.AddInlineField("Enemy:", $"**LVL:** {account.CurrentEnemyLvl}\n" +
+                mainPage.AddField("Enemy:", $"**LVL:** {account.CurrentEnemyLvl}\n" +
                                            $"**Strength:** {account.CurrentEnemyStrength}\n" +
                                            $"**AD:** {account.CurrentEnemyAd + account.CurrentEnemyStrength}  **AP:** {account.CurrentEnemyAp}\n" +                                   
                                            $"**Health:** {account.CurrentEnemyHealth}\n" +                  
@@ -185,9 +185,9 @@ namespace OctoBot.Games.OctoGame
                                            $"**Armor:** {account.CurrentEnemyArmor} LVL  **MagRes:** {account.CurrentEnemyMagicResist} LVL\n" +
                                            $"**ArmPen:** {account.CurrentEnemyArmPen} LVL  **MagPen:** {account.CurrentEnemyMagPen}\n" + 
                                            $"**Agility:** {account.CurrentEnemyAgility}\n" + 
-                                           $"**________________**");
+                                           "**________________**");
 
-                mainPage.AddInlineField($"Your octopus:",
+                mainPage.AddField($"Your octopus:",
                     $"**LVL:** {account.CurrentOctopusFighterLvl}\n" +
                     $"**Strength:** {account.CurrentOctopusFighterStrength}\n" +
                     $"**AD:** {account.CurrentOctopusFighterAd + account.CurrentOctopusFighterStrength}  **AP:** {account.CurrentOctopusFighterAp}\n" +
@@ -334,7 +334,7 @@ namespace OctoBot.Games.OctoGame
                 spellBookPage.WithAuthor(globalAccount);
              
              
-                spellBookPage.AddInlineField("Enemy:", $"**LVL:** {account.CurrentEnemyLvl}\n" +
+                spellBookPage.AddField("Enemy:", $"**LVL:** {account.CurrentEnemyLvl}\n" +
                                            $"**Strength:** {account.CurrentEnemyStrength}\n" +
                                            $"**AD:** {account.CurrentEnemyAd + account.CurrentEnemyStrength}  **AP:** {account.CurrentEnemyAp}\n" +                                   
                                            $"**Health:** {account.CurrentEnemyHealth}\n" +                  
@@ -344,7 +344,7 @@ namespace OctoBot.Games.OctoGame
                                            $"**Agility:** {account.CurrentEnemyAgility}\n" + 
                                            $"**________________**");
 
-                spellBookPage.AddInlineField($"Your octopus:",
+                spellBookPage.AddField($"Your octopus:",
                     $"**LVL:** {account.CurrentOctopusFighterLvl}\n" +
                     $"**Strength:** {account.CurrentOctopusFighterStrength}\n" +
                     $"**AD:** {account.CurrentOctopusFighterAd + account.CurrentOctopusFighterStrength}  **AP:** {account.CurrentOctopusFighterAp}\n" +
@@ -498,7 +498,7 @@ namespace OctoBot.Games.OctoGame
                 spellBookPage.WithAuthor(globalAccount);
                 
              
-                spellBookPage.AddInlineField("Enemy:", $"**LVL:** {account.CurrentEnemyLvl}\n" +
+                spellBookPage.AddField("Enemy:", $"**LVL:** {account.CurrentEnemyLvl}\n" +
                                            $"**Strength:** {account.CurrentEnemyStrength}\n" +
                                            $"**AD:** {account.CurrentEnemyAd + account.CurrentEnemyStrength}  **AP:** {account.CurrentEnemyAp}\n" +                                   
                                            $"**Health:** {account.CurrentEnemyHealth}\n" +                  
@@ -508,7 +508,7 @@ namespace OctoBot.Games.OctoGame
                                            $"**Agility:** {account.CurrentEnemyAgility}\n" + 
                                            $"**________________**");
 
-                spellBookPage.AddInlineField($"Your octopus:",
+                spellBookPage.AddField($"Your octopus:",
                     $"**LVL:** {account.CurrentOctopusFighterLvl}\n" +
                     $"**Strength:** {account.CurrentOctopusFighterStrength}\n" +
                     $"**AD:** {account.CurrentOctopusFighterAd + account.CurrentOctopusFighterStrength}  **AP:** {account.CurrentOctopusFighterAp}\n" +

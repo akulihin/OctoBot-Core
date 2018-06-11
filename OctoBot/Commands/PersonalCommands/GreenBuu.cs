@@ -41,7 +41,7 @@ namespace OctoBot.Commands.PersonalCommands
 
                     var embed = new EmbedBuilder();
                     embed.WithImageUrl("https://i.imgur.com/Auw6W0W.jpg");
-                    await _channel.SendMessageAsync("", embed: embed);
+                    await _channel.SendMessageAsync("", false, embed.Build());
 
                     //Random User
                     var rng = new Random();

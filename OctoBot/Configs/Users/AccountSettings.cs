@@ -63,6 +63,7 @@ namespace OctoBot.Configs.Users
         public double ArtAvarageScoreVotes { get; set; }
 
         public DateTime MuteTimer { get; set; }
+        public ulong MarryTo { get; set; }
 
 
         public struct CreateReminder

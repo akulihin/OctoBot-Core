@@ -1,6 +1,9 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using Discord;
+using Discord.Commands;
 using Discord.WebSocket;
+using Microsoft.Extensions.DependencyInjection;
 using OctoBot.Automated;
 using OctoBot.Commands;
 using OctoBot.Commands.PersonalCommands;
@@ -13,12 +16,19 @@ using OctoBot.Handeling;
 namespace OctoBot
 {
 
-    internal class ProgramOctoBot
+    public class ProgramOctoBot
     {
-
-        DiscordSocketClient _client;
-        CommandHandeling _handler;
-
+        private readonly CommandService _commands;
+        private DiscordSocketClient _client;
+        private CommandHandeling _handler;
+        private readonly IServiceProvider _services;
+        
+        public ProgramOctoBot(CommandService commands = null, DiscordSocketClient client = null)
+        {
+            _commands = commands ?? new CommandService();
+            _client = client ?? new DiscordSocketClient();
+          
+        }
 
         private static void Main() => new ProgramOctoBot().RunBotAsync().GetAwaiter().GetResult();
 
@@ -30,6 +40,8 @@ namespace OctoBot
                 LogLevel = LogSeverity.Verbose,
                 DefaultRetryMode = RetryMode.AlwaysRetry,       
                 MessageCacheSize = 5000
+                
+                
             });
 
             var botToken = Config.Bot.Token;
@@ -54,8 +66,8 @@ namespace OctoBot
 
 
             await _client.SetGameAsync("Осьминожек! | *help");
-            _handler = new CommandHandeling();
-            await _handler.InitializeAsync(_client);
+            _handler = new CommandHandeling(_services, _commands, _client);
+            await _handler.InitializeAsync();
             await _client.LoginAsync(TokenType.Bot, botToken);
             await _client.StartAsync();
             Global.Client = _client;

@@ -27,7 +27,7 @@ namespace OctoBot.Commands
             embed.WithColor(new Color(255, 0, 94));
             embed.WithThumbnailUrl("https://i.imgur.com/I3o0bm4.jpg");
 
-            await Context.Channel.SendMessageAsync("", false, embed);
+            await Context.Channel.SendMessageAsync("", false, embed.Build());
             }
             catch
             {
@@ -67,7 +67,7 @@ namespace OctoBot.Commands
                 embed.WithFooter("lil octo notebook");
                 embed.WithTitle($"Roll {times} times:");
                 embed.WithDescription($"{mess}");
-                await Context.Channel.SendMessageAsync("", embed: embed);
+                await Context.Channel.SendMessageAsync("", false, embed.Build());
             }
             catch
             {

@@ -65,7 +65,7 @@ namespace OctoBot.Commands
       
             embed.WithFooter("Записная книжечка Осьминожек");
             embed.WithColor(Color.LightOrange);
-            await Context.Channel.SendMessageAsync("", false, embed);
+            await Context.Channel.SendMessageAsync("", false, embed.Build());
         }
        
         [Command("HelpFull")]
@@ -96,7 +96,7 @@ namespace OctoBot.Commands
 
             embed.WithFooter("Записная книжечка Осьминожек");
             embed.WithColor(Color.LightOrange);
-            await Context.Channel.SendMessageAsync("", false, embed);
+            await Context.Channel.SendMessageAsync("", false, embed.Build());
 
 
             // embed.AddField("цитата [имя] [текст...] ", "Фейковая цитата от @юзера (*скриншот* с цветом, аватаркой, и текст)"); //font is NOT INCLUDET
@@ -143,7 +143,7 @@ namespace OctoBot.Commands
            
             embed.WithFooter("Записная книжечка Осьминожек");
             embed.WithColor(Color.LightOrange);
-            await Context.Channel.SendMessageAsync("", false, embed);
+            await Context.Channel.SendMessageAsync("", false, embed.Build());
         }
 
 
@@ -165,7 +165,7 @@ namespace OctoBot.Commands
           
             embed.WithFooter("Записная книжечка Осьминожек");
             embed.WithColor(Color.LightOrange);
-            await Context.Channel.SendMessageAsync("", false, embed);
+            await Context.Channel.SendMessageAsync("", false, embed.Build());
         }
 
 
@@ -197,7 +197,7 @@ namespace OctoBot.Commands
 
             embed.WithFooter("Записная книжечка Осьминожек");
             embed.WithColor(Color.LightOrange);
-            await Context.Channel.SendMessageAsync("", false, embed);
+            await Context.Channel.SendMessageAsync("", false, embed.Build());
         }
 
 
@@ -226,7 +226,7 @@ namespace OctoBot.Commands
            
             embed.WithFooter("Записная книжечка Осьминожек");
             embed.WithColor(Color.Blue);
-            await Context.Channel.SendMessageAsync("", false, embed);
+            await Context.Channel.SendMessageAsync("", false, embed.Build());
 
 
         }
@@ -248,7 +248,7 @@ namespace OctoBot.Commands
             embed.AddField("Extra:", "Все доступные роли можно получить в #info нажам на определенную реакцию\n");
             embed.WithFooter("Записная книжечка Осьминожек");
             embed.WithColor(Color.LightOrange);
-            await Context.Channel.SendMessageAsync("", false, embed);
+            await Context.Channel.SendMessageAsync("", false, embed.Build());
         }
         
     }

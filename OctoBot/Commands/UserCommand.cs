@@ -90,21 +90,21 @@ namespace OctoBot.Commands
             embed.WithColor(Color.Blue);
             embed.WithAuthor(Context.User);
             embed.WithFooter("lil octo notebook");
-            embed.AddInlineField("ID", "" + Context.User.Id);
-            embed.AddInlineField("Status", "" + Context.User.Status);
+            embed.AddField("ID", "" + Context.User.Id);
+            embed.AddField("Status", "" + Context.User.Status);
 
-            embed.AddInlineField("UserName", "" + Context.User);
+            embed.AddField("UserName", "" + Context.User);
 
-            embed.AddInlineField("NickName", "" + Context.User.Mention);
-            embed.AddInlineField("Octo Points", "" + account.Points);
-            embed.AddInlineField("Octo Reputation", "" + account.Rep);
-            embed.AddInlineField("Access LVL", "" + account.OctoPass);
-            embed.AddInlineField("User LVL", "" + Math.Round(account.Lvl, 2) );
-            embed.AddInlineField("Pull Points", "" + account.DailyPullPoints);
+            embed.AddField("NickName", "" + Context.User.Mention);
+            embed.AddField("Octo Points", "" + account.Points);
+            embed.AddField("Octo Reputation", "" + account.Rep);
+            embed.AddField("Access LVL", "" + account.OctoPass);
+            embed.AddField("User LVL", "" + Math.Round(account.Lvl, 2) );
+            embed.AddField("Pull Points", "" + account.DailyPullPoints);
             if (warns != null)
-                embed.AddInlineField("Warnings", "" + warns.Length);
+                embed.AddField("Warnings", "" + warns.Length);
             else
-                embed.AddInlineField("Warnings", "Clear.");
+                embed.AddField("Warnings", "Clear.");
             embed.AddField("Best 2048 Game Score", $"{account.Best2048Score}");
             embed.AddField("OctoCollection ", "" + octopuses);
             embed.AddField("Used Nicknames", "" + usedNicks);
@@ -113,7 +113,7 @@ namespace OctoBot.Commands
             embed.WithThumbnailUrl($"{avatar}");
             //embed.AddField("Роли", ""+avatar);
 
-            await Context.Channel.SendMessageAsync("", embed: embed);
+            await Context.Channel.SendMessageAsync("", false, embed.Build());
         }
         catch
         {
@@ -264,17 +264,17 @@ namespace OctoBot.Commands
                 embed.WithColor(Color.Purple);
                 embed.WithAuthor(user);
                 embed.WithFooter("lil octo notebook");
-                embed.AddInlineField("ID", "" + user.Id);
-                embed.AddInlineField("Status", "" + user.Status);
-                embed.AddInlineField("Registered", "" + user.CreatedAt);
-                embed.AddInlineField("UserName", "" + user);
-                embed.AddInlineField("Joined", "" +  user.JoinedAt);
-                embed.AddInlineField("NickName", "" + user.Mention);
-                embed.AddInlineField("Octo Points", "" + account.Points);
-                embed.AddInlineField("Octo Reputation", "" + account.Rep);
-                embed.AddInlineField("Access LVL", "" + account.OctoPass);
-                embed.AddInlineField("User LVL", "" + Math.Round(account.Lvl, 2));
-                embed.AddInlineField("Pull Points", "" + account.DailyPullPoints);
+                embed.AddField("ID", "" + user.Id);
+                embed.AddField("Status", "" + user.Status);
+                embed.AddField("Registered", "" + user.CreatedAt);
+                embed.AddField("UserName", "" + user);
+                embed.AddField("Joined", "" +  user.JoinedAt);
+                embed.AddField("NickName", "" + user.Mention);
+                embed.AddField("Octo Points", "" + account.Points);
+                embed.AddField("Octo Reputation", "" + account.Rep);
+                embed.AddField("Access LVL", "" + account.OctoPass);
+                embed.AddField("User LVL", "" + Math.Round(account.Lvl, 2));
+                embed.AddField("Pull Points", "" + account.DailyPullPoints);
                 embed.AddField("Warnings", "" + warnings);
                 embed.AddField("Best 2048 Game Score", $"{account.Best2048Score}");
                 embed.AddField("OctoCollection ", "" + octopuses);
@@ -283,7 +283,7 @@ namespace OctoBot.Commands
                     embed.AddField("Extra Nicknames", "" + usedNicks2);
                 embed.WithThumbnailUrl($"{avatar}");
 
-                await Context.Channel.SendMessageAsync("", embed: embed);
+                await Context.Channel.SendMessageAsync("", false, embed.Build());
             }else
                 await Context.Channel.SendMessageAsync("Boole! You do not have a tolerance of this level!");
             }

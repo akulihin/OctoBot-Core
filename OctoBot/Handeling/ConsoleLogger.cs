@@ -8,11 +8,8 @@ namespace  OctoBot.Handeling
 {
     internal static class ConsoleLogger
     {
-        static ConsoleLogger()
-        {
-           
-            if (!File.Exists("runtime.log")) File.Create("OctoDataBase/runtime.log");
-        }
+
+        private static string runTime = @"OctoDataBase/runtime.json";
 
         internal static Task Log(LogMessage logMessage)
         {
@@ -28,12 +25,12 @@ namespace  OctoBot.Handeling
             Console.WriteLine($"{DateTime.Now.ToLongTimeString()} - {message}");
             Console.ResetColor();
 
-            File.AppendAllText("OctoDataBase/runtime.log", $"\n{DateTime.Now.ToLongTimeString()} - {message}");
+            File.AppendAllText(runTime, $"\n{DateTime.Now.ToLongTimeString()} - {message}");
         }
 
         internal static void ClearLog()
         {
-            File.WriteAllText("OctoDataBase/runtime.log", "");
+            File.AppendAllText(runTime, "");
         }
 
         private static ConsoleColor SeverityToConsoleColor(LogSeverity severity)

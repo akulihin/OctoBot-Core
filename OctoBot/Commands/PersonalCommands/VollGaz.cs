@@ -44,14 +44,14 @@ namespace OctoBot.Commands.PersonalCommands
                 embed.WithColor(color1Index, color2Index, color3Index);
                 embed.WithAuthor("MISERUM!");
                 embed.WithImageUrl("" + memeToPost);
-                await Context.Channel.SendMessageAsync("", embed: embed);
+                await Context.Channel.SendMessageAsync("", false, embed.Build());
 
             }
             else
             {
                 var embed = new EmbedBuilder();
                 embed.WithImageUrl("https://i.imgur.com/wt8EN8R.jpg");
-                await Context.Channel.SendMessageAsync("", embed: embed);
+                await Context.Channel.SendMessageAsync("", false, embed.Build());
             }
         }
 
@@ -76,13 +76,13 @@ namespace OctoBot.Commands.PersonalCommands
                 embed.WithColor(color1Index, color2Index, color3Index);
                 embed.WithAuthor("Фистурион Одобряет");
                 embed.WithImageUrl("" + url);
-                await Context.Channel.SendMessageAsync("", embed: embed);
+                await Context.Channel.SendMessageAsync("", false, embed.Build());
             }
             else
             {
                 var embed = new EmbedBuilder();
                 embed.WithImageUrl("https://i.imgur.com/wt8EN8R.jpg");
-                await Context.Channel.SendMessageAsync("", embed: embed);
+                await Context.Channel.SendMessageAsync("", false, embed.Build());
             }
         }
 
@@ -103,13 +103,13 @@ namespace OctoBot.Commands.PersonalCommands
                 embed.WithColor(color1Index, color2Index, color3Index);
 
                 embed.WithImageUrl("" + url);
-                await Context.Channel.SendMessageAsync("", embed: embed);
+                await Context.Channel.SendMessageAsync("", false, embed.Build());
             }
             else
             {
                 var embed = new EmbedBuilder();
                 embed.WithImageUrl("https://i.imgur.com/wt8EN8R.jpg");
-                await Context.Channel.SendMessageAsync("", embed: embed);
+                await Context.Channel.SendMessageAsync("", false, embed.Build());
             }
         }
 
@@ -131,13 +131,13 @@ namespace OctoBot.Commands.PersonalCommands
                 embed.WithColor(color1Index, color2Index, color3Index);
                 embed.WithAuthor("Oh yea");
                 embed.WithImageUrl("" + url);
-                await Context.Channel.SendMessageAsync("", embed: embed);
+                await Context.Channel.SendMessageAsync("", false, embed.Build());
             }
             else
             {
                 var embed = new EmbedBuilder();
                 embed.WithImageUrl("https://i.imgur.com/wt8EN8R.jpg");
-                await Context.Channel.SendMessageAsync("", embed: embed);
+                await Context.Channel.SendMessageAsync("", false, embed.Build());
             }
         }
 
@@ -157,7 +157,7 @@ namespace OctoBot.Commands.PersonalCommands
             embed.WithColor(color1Index, color2Index, color3Index);
             embed.WithAuthor("INCREDIBLIS");
             embed.WithImageUrl("" + url);
-            await Context.Channel.SendMessageAsync("", embed: embed);
+            await Context.Channel.SendMessageAsync("", false, embed.Build());
 
         }
 

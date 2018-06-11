@@ -58,7 +58,7 @@ namespace OctoBot.Commands.PersonalCommands
 
                 var embed = new EmbedBuilder();
                 embed.WithImageUrl("https://i.imgur.com/HQWbEbC.jpg");
-                await Context.Channel.SendMessageAsync("", embed : embed);
+                await Context.Channel.SendMessageAsync("", false, embed.Build());
 
                 await Task.Delay(50000);
                 await Context.Channel.SendMessageAsync($"Спасибо тебе {Context.User.Mention} за помощь!\nВ качестве вознагрождение тебе будет выплчен грант в размере **100** репутации!");
@@ -70,7 +70,7 @@ namespace OctoBot.Commands.PersonalCommands
 
                 var embedtwo = new EmbedBuilder();
                 embedtwo.WithImageUrl("https://i.imgur.com/c4x1Cgw.jpg");
-                await Context.Channel.SendMessageAsync("", embed: embedtwo);
+                await Context.Channel.SendMessageAsync("", false, embedtwo.Build());
 
 
             }
@@ -80,7 +80,7 @@ namespace OctoBot.Commands.PersonalCommands
                 var embed = new EmbedBuilder();
                 embed.WithDescription("Мы проверили твою информацию, тут нет черепашки! **Ты только тратишь наше время!**\n**Мы тебе больше не доверяем!**");
                 embed.WithImageUrl("https://i.imgur.com/VihPt87.png");
-                await Context.Channel.SendMessageAsync("", embed: embed);
+                await Context.Channel.SendMessageAsync("", false, embed.Build());
 
                 account.YellowTries += 1;
                 UserAccounts.SaveAccounts();
@@ -91,7 +91,7 @@ namespace OctoBot.Commands.PersonalCommands
                 var embed = new EmbedBuilder();
                 embed.WithDescription("**Мы тебе больше не доверяем!**");
                 embed.WithImageUrl("https://media.discordapp.net/attachments/239546250800660490/436362901880700939/20180418_231015.jpg?width=1248&height=702");
-                await Context.Channel.SendMessageAsync("", embed: embed);
+                await Context.Channel.SendMessageAsync("", false, embed.Build());
 
 
             }
@@ -101,7 +101,7 @@ namespace OctoBot.Commands.PersonalCommands
                 var embed = new EmbedBuilder();
                 embed.WithDescription("Мы проверили твою информацию, тут нет черепашки! **Ты только тратишь наше время!**\nЕсли вызовишь нас еще раз просто так, мы больше не будем тебе доверять!");
                 embed.WithImageUrl("https://i.imgur.com/VihPt87.png");
-                await Context.Channel.SendMessageAsync("", embed: embed);
+                await Context.Channel.SendMessageAsync("", false, embed.Build());
                
                 account.YellowTries += 1;
                 UserAccounts.SaveAccounts();
@@ -128,10 +128,10 @@ namespace OctoBot.Commands.PersonalCommands
 
         public static async void YellowTurtleEvent(object sender, ElapsedEventArgs e)
         {
-
+            /* HAEM-HAEM
             var buu = new Random();
             var Event = buu.Next(10000);
-
+            */
                 //Starts Yellow Turtle event//
           
                 Global.CommandEnabled = 0;
@@ -181,7 +181,7 @@ namespace OctoBot.Commands.PersonalCommands
             var embed = new EmbedBuilder();
             embed.WithColor(Color.Gold);
             embed.WithImageUrl("https://i.imgur.com/YQt5WLs.jpg");
-            await _channel.SendMessageAsync("", embed: embed);
+            await _channel.SendMessageAsync("", false, embed.Build());
 
             await StartTimer3();
 
@@ -193,7 +193,7 @@ namespace OctoBot.Commands.PersonalCommands
                     Interval = 15000,
                     Enabled = true
                 };
-                _loopingTimer.Elapsed += YellowTurtleIn; ;
+                _loopingTimer.Elapsed += YellowTurtleIn;
                 return Task.CompletedTask;
             }
         }

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Discord.WebSocket;
-using OctoBot.Configs.Users;
 
 namespace OctoBot.Automated
 {
@@ -14,9 +13,9 @@ namespace OctoBot.Automated
             var guild = user.Guild;
             var channel = guild.DefaultChannel;
             Console.WriteLine($"{user}, Присойденился к серверу ");
-            var account = UserAccounts.GetAccount(user);
-            var time = DateTime.Now.ToString("");
-            UserAccounts.SaveAccounts();
+          
+           
+            
 
 
 

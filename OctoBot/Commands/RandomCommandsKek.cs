@@ -239,7 +239,7 @@ namespace OctoBot.Commands
             embed.WithUrl("https://www.google.com");
             embed.WithDescription(message);
             embed.WithTimestamp(DateTime.UtcNow);
-            await Context.Channel.SendMessageAsync("", embed: embed);
+            await Context.Channel.SendMessageAsync("", false, embed.Build());
 
         }
 
@@ -261,10 +261,10 @@ namespace OctoBot.Commands
             var embed = new EmbedBuilder();
             embed.WithThumbnailUrl(avatarUrl);
             embed.WithTitle("Странный API");
-            embed.AddInlineField("First name", firstName);
-            embed.AddInlineField("Last name", lastName);
+            embed.AddField("First name", firstName);
+            embed.AddField("Last name", lastName);
 
-            await Context.Channel.SendMessageAsync("", embed: embed);
+            await Context.Channel.SendMessageAsync("", false, embed.Build());
         }
         */
 

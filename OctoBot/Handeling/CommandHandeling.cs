@@ -10,11 +10,15 @@ using OctoBot.Configs.LvLingSystem;
 
 namespace OctoBot.Handeling
 {
+
+
    public class CommandHandeling
     {
       
-        DiscordSocketClient _client;
-        CommandService _service;                   
+        private readonly DiscordSocketClient _client;
+        private readonly CommandService _commands;
+        private readonly IServiceProvider _services;
+
         private static string LogFile = @"OctoDataBase/Log.json";
        
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -45,14 +49,25 @@ namespace OctoBot.Handeling
         }
         
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        public async Task InitializeAsync(DiscordSocketClient client)
+    
+        public CommandHandeling(IServiceProvider services, CommandService commands, DiscordSocketClient client)
         {
+            _commands = commands;
+            _services = services;
             _client = client;
-            _service = new CommandService();
-            await _service.AddModulesAsync(Assembly.GetEntryAssembly());
-            _client.MessageReceived += HandleCommandAsync;
-           
         }
+
+        public async Task InitializeAsync()
+        {
+            // Pass the service provider to the second parameter of
+            // AddModulesAsync to inject dependencies to all modules 
+            // that may require them.
+            await _commands.AddModulesAsync(
+                assembly: Assembly.GetEntryAssembly(), 
+                services: _services);
+            _client.MessageReceived += HandleCommandAsync;
+        }
+
         private async Task HandleCommandAsync(SocketMessage msg)
         {
             var message = msg as SocketUserMessage;
@@ -67,7 +82,10 @@ namespace OctoBot.Handeling
             if (message.Channel is SocketDMChannel)
             {
                 if (context.User.IsBot) return;
-                var result = await _service.ExecuteAsync(context, argPos);
+                var result = await _commands.ExecuteAsync(
+                    context: context, 
+                    argPos: argPos, 
+                    services: _services);
 
                 if (!result.IsSuccess)
                 {
@@ -102,7 +120,10 @@ namespace OctoBot.Handeling
             if (message.HasStringPrefix(Config.Bot.Prefix, ref argPos) || message.HasMentionPrefix(_client.CurrentUser, ref argPos))
             {
 
-                var result = await _service.ExecuteAsync(context, argPos);
+                var result = await _commands.ExecuteAsync(
+                    context: context, 
+                    argPos: argPos, 
+                    services: _services);
 
                 if (!result.IsSuccess)
                 {

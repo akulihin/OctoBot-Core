@@ -4,7 +4,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using Discord;
 using Discord.WebSocket;
-using OctoBot.Automated;
 using OctoBot.Commands;
 using OctoBot.Commands.PersonalCommands;
 using OctoBot.Configs;
@@ -18,49 +17,147 @@ namespace OctoBot.Handeling
         private static readonly DiscordSocketClient Client = Global.Client;
 
         static readonly SocketTextChannel LogTextChannel =
-            Global.Client.GetGuild(375104801018609665).GetTextChannel(446868049589698561);
+            Global.Client.GetGuild(375104801018609665).GetTextChannel(454435962089373696);
+        
 
 
         public static Task _client_Ready()
         {
-
+            Client.JoinedGuild += Client_JoinedGuild; // Please Check more options!
             Client.ReactionAdded += Client_ReactionAddedAsyncForBlog;
             Client.ReactionRemoved += Client_ReactionRemovedForBlog;
-
             Client.ReactionAdded += Client_ReactionAddedForArtVotes;
             Client.ReactionRemoved += Client_ReactionRemovedForArtVotes;
-
             Client.Disconnected += Client_Disconnected;
             Client.Connected += Client_Connected;
             Client.MessageUpdated += Client_MessageUpdated;
             Client.MessageDeleted += Client_MessageDeleted;
-            Client.JoinedGuild += Client_JoinedGuild; // Please Check more options!
             Client.ChannelCreated += Client_ChannelCreated;
-            Client.ChannelDestroyed += Client_ChannelDestroyed; 
-            Client.GuildMemberUpdated += Client_GuildMemberUpdated;
-          
+            Client.ChannelDestroyed += Client_ChannelDestroyed;  
             Client.RoleDeleted += Client_RoleDeleted;
-            
-            
+            Client.RoleUpdated += Client_RoleUpdated;
 
+            /////////////////////////////////////////////
+            Client.ChannelUpdated += Client_ChannelUpdated;
+    
+            Client.GuildMemberUpdated += Client_GuildMemberUpdated;
             return Task.CompletedTask;
 
         }
 
-    
-        private static async Task Client_RoleDeleted(SocketRole arg)
+        private static async Task Client_RoleUpdated(SocketRole arg1, SocketRole arg2)
         {
-            var embed = new EmbedBuilder();
-            embed.WithColor(Color.DarkOrange);
-            embed.AddField("Role Deleted", $"Time: {DateTime.Now.ToLongTimeString()}\n" +
-                                           $"Name: {arg.Name} ({arg.Guild})\n" +
-                                           $"Color: {arg.Color}\n" +
-                                           $"ID: {arg.Id}\n");
 
-            await LogTextChannel.SendMessageAsync("", embed: embed);
+            var before = arg1 as IRole;
+            var after = arg2 as IRole;
+            if(after == null)
+                return;
+            if(before == after)
+                return;
+            var log = await before.Guild.GetAuditLogAsync(1);
+            var audit = log.ToList();
+
+            var extra = "";
+           var afterList = after.Permissions.ToList();
+            for (var i = 0; i < afterList.Count; i++)
+            {
+                extra += $"{afterList[i].ToString()}\n";
+
+            }
+
+            var embed = new EmbedBuilder();
+            embed.WithColor(Color.DarkTeal);
+            embed.AddField("Role Updatet", $"WHO: {audit[0].User.Mention}\n" +
+                                           $"ID: {before.Id}\n" +
+                                           $"Guild: {before.Guild.Name}\n" +
+                                           $"__**Before:**__\n" +
+                                           $"Name: **{before}**\n" +
+                                           $"Color: {before.Color}\n" +
+
+                                           $"__**After:**__\n" +
+                                           $"Name: **{after}**\n" +
+                                           $"Color: {after.Color}\n" +
+                                           $"{after.Mention}\n" +
+                                           $"Permissions:\n{extra}");
+            await LogTextChannel.SendMessageAsync("", false, embed.Build());
+
         }
 
-       
+        private static async Task Client_ChannelUpdated(SocketChannel arg1, SocketChannel arg2)
+        {
+
+
+            if (arg1 is ITextChannel arg)
+            {
+                var before = arg1 as ITextChannel;
+                var after = arg2 as ITextChannel;
+                if (before == after)
+                    return;
+                if(after == null)
+                    return;
+                var log = await arg.Guild.GetAuditLogAsync(1);
+                
+                var audit = log.ToList();
+              
+                var permAf =  after.PermissionOverwrites.ToList();
+                var permBef =  before.PermissionOverwrites.ToList();
+                var extra = "";
+
+                for (var i = 0; i < permAf.Count; i++)
+                {
+                    extra += $"<@&{permAf[i].TargetId}>\n";
+                    var kek1 = permAf[i].Permissions.ToAllowList();
+                    var kek2 = permBef[i].Permissions.ToAllowList();
+
+                    for (var k = 0; k < kek1.Count; k++)
+                    {
+                        if(!kek1[k].Equals(kek2[k]))       
+                        extra += $"{kek1[k]}\n";
+                    }
+                    
+                }
+                var embed = new EmbedBuilder();
+                embed.WithColor(Color.DarkBlue);
+                embed.AddField("Channel Updated", $"WHO: {audit[0].User.Mention}\n" +
+                                                  $"Action: {audit[0].Action.ToString()}\n" +
+                                                  $"Guild: {before.Guild}\n" +
+                                                  $"ID: {before.Id}\n" +
+                                                  $"__**Before:**__\n" +
+                                                  $"Name: {before.Name}\n" +
+                                                  $"__**After:**__\n" +
+                                                  $"Name: {after.Mention}\n");
+                embed.AddField("Extra:", $"{extra}");
+   
+
+                await LogTextChannel.SendMessageAsync("", false, embed.Build());
+            }
+        }
+
+        private static async Task Client_RoleDeleted(SocketRole arg)
+        {
+            try
+            {
+                
+                var log = await arg.Guild.GetAuditLogsAsync(1).FlattenAsync();
+                var audit = log.ToList();
+                var name = audit[0].Action == ActionType.RoleDeleted ? audit[0].User.Mention : "error";
+
+                var embed = new EmbedBuilder();
+                embed.WithColor(Color.DarkOrange);
+                embed.AddField("Role Deleted", $"Name: {name}\n" +
+                                               $"Time: {DateTime.Now.ToLongTimeString()}\n" +
+                                               $"Name: {arg.Name} ({arg.Guild})\n" +
+                                               $"Color: {arg.Color}\n" +
+                                               $"ID: {arg.Id}\n");
+
+                await LogTextChannel.SendMessageAsync("", false, embed.Build());
+            }
+            catch
+            {
+                //
+            }
+        }
+
         public async Task NonStaticMethod(Cacheable<IUserMessage, ulong> arg1, SocketReaction arg3)
         {
             try
@@ -168,7 +265,7 @@ namespace OctoBot.Handeling
             await Task.CompletedTask;
         }
 
-           private static async Task Client_ReactionRemovedForArtVotes(Cacheable<IUserMessage, ulong> arg1, ISocketMessageChannel arg2, SocketReaction arg3)
+        private static async Task Client_ReactionRemovedForArtVotes(Cacheable<IUserMessage, ulong> arg1, ISocketMessageChannel arg2, SocketReaction arg3)
         {
             if (arg3.User.Value.IsBot)
                 return;
@@ -227,26 +324,33 @@ namespace OctoBot.Handeling
             await Task.CompletedTask;
         }
 
-
         private static async Task Client_ChannelDestroyed(IChannel  arg)
         {
             try
             {
 
-
                 var embed = new EmbedBuilder();
                 embed.WithColor(Color.DarkGreen);
-                embed.AddField("Channel Destroyed", $"Time: {DateTime.Now.ToLongTimeString()}\n" +
-                                                    $"Name:{arg.Name}\n" +
-                                                    $"NSFW: {arg.IsNsfw}\n" +
-                                                    $"ID: {arg.Id}\n");
 
-                await LogTextChannel.SendMessageAsync("", embed: embed);
-             
+                if (arg is ITextChannel channel)
+                {
+                    var log = await channel.Guild.GetAuditLogAsync(1);
+                    var audit = log.ToList();
+                    var name = audit[0].Action == ActionType.ChannelDeleted ? audit[0].User.Mention : "error";
+                    embed.AddField("Channel Destroyed", $"Name: {name}\n" +
+                                                        $"Time: {DateTime.Now.ToLongTimeString()}\n" +
+                                                        $"Name: {arg.Name}\n" +
+                                                        $"NSFW: {channel.IsNsfw}\n" +
+                                                        $"Category: {channel.GetCategoryAsync().Result.Name}\n" +
+                                                        $"ID: {arg.Id}\n");
+                }
+
+                await LogTextChannel.SendMessageAsync("", false, embed.Build()); 
+
             }
             catch
             {
-               //
+//
             }
         }
 
@@ -255,24 +359,26 @@ namespace OctoBot.Handeling
             
             try
             {
-                var ch = arg as IGuildChannel;
-                if (ch == null)
+                if (!(arg is ITextChannel channel))
                     return;
-
-                var embed = new EmbedBuilder();
-                embed.WithColor(Color.DarkBlue);
-                embed.AddField("Channel Created", $"Time: {DateTime.Now.ToLongTimeString()}\n" +
-                                                  $"Name: {arg.Name}\n" +
-                                                  $"NSFWL {arg.IsNsfw}\n" +
-                                                  $"ID: {arg.Id}\n" +
-                                                  $"{arg.CreatedAt}");
-
-                await LogTextChannel.SendMessageAsync("", embed: embed);
-             
+                
+                    var log = await channel.Guild.GetAuditLogAsync(1);
+                    var audit = log.ToList();
+                var name = audit[0].Action == ActionType.ChannelCreated ? audit[0].User.Mention : "error";
+                    var embed = new EmbedBuilder();
+                    embed.WithColor(Color.DarkBlue);
+                    embed.AddField("Channel Created", $"Name: {name}\n" +
+                                                      $"Time: {DateTime.Now.ToLongTimeString()}\n" +
+                                                      $"Name: {arg.Name}\n" +
+                                                      $"NSFWL {channel.IsNsfw}\n" +
+                                                      $"Category: {channel.GetCategoryAsync().Result.Name}\n" +
+                                                      $"ID: {arg.Id}\n");
+               
+                await LogTextChannel.SendMessageAsync("", false, embed.Build());
             }
             catch
             {
-               //
+//
             }
         }
 
@@ -283,9 +389,14 @@ namespace OctoBot.Handeling
                   if (after == null || before == after || before.IsBot)
                       return;
 
+                 
+                 
+
                   var embed = new EmbedBuilder();
                   if (before.Nickname != after.Nickname)
                   {
+                      var log = await before.Guild.GetAuditLogsAsync(1).FlattenAsync();
+                      var audit = log.ToList();
                       var beforeName = before.Nickname ?? before.Username;
 
                       var afterName = after.Nickname ?? after.Username;
@@ -298,8 +409,10 @@ namespace OctoBot.Handeling
                                                           $"**{beforeName}**\n" +
                                                           $"After:\n" +
                                                           $"**{afterName}**");
+                      if (audit[0].Action == ActionType.MemberUpdated)
+                          embed.AddField("WHO:", $"{audit[0].User.Mention}\n");
 
-                      await LogTextChannel.SendMessageAsync("", embed: embed);
+                      await LogTextChannel.SendMessageAsync("", false, embed.Build());
 
                       var userAccount = UserAccounts.GetAccount(after);
                       var user = after;
@@ -333,7 +446,7 @@ namespace OctoBot.Handeling
                                                           $"After:\n" +
                                                           $"**{after.GetAvatarUrl()}**");
 
-                      await LogTextChannel.SendMessageAsync("", embed: embed);
+                      await LogTextChannel.SendMessageAsync("", false, embed.Build());
                   }
                   if (before.Username != after.Username || before.Id != after.Id)
                   {
@@ -345,7 +458,7 @@ namespace OctoBot.Handeling
                                                         $"After:\n" +
                                                         $"**{after.Username} {after.Id}**\n");
                       await LogTextChannel.SendMessageAsync($"<@181514288278536193> here is a gay:");
-                      await LogTextChannel.SendMessageAsync("", embed: embed);
+                      await LogTextChannel.SendMessageAsync("", false, embed.Build());
                   }
                   if (before.Roles.Count != after.Roles.Count)
                   {
@@ -384,7 +497,7 @@ namespace OctoBot.Handeling
                                                         $"Server: **{before.Guild.Name}**\n" +
                                                                      $"Role ({roleString}): **{role}**");
 
-                      await LogTextChannel.SendMessageAsync("", embed: embed);
+                      await LogTextChannel.SendMessageAsync("", false, embed.Build());
                   }
                   
               }
@@ -453,37 +566,44 @@ namespace OctoBot.Handeling
                 if (messageAfter.Attachments.Any())
                     embed.AddField("attachments", $"{messageAfter.Attachments.FirstOrDefault()?.Url}");
 
-                await LogTextChannel.SendMessageAsync("", embed: embed);
+                await LogTextChannel.SendMessageAsync("", false, embed.Build());
             }
             catch
             {
                 Console.WriteLine("Cath messupd");
             }
         }
-
+      
         private static async Task Client_MessageDeleted(Cacheable<IMessage, ulong> messageBefore,
             ISocketMessageChannel arg3)
         {
             try
             {
-              
+                if (messageBefore.Value.Channel is ITextChannel kek)
+                {
+                    var log = await kek.Guild.GetAuditLogAsync(1);
+                    var audit = log.ToList();
+                    var name = audit[0].Action == ActionType.MessageDeleted ? audit[0].User.Mention : messageBefore.Value.Author.Mention;
 
-                var embedDel = new EmbedBuilder();
-                embedDel.WithColor(Color.DarkPurple);
-                embedDel.WithTitle($"🗑 Deleted Message in {messageBefore.Value.Channel.Name}");
-                embedDel.WithDescription($"Mess Author: **{messageBefore.Value.Author}**\n" +
-                                         $"Time: **{DateTime.Now.ToLongTimeString()}**\n");
-                embedDel.AddField("Content", $"{messageBefore.Value.Content}");
-                embedDel.AddField("Mess ID", $"{messageBefore.Id}");
-                if (messageBefore.Value.Attachments.Any())
-                    embedDel.AddField("attachments", $"URL: {messageBefore.Value.Attachments.FirstOrDefault()?.Url}\n" +
-                                                     $"Proxy URL: {messageBefore.Value.Attachments.FirstOrDefault()?.ProxyUrl}"); 
+                    var embedDel = new EmbedBuilder();
+                    embedDel.WithColor(Color.DarkPurple);
+                    embedDel.WithTitle($"🗑 Deleted Message in {messageBefore.Value.Channel.Name}");
+                    embedDel.WithDescription($"WHO: **{name}**\n" +
+                                             $"Mess Author: **{messageBefore.Value.Author}**\n" +
+                                             $"Time: **{DateTime.Now.ToLongTimeString()}**\n");
+                    embedDel.AddField("Content", $"{messageBefore.Value.Content}");
+                    embedDel.AddField("Mess ID", $"{messageBefore.Id}");
+                    if (messageBefore.Value.Attachments.Any())
+                        embedDel.AddField("attachments", $"URL: {messageBefore.Value.Attachments.FirstOrDefault()?.Url}\n" +
+                                                         $"Proxy URL: {messageBefore.Value.Attachments.FirstOrDefault()?.ProxyUrl}"); 
    
 
-                await LogTextChannel.SendMessageAsync("", embed: embedDel);
+                    await LogTextChannel.SendMessageAsync("", false, embedDel.Build());
+                }
             }
             catch
             {
+
                 //
             }
         }

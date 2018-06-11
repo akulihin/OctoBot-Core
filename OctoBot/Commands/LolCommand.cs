@@ -27,7 +27,7 @@ namespace OctoBot.Commands
                 embed.WithTitle("Оппа, первопроходец!");
                 embed.WithDescription($"Ты впервые проиграл!");
 
-                await Context.Channel.SendMessageAsync("", embed: embed);
+                await Context.Channel.SendMessageAsync("", false, embed.Build());
             }
             else
             {
@@ -41,7 +41,7 @@ namespace OctoBot.Commands
                 else
                     embed.WithDescription($"Это уже в {account.Lost}й раз...");
 
-                await Context.Channel.SendMessageAsync("", embed: embed);
+                await Context.Channel.SendMessageAsync("", false, embed.Build());
             }  
         }
 
@@ -72,7 +72,7 @@ namespace OctoBot.Commands
             await Context.Channel.SendMessageAsync("КЕНЧ!");
             var embed = new EmbedBuilder();
             embed.WithImageUrl($"{thamKenchToPost}");
-            await Context.Channel.SendMessageAsync("", embed: embed);
+            await Context.Channel.SendMessageAsync("", false, embed.Build());
 
         }
 
@@ -89,7 +89,7 @@ namespace OctoBot.Commands
             await Context.Channel.SendMessageAsync("КЕНЧ!");
             var embed = new EmbedBuilder();
             embed.WithImageUrl($"{thamKenchToPost}");
-            await Context.Channel.SendMessageAsync("", embed: embed);
+            await Context.Channel.SendMessageAsync("", false, embed.Build());
 
         }
 
@@ -102,7 +102,7 @@ namespace OctoBot.Commands
             embed.WithImageUrl("https://media.discordapp.net/attachments/238416197337481217/436790640861511691/--2oOzEe8RI.png");
             embed.WithTitle("10 заповедей бога лола");
 
-            await Context.Channel.SendMessageAsync("", embed: embed);
+            await Context.Channel.SendMessageAsync("", false, embed.Build());
         }
 
        

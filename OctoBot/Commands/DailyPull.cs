@@ -17,7 +17,7 @@ namespace OctoBot.Commands
             try {
             var account = UserAccounts.GetAccount(Context.User);
             var result = GetDailyPull(Context.User);
-            var difference = DateTime.Now - account.LastDailyPull;
+            var difference = DateTime.UtcNow - account.LastDailyPull;
 
             switch (result)
             {
@@ -51,7 +51,7 @@ namespace OctoBot.Commands
         public static DailyPullResult GetDailyPull(SocketUser user)
         {
             var account = UserAccounts.GetAccount(user);
-            var difference = DateTime.Now - account.LastDailyPull;
+            var difference = DateTime.UtcNow - account.LastDailyPull;
 
             if (difference.TotalHours < 23) return DailyPullResult.AlreadyRecieved;
 
@@ -92,7 +92,7 @@ namespace OctoBot.Commands
 
                         var globalAccount = Global.Client.GetUser(t.Id);
                         var account = UserAccounts.GetAccount(globalAccount);
-                        var difference = DateTime.Now - account.LastDailyPull;
+                        var difference = DateTime.UtcNow - account.LastDailyPull;
 
 
                         if (difference.TotalHours > 39 && account.DailyPullPoints >= 1)
@@ -104,7 +104,7 @@ namespace OctoBot.Commands
                                 embed.WithFooter("lil octo notebook");
                                 embed.WithTitle("OctoNotification");
                                 embed.WithDescription($"Ты потерял свои ежедневные поинты, буль ;c");
-                                await dmChannel.SendMessageAsync("", embed: embed);
+                                await dmChannel.SendMessageAsync("", false, embed.Build());
                                 account.DailyPullPoints = 0;
                                 UserAccounts.SaveAccounts();
                             }
@@ -177,7 +177,7 @@ namespace OctoBot.Commands
                                 embed.WithTitle("OctoNotification");
                                 embed.WithDescription($"Вот и ключик подъе... буууль. Выбери одну:\nЧерез команду __cKey номер__\n\n**1. {fullKeysNameList[randonKey1]}**\n**2. {fullKeysNameList[randonKey2]}**\n**3. {fullKeysNameList[randonKey3]}**\n\n**0. Ничего не брать.**\n\n"+
                                                       $"**ВАЖНО, прочти пожалуйста:**\nЕсли ты НЕ будешь играть в эту игру, а просто добавишь ее и забьешь, тогда **прошу** верни ее осьминожкам, а мы подарим ее другому! - \nПросто Проигнорь это сообщение, или выбери 0 В таком случае.\n__Мы не любим топить ресурсы__. Буль c:");
-                                await dmChannel.SendMessageAsync("", embed: embed);
+                                await dmChannel.SendMessageAsync("", false, embed.Build());
 
                                 account.PullToChoose = null;
                                 account.PullToChoose += $"{randonKey1}%%";
@@ -194,7 +194,7 @@ namespace OctoBot.Commands
                                 embed.WithColor(Color.Green);
                                 embed.WithTitle("OctoNotification");
                                 embed.WithDescription($"Буууль... ключики кончились ;c");
-                                await dmChannel.SendMessageAsync("", embed: embed);
+                                await dmChannel.SendMessageAsync("", false, embed.Build());
                             }
                         }
                     }
@@ -211,7 +211,9 @@ namespace OctoBot.Commands
             var mylorikGlobal = Global.Client.GetUser(181514288278536193);
             var mylorik = UserAccounts.GetAccount(mylorikGlobal);
 
-                var gameAndKey = mess.Split(new[] {"&&"}, StringSplitOptions.RemoveEmptyEntries);
+           var gameAndKey = mess.Split(new[] {"&&"}, StringSplitOptions.RemoveEmptyEntries);
+                if(gameAndKey.Length < 2 || gameAndKey.Length >= 3 )
+                    return;
 
             mylorik.KeyPullName += (gameAndKey[0] + "|");
             mylorik.KeyPullKey += (gameAndKey[1] + "|");
@@ -272,27 +274,35 @@ namespace OctoBot.Commands
                 var keyKey = account.KeyPullKey.Split(new[] {'|'}, StringSplitOptions.RemoveEmptyEntries);
             var keys = "";
             var keysExtra = "";
+            var keysExtra2 = "";
 
                 for (var i = 0; i < keyName.Length; i++)
                 {
-                    if (keys.Length >= 800)
+                    if (keys.Length <= 800)
+                    {
+                        keys += $"index: {i} | {keyName[i]} {keyKey[i]}\n";
+                       
+                    }
+                    else if(keys.Length <= 1600)
                     {
                         keysExtra += $"index: {i} | {keyName[i]} {keyKey[i]} \n";
                     }
                     else
                     {
-                        keys += $"index: {i} | {keyName[i]} {keyKey[i]}\n";
+                        keysExtra2 += $"index: {i} | {keyName[i]} {keyKey[i]} \n";
                     }
                 }
 
             var embed = new EmbedBuilder();
             embed.WithAuthor(Context.User);
-            embed.AddInlineField("Ключи:", $"{keys}\n**KeyDel [index]** Чтобы удалить ");
+            embed.AddField("Ключи:", $"{keys}\n**KeyDel [index]** Чтобы удалить ");
             embed.WithFooter("Записная книжечка Осьминожек");
              if(keysExtra.Length > 10)
-                 embed.AddInlineField("Ключи(cont):", $"{keysExtra}\n**KeyDel [index]** Чтобы удалить ");
+                 embed.AddField("Ключи(cont):", $"{keysExtra}\n**KeyDel [index]** Чтобы удалить ");
+             if(keysExtra2.Length > 10)
+                 embed.AddField("Ключи(cont):", $"{keysExtra2}\n**KeyDel [index]** Чтобы удалить ");
 
-            await Context.Channel.SendMessageAsync("", embed: embed);
+            await Context.Channel.SendMessageAsync("", false, embed.Build());
          }
          catch
          {
@@ -360,7 +370,7 @@ namespace OctoBot.Commands
                 embed.WithTitle("OctoNotification");
                 embed.WithDescription($"А вот и ключ!\n\n**{keyName[index]} : {keykey[index]}**\n\nБуль!");
                
-              await  ReplyAsync("", embed:embed);
+              await  ReplyAsync("", false, embed.Build());
 
                 
                 mylorik.KeyPullName = null;
@@ -397,9 +407,9 @@ namespace OctoBot.Commands
 
             var embed = new EmbedBuilder();
             embed.WithColor(Color.DarkMagenta);
-            embed.AddInlineField("буууль~", $"Мы добавили {pullPoints} пулл Поинтов {user.Mention}. Теперь у него {account.DailyPullPoints} поинтов, буль!");
+            embed.AddField("буууль~", $"Мы добавили {pullPoints} пулл Поинтов {user.Mention}. Теперь у него {account.DailyPullPoints} поинтов, буль!");
 
-            await Context.Channel.SendMessageAsync("", embed: embed);
+            await Context.Channel.SendMessageAsync("", false, embed.Build());
 
         }
 

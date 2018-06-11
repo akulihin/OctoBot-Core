@@ -98,7 +98,7 @@ namespace OctoBot.Games.OctoGame
             embed.WithAuthor(Context.User);
             embed.WithColor(Color.Blue);
             embed.AddField($"Твой осьминожка!", $"**Имя:** {octoInfoArray[0]}\n**Цвет:** {octoInfoArray[1]}\n**Характер** {octoInfoArray[2]}\n**Лор:** {octoInfoArray[3]}");
-            await Context.Channel.SendMessageAsync("", embed: embed);
+            await Context.Channel.SendMessageAsync("", false, embed.Build());
         }
 
         [Command("endGame")]
@@ -151,16 +151,16 @@ namespace OctoBot.Games.OctoGame
             if (account.OctopusFighterInfo != null)
             {
 
-                var mainPage = new EmbedBuilder();
-                mainPage.WithAuthor(Context.User);
-                mainPage.WithFooter($"Enemy choice");
-                mainPage.WithColor(Color.DarkGreen);
-                mainPage.AddField("Choose enemy lvl : ", $"{new Emoji("1⃣")} Enemy {account.CurrentOctopusFighterLvl - 1} LvL\n" +
+                var embed = new EmbedBuilder();
+                embed.WithAuthor(Context.User);
+                embed.WithFooter($"Enemy choice");
+                embed.WithColor(Color.DarkGreen);
+                embed.AddField("Choose enemy lvl : ", $"{new Emoji("1⃣")} Enemy {account.CurrentOctopusFighterLvl - 1} LvL\n" +
                                                                    $"{new Emoji("2⃣")} Enemy {account.CurrentOctopusFighterLvl} LvL\n" +
                                                                    $"{new Emoji("3⃣")} Enemy {account.CurrentOctopusFighterLvl + 1} LvL\n" +
                                                                    $"{new Emoji("❌")} - End Fight.");
        
-                var message = await Context.Channel.SendMessageAsync("", embed: mainPage);
+                var message = await Context.Channel.SendMessageAsync("", false, embed.Build());
 
                 await message.AddReactionAsync(new Emoji("1⃣"));             
                 await message.AddReactionAsync(new Emoji("2⃣"));           
@@ -194,7 +194,7 @@ namespace OctoBot.Games.OctoGame
                 embed1.WithAuthor(Context.User);
                 embed1.AddField("Этот скилл иди уже существует", $"{skill.SpellName}\nID: {skill.SpellId}\nTree: {skill.SpellTree}\nRU: {skill.SpellDescriptionRu}\nEN: {skill.SpellDescriptionEn}\nFormula: {skill.SpellFormula}\nCD: {skill.SpellCd}\n" +
                                                                   "Если хочешь полностью его изменить, напиши **да** (1 минута)");
-                await ReplyAsync("", embed: embed1);
+                await ReplyAsync("", false, embed1.Build());
 
                 var res = await CommandHandeling.AwaitMessage(Context.User.Id, Context.Channel.Id, 60000);
 
@@ -216,7 +216,7 @@ namespace OctoBot.Games.OctoGame
 
             var embed = new EmbedBuilder();
             embed.AddField("Введи Номер дерева скилла, у тебя 5 минута", "1 - AD\n2 - DEF\n3 - AGI\n4 - AP");
-            await Context.Channel.SendMessageAsync("", embed: embed);
+            await Context.Channel.SendMessageAsync("", false, embed.Build());
             response = await CommandHandeling.AwaitMessage(Context.User.Id, Context.Channel.Id, 300000);
             skill.SpellTree = Convert.ToInt32(response.ToString());
 
@@ -230,7 +230,7 @@ namespace OctoBot.Games.OctoGame
 
             var embedAc = new EmbedBuilder();
             embedAc.AddField("Введи Активка или Пассивка, у тебя 5 минута", "0 - Пассив\n1 - Актив");
-            await Context.Channel.SendMessageAsync("", embed: embedAc);
+            await Context.Channel.SendMessageAsync("", false, embedAc.Build());
             response = await CommandHandeling.AwaitMessage(Context.User.Id, Context.Channel.Id, 300000);
             skill.ActiveOrPassive = Convert.ToInt32(response.ToString());
             /*
@@ -240,7 +240,7 @@ namespace OctoBot.Games.OctoGame
             */
             var embedCd = new EmbedBuilder();      
             embedCd.AddField("Введи КД скилла, у тебя 5 минут", "1)Если есть - в ходах\n2)Если КД = 1 раз в игру, пиши 9999\n3)Если КД нету вообще, пиши 0");
-            await Context.Channel.SendMessageAsync("", embed: embedCd);
+            await Context.Channel.SendMessageAsync("", false, embedCd.Build());
             response = await CommandHandeling.AwaitMessage(Context.User.Id, Context.Channel.Id, 300000);      
             skill.SpellCd = Convert.ToInt32(response.ToString());
 
@@ -284,7 +284,7 @@ namespace OctoBot.Games.OctoGame
                 embed.AddField($"{skill.SpellName}",
                     $"ID: {skill.SpellId}\nTree: {skill.SpellTree}\nRU: {skill.SpellDescriptionRu}\nEN: {skill.SpellDescriptionEn}\nFormula: {skill.SpellFormula}\nCD: {skill.SpellCd}");
 
-                await ReplyAsync("", embed: embed);
+                await ReplyAsync("", false, embed.Build());
             }
             catch
             {
@@ -321,7 +321,7 @@ namespace OctoBot.Games.OctoGame
             embed.WithAuthor(Context.User);
             embed.AddField("Все скилы:", $"{allSkills}");
 
-            await ReplyAsync("", embed: embed);
+            await ReplyAsync("", false, embed.Build());
         }
 
     }

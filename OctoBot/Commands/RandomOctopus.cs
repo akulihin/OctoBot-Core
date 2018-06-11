@@ -204,7 +204,7 @@ namespace OctoBot.Commands
                     embed.WithAuthor(Context.User);
                     embed.WithImageUrl("" + octoToPost);
 
-                    await Context.Channel.SendMessageAsync("", embed: embed);
+                    await Context.Channel.SendMessageAsync("", false, embed.Build());
 
 
 
@@ -278,7 +278,7 @@ namespace OctoBot.Commands
                         embed.WithAuthor(Context.User);
                         embed.WithImageUrl("" + octoToPost);
 
-                        await Context.Channel.SendMessageAsync("", embed: embed);
+                        await Context.Channel.SendMessageAsync("", false, embed.Build());
 
 
                         if (selection == 19)

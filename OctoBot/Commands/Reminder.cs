@@ -21,6 +21,15 @@ namespace OctoBot.Commands
             " напиши мне", " напомни", " алярм", " Remind")]
         public async Task AddReminder([Remainder] string args)
         {
+            var acc = UserAccounts.GetAccount(Context.User);       
+            var difference = DateTime.UtcNow - acc.LastDailyPull;
+            Console.WriteLine(23 - (int) difference.TotalHours);
+            if (23 - (int) difference.TotalHours >= 23)
+            {
+                await ReplyAsync("буль.");
+                return;
+            }
+
             try {
             string[] splittedArgs = null;
 
@@ -95,6 +104,13 @@ namespace OctoBot.Commands
         [Command("Re")]
         public async Task AddReminderMinute(uint minute, [Remainder] string reminderString)
         {
+            var acc = UserAccounts.GetAccount(Context.User);       
+            var difference = DateTime.UtcNow - acc.LastDailyPull;
+            if (23 - (int) difference.TotalHours >= 23)
+            {
+                await ReplyAsync("буль.");
+                return;
+            }
             try {
             if (minute > 1439)
             {
@@ -174,6 +190,13 @@ namespace OctoBot.Commands
             " напиши мне", " напомни", " алярм", " Remind", "Remind")]
         public async Task AddReminderToSomeOne(ulong userId, [Remainder] string args)
         {
+            var acc = UserAccounts.GetAccount(Context.User);       
+            var difference = DateTime.UtcNow - acc.LastDailyPull;
+            if (23 - (int) difference.TotalHours >= 23)
+            {
+                await ReplyAsync("буль.");
+                return;
+            }
             try{
             //       var commander = UserAccounts.GetAccount(Context.User);
 
@@ -270,7 +293,7 @@ namespace OctoBot.Commands
             var embed = new EmbedBuilder();
             embed.WithTitle("Your Reminders:");
             embed.WithDescription($"**Your current time by UTC: {DateTime.UtcNow}**\n" +
-                                  "To delete one of them, type the command `*del [index]`");
+                                  "To delete one of them, type the command `*Delete [index]`");
             embed.WithFooter("lil octo notebook");
 
             for (var i = 0; i < reminders.Count; i++)
@@ -278,7 +301,7 @@ namespace OctoBot.Commands
                 embed.AddField($"[{i + 1}] {reminders[i].DateToPost:f}", reminders[i].ReminderMessage, true);
             }
 
-            await ReplyAsync("", embed: embed);
+            await ReplyAsync("", false, embed.Build());
             }
             catch
             {
@@ -319,7 +342,7 @@ namespace OctoBot.Commands
                     embed.AddField($"[{i + 1}] {reminders[i].DateToPost:f}", reminders[i].ReminderMessage, true);
                 }
 
-                await ReplyAsync("", embed: embed);
+                await ReplyAsync("", false, embed.Build());
 
             }
             else
@@ -331,9 +354,6 @@ namespace OctoBot.Commands
                                  "Alias: Напоминания, список, Мои Напоминания");
             }
         }
-
-
-
 
         [Command("Delete")]
         [Alias("Удалить Напоминания", "Удалить", "Удалить Напоминание", "del")]
@@ -353,7 +373,7 @@ namespace OctoBot.Commands
                 embed.WithTitle("Boole.");
                 embed.WithDescription($"Message by index **{index}** was removed!");
                 embed.WithFooter("lil octo notebook");
-                await Context.Channel.SendMessageAsync("", embed: embed);
+                await Context.Channel.SendMessageAsync("", false, embed.Build());
                 return;
             }
 
@@ -367,7 +387,6 @@ namespace OctoBot.Commands
                                  "Alias: Удалить, Delete");
             }
         }
-
 
         [Command("Время")]
         [Alias("time", "date")]
@@ -434,7 +453,7 @@ namespace OctoBot.Commands
                                     embed.WithTitle("Розовенькая черепашка напоминает тебе:");
                                     embed.WithDescription($"\n{account.ReminderList[j].ReminderMessage}");
 
-                                    await dmChannel.SendMessageAsync("", embed: embed);
+                                    await dmChannel.SendMessageAsync("", false, embed.Build());
 
                                     account.ReminderList.RemoveAt(j);
                                     UserAccounts.SaveAccounts();
@@ -505,7 +524,7 @@ namespace OctoBot.Commands
                                     embed.WithImageUrl("https://i.imgur.com/puNz7pu.jpg");
                                     embed.WithDescription($"бу-бу-бу!\nБольше так не делай, тебя размутили.");
 
-                                    await dmChannel.SendMessageAsync("", embed: embed);
+                                    await dmChannel.SendMessageAsync("", false, embed.Build());
                                 }
                                 catch
                                 {
@@ -516,7 +535,7 @@ namespace OctoBot.Commands
                                     embed.WithDescription($"бу-бу-бу!\nБольше так не делай, тебя размутили.");
 
                                    await Global.Client.GetGuild(338355570669256705).GetTextChannel(374914059679694848)
-                                        .SendMessageAsync("", embed: embed);
+                                        .SendMessageAsync("", false, embed.Build());
                                 }
                             }
                     }

@@ -40,7 +40,7 @@ namespace OctoBot.Commands
             embed.WithFooter("Записная книжечка Осьминожек");
             embed.WithTitle("Твои подписчики:");
             embed.WithDescription($"{mess}");
-            await Context.Channel.SendMessageAsync("", embed: embed);
+            await Context.Channel.SendMessageAsync("", false, embed.Build());
             }
             catch
             {
@@ -77,7 +77,7 @@ namespace OctoBot.Commands
             embed.WithFooter("Записная книжечка Осьминожек");
             embed.WithTitle("Твои подписки:");
             embed.WithDescription($"{mess}");
-            await Context.Channel.SendMessageAsync("", embed: embed);
+            await Context.Channel.SendMessageAsync("", false, embed.Build());
             }
             catch
             {
@@ -234,7 +234,7 @@ namespace OctoBot.Commands
                         "Если тебе нравится блоги этой/этого няши, почему бы не оценить?\n" +
                         "Можешь оценить от 1 до zazz, оценка анонимная, но общую оценку можно посомтрет чрезе команду **topr**\n" +
                         "https://puu.sh/AqC2d/715e9eb16e.mp3");
-                    var message = await dmChannel.SendMessageAsync("", embed: embed);
+                    var message = await dmChannel.SendMessageAsync("", false, embed.Build());
                     //await dmChannel.SendFileAsync("https://puu.sh/AqC2d/715e9eb16e.mp3");
 
 
@@ -339,7 +339,7 @@ namespace OctoBot.Commands
                         "Можешь оценить от 1 до zazz, оценка анонимная, но общую оценку можно посомтрет чрезе команду **topr**\n" +
                         "https://puu.sh/AqC2d/715e9eb16e.mp3");
                     
-                    var message =  await dmChannel.SendMessageAsync("", embed: embed);
+                    var message =  await dmChannel.SendMessageAsync("", false, embed.Build());
                   //  await dmChannel.SendFileAsync("https://puu.sh/AqC2d/715e9eb16e.mp3");
                     messList.Add(message);
                     try {

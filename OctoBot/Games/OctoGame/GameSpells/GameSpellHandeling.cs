@@ -186,7 +186,7 @@ namespace OctoBot.Games.OctoGame.GameSpells
             
             if (skillId == 1001 || skillId == 1000)
             {
-                var skill = SpellUserAccounts.GetAccount(skillId);
+                //var skill = SpellUserAccounts.GetAccount(skillId);
 
                if (account.CurrentEnemyStamina <= 0)
                     dmg = 10009;

@@ -12,9 +12,8 @@ namespace OctoBot.Commands
 {
     public class Managing : ModuleBase<SocketCommandContext>
     {
-
-        static readonly SocketTextChannel LogTextChannel =
-            Global.Client.GetGuild(375104801018609665).GetTextChannel(446868049589698561);
+        private static readonly SocketTextChannel LogTextChannel =
+            Global.Client.GetGuild(375104801018609665).GetTextChannel(454435962089373696);
 
         [Command("purge")]
         [Alias("clean", "убрать", "clear")]
@@ -26,12 +25,12 @@ namespace OctoBot.Commands
             if (comander.OctoPass >= 100)
             {
 
-                var items = await Context.Channel.GetMessagesAsync(number + 1).Flatten();
-                await Context.Channel.DeleteMessagesAsync(items);
-                var embed = new EmbedBuilder()
-                    .WithColor(Color.DarkRed)
-                    .AddField($"**PURGE** {number} used", $"By {Context.User.Mention} in {Context.Channel}");
-                await LogTextChannel.SendMessageAsync("", embed: embed);
+                var items = await Context.Channel.GetMessagesAsync(number + 1).FlattenAsync();
+                if (Context.Channel is ITextChannel channel) await channel.DeleteMessagesAsync(items);
+                var embed = new EmbedBuilder();
+                    embed.WithColor(Color.DarkRed);
+                embed.AddField($"**PURGE** {number}", $"Used By {Context.User.Mention} in {Context.Channel}");
+                await LogTextChannel.SendMessageAsync("", false, embed.Build());
             }
             else
                 await Context.Channel.SendMessageAsync("Boole! You do not have a tolerance of this level!");
@@ -63,7 +62,7 @@ namespace OctoBot.Commands
                     .AddField("**WARN** used", $"By {Context.User.Mention} in {Context.Channel}\n" +
                                                $"**Content:**\n" +
                                                $"{user.Mention} - {message}");
-                await LogTextChannel.SendMessageAsync("", embed: embed);
+                await LogTextChannel.SendMessageAsync("", false, embed.Build());
             }
             else
                 await Context.Channel.SendMessageAsync("Boole! You do not have a tolerance of this level!");
@@ -92,7 +91,7 @@ namespace OctoBot.Commands
                 .AddField("**kick** used", $"By {Context.User.Mention} in {Context.Channel}\n" +
                                            $"**Content:**\n" +
                                            $"{user.Mention} - {reason}");
-            await LogTextChannel.SendMessageAsync("", embed: embed);
+            await LogTextChannel.SendMessageAsync("", false, embed.Build());
             }
             catch
             {
@@ -118,7 +117,7 @@ namespace OctoBot.Commands
                 .AddField("**ban** used", $"By {Context.User.Mention} in {Context.Channel}\n" +
                                            $"**Content:**\n" +
                                            $"{user.Mention} - {reason}");
-            await LogTextChannel.SendMessageAsync("", embed: embed);
+            await LogTextChannel.SendMessageAsync("", false, embed.Build());
             }
             catch
             {
