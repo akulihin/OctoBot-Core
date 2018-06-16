@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Net;
 using System.Text;
@@ -18,11 +19,11 @@ namespace OctoBot.Commands.PersonalCommands
 {
     public class ForBot : ModuleBase<SocketCommandContext>
     {
-       
-        
+
+
 
         private static Timer _loopingTimerForOctoAva;
-      
+
         internal static Task TimerForBotAvatar()
         {
 
@@ -30,7 +31,7 @@ namespace OctoBot.Commands.PersonalCommands
             _loopingTimerForOctoAva = new Timer
             {
                 AutoReset = true,
-                Interval = 3600000  ,
+                Interval = 3600000,
                 Enabled = true
             };
             _loopingTimerForOctoAva.Elapsed += SetBotAva;
@@ -56,11 +57,11 @@ namespace OctoBot.Commands.PersonalCommands
                 await Global.Client.CurrentUser.ModifyAsync(k => k.Avatar = image);
 
             }
-            catch 
+            catch
             {
 
-              //
-             
+                //
+
             }
         }
         /*
@@ -90,9 +91,10 @@ namespace OctoBot.Commands.PersonalCommands
         public async Task MarryMe(SocketUser user, [Remainder] string rem)
         {
             await ReplyAsync($"{user.Mention} Ты согласна выйти замуж за этого осьминога?({Context.User}) буль.");
-            var response = await CommandHandeling.AwaitMessage(user.Id, Context.Channel.Id, 600000); 
+            var response = await CommandHandeling.AwaitMessage(user.Id, Context.Channel.Id, 600000);
             var re = response.Content.ToLower();
-            if (re == "yes" || re == "yes." || re == "yes!" || re == "for sure!"|| re == "ofc." || re == "да"|| re == "да!" || re == "да." || re == "конечно!" || re == "конечно." || re == "конечно")
+            if (re == "yes" || re == "yes." || re == "yes!" || re == "for sure!" || re == "ofc." || re == "да" ||
+                re == "да!" || re == "да." || re == "конечно!" || re == "конечно." || re == "конечно")
             {
                 var contextAcc = UserAccounts.GetAccount(Context.User);
                 var userAcc = UserAccounts.GetAccount(user);
@@ -113,7 +115,7 @@ namespace OctoBot.Commands.PersonalCommands
         {
             var account = UserAccounts.GetAccount(Context.User);
             var marr = Context.Guild.GetUser(account.MarryTo);
-            
+
             await ReplyAsync($"ты женат/а на {marr.Username}!");
         }
 
@@ -124,7 +126,7 @@ namespace OctoBot.Commands.PersonalCommands
             if (Context.User.Id != 181514288278536193)
                 return;
             try
-            {   
+            {
                 var webClient = new WebClient();
                 byte[] imageBytes = webClient.DownloadData(link);
 
@@ -182,12 +184,13 @@ namespace OctoBot.Commands.PersonalCommands
         }
 
         [Command("nick")]
-        public async Task Nickname(SocketGuildUser username, [Remainder]string name)
+        public async Task Nickname(SocketGuildUser username, [Remainder] string name)
         {
             if (Context.User.Id != 181514288278536193)
                 return;
-            try{
-            await Context.Guild.GetUser(username.Id).ModifyAsync(x => x.Nickname = name);
+            try
+            {
+                await Context.Guild.GetUser(username.Id).ModifyAsync(x => x.Nickname = name);
             }
             catch (Exception e)
             {
@@ -198,7 +201,7 @@ namespace OctoBot.Commands.PersonalCommands
             }
         }
 
-                
+
         [Command("ApdMessEm")]
         public async Task ApdMessEmbed(ulong channeld, ulong messId, [Remainder] string messa)
         {
@@ -234,6 +237,7 @@ namespace OctoBot.Commands.PersonalCommands
         [Command("ApdMess")]
         public async Task ApdMessString(ulong channeld, ulong messId, [Remainder] string messa)
         {
+
             try
             {
                 if (Context.User.Id != 181514288278536193)
@@ -286,9 +290,10 @@ namespace OctoBot.Commands.PersonalCommands
 
                 var check = messa.ToCharArray();
                 if (check[0] == '<')
-                    if (await Context.Guild.GetTextChannel(channeld).GetMessageAsync(messId) is IUserMessage message) await message.AddReactionAsync(emote);  
-              else
-                if (await Context.Guild.GetTextChannel(channeld).GetMessageAsync(messId) is IUserMessage mess) await mess.AddReactionAsync((new Emoji($"{messa}")));
+                    if (await Context.Guild.GetTextChannel(channeld).GetMessageAsync(messId) is IUserMessage message)
+                        await message.AddReactionAsync(emote);
+                    else if (await Context.Guild.GetTextChannel(channeld).GetMessageAsync(messId) is IUserMessage mess)
+                        await mess.AddReactionAsync((new Emoji($"{messa}")));
 
                 await Task.CompletedTask;
             }
@@ -297,32 +302,41 @@ namespace OctoBot.Commands.PersonalCommands
                 //
             }
         }
+
         [Command("stuff")]
-        public async Task Stuffening(string number){
-                //011111101111110
-           var array = number.Select(ch => ch - '0').ToArray();
+        public async Task Stuffening(string number)
+        {
+            //011111101111110
+            var array = number.Select(ch => ch - '0').ToArray();
 
             var check = 0;
             var afterStuff = "";
             var times = 0;
-            try {
-            for(var i = 0; i <array.Length; i++ ){
-                if(array[i] == 1 && array[i] == array[i+1]){
-                    check +=1;
-                    afterStuff += $"{array[i].ToString()}";
-                    if(check == 5){
-                        afterStuff += "**__0__**";
-                        times++;
+            try
+            {
+                for (var i = 0; i < array.Length; i++)
+                {
+                    if (array[i] == 1 && array[i] == array[i + 1])
+                    {
+                        check += 1;
+                        afterStuff += $"{array[i].ToString()}";
+                        if (check == 5)
+                        {
+                            afterStuff += "**__0__**";
+                            times++;
+                            check = 0;
+                        }
+                    }
+                    else
+                    {
+                        afterStuff += $"{array[i].ToString()}";
                         check = 0;
                     }
                 }
-                else{
-                     afterStuff += $"{array[i].ToString()}";
-                    check = 0;
-                }
             }
-            }catch {
-                    afterStuff += $"{array[array.Length-1].ToString()}";
+            catch
+            {
+                afterStuff += $"{array[array.Length - 1].ToString()}";
             }
 
 
@@ -330,14 +344,15 @@ namespace OctoBot.Commands.PersonalCommands
             var embed = new EmbedBuilder();
             embed.WithColor(Color.Green);
             embed.AddField("Хм... что-бы это значило...", $"Before Stuffing: {number} - {number.Length} characters\n" +
-            $"After Stuffing: {afterStuff} - {afterStuff.Length-(times*8)} characters\n" +
-            $"After Framing: **01111110**{afterStuff}**01111110**");
+                                                          $"After Stuffing: {afterStuff} - {afterStuff.Length - (times * 8)} characters\n" +
+                                                          $"After Framing: **01111110**{afterStuff}**01111110**");
 
             await ReplyAsync("", false, embed.Build());
-            
+
 
         }
 
-        
+    
+
     }
 }
