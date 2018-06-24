@@ -1,16 +1,17 @@
 ﻿using System.Collections.Generic;
 using System.Net;
+using System.Runtime.CompilerServices;
 using System.Text;
+using Discord.Commands;
 using Newtonsoft.Json;
 
 namespace OctoBot.Commands.Translate
 {
     class TranslatorApi
     {
-        private const string ApiKey = "trnsl.1.1.20180618T205918Z.a763a99319f8542b.8fbf7a0020684168484aa3c4b66182def0f0d142";
-        private const string Endpoint = "https://translate.yandex.net/api/v1.5/tr.json/";
-
-        public static readonly Dictionary<string, string> Dictionary = new Dictionary<string, string>
+        private static readonly string ApiKey = "trnsl.1.1.20180618T205918Z.a763a99319f8542b.8fbf7a0020684168484aa3c4b66182def0f0d142";
+        private static readonly string Endpoint = "https://translate.yandex.net/api/v1.5/tr.json/";
+        public static readonly Dictionary<string, string> _dictionary = new Dictionary<string, string>
             {
                 {"af", "Afrikaans"},
                 {"am", "Amharic"},
@@ -109,7 +110,7 @@ namespace OctoBot.Commands.Translate
 
         public static string[] Translate(string toLang , string query)
         {
-            var searchUrl = $"{Endpoint}translate?key={ApiKey}&lang={toLang}&text={query}";
+            string searchUrl = $"{Endpoint}translate?key={ApiKey}&lang={toLang}&text={query}";
 
             string json;
             using (var client = new WebClient())
@@ -122,22 +123,22 @@ namespace OctoBot.Commands.Translate
 
             if (dataObject.code.ToString() != "200")
             {
-                return new[] {$"Failed to translate. Error code {dataObject.code}"};
+                return new string[] {$"Failed to translate. Error code {dataObject.code}"};
             }
 
-            var translatedFrom = Dictionary[(string)dataObject.lang.ToString().Split('-')[0]];
-            var translatedTo = Dictionary[(string)dataObject.lang.ToString().Split('-')[1]];
+            string translatedFrom = _dictionary[(string)dataObject.lang.ToString().Split('-')[0]];
+            string translatedTo = _dictionary[(string)dataObject.lang.ToString().Split('-')[1]];
 
 
             string translatedText = dataObject.text[0].ToString();
 
-            return new[] {translatedFrom, translatedTo, translatedText};
+            return new string[] {translatedFrom, translatedTo, translatedText};
 
         }
 
         public static string DetectLanguageCode(string query)
         {
-            var searchUrl = $"{Endpoint}detect?key={ApiKey}&text={query}";
+            string searchUrl = $"{Endpoint}detect?key={ApiKey}&text={query}";
 
             string json;
             using (var client = new WebClient())
@@ -152,14 +153,14 @@ namespace OctoBot.Commands.Translate
 
         public static string DetectLanguageName(string query)
         {
-            var shortForm = DetectLanguageCode(query);
+            string shortForm = DetectLanguageCode(query);
             
             if (string.IsNullOrEmpty(shortForm))
             {
                 return "Not Found";
             }
             
-            return Dictionary[shortForm];
+            return _dictionary[shortForm];
         }
 
     }

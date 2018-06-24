@@ -2,27 +2,16 @@
 using System.Threading.Tasks;
 using Discord;
 using Discord.Commands;
-using OctoBot.Handeling;
-using OctoBot.Services;
 
 namespace OctoBot.Commands.Translate
 {
 
-    public class Translate : ModuleBase<SocketCommandContextCustom>
+    public class Translate : ModuleBase<SocketCommandContext>
     {
         [Command("d")]
         public async Task DetecTask([Remainder] string query)
         {
-           
-            if (Context.MessegeContent228 != "edit")
-            {
-                await CommandHandeling.SendingMess(Context, null, null, $"{TranslatorApi.DetectLanguageName(query)}");
-  
-            }
-            else if(Context.MessegeContent228 == "edit")
-            {
-                await CommandHandeling.SendingMess(Context, null, "edit", $"{TranslatorApi.DetectLanguageName(query)}");
-            }
+            await ReplyAsync(TranslatorApi.DetectLanguageName(query));
         }
 
         [Command("translate")]
@@ -30,9 +19,9 @@ namespace OctoBot.Commands.Translate
         [Summary("Use `translate to-language` or `translate from-to`")]
         public async Task TrandlateTask(string toLang, [Remainder] string query)
         {
-            var dataStrings = TranslatorApi.Translate(toLang, query);
+            string[] dataStrings = TranslatorApi.Translate(toLang, query);
             var embed = new EmbedBuilder();
-            var rand = new Random();
+            Random rand = new Random();
             if (dataStrings.Length == 1)
             {
                 embed.WithDescription(dataStrings[0]);
@@ -44,15 +33,7 @@ namespace OctoBot.Commands.Translate
             }
 
             embed.WithColor(new Color(rand.Next(0, 256), rand.Next(0, 256), rand.Next(0, 256)));
-            if (Context.MessegeContent228 != "edit")
-            {
-                await CommandHandeling.SendingMess(Context, embed);
-  
-            }
-            else if(Context.MessegeContent228 == "edit")
-            {
-                await CommandHandeling.SendingMess(Context, embed, "edit");
-            }
+            await ReplyAsync("", false, embed.Build());
         }
     }
 

@@ -6,12 +6,10 @@ using System.Threading.Tasks;
 using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
-using OctoBot.Handeling;
-using OctoBot.Services;
 
 namespace OctoBot.Commands.PersonalCommands
 {
-    public class VollGaz : ModuleBase<SocketCommandContextCustom>
+    public class VollGaz : ModuleBase<SocketCommandContext>
     {
 
         [Command("Miserum")]
@@ -50,30 +48,14 @@ namespace OctoBot.Commands.PersonalCommands
                 embed.WithColor(color1Index, color2Index, color3Index);
                 embed.WithAuthor("MISERUM!");
                 embed.WithImageUrl("" + memeToPost);
-                if (Context.MessegeContent228 != "edit")
-                {
-                    await CommandHandeling.SendingMess(Context, embed);
-  
-                }
-                else if(Context.MessegeContent228 == "edit")
-                {
-                    await CommandHandeling.SendingMess(Context, embed, "edit");
-                }
+                await Context.Channel.SendMessageAsync("", false, embed.Build());
 
             }
             else
             {
                 var embed = new EmbedBuilder();
                 embed.WithImageUrl("https://i.imgur.com/wt8EN8R.jpg");
-                if (Context.MessegeContent228 != "edit")
-                {
-                    await CommandHandeling.SendingMess(Context, embed);
-  
-                }
-                else if(Context.MessegeContent228 == "edit")
-                {
-                    await CommandHandeling.SendingMess(Context, embed, "edit");
-                }
+                await Context.Channel.SendMessageAsync("", false, embed.Build());
             }
         }
 
@@ -98,29 +80,13 @@ namespace OctoBot.Commands.PersonalCommands
                 embed.WithColor(color1Index, color2Index, color3Index);
                 embed.WithAuthor("Фистурион Одобряет");
                 embed.WithImageUrl("" + url);
-                if (Context.MessegeContent228 != "edit")
-                {
-                    await CommandHandeling.SendingMess(Context, embed);
-  
-                }
-                else if(Context.MessegeContent228 == "edit")
-                {
-                    await CommandHandeling.SendingMess(Context, embed, "edit");
-                }
+                await Context.Channel.SendMessageAsync("", false, embed.Build());
             }
             else
             {
                 var embed = new EmbedBuilder();
                 embed.WithImageUrl("https://i.imgur.com/wt8EN8R.jpg");
-                if (Context.MessegeContent228 != "edit")
-                {
-                    await CommandHandeling.SendingMess(Context, embed);
-  
-                }
-                else if(Context.MessegeContent228 == "edit")
-                {
-                    await CommandHandeling.SendingMess(Context, embed, "edit");
-                }
+                await Context.Channel.SendMessageAsync("", false, embed.Build());
             }
         }
 
@@ -141,29 +107,13 @@ namespace OctoBot.Commands.PersonalCommands
                 embed.WithColor(color1Index, color2Index, color3Index);
 
                 embed.WithImageUrl("" + url);
-                if (Context.MessegeContent228 != "edit")
-                {
-                    await CommandHandeling.SendingMess(Context, embed);
-  
-                }
-                else if(Context.MessegeContent228 == "edit")
-                {
-                    await CommandHandeling.SendingMess(Context, embed, "edit");
-                }
+                await Context.Channel.SendMessageAsync("", false, embed.Build());
             }
             else
             {
                 var embed = new EmbedBuilder();
                 embed.WithImageUrl("https://i.imgur.com/wt8EN8R.jpg");
-                if (Context.MessegeContent228 != "edit")
-                {
-                    await CommandHandeling.SendingMess(Context, embed);
-  
-                }
-                else if(Context.MessegeContent228 == "edit")
-                {
-                    await CommandHandeling.SendingMess(Context, embed, "edit");
-                }
+                await Context.Channel.SendMessageAsync("", false, embed.Build());
             }
         }
 
@@ -185,29 +135,13 @@ namespace OctoBot.Commands.PersonalCommands
                 embed.WithColor(color1Index, color2Index, color3Index);
                 embed.WithAuthor("Oh yea");
                 embed.WithImageUrl("" + url);
-                if (Context.MessegeContent228 != "edit")
-                {
-                    await CommandHandeling.SendingMess(Context, embed);
-  
-                }
-                else if(Context.MessegeContent228 == "edit")
-                {
-                    await CommandHandeling.SendingMess(Context, embed, "edit");
-                }
+                await Context.Channel.SendMessageAsync("", false, embed.Build());
             }
             else
             {
                 var embed = new EmbedBuilder();
                 embed.WithImageUrl("https://i.imgur.com/wt8EN8R.jpg");
-                if (Context.MessegeContent228 != "edit")
-                {
-                    await CommandHandeling.SendingMess(Context, embed);
-  
-                }
-                else if(Context.MessegeContent228 == "edit")
-                {
-                    await CommandHandeling.SendingMess(Context, embed, "edit");
-                }
+                await Context.Channel.SendMessageAsync("", false, embed.Build());
             }
         }
 
@@ -227,15 +161,7 @@ namespace OctoBot.Commands.PersonalCommands
             embed.WithColor(color1Index, color2Index, color3Index);
             embed.WithAuthor("INCREDIBLIS");
             embed.WithImageUrl("" + url);
-            if (Context.MessegeContent228 != "edit")
-            {
-                await CommandHandeling.SendingMess(Context, embed);
-  
-            }
-            else if(Context.MessegeContent228 == "edit")
-            {
-                await CommandHandeling.SendingMess(Context, embed, "edit");
-            }
+            await Context.Channel.SendMessageAsync("", false, embed.Build());
 
         }
 
@@ -270,18 +196,7 @@ namespace OctoBot.Commands.PersonalCommands
                 }
             }
 
-           // await ReplyAsync(convertedText);
-
-            if (Context.MessegeContent228 != "edit")
-            {
-                await CommandHandeling.SendingMess(Context, null, null, convertedText);
-  
-            }
-            else if(Context.MessegeContent228 == "edit")
-            {
-               
-                await CommandHandeling.SendingMess(Context, null, "edit", convertedText);
-            }
+            await ReplyAsync(convertedText);
         }
 
         //var mumu = Emote.Parse("<:mumu:445277916872310785>");
@@ -383,7 +298,7 @@ namespace OctoBot.Commands.PersonalCommands
                     }
 
                     low = reminder + $"-{kek}";
-                       // Console.WriteLine($"bye== {low}");
+                    Console.WriteLine($"bye== {low}");
                     i = -1;
                      answer = 0;
                      numberString = "";
@@ -423,15 +338,7 @@ namespace OctoBot.Commands.PersonalCommands
                         {
                         
                             embed.AddField($"It's a **{answer}**!", $"{results}");
-                            if (Context.MessegeContent228 != "edit")
-                            {
-                                await CommandHandeling.SendingMess(Context, embed);
-  
-                            }
-                            else if(Context.MessegeContent228 == "edit")
-                            {
-                                await CommandHandeling.SendingMess(Context, embed, "edit");
-                            }
+                            await Context.Channel.SendMessageAsync("", false, embed.Build());
                             return;
                         }
 
@@ -515,16 +422,7 @@ namespace OctoBot.Commands.PersonalCommands
                     check++;
             } 
             }
-           
-            if (Context.MessegeContent228 != "edit")
-            {
-                await CommandHandeling.SendingMess(Context, null, null, $"It's a **{answer}**!");
-  
-            }
-            else if(Context.MessegeContent228 == "edit")
-            {
-                await CommandHandeling.SendingMess(Context, null, "edit", $"It's a **{answer}**!");
-            }
+            await ReplyAsync($"It's a **{answer}**!");
         }
        
 

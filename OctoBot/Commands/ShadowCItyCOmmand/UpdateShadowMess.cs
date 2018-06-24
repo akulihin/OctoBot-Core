@@ -4,12 +4,10 @@ using System.Threading.Tasks;
 using Discord;
 using Discord.Commands;
 using OctoBot.Configs;
-using OctoBot.Handeling;
-using OctoBot.Services;
 
 namespace OctoBot.Commands.ShadowCItyCOmmand
 {
-   public class UpdateShadowMess : ModuleBase<SocketCommandContextCustom>
+   public class UpdateShadowMess : ModuleBase<SocketCommandContext>
     {
           [Command("буль228")]
         public async Task Boole()
@@ -104,7 +102,7 @@ namespace OctoBot.Commands.ShadowCItyCOmmand
             var gacHiPride = Emote.Parse("<:gacHIPride:394782921749430273>");
             var pekaohmy = Emote.Parse("<:pekaohmy:374656330742497280>");
             var warframe = Emote.Parse("<:warframe:445467639242948618>");
-         // var nintendoswitch = Emote.Parse("<:nintendoswitch:447209827501080596>");
+         //   var nintendoswitch = Emote.Parse("<:nintendoswitch:447209827501080596>");
             
 
 
@@ -134,10 +132,6 @@ namespace OctoBot.Commands.ShadowCItyCOmmand
                                                       $"!warframe - симулятор фермера в космосе {new Emoji("<:warframe:445467639242948618>")}\n" +
                                                       $"**________**\n" +
                                                       $"Сделай сервер максимально удобным для себя! {new Emoji("<:pekaohmy:374656330742497280>")}");
-
-
-
-   
             
            var mess = await Context.Channel.SendMessageAsync("", false, embed.Build());
 
@@ -228,16 +222,7 @@ namespace OctoBot.Commands.ShadowCItyCOmmand
                         // embed propperly sometimes... I don't know why
                         // message.Content =  Constants.InvisibleString;
                     });
-              
-                if (Context.MessegeContent228 != "edit")
-                {
-                    await CommandHandeling.SendingMess(Context, null, null, "Бульк. Мы заапдейтили сообщение для рум!");
-  
-                }
-                else if(Context.MessegeContent228 == "edit")
-                {
-                    await CommandHandeling.SendingMess(Context, null, "edit", "Бульк. Мы заапдейтили сообщение для рум!");
-                }
+                await ReplyAsync("Бульк. Мы заапдейтили сообщение для рум!");
             }
             catch (Exception e)
             {
@@ -285,16 +270,7 @@ namespace OctoBot.Commands.ShadowCItyCOmmand
                           // embed propperly sometimes... I don't know why
                           // message.Content =  Constants.InvisibleString;
                       });
-                 
-                  if (Context.MessegeContent228 != "edit")
-                  {
-                      await CommandHandeling.SendingMess(Context, null, null, "Бульк. Мы заапдейтили сообщение для цветов!");
-  
-                  }
-                  else if(Context.MessegeContent228 == "edit")
-                  {
-                      await CommandHandeling.SendingMess(Context, null, "edit", "Бульк. Мы заапдейтили сообщение для цветов!");
-                  }
+                  await ReplyAsync("Бульк. Мы заапдейтили сообщение для цветов!");
               }
         catch (Exception e)
         {

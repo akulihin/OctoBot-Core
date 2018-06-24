@@ -5,11 +5,10 @@ using Discord.Commands;
 using Discord.WebSocket;
 using OctoBot.Configs.Users;
 using OctoBot.Handeling;
-using OctoBot.Services;
 
 namespace OctoBot.Commands
 {
-    public class UserCommand : ModuleBase<SocketCommandContextCustom>
+    public class UserCommand : ModuleBase<SocketCommandContext>
     {
         [Command("stats")]
         [Alias("статы")]
@@ -54,11 +53,11 @@ namespace OctoBot.Commands
             var octopuses = "";
             if (account.Octopuses != null)
             {
-                var octo = account.Octopuses.Split(new[] {'|'}, StringSplitOptions.RemoveEmptyEntries);
+                string[] octo = account.Octopuses.Split(new[] {'|'}, StringSplitOptions.RemoveEmptyEntries);
 
 
 
-                for (var i = 0; i < octo.Length; i++)
+                for (int i = 0; i < octo.Length; i++)
                 {
 
                     if (i == octo.Length - 1)
@@ -114,15 +113,7 @@ namespace OctoBot.Commands
             embed.WithThumbnailUrl($"{avatar}");
             //embed.AddField("Роли", ""+avatar);
 
-                if (Context.MessegeContent228 != "edit")
-                {
-                    await CommandHandeling.SendingMess(Context, embed);
-  
-                }
-                else if(Context.MessegeContent228 == "edit")
-                {
-                    await CommandHandeling.SendingMess(Context, embed, "edit");
-                }
+            await Context.Channel.SendMessageAsync("", false, embed.Build());
         }
         catch
         {
@@ -142,29 +133,11 @@ namespace OctoBot.Commands
                 var account = UserAccounts.GetAccount((SocketUser) user);
                 account.Rep += rep;
                 UserAccounts.SaveAccounts();
-
-                if (Context.MessegeContent228 != "edit")
-                {
-                    await CommandHandeling.SendingMess(Context, null, null,  $"{rep} Octo Reputation were credited, altogether {user.Mention} have {account.Rep} Octo Reputation!");
-  
-                }
-                else if(Context.MessegeContent228 == "edit")
-                {
-                    await CommandHandeling.SendingMess(Context, null, "edit",  $"{rep} Octo Reputation were credited, altogether {user.Mention} have {account.Rep} Octo Reputation!");
-                }
-
+                await Context.Channel.SendMessageAsync(
+                    $"{rep} Octo Reputation were credited, altogether {user.Mention} have {account.Rep} Octo Reputation!");
             }
             else
-              
-                if (Context.MessegeContent228 != "edit")
-                {
-                    await CommandHandeling.SendingMess(Context, null, null,  "Boole! You do not have a tolerance of this level!");
-  
-                }
-                else if(Context.MessegeContent228 == "edit")
-                {
-                    await CommandHandeling.SendingMess(Context, null, "edit",  "Boole! You do not have a tolerance of this level!");
-                }
+                await Context.Channel.SendMessageAsync("Boole! You do not have a tolerance of this level!");
             }
             catch
             {
@@ -187,28 +160,11 @@ namespace OctoBot.Commands
                 var account = UserAccounts.GetAccount((SocketUser) user);
                 account.Points += points;
                 UserAccounts.SaveAccounts();
-             
-
-                if (Context.MessegeContent228 != "edit")
-                {
-                    await CommandHandeling.SendingMess(Context, null, null,   $"{points} Octo Points were credited, altogether {user.Mention} have {account.Points} Octo Points!");
-  
-                }
-                else if(Context.MessegeContent228 == "edit")
-                {
-                    await CommandHandeling.SendingMess(Context, null, "edit",   $"{points} Octo Points were credited, altogether {user.Mention} have {account.Points} Octo Points!");
-                }
+                await Context.Channel.SendMessageAsync(
+                    $"{points} Octo Points were credited, altogether {user.Mention} have {account.Points} Octo Points!");
             }
             else
-            if (Context.MessegeContent228 != "edit")
-            {
-                await CommandHandeling.SendingMess(Context, null, null,  "Boole! You do not have a tolerance of this level!");
-  
-            }
-            else if(Context.MessegeContent228 == "edit")
-            {
-                await CommandHandeling.SendingMess(Context, null, "edit",  "Boole! You do not have a tolerance of this level!");
-            }
+                await Context.Channel.SendMessageAsync("Boole! You do not have a tolerance of this level!");
             }
             catch
             {
@@ -270,7 +226,7 @@ namespace OctoBot.Commands
 
 
 
-                    for (var i = 0; i < octo.Length; i++)
+                    for (int i = 0; i < octo.Length; i++)
                     {
 
                         if (i == octo.Length - 1)
@@ -327,25 +283,9 @@ namespace OctoBot.Commands
                     embed.AddField("Extra Nicknames", "" + usedNicks2);
                 embed.WithThumbnailUrl($"{avatar}");
 
-                if (Context.MessegeContent228 != "edit")
-                {
-                    await CommandHandeling.SendingMess(Context, embed);
-  
-                }
-                else if(Context.MessegeContent228 == "edit")
-                {
-                    await CommandHandeling.SendingMess(Context, embed, "edit");
-                }
+                await Context.Channel.SendMessageAsync("", false, embed.Build());
             }else
-            if (Context.MessegeContent228 != "edit")
-            {
-                await CommandHandeling.SendingMess(Context, null, null,  "Boole! You do not have a tolerance of this level!");
-  
-            }
-            else if(Context.MessegeContent228 == "edit")
-            {
-                await CommandHandeling.SendingMess(Context, null, "edit",  "Boole! You do not have a tolerance of this level!");
-            }
+                await Context.Channel.SendMessageAsync("Boole! You do not have a tolerance of this level!");
             }
             catch
             {
@@ -372,29 +312,11 @@ namespace OctoBot.Commands
                     account.OctoPass += 1;
                     account.Points -= cost;
                     UserAccounts.SaveAccounts();
-                   
-                    if (Context.MessegeContent228 != "edit")
-                    {
-                        await CommandHandeling.SendingMess(Context, null, null,   $"Booole! You've Got Access **#{account.OctoPass}**");
-  
-                    }
-                    else if(Context.MessegeContent228 == "edit")
-                    {
-                        await CommandHandeling.SendingMess(Context, null, "edit",   $"Booole! You've Got Access **#{account.OctoPass}**");
-                    }
+                    await Context.Channel.SendMessageAsync($"Booole! You've Got Access **#{account.OctoPass}**");
                 }
                 else
                 {
-                  
-                    if (Context.MessegeContent228 != "edit")
-                    {
-                        await CommandHandeling.SendingMess(Context, null, null,   "You should say `yes` или `Yes` in 6s to get the pass.");
-  
-                    }
-                    else if(Context.MessegeContent228 == "edit")
-                    {
-                        await CommandHandeling.SendingMess(Context, null, "edit",  "You should say `yes` или `Yes` in 6s to get the pass.");
-                    }
+                    await Context.Channel.SendMessageAsync("You should say `yes` или `Yes` in 6s to get the pass.");
                 }
             }
             else
@@ -434,16 +356,7 @@ namespace OctoBot.Commands
 
                 if (points <= 0)
                 {
-                    
-                    if (Context.MessegeContent228 != "edit")
-                    {
-                        await CommandHandeling.SendingMess(Context, null, null,   "You cannot send 0 or -number, boo!");
-  
-                    }
-                    else if(Context.MessegeContent228 == "edit")
-                    {
-                        await CommandHandeling.SendingMess(Context, null, "edit",  "You cannot send 0 or -number, boo!");
-                    }
+                    await Context.Channel.SendMessageAsync("You cannot send 0 or -number, boo!");
                     return;
                 }
 
@@ -463,42 +376,17 @@ namespace OctoBot.Commands
                     var toBank = (points * 1.1) - points;
                     bot.Points += (int) toBank;
                     UserAccounts.SaveAccounts();
-
-                    if (Context.MessegeContent228 != "edit")
-                    {
-                        await CommandHandeling.SendingMess(Context, null, null,   $"Was transferred{points}\n {user.Mention} now have {account.Points} Octo Points!\nyou have left {passCheck.Points}\ntaxes: {taxes}");
-  
-                    }
-                    else if(Context.MessegeContent228 == "edit")
-                    {
-                        await CommandHandeling.SendingMess(Context, null, "edit",  $"Was transferred{points}\n {user.Mention} now have {account.Points} Octo Points!\nyou have left {passCheck.Points}\ntaxes: {taxes}");
-                    }
+                    await Context.Channel.SendMessageAsync(
+                        $"Was transferred{points}\n {user.Mention} now have {account.Points} Octo Points!\nyou have left {passCheck.Points}\ntaxes: {taxes}");
 
                 }
                 else
-                    
-                if (Context.MessegeContent228 != "edit")
-                {
-                    await CommandHandeling.SendingMess(Context, null, null,   $"You do not have enough Octo Points to pass them.");
-  
-                }
-                else if(Context.MessegeContent228 == "edit")
-                {
-                    await CommandHandeling.SendingMess(Context, null, "edit",  $"You do not have enough Octo Points to pass them.");
-                }
+                    await Context.Channel.SendMessageAsync($"You do not have enough Octo Points to pass them.");
 
             }
             else
             {
-                if (Context.MessegeContent228 != "edit")
-                {
-                    await CommandHandeling.SendingMess(Context, null, null,  "Boole! You do not have a tolerance of this level!");
-  
-                }
-                else if(Context.MessegeContent228 == "edit")
-                {
-                    await CommandHandeling.SendingMess(Context, null, "edit",  "Boole! You do not have a tolerance of this level!");
-                }
+                await Context.Channel.SendMessageAsync("Boole! You do not have a tolerance of this level!");
             }
             }
             catch

@@ -239,7 +239,7 @@ namespace OctoBot.Commands
             embed.WithUrl("https://www.google.com");
             embed.WithDescription(message);
             embed.WithTimestamp(DateTime.UtcNow);
-                            if (Context.MessegeContent228 != "edit")
+            await Context.Channel.SendMessageAsync("", false, embed.Build());
 
         }
 
@@ -264,7 +264,7 @@ namespace OctoBot.Commands
             embed.AddField("First name", firstName);
             embed.AddField("Last name", lastName);
 
-                            if (Context.MessegeContent228 != "edit")
+            await Context.Channel.SendMessageAsync("", false, embed.Build());
         }
         */
 

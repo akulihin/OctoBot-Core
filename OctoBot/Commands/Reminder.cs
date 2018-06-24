@@ -8,47 +8,28 @@ using Discord.Commands;
 using Discord.WebSocket;
 using OctoBot.Configs;
 using OctoBot.Configs.Users;
-using OctoBot.Handeling;
-using OctoBot.Services;
 using static OctoBot.Configs.Users.AccountSettings;
 
 namespace OctoBot.Commands
 {
-    public class ReminderFormat
+    public class Reminder : ModuleBase<SocketCommandContext>
     {
-        public static string[] Formats =
-        {
-            // Used to parse stuff like 1d14h2m11s and 1d 14h 2m 11s could add/remove more if needed
 
-            "d'd'",
-            "d'd'm'm'", "d'd 'm'm'",
-            "d'd'h'h'", "d'd 'h'h'",
-            "d'd'h'h's's'", "d'd 'h'h 's's'",
-            "d'd'm'm's's'", "d'd 'm'm 's's'",
-            "d'd'h'h'm'm'", "d'd 'h'h 'm'm'",
-            "d'd'h'h'm'm's's'", "d'd 'h'h 'm'm 's's'",
 
-            "h'h'",
-            "h'h'm'm'", "h'h m'm'",
-            "h'h'm'm's's'", "h'h 'm'm 's's'",
-            "h'h's's'", "h'h s's'",
-            "h'h'm'm'", "h'h 'm'm'",
-            "h'h's's'", "h'h 's's'",
-
-            "m'm'",
-            "m'm's's'", "m'm 's's'",
-
-            "s's'"
-        };
-    }
-
-    public class Reminder : ModuleBase<SocketCommandContextCustom>
-    {
         [Command("Remind")]
         [Alias("Напомнить", "напомни мне", "напиши мне", "напомни", "алярм", " Напомнить", " напомни мне",
             " напиши мне", " напомни", " алярм", " Remind")]
         public async Task AddReminder([Remainder] string args)
         {
+            var acc = UserAccounts.GetAccount(Context.User);       
+            var difference = DateTime.UtcNow - acc.LastDailyPull;
+            Console.WriteLine(23 - (int) difference.TotalHours);
+            if (23 - (int) difference.TotalHours >= 23)
+            {
+                await ReplyAsync("буль.");
+                return;
+            }
+
             try {
             string[] splittedArgs = null;
 
@@ -64,44 +45,47 @@ namespace OctoBot.Commands
 
             if (splittedArgs == null || splittedArgs.Length < 2)
             {
-                const string bigmess = "boole-boole... you are using this command incorrectly!!\n" +
-                                       "Right way: `Remind [text] in [time]`\n" +
-                                       "Between message and time **HAVE TO BE** written `in` part" +
-                                       "(Time can be different, but follow the rules! **day-hour-minute-second**. You can skip any of those parts, but they have to be in the same order. One space or without it between each of the parts\n" +
-                                       "I'm a loving order octopus!";
-
-                if (Context.MessegeContent228 != "edit")
-                {
-                    await CommandHandeling.SendingMess(Context, null, null, bigmess);
-  
-                }
-                else if(Context.MessegeContent228 == "edit")
-                {
-                    await CommandHandeling.SendingMess(Context, null, "edit", bigmess);
-                }
+                await ReplyAsync("boole-boole... you are using this command incorrectly!!\n" +
+                                 "Right way: `Remind [text] in [time]`\n" +
+                                 "Between message and time **HAVE TO BE** written `in` part" +
+                                 "(Time can be different, but follow the rules! **day-hour-minute-second**. You can skip any of those parts, but they have to be in the same order. One space or without it between each of the parts\n" +
+                                 "I'm a loving order octopus!");
                 return;
             }
 
             var timeString = splittedArgs[splittedArgs.Length - 1];
             splittedArgs[splittedArgs.Length - 1] = "";
             var reminderString = string.Join(" in ", splittedArgs, 0, splittedArgs.Length - 1);
-            
-            var timeDateTime = DateTime.UtcNow + TimeSpan.ParseExact(timeString, ReminderFormat.Formats, CultureInfo.CurrentCulture);
+            string[] formats =
+            {
+                // Used to parse stuff like 1d14h2m11s and 1d 14h 2m 11s could add/remove more if needed
 
-           var bigmess2 = $"Розовая черепашка напомнит тебе:\n" +
+                "d'd'",
+                "d'd'm'm'", "d'd 'm'm'",
+                "d'd'h'h'", "d'd 'h'h'",
+                "d'd'h'h's's'", "d'd 'h'h 's's'",
+                "d'd'm'm's's'", "d'd 'm'm 's's'",
+                "d'd'h'h'm'm'", "d'd 'h'h 'm'm'",
+                "d'd'h'h'm'm's's'", "d'd 'h'h 'm'm 's's'",
+
+                "h'h'",
+                "h'h'm'm'", "h'h m'm'",
+                "h'h'm'm's's'", "h'h 'm'm 's's'",
+                "h'h's's'", "h'h s's'",
+                "h'h'm'm'", "h'h 'm'm'",
+                "h'h's's'", "h'h 's's'",
+
+                "m'm'",
+                "m'm's's'", "m'm 's's'",
+
+                "s's'"
+            };
+            var timeDateTime = DateTime.UtcNow + TimeSpan.ParseExact(timeString, formats, CultureInfo.CurrentCulture);
+
+            await Context.Channel.SendMessageAsync($"Розовая черепашка напомнит тебе:\n" +
                                                    $"*{reminderString}*\n\n" +
                                                    $"We will send you a DM in  __**{timeDateTime}**__ `by UTC`\n" +
-                                                   $"**Time Now:                  {DateTime.UtcNow}** `by UTC`";
-              
-                if (Context.MessegeContent228 != "edit")
-                {
-                    await CommandHandeling.SendingMess(Context, null, null, bigmess2);
-  
-                }
-                else if(Context.MessegeContent228 == "edit")
-                {
-                    await CommandHandeling.SendingMess(Context, null, "edit", bigmess2);
-                }
+                                                   $"**Time Now:                  {DateTime.UtcNow}** `by UTC`");
 
             var account = UserAccounts.GetAccount(Context.User);
             var newReminder = new CreateReminder(timeDateTime, reminderString);
@@ -120,20 +104,18 @@ namespace OctoBot.Commands
         [Command("Re")]
         public async Task AddReminderMinute(uint minute, [Remainder] string reminderString)
         {
+            var acc = UserAccounts.GetAccount(Context.User);       
+            var difference = DateTime.UtcNow - acc.LastDailyPull;
+            if (23 - (int) difference.TotalHours >= 23)
+            {
+                await ReplyAsync("буль.");
+                return;
+            }
             try {
             if (minute > 1439)
             {
-
-                if (Context.MessegeContent228 != "edit")
-                {
-                    await CommandHandeling.SendingMess(Context, null, null,  "Booole. [time] have to be in range 0-1439 (in minutes)");
-  
-                }
-                else if(Context.MessegeContent228 == "edit")
-                {
-                    await CommandHandeling.SendingMess(Context, null, "edit",  "Booole. [time] have to be in range 0-1439 (in minutes)");
-                }
-
+                await Context.Channel.SendMessageAsync(
+                    "Booole. [time] have to be in range 0-1439 (in minutes)");
                 return;
 
             }
@@ -157,21 +139,36 @@ namespace OctoBot.Commands
 
             var timeString = timeFormat; //// MAde t ominutes
 
-            var timeDateTime = DateTime.UtcNow + TimeSpan.ParseExact(timeString, ReminderFormat.Formats, CultureInfo.CurrentCulture);
+            string[] formats =
+            {
+                // Used to parse stuff like 1d14h2m11s and 1d 14h 2m 11s could add/remove more if needed
 
-            var bigmess = $"An Octopus will remind you\n" +
+                "d'd'",
+                "d'd'm'm'", "d'd 'm'm'",
+                "d'd'h'h'", "d'd 'h'h'",
+                "d'd'h'h's's'", "d'd 'h'h 's's'",
+                "d'd'm'm's's'", "d'd 'm'm 's's'",
+                "d'd'h'h'm'm'", "d'd 'h'h 'm'm'",
+                "d'd'h'h'm'm's's'", "d'd 'h'h 'm'm 's's'",
+
+                "h'h'",
+                "h'h'm'm'", "h'h m'm'",
+                "h'h'm'm's's'", "h'h 'm'm 's's'",
+                "h'h's's'", "h'h s's'",
+                "h'h'm'm'", "h'h 'm'm'",
+                "h'h's's'", "h'h 's's'",
+
+                "m'm'",
+                "m'm's's'", "m'm 's's'",
+
+                "s's'"
+            };
+            var timeDateTime = DateTime.UtcNow + TimeSpan.ParseExact(timeString, formats, CultureInfo.CurrentCulture);
+
+            await Context.Channel.SendMessageAsync($"An Octopus will remind you\n" +
                                                    $"*{reminderString}*\n\n" +
                                                    $"We will send you a DM in  __**{timeDateTime}**__ `by UTC`\n" +
-                                                   $"**Time Now:                                {DateTime.UtcNow}** `by UTC`";
-                if (Context.MessegeContent228 != "edit")
-                {
-                    await CommandHandeling.SendingMess(Context, null, null,  bigmess);
-  
-                }
-                else if(Context.MessegeContent228 == "edit")
-                {
-                    await CommandHandeling.SendingMess(Context, null, "edit",  bigmess);
-                }
+                                                   $"**Time Now:                                {DateTime.UtcNow}** `by UTC`");
 
             var account = UserAccounts.GetAccount(Context.User);
             //account.SocketUser = SocketGuildUser(Context.User);
@@ -193,7 +190,13 @@ namespace OctoBot.Commands
             " напиши мне", " напомни", " алярм", " Remind", "Remind")]
         public async Task AddReminderToSomeOne(ulong userId, [Remainder] string args)
         {
-
+            var acc = UserAccounts.GetAccount(Context.User);       
+            var difference = DateTime.UtcNow - acc.LastDailyPull;
+            if (23 - (int) difference.TotalHours >= 23)
+            {
+                await ReplyAsync("буль.");
+                return;
+            }
             try{
             //       var commander = UserAccounts.GetAccount(Context.User);
 
@@ -211,44 +214,51 @@ namespace OctoBot.Commands
 
             if (splittedArgs == null || splittedArgs.Length < 2)
             {
-                var bigmess = "boole-boole... you are using this command incorrectly!!\n" +
+                await ReplyAsync("boole-boole... you are using this command incorrectly!!\n" +
                                  "Right way: `Remind [text] in [time]`\n" +
                                  "Between message and time **HAVE TO BE** written `in` part" +
                                  "(Time can be different, but follow the rules! **day-hour-minute-second**. You can skip any of those parts, but they have to be in the same order. One space or without it between each of the parts\n" +
-                                 "I'm a loving order octopus!";
-                if (Context.MessegeContent228 != "edit")
-                {
-                    await CommandHandeling.SendingMess(Context, null, null,  bigmess);
-  
-                }
-                else if(Context.MessegeContent228 == "edit")
-                {
-                    await CommandHandeling.SendingMess(Context, null, "edit",  bigmess);
-                }
+                                 "I'm a loving order octopus!");
                 return;
             }
 
             var timeString = splittedArgs[splittedArgs.Length - 1];
             splittedArgs[splittedArgs.Length - 1] = "";
             var reminderString = string.Join(" in ", splittedArgs, 0, splittedArgs.Length - 1);
+            string[] formats =
+            {
+                // Used to parse stuff like 1d14h2m11s and 1d 14h 2m 11s could add/remove more if needed
+
+                "d'd'",
+                "d'd'm'm'", "d'd 'm'm'",
+                "d'd'h'h'", "d'd 'h'h'",
+                "d'd'h'h's's'", "d'd 'h'h 's's'",
+                "d'd'm'm's's'", "d'd 'm'm 's's'",
+                "d'd'h'h'm'm'", "d'd 'h'h 'm'm'",
+                "d'd'h'h'm'm's's'", "d'd 'h'h 'm'm 's's'",
+
+                "h'h'",
+                "h'h'm'm'", "h'h m'm'",
+                "h'h'm'm's's'", "h'h 'm'm 's's'",
+                "h'h's's'", "h'h s's'",
+                "h'h'm'm'", "h'h 'm'm'",
+                "h'h's's'", "h'h 's's'",
+
+                "m'm'",
+                "m'm's's'", "m'm 's's'",
+
+                "s's'"
+
+            };
             var timeDateTime =
-                DateTime.UtcNow + TimeSpan.ParseExact(timeString, ReminderFormat.Formats, CultureInfo.CurrentCulture);
+                DateTime.UtcNow + TimeSpan.ParseExact(timeString, formats, CultureInfo.CurrentCulture);
 
             var user = Global.Client.GetUser(userId);
 
-            var bigmess2 = $"An Octopus will remind {user.Mention}\n" +
+            await Context.Channel.SendMessageAsync($"An Octopus will remind {user.Mention}\n" +
                                                    $"*{reminderString}*\n\n" +
                                                    $"We will send him a DM in  __**{timeDateTime}**__ `by UTC`\n" +
-                                                   $"**Time Now:                                {DateTime.UtcNow}** `by UTC`";
-                if (Context.MessegeContent228 != "edit")
-                {
-                    await CommandHandeling.SendingMess(Context, null, null,  bigmess2);
-  
-                }
-                else if(Context.MessegeContent228 == "edit")
-                {
-                    await CommandHandeling.SendingMess(Context, null, "edit",  bigmess2);
-                }
+                                                   $"**Time Now:                                {DateTime.UtcNow}** `by UTC`");
 
             var account = UserAccounts.GetAccount(user);
             var newReminder = new CreateReminder(timeDateTime, $"From {Context.User.Username}: " + reminderString);
@@ -271,19 +281,10 @@ namespace OctoBot.Commands
             var account = UserAccounts.GetAccount(Context.User);
             if (account.ReminderList.Count == 0)
             {
-                var bigmess =
+                await ReplyAsync(
                     "Booole... You have no reminders! You can create one by using the command `Remind [text] in [time]`\n" +
                     "(Time can be different, but follow the rules! **day-hour-minute-second**. You can skip any of those parts, but they have to be in the same order. One space or without it between each of the parts\n" +
-                    "I'm a loving order octopus!";
-                if (Context.MessegeContent228 != "edit")
-                {
-                    await CommandHandeling.SendingMess(Context, null, null,  bigmess);
-  
-                }
-                else if(Context.MessegeContent228 == "edit")
-                {
-                    await CommandHandeling.SendingMess(Context, null, "edit",  bigmess);
-                }
+                    "I'm a loving order octopus!");
                 return;
 
             }
@@ -300,15 +301,7 @@ namespace OctoBot.Commands
                 embed.AddField($"[{i + 1}] {reminders[i].DateToPost:f}", reminders[i].ReminderMessage, true);
             }
 
-                if (Context.MessegeContent228 != "edit")
-                {
-                    await CommandHandeling.SendingMess(Context, embed);
-  
-                }
-                else if(Context.MessegeContent228 == "edit")
-                {
-                    await CommandHandeling.SendingMess(Context, embed, "edit");
-                }
+            await ReplyAsync("", false, embed.Build());
             }
             catch
             {
@@ -329,19 +322,10 @@ namespace OctoBot.Commands
                 var account = UserAccounts.GetAccount(user);
                 if (account.ReminderList.Count == 0)
                 {
-                    var bigmess =
+                    await ReplyAsync(
                     "Booole... You have no reminders! You can create one by using the command `Remind [text] in [time]`\n" +
                         "(Time can be different, but follow the rules! **day-hour-minute-second**. You can skip any of those parts, but they have to be in the same order. One space or without it between each of the parts\n" +
-                        "I'm a loving order octopus!";
-                    if (Context.MessegeContent228 != "edit")
-                    {
-                        await CommandHandeling.SendingMess(Context, null, null,  bigmess);
-  
-                    }
-                    else if(Context.MessegeContent228 == "edit")
-                    {
-                        await CommandHandeling.SendingMess(Context, null, "edit",  bigmess);
-                    }
+                        "I'm a loving order octopus!");
                     return;
 
                 }
@@ -358,15 +342,7 @@ namespace OctoBot.Commands
                     embed.AddField($"[{i + 1}] {reminders[i].DateToPost:f}", reminders[i].ReminderMessage, true);
                 }
 
-                if (Context.MessegeContent228 != "edit")
-                {
-                    await CommandHandeling.SendingMess(Context, embed);
-  
-                }
-                else if(Context.MessegeContent228 == "edit")
-                {
-                    await CommandHandeling.SendingMess(Context, embed, "edit");
-                }
+                await ReplyAsync("", false, embed.Build());
 
             }
             else
@@ -401,18 +377,9 @@ namespace OctoBot.Commands
                 return;
             }
 
-           var bigmess =
+            await Context.Channel.SendMessageAsync(
                 $"Booole...We could not find this reminder, could there be an error?\n" +
-                $"Try to see all of your reminders through the command `list`";
-                if (Context.MessegeContent228 != "edit")
-                {
-                    await CommandHandeling.SendingMess(Context, null, null,  bigmess);
-  
-                }
-                else if(Context.MessegeContent228 == "edit")
-                {
-                    await CommandHandeling.SendingMess(Context, null, "edit",  bigmess);
-                }
+                $"Try to see all of your reminders through the command `list`");
             }
             catch
             {
@@ -426,16 +393,7 @@ namespace OctoBot.Commands
         public async Task CheckTime()
         {
             try {
-            var bigmess = $"**UTC Current Time: {DateTime.UtcNow}**";
-                if (Context.MessegeContent228 != "edit")
-                {
-                    await CommandHandeling.SendingMess(Context, null, null,  bigmess);
-  
-                }
-                else if(Context.MessegeContent228 == "edit")
-                {
-                    await CommandHandeling.SendingMess(Context, null, "edit",  bigmess);
-                }
+            await ReplyAsync($"**UTC Current Time: {DateTime.UtcNow}**");
             }
             catch
             {

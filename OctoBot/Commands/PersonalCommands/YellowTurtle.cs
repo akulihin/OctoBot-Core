@@ -8,11 +8,10 @@ using Discord.Commands;
 using Discord.WebSocket;
 using OctoBot.Configs;
 using OctoBot.Configs.Users;
-using OctoBot.Services;
 
 namespace OctoBot.Commands.PersonalCommands
 {
-    public class YellowTurtle : ModuleBase<SocketCommandContextCustom>
+    public class YellowTurtle : ModuleBase<SocketCommandContext>
     {
 
 
