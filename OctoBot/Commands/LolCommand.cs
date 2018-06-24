@@ -3,10 +3,12 @@ using System.Threading.Tasks;
 using Discord;
 using Discord.Commands;
 using OctoBot.Configs.Users;
+using OctoBot.Handeling;
+using OctoBot.Services;
 
 namespace OctoBot.Commands
 {
-  public class LoL : ModuleBase<SocketCommandContext>
+  public class LoL : ModuleBase<SocketCommandContextCustom>
     {
         [Command("я проиграл")]
         [Alias("я проиграла", "я проиграл.", "я проиграла.", "я проиграл...", "я проиграл..", "я проиграла...")]
@@ -27,7 +29,15 @@ namespace OctoBot.Commands
                 embed.WithTitle("Оппа, первопроходец!");
                 embed.WithDescription($"Ты впервые проиграл!");
 
-                await Context.Channel.SendMessageAsync("", false, embed.Build());
+                if (Context.MessegeContent228 != "edit")
+                {
+                    await CommandHandeling.SendingMess(Context, embed);
+  
+                }
+                else if(Context.MessegeContent228 == "edit")
+                {
+                    await CommandHandeling.SendingMess(Context, embed, "edit");
+                }
             }
             else
             {
@@ -41,7 +51,15 @@ namespace OctoBot.Commands
                 else
                     embed.WithDescription($"Это уже в {account.Lost}й раз...");
 
-                await Context.Channel.SendMessageAsync("", false, embed.Build());
+                if (Context.MessegeContent228 != "edit")
+                {
+                    await CommandHandeling.SendingMess(Context, embed);
+  
+                }
+                else if(Context.MessegeContent228 == "edit")
+                {
+                    await CommandHandeling.SendingMess(Context, embed, "edit");
+                }
             }  
         }
 
@@ -72,7 +90,15 @@ namespace OctoBot.Commands
             await Context.Channel.SendMessageAsync("КЕНЧ!");
             var embed = new EmbedBuilder();
             embed.WithImageUrl($"{thamKenchToPost}");
-            await Context.Channel.SendMessageAsync("", false, embed.Build());
+            if (Context.MessegeContent228 != "edit")
+            {
+                await CommandHandeling.SendingMess(Context, embed);
+  
+            }
+            else if(Context.MessegeContent228 == "edit")
+            {
+                await CommandHandeling.SendingMess(Context, embed, "edit");
+            }
 
         }
 
@@ -89,7 +115,15 @@ namespace OctoBot.Commands
             await Context.Channel.SendMessageAsync("КЕНЧ!");
             var embed = new EmbedBuilder();
             embed.WithImageUrl($"{thamKenchToPost}");
-            await Context.Channel.SendMessageAsync("", false, embed.Build());
+            if (Context.MessegeContent228 != "edit")
+            {
+                await CommandHandeling.SendingMess(Context, embed);
+  
+            }
+            else if(Context.MessegeContent228 == "edit")
+            {
+                await CommandHandeling.SendingMess(Context, embed, "edit");
+            }
 
         }
 
@@ -102,7 +136,15 @@ namespace OctoBot.Commands
             embed.WithImageUrl("https://media.discordapp.net/attachments/238416197337481217/436790640861511691/--2oOzEe8RI.png");
             embed.WithTitle("10 заповедей бога лола");
 
-            await Context.Channel.SendMessageAsync("", false, embed.Build());
+            if (Context.MessegeContent228 != "edit")
+            {
+                await CommandHandeling.SendingMess(Context, embed);
+  
+            }
+            else if(Context.MessegeContent228 == "edit")
+            {
+                await CommandHandeling.SendingMess(Context, embed, "edit");
+            }
         }
 
        

@@ -7,10 +7,12 @@ using Discord.Commands;
 using Discord.WebSocket;
 using OctoBot.Configs;
 using OctoBot.Configs.Users;
+using OctoBot.Handeling;
+using OctoBot.Services;
 
 namespace OctoBot.Commands
 {
-    public class Managing : ModuleBase<SocketCommandContext>
+    public class Managing : ModuleBase<SocketCommandContextCustom>
     {
         private static readonly SocketTextChannel LogTextChannel =
             Global.Client.GetGuild(375104801018609665).GetTextChannel(454435962089373696);
@@ -33,7 +35,16 @@ namespace OctoBot.Commands
                 await LogTextChannel.SendMessageAsync("", false, embed.Build());
             }
             else
-                await Context.Channel.SendMessageAsync("Boole! You do not have a tolerance of this level!");
+              
+                if (Context.MessegeContent228 != "edit")
+                {
+                    await CommandHandeling.SendingMess(Context, null, null, "Boole! You do not have a tolerance of this level!");
+  
+                }
+                else if(Context.MessegeContent228 == "edit")
+                {
+                    await CommandHandeling.SendingMess(Context, null, "edit", "Boole! You do not have a tolerance of this level!");
+                }
             }
             catch
             {
@@ -55,7 +66,16 @@ namespace OctoBot.Commands
             var account = UserAccounts.GetAccount((SocketUser)user);
             account.Warnings += $"{time} {Context.User}: [warn]" + message + "|";
             UserAccounts.SaveAccounts();
-            await Context.Channel.SendMessageAsync(user.Mention + " Was Forewarned");
+           
+                if (Context.MessegeContent228 != "edit")
+                {
+                    await CommandHandeling.SendingMess(Context, null, null, user.Mention + " Was Forewarned");
+  
+                }
+                else if(Context.MessegeContent228 == "edit")
+                {
+                    await CommandHandeling.SendingMess(Context, null, "edit", user.Mention + " Was Forewarned");
+                }
 
                 var embed = new EmbedBuilder()
                     .WithColor(Color.DarkRed)
@@ -65,7 +85,15 @@ namespace OctoBot.Commands
                 await LogTextChannel.SendMessageAsync("", false, embed.Build());
             }
             else
-                await Context.Channel.SendMessageAsync("Boole! You do not have a tolerance of this level!");
+            if (Context.MessegeContent228 != "edit")
+            {
+                await CommandHandeling.SendingMess(Context, null, null, "Boole! You do not have a tolerance of this level!");
+  
+            }
+            else if(Context.MessegeContent228 == "edit")
+            {
+                await CommandHandeling.SendingMess(Context, null, "edit", "Boole! You do not have a tolerance of this level!");
+            }
             }
             catch
             {
@@ -126,19 +154,6 @@ namespace OctoBot.Commands
             }
         }
 
-        [Command("sleep")]
-        public async Task SleepMode(double time)
-        {
-            var comander = UserAccounts.GetAccount(Context.User);
-            if (comander.OctoPass >= 10000)
-            {
-            time = TimeSpan.FromMinutes(time).TotalMilliseconds;
-            await Context.Channel.SendMessageAsync("Бууууль, спааатки");
-            await Task.Delay((int)time);
-            }
-            else
-                await Context.Channel.SendMessageAsync("Boole! You do not have a tolerance of this level!");
-        }
 
         [Command("mute")]
         public async Task MuteCommand(SocketGuildUser user, uint minute, [Remainder]string warningMess)
@@ -169,31 +184,7 @@ namespace OctoBot.Commands
 
             var timeString = timeFormat; //// MAde t ominutes
 
-            string[] formats =
-            {
-                // Used to parse stuff like 1d14h2m11s and 1d 14h 2m 11s could add/remove more if needed
-
-                "d'd'",
-                "d'd'm'm'", "d'd 'm'm'",
-                "d'd'h'h'", "d'd 'h'h'",
-                "d'd'h'h's's'", "d'd 'h'h 's's'",
-                "d'd'm'm's's'", "d'd 'm'm 's's'",
-                "d'd'h'h'm'm'", "d'd 'h'h 'm'm'",
-                "d'd'h'h'm'm's's'", "d'd 'h'h 'm'm 's's'",
-
-                "h'h'",
-                "h'h'm'm'", "h'h m'm'",
-                "h'h'm'm's's'", "h'h 'm'm 's's'",
-                "h'h's's'", "h'h s's'",
-                "h'h'm'm'", "h'h 'm'm'",
-                "h'h's's'", "h'h 's's'",
-
-                "m'm'",
-                "m'm's's'", "m'm 's's'",
-
-                "s's'"
-            };
-            var timeDateTime = DateTime.UtcNow + TimeSpan.ParseExact(timeString, formats, CultureInfo.CurrentCulture);
+            var timeDateTime = DateTime.UtcNow + TimeSpan.ParseExact(timeString, ReminderFormat.Formats, CultureInfo.CurrentCulture);
 
                   var roleToGive = Global.Client.GetGuild(Context.Guild.Id).Roles
                       .SingleOrDefault(x => x.Name.ToString() == "Muted");
@@ -203,7 +194,17 @@ namespace OctoBot.Commands
                   var time = DateTime.Now.ToString("");
             account.Warnings += $"{time} {Context.User}: [mute]" + warningMess + "|";
             UserAccounts.SaveAccounts();
-               await ReplyAsync($"{user.Mention} бу!");
+
+              
+                  if (Context.MessegeContent228 != "edit")
+                  {
+                      await CommandHandeling.SendingMess(Context, null, null, $"{user.Mention} бу!");
+  
+                  }
+                  else if(Context.MessegeContent228 == "edit")
+                  {
+                      await CommandHandeling.SendingMess(Context, null, "edit", $"{user.Mention} бу!");
+                  }
               }
             catch
             {
@@ -226,7 +227,16 @@ namespace OctoBot.Commands
             account.MuteTimer = Convert.ToDateTime("0001-01-01T00:00:00");
             UserAccounts.SaveAccounts();
 
-            await ReplyAsync("как хочешь, буль...");
+            
+            if (Context.MessegeContent228 != "edit")
+            {
+                await CommandHandeling.SendingMess(Context, null, null, "как хочешь, буль...");
+  
+            }
+            else if(Context.MessegeContent228 == "edit")
+            {
+                await CommandHandeling.SendingMess(Context, null, "edit", "как хочешь, буль...");
+            }
         }
     }
 }

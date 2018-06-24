@@ -5,10 +5,12 @@ using Discord;
 using Discord.Commands;
 using OctoBot.Configs;
 using OctoBot.Configs.Users;
+using OctoBot.Handeling;
+using OctoBot.Services;
 
 namespace OctoBot.Commands
 {
-   public class Top : ModuleBase<SocketCommandContext>
+   public class Top : ModuleBase<SocketCommandContextCustom>
     {
         [Command("topo")]
         [Alias("topp")]
@@ -17,7 +19,16 @@ namespace OctoBot.Commands
             try {
             if (page < 1)
             {
-                await ReplyAsync("Are you fucking sure about that?");
+                
+                if (Context.MessegeContent228 != "edit")
+                {
+                    await CommandHandeling.SendingMess(Context, null, null,  "Are you fucking sure about that?");
+  
+                }
+                else if(Context.MessegeContent228 == "edit")
+                {
+                    await CommandHandeling.SendingMess(Context, null, "edit",  "Are you fucking sure about that?");
+                }
                 return;
             }
 
@@ -30,7 +41,16 @@ namespace OctoBot.Commands
             var lastPage = 1 + (accounts.Count / (usersPerPage+1));
             if (page > lastPage)
             {
-                await ReplyAsync($"Boole. Last Page is {lastPage}");
+                
+                if (Context.MessegeContent228 != "edit")
+                {
+                    await CommandHandeling.SendingMess(Context, null, null, $"Boole. Last Page is {lastPage}");
+  
+                }
+                else if(Context.MessegeContent228 == "edit")
+                {
+                    await CommandHandeling.SendingMess(Context, null, "edit", $"Boole. Last Page is {lastPage}");
+                }
                 return;
             }
        
@@ -57,7 +77,16 @@ namespace OctoBot.Commands
                    embB.AddField($"#{i + usersPerPage * page} {user.Username}", $"{account.Points} OctoPoints", true);
             }
 
-            await ReplyAsync("", false, embB.Build());
+           
+                if (Context.MessegeContent228 != "edit")
+                {
+                    await CommandHandeling.SendingMess(Context, embB);
+  
+                }
+                else if(Context.MessegeContent228 == "edit")
+                {
+                    await CommandHandeling.SendingMess(Context, embB, "edit");
+                }
             }
             catch
             {
@@ -71,7 +100,15 @@ namespace OctoBot.Commands
             try {
             if (page < 1)
             {
-                await ReplyAsync("Are you fucking sure about that?");
+                if (Context.MessegeContent228 != "edit")
+                {
+                    await CommandHandeling.SendingMess(Context, null, null,  "Are you fucking sure about that?");
+  
+                }
+                else if(Context.MessegeContent228 == "edit")
+                {
+                    await CommandHandeling.SendingMess(Context, null, "edit",  "Are you fucking sure about that?");
+                }
                 return;
             }
 
@@ -83,7 +120,15 @@ namespace OctoBot.Commands
             var lastPage = 1 + (accounts.Count / (usersPerPage+1));
             if (page > lastPage)
             {
-                await ReplyAsync($"Boole. Last Page is {lastPage}");
+                if (Context.MessegeContent228 != "edit")
+                {
+                    await CommandHandeling.SendingMess(Context, null, null, $"Boole. Last Page is {lastPage}");
+  
+                }
+                else if(Context.MessegeContent228 == "edit")
+                {
+                    await CommandHandeling.SendingMess(Context, null, "edit", $"Boole. Last Page is {lastPage}");
+                }
                 return;
             }
 
@@ -124,7 +169,15 @@ namespace OctoBot.Commands
              embB.AddField($"#{i + usersPerPage * page} {user.Username}", $"{size} Subscribers", true);
             }
             
-            await ReplyAsync("", false, embB.Build());
+                if (Context.MessegeContent228 != "edit")
+                {
+                    await CommandHandeling.SendingMess(Context, embB);
+  
+                }
+                else if(Context.MessegeContent228 == "edit")
+                {
+                    await CommandHandeling.SendingMess(Context, embB, "edit");
+                }
             }
             catch
             {
@@ -139,7 +192,15 @@ namespace OctoBot.Commands
             try {
             if (page < 1)
             {
-                await ReplyAsync("Are you fucking sure about that?");
+                if (Context.MessegeContent228 != "edit")
+                {
+                    await CommandHandeling.SendingMess(Context, null, null,  "Are you fucking sure about that?");
+  
+                }
+                else if(Context.MessegeContent228 == "edit")
+                {
+                    await CommandHandeling.SendingMess(Context, null, "edit",  "Are you fucking sure about that?");
+                }
                 return;
             }
 
@@ -160,7 +221,16 @@ namespace OctoBot.Commands
             var lastPage = 1 + (accounts.Count / (usersPerPage+1));
             if (page > lastPage)
             {
-                await ReplyAsync($"Boole. Last Page is {lastPage}");
+               
+                if (Context.MessegeContent228 != "edit")
+                {
+                    await CommandHandeling.SendingMess(Context, null, null, $"Boole. Last Page is {lastPage}");
+  
+                }
+                else if(Context.MessegeContent228 == "edit")
+                {
+                    await CommandHandeling.SendingMess(Context, null, "edit", $"Boole. Last Page is {lastPage}");
+                }
                 return;
             }
        
@@ -186,7 +256,15 @@ namespace OctoBot.Commands
                 embB.AddField($"#{i + usersPerPage * page} {user.Username}", $"{Math.Round(account.Lvl, 2)} LVL", true);
             }
 
-            await ReplyAsync("", false, embB.Build());
+                if (Context.MessegeContent228 != "edit")
+                {
+                    await CommandHandeling.SendingMess(Context, embB);
+  
+                }
+                else if(Context.MessegeContent228 == "edit")
+                {
+                    await CommandHandeling.SendingMess(Context, embB, "edit");
+                }
             }
             catch
             {
@@ -201,7 +279,15 @@ namespace OctoBot.Commands
             try {
             if (page < 1)
             {
-                await ReplyAsync("Are you fucking sure about that?");
+                if (Context.MessegeContent228 != "edit")
+                {
+                    await CommandHandeling.SendingMess(Context, null, null,  "Are you fucking sure about that?");
+  
+                }
+                else if(Context.MessegeContent228 == "edit")
+                {
+                    await CommandHandeling.SendingMess(Context, null, "edit",  "Are you fucking sure about that?");
+                }
                 return;
             }
 
@@ -230,7 +316,15 @@ namespace OctoBot.Commands
             var lastPage = 1 + (accounts.Count / (usersPerPage+1));
             if (page > lastPage)
             {
-                await ReplyAsync($"Boole. Last Page is {lastPage}");
+                if (Context.MessegeContent228 != "edit")
+                {
+                    await CommandHandeling.SendingMess(Context, null, null, $"Boole. Last Page is {lastPage}");
+  
+                }
+                else if(Context.MessegeContent228 == "edit")
+                {
+                    await CommandHandeling.SendingMess(Context, null, "edit", $"Boole. Last Page is {lastPage}");
+                }
                 return;
             }
        
@@ -257,7 +351,15 @@ namespace OctoBot.Commands
               embB.AddField($"#{i + usersPerPage * page} {user.Username}", $"**{Math.Round(account.BlogAvarageScoreVotes, 2)}** out of 5 ({account.BlogVotesQty} votes)", true);
             }
 
-            await ReplyAsync("", false, embB.Build());
+                if (Context.MessegeContent228 != "edit")
+                {
+                    await CommandHandeling.SendingMess(Context, embB);
+  
+                }
+                else if(Context.MessegeContent228 == "edit")
+                {
+                    await CommandHandeling.SendingMess(Context, embB, "edit");
+                }
             }
             catch
             {
@@ -271,7 +373,15 @@ namespace OctoBot.Commands
             try {
             if (page < 1)
             {
-                await ReplyAsync("Are you fucking sure about that?");
+                if (Context.MessegeContent228 != "edit")
+                {
+                    await CommandHandeling.SendingMess(Context, null, null,  "Are you fucking sure about that?");
+  
+                }
+                else if(Context.MessegeContent228 == "edit")
+                {
+                    await CommandHandeling.SendingMess(Context, null, "edit",  "Are you fucking sure about that?");
+                }
                 return;
             }
 
@@ -300,7 +410,15 @@ namespace OctoBot.Commands
             var lastPage = 1 + (accounts.Count / (usersPerPage+1));
             if (page > lastPage)
             {
-                await ReplyAsync($"Boole. Last Page is {lastPage}");
+                if (Context.MessegeContent228 != "edit")
+                {
+                    await CommandHandeling.SendingMess(Context, null, null, $"Boole. Last Page is {lastPage}");
+  
+                }
+                else if(Context.MessegeContent228 == "edit")
+                {
+                    await CommandHandeling.SendingMess(Context, null, "edit", $"Boole. Last Page is {lastPage}");
+                }
                 return;
             }
        
@@ -326,7 +444,15 @@ namespace OctoBot.Commands
                  embB.AddField($"#{i + usersPerPage * page} {user.Username}", $"**{Math.Round(account.ArtAvarageScoreVotes, 2)}** out of 5 ({account.ArtVotesQty} votes)", true);
             }
 
-            await ReplyAsync("", false, embB.Build());
+                if (Context.MessegeContent228 != "edit")
+                {
+                    await CommandHandeling.SendingMess(Context, embB);
+  
+                }
+                else if(Context.MessegeContent228 == "edit")
+                {
+                    await CommandHandeling.SendingMess(Context, embB, "edit");
+                }
             }
             catch
             {

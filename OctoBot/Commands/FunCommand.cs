@@ -2,7 +2,6 @@
 using System.Threading.Tasks;
 using Discord;
 using Discord.Commands;
-using OctoBot.Configs;
 using OctoBot.Configs.Users;
 using OctoBot.Handeling;
 using OctoBot.Services;
@@ -28,7 +27,15 @@ namespace OctoBot.Commands
             embed.WithColor(new Color(255, 0, 94));
             embed.WithThumbnailUrl("https://i.imgur.com/I3o0bm4.jpg");
 
-            await Context.Channel.SendMessageAsync("", false, embed.Build());
+                if (Context.MessegeContent228 != "edit")
+                {
+                    await CommandHandeling.SendingMess(Context, embed);
+  
+                }
+                else if(Context.MessegeContent228 == "edit")
+                {
+                    await CommandHandeling.SendingMess(Context, embed, "edit");
+                }
             }
             catch
             {
@@ -38,20 +45,38 @@ namespace OctoBot.Commands
 
         [Command("roll")]
         [Alias("Роллл", "Ролл")]
-        public async Task Roll(int times, ulong number, [Remainder] string rem  = null)
+        public async Task Roll(int times, ulong number)
         {
             try
             {
-                string mess = "";
+                var mess = "";
                 if (times >= 100)
                 {
-                    await ReplyAsync("Boole! We are not going to roll that many times!");
+                   
+                    if (Context.MessegeContent228 != "edit")
+                    {
+                        await CommandHandeling.SendingMess(Context, null, null,  "Boole! We are not going to roll that many times!");
+  
+                    }
+                    else if(Context.MessegeContent228 == "edit")
+                    {
+                        await CommandHandeling.SendingMess(Context, null, "edit",  "Boole! We are not going to roll that many times!");
+                    }
                     return;
                 }
 
                 if (number > 999999999)
                 {
-                    await ReplyAsync("Boole! This numbers is way too big for us :c");
+                    
+                    if (Context.MessegeContent228 != "edit")
+                    {
+                        await CommandHandeling.SendingMess(Context, null, null,  "Boole! This numbers is way too big for us :c");
+  
+                    }
+                    else if(Context.MessegeContent228 == "edit")
+                    {
+                        await CommandHandeling.SendingMess(Context, null, "edit",  "Boole! This numbers is way too big for us :c");
+                    }
                     return;
                 }
 
@@ -104,7 +129,16 @@ namespace OctoBot.Commands
                 var randomIndexRoll = randRoll.Next((int) number + 1);
                 if (randomIndexRoll == 0)
                     randomIndexRoll = 1;
-                await Context.Channel.SendMessageAsync($"It's a {randomIndexRoll}!");
+               
+                if (Context.MessegeContent228 != "edit")
+                {
+                    await CommandHandeling.SendingMess(Context, null, null,  $"It's a {randomIndexRoll}!");
+  
+                }
+                else if(Context.MessegeContent228 == "edit")
+                {
+                    await CommandHandeling.SendingMess(Context, null, "edit",  $"It's a {randomIndexRoll}!");
+                }
             }
             catch
             {
@@ -120,7 +154,16 @@ namespace OctoBot.Commands
         {
             try
             {
-            await ReplyAsync($"{Context.User.Mention} pong!");
+            
+                if (Context.MessegeContent228 != "edit")
+                {
+                    await CommandHandeling.SendingMess(Context, null, null,  $"{Context.User.Mention} pong!");
+  
+                }
+                else if(Context.MessegeContent228 == "edit")
+                {
+                    await CommandHandeling.SendingMess(Context, null, "edit",  $"{Context.User.Mention} pong!");
+                }
             }
             catch
             {
@@ -136,6 +179,7 @@ namespace OctoBot.Commands
             try {
             var dmChannel = await Context.User.GetOrCreateDMChannelAsync();
             await dmChannel.SendMessageAsync("Boole.");
+
             }
             catch
             {
@@ -148,14 +192,24 @@ namespace OctoBot.Commands
         public async Task GuessGame(ulong enter)
         {
             try {
-            int amount = (int) enter;
+            var amount = (int) enter;
 
             var userAccount = UserAccounts.GetAccount(Context.User);
             var octoAcccount = UserAccounts.GetAccount(Context.Guild.CurrentUser);
 
             if (amount > userAccount.Points || amount <= 0)
             {
-                await Context.Channel.SendMessageAsync("You do not have enough OktoPoints! Or you just entered something wrong.");
+             
+
+                if (Context.MessegeContent228 != "edit")
+                {
+                    await CommandHandeling.SendingMess(Context, null, null,  "You do not have enough OktoPoints! Or you just entered something wrong.");
+  
+                }
+                else if(Context.MessegeContent228 == "edit")
+                {
+                    await CommandHandeling.SendingMess(Context, null, "edit",  "You do not have enough OktoPoints! Or you just entered something wrong.");
+                }
                 return;
             }
 
@@ -164,10 +218,19 @@ namespace OctoBot.Commands
             var slots = randSlot.Next(72);
 
 
-            await Context.Channel.SendMessageAsync($"Number of slots **{slots}**. What is your choice?");
+           
+                if (Context.MessegeContent228 != "edit")
+                {
+                    await CommandHandeling.SendingMess(Context, null, null,  $"Number of slots **{slots}**. What is your choice?");
+  
+                }
+                else if(Context.MessegeContent228 == "edit")
+                {
+                    await CommandHandeling.SendingMess(Context, null, "edit",  $"Number of slots **{slots}**. What is your choice?");
+                }
             var response = await CommandHandeling.AwaitMessage(Context.User.Id, Context.Channel.Id, 10000);
 
-            bool result = int.TryParse(response.Content, out _);
+            var result = int.TryParse(response.Content, out _);
             if (result)
             {
                 var choise = Convert.ToInt32(response.Content);
@@ -182,17 +245,32 @@ namespace OctoBot.Commands
                 {
                     userAccount.Points += bank;
                     UserAccounts.SaveAccounts();
-                    await Context.Channel.SendMessageAsync(
-                        $"You won **{bank}** OctoPoints!\nNow you have **{userAccount.Points}** OctoPoints!");
+
+                    if (Context.MessegeContent228 != "edit")
+                    {
+                        await CommandHandeling.SendingMess(Context, null, null,   $"You won **{bank}** OctoPoints!\nNow you have **{userAccount.Points}** OctoPoints!");
+  
+                    }
+                    else if(Context.MessegeContent228 == "edit")
+                    {
+                        await CommandHandeling.SendingMess(Context, null, "edit",   $"You won **{bank}** OctoPoints!\nNow you have **{userAccount.Points}** OctoPoints!");
+                    }
                     userAccount.Points += bank;
                     UserAccounts.SaveAccounts();
 
                 }
                 else
                 {
+                    if (Context.MessegeContent228 != "edit")
+                    {
+                        await CommandHandeling.SendingMess(Context, null, null,    $"booole. Yuor **{amount}** OctoPoints stayed with us. Btw, number was **{random}**");
+  
+                    }
+                    else if(Context.MessegeContent228 == "edit")
+                    {
+                        await CommandHandeling.SendingMess(Context, null, "edit",   $"booole. Yuor **{amount}** OctoPoints stayed with us. Btw, number was **{random}**");
+                    }
 
-                    await Context.Channel.SendMessageAsync(
-                        $"booole. Yuor **{amount}** OctoPoints stayed with us. Btw, number was **{random}**");
                     userAccount.Points -= amount;
                     octoAcccount.Points += amount;
                     UserAccounts.SaveAccounts();
@@ -200,8 +278,16 @@ namespace OctoBot.Commands
                 }
             }
             else
-                await Context.Channel.SendMessageAsync(
-                    $"The choice should be between 0 and {slots}, answer only with a number.");
+
+                if (Context.MessegeContent228 != "edit")
+                {
+                    await CommandHandeling.SendingMess(Context, null, null,     $"The choice should be between 0 and {slots}, answer only with a number.");
+  
+                }
+                else if(Context.MessegeContent228 == "edit")
+                {
+                    await CommandHandeling.SendingMess(Context, null, "edit",    $"The choice should be between 0 and {slots}, answer only with a number.");
+                }
             }
             catch
             {

@@ -111,6 +111,7 @@ namespace OctoBot.Configs
             public IUser BlogAuthor;
             public IUserMessage UserSocketMsg;
             public IUserMessage BotSocketMsg;
+            
 
             public CommandRam(IUser blogAuthor, IUserMessage userSocketMsg, IUserMessage botSocketMsg)
             {

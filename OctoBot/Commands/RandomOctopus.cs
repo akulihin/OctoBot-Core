@@ -3,6 +3,8 @@ using System.Threading.Tasks;
 using Discord;
 using Discord.Commands;
 using OctoBot.Configs.Users;
+using OctoBot.Handeling;
+using OctoBot.Services;
 
 namespace OctoBot.Commands
 {
@@ -167,21 +169,23 @@ namespace OctoBot.Commands
 
 
 
-    public class OctopusPic : ModuleBase<SocketCommandContext>
+    public class OctopusPic : ModuleBase<SocketCommandContextCustom>
     {
 
         [Command("octo")]
-        [Alias("окто", "octopus", "Осьминог", "Осьминожка", "Осьминога")]
+        [Alias("окто", "octopus", "Осьминог", "Осьминожка", "Осьминога", "o", "oct", "о")]
         public async Task OctopusPicture()
         {
             try
             {
                 var boo = new Random();
-                var index = boo.Next(21);
-                if (index == 20 || index == 19 || index == 18)
+                var index = boo.Next(80);
+                if (index == 5 || index == 38 || index == 69)
                 {
 
-                    await Context.Channel.SendMessageAsync("boole");
+                    var lll = await Context.Channel.SendMessageAsync("boole");
+                    await Task.Delay(6000);
+                    await lll.DeleteAsync();
                 }
                 else
                 {
@@ -204,7 +208,15 @@ namespace OctoBot.Commands
                     embed.WithAuthor(Context.User);
                     embed.WithImageUrl("" + octoToPost);
 
-                    await Context.Channel.SendMessageAsync("", false, embed.Build());
+                    if (Context.MessegeContent228 != "edit")
+                    {
+                        await CommandHandeling.SendingMess(Context, embed);
+  
+                    }
+                    else if(Context.MessegeContent228 == "edit")
+                    {
+                        await CommandHandeling.SendingMess(Context, embed, "edit");
+                    }
 
 
 
@@ -232,7 +244,7 @@ namespace OctoBot.Commands
         }
 
         [Command("octo")]
-        [Alias("окто", "octopus", "Осьминог", "Осьминожка", "Осьминога")]
+        [Alias("окто", "octopus", "Осьминог", "Осьминожка", "Осьминога", "o", "oct", "о")]
         public async Task OctopusPictureSelector(int selection)
         {
             try
@@ -259,7 +271,7 @@ namespace OctoBot.Commands
                             return;
                         }
 
-                        string octoToPost = OctoPull.OctoPics[selection];
+                        var octoToPost = OctoPull.OctoPics[selection];
 
                         Random color1;
                         Random color2;
@@ -267,9 +279,9 @@ namespace OctoBot.Commands
                         color1 = new Random();
                         color2 = new Random();
                         color3 = new Random();
-                        int color1Index = color1.Next(256);
-                        int color2Index = color2.Next(256);
-                        int color3Index = color3.Next(256);
+                        var color1Index = color1.Next(256);
+                        var color2Index = color2.Next(256);
+                        var color3Index = color3.Next(256);
 
 
                         var embed = new EmbedBuilder();
@@ -278,7 +290,15 @@ namespace OctoBot.Commands
                         embed.WithAuthor(Context.User);
                         embed.WithImageUrl("" + octoToPost);
 
-                        await Context.Channel.SendMessageAsync("", false, embed.Build());
+                        if (Context.MessegeContent228 != "edit")
+                        {
+                            await CommandHandeling.SendingMess(Context, embed);
+  
+                        }
+                        else if(Context.MessegeContent228 == "edit")
+                        {
+                            await CommandHandeling.SendingMess(Context, embed, "edit");
+                        }
 
 
                         if (selection == 19)

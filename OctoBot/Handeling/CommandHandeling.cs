@@ -3,12 +3,14 @@ using System.IO;
 using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
-using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
 using OctoBot.Configs;
 using OctoBot.Configs.LvLingSystem;
 using OctoBot.Services;
+using Discord;
+using OctoBot.Configs.Server;
+
 
 namespace OctoBot.Handeling
 {
@@ -52,10 +54,6 @@ namespace OctoBot.Handeling
         
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     
-
- 
-
-
         public CommandHandeling(IServiceProvider services, CommandService commands, DiscordSocketClient client)
         {
             _commands = commands;
@@ -74,15 +72,11 @@ namespace OctoBot.Handeling
             _client.MessageReceived += HandleCommandAsync;
             _client.MessageUpdated += _client_MessageUpdated;
         }
-        
 
 
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        ///  Command Sending Handeling
-
-
-
-        private async Task _client_MessageUpdated(Cacheable<IMessage, ulong> messageBefore,
+        /// Edit on Edit
+                private async Task _client_MessageUpdated(Cacheable<IMessage, ulong> messageBefore,
             SocketMessage messageAfter, ISocketMessageChannel arg3)
         {
             if(messageAfter.Author.IsBot)
@@ -100,23 +94,37 @@ namespace OctoBot.Handeling
             if (before.Content == after?.Content)
                 return;
 
+
+
             var list = Global.CommandList;
             foreach (var t in list)
             {
                 if (t.UserSocketMsg.Id != messageAfter.Id) continue;
-              //  await t.BotSocketMsg.DeleteAsync();
 
-                if (!(messageAfter is SocketUserMessage message)) return;
-               
+                if (!(messageAfter is SocketUserMessage message)) continue;
 
+                if (t.BotSocketMsg == null)
+                    return;
 
-                var wtfIsThat = new SocketCommandContextCustom(_client, message, "edit");
-
+                var context = new SocketCommandContextCustom(_client, message, "edit");
                 var argPos = 0;
-                if (!message.HasStringPrefix(Config.Bot.Prefix, ref argPos) &&
+
+                if (message.Channel is SocketDMChannel)
+                {
+                    await _commands.ExecuteAsync(
+                        context,
+                        argPos,
+                        _services);
+                    return;
+                }
+
+
+                var guild = ServerAccounts.GetServerAccount(context.Guild);
+
+                if (!message.HasStringPrefix(guild.Prefix, ref argPos) &&
                     !message.HasMentionPrefix(_client.CurrentUser, ref argPos)) continue;
                 await _commands.ExecuteAsync(
-                    wtfIsThat,
+                    context,
                     argPos,
                     _services);
 
@@ -125,90 +133,108 @@ namespace OctoBot.Handeling
 
             await Task.CompletedTask;
         }
-        ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-        ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+     
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/// Sinding Module
 
-
-        public static async Task SendingMess(SocketCommandContextCustom context, EmbedBuilder embed, string edit = null)
+        public static async Task SendingMess(SocketCommandContextCustom context, EmbedBuilder embed, string edit = null, [Remainder]string regularMess = null)
         {
-            if (edit == null)
+            if (edit == null && regularMess == null) 
             {
                 var message = await context.Channel.SendMessageAsync("", false, embed.Build());
                 var kek = new Global.CommandRam(context.User, context.Message, message);
                 Global.CommandList.Add(kek);
             }
-            else if (edit == "edit")
+            else if (edit == "edit" && regularMess == null)
             {
-                for (var index = 0; index < Global.CommandList.Count; index++)
+                foreach (var t in Global.CommandList)
                 {
-                    var t = Global.CommandList[index];
                     if (t.UserSocketMsg.Id == context.Message.Id)
                     {
-                       
+                    
+
                         await t.BotSocketMsg.ModifyAsync(message =>
                         {
+
+                            message.Content = "";
                             message.Embed = embed.Build();
-                            // This somehow can't be empty or it won't update the 
-                            // embed propperly sometimes... I don't know why
-                            // message.Content =  Constants.InvisibleString;
+
                         });
                     }
                 }
             }
+            else if (regularMess != null)
+            {
+
+                if (edit == null)
+                {
+                    var message = await context.Channel.SendMessageAsync($"{regularMess}");
+                    var kek = new Global.CommandRam(context.User, context.Message, message);
+                    Global.CommandList.Add(kek);
+                }
+                else if (edit == "edit")
+                {
+                    foreach (var t in Global.CommandList)
+                    {
+                        if (t.UserSocketMsg.Id == context.Message.Id)
+                        {
+                       
+                            await t.BotSocketMsg.ModifyAsync(m =>
+                            {
+                                m.Embed = null;
+                                m.Content = regularMess.ToString();
+                            });
+                        }
+                    }
+                }    
+            }
         }
-
-
-
-
-
-
-
-        ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+
         private async Task HandleCommandAsync(SocketMessage msg)
         {
-            
-
             var message = msg as SocketUserMessage;
+
             if (message == null) return;
-        //    var context = new SocketCommandContext(_client, message);
             var context = new SocketCommandContextCustom(_client, message);
             var argPos = 0;
 
-            if (context.Guild.Id == 264445053596991498)
-                return;
 
             if (message.Channel is SocketDMChannel)
             {
-                if (context.User.IsBot) return;
-                var result = await _commands.ExecuteAsync(
+                if (context.User.IsBot) return; 
+                
+                var resultTask = _commands.ExecuteAsync(
                     context: context, 
                     argPos: argPos, 
                     services: _services);
-
-                if (!result.IsSuccess)
+              await  resultTask.ContinueWith(task =>
                 {
-                    Console.ForegroundColor = LogColor("red");
-                    Console.WriteLine(
-                        $"{DateTime.Now.ToLongTimeString()} - DM: ERROR '{context.Channel}' {context.User}: {message} || {result.ErrorReason}");
-                    Console.ResetColor();
+                    if (!task.Result.IsSuccess)
+                    {
+                        Console.ForegroundColor = LogColor("red");
+                        Console.WriteLine(
+                            $"{DateTime.Now.ToLongTimeString()} - DM: ERROR '{context.Channel}' {context.User}: {message} || {task.Result.ErrorReason}");
+                        Console.ResetColor();
 
-                    File.AppendAllText(LogFile,
-                        $"{DateTime.Now.ToLongTimeString()} - DM: ERROR '{context.Channel}' {context.User}: {message} || {result.ErrorReason} \n");
-                }
+                        File.AppendAllText(LogFile,
+                            $"{DateTime.Now.ToLongTimeString()} - DM: ERROR '{context.Channel}' {context.User}: {message} || {task.Result.ErrorReason} \n");
+                    }
+                    else
+                    {
+                        Console.ForegroundColor = LogColor("white");
+                        Console.WriteLine(
+                            $"{DateTime.Now.ToLongTimeString()} - DM: '{context.Channel}' {context.User}: {message}");
+                        Console.ResetColor();
 
-                else
-                {
-                    Console.ForegroundColor = LogColor("white");
-                    Console.WriteLine($"{DateTime.Now.ToLongTimeString()} - DM: '{context.Channel}' {context.User}: {message}");
-                    Console.ResetColor();
-
-                    File.AppendAllText(LogFile,
-                        $"{DateTime.Now.ToLongTimeString()} - DM: '{context.Channel}' {context.User}: {message} \n");
-                }
+                        File.AppendAllText(LogFile,
+                            $"{DateTime.Now.ToLongTimeString()} - DM: '{context.Channel}' {context.User}: {message} \n");
+                    }
+                });
 
                 return;
             }
@@ -218,35 +244,39 @@ namespace OctoBot.Handeling
                 LvLing.UserSentMess((SocketGuildUser)context.User, (SocketTextChannel)context.Channel, message);
 
             ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-          
-            if (message.HasStringPrefix(Config.Bot.Prefix, ref argPos) || message.HasMentionPrefix(_client.CurrentUser, ref argPos))
+            var guild = ServerAccounts.GetServerAccount(context.Guild);
+            if (message.HasStringPrefix(guild.Prefix, ref argPos) || message.HasMentionPrefix(_client.CurrentUser, ref argPos))
             {
-               
-                var result = await _commands.ExecuteAsync(
+
+                var resultTask = _commands.ExecuteAsync(
                     context: context, 
                     argPos: argPos, 
                     services: _services);
-
-                if (!result.IsSuccess)
+                await   resultTask.ContinueWith(task =>
                 {
-                    Console.ForegroundColor = LogColor("red");
-                    Console.WriteLine($"{DateTime.Now.ToLongTimeString()} - ERROR '{context.Channel}' { context.User}: {message} || {result.ErrorReason}");
-                    Console.ResetColor();
+                    if (!task.Result.IsSuccess)
+                    {
+                        Console.ForegroundColor = LogColor("red");
+                        Console.WriteLine(
+                            $"{DateTime.Now.ToLongTimeString()} - ERROR '{context.Channel}' {context.User}: {message} || {task.Result.ErrorReason}");
+                        Console.ResetColor();
 
-                    File.AppendAllText(LogFile, $"{DateTime.Now.ToLongTimeString()} - ERROR '{context.Channel}' { context.User}: {message} || {result.ErrorReason} \n");
-                    var wordsCount = message.ToString().Split(new[] {' '}, StringSplitOptions.RemoveEmptyEntries);
-                   if(wordsCount.Length <= 4)
-                   await WrongCommand.ErrorCommandReply(msg);
-                }
-                else
-                {
-                    Console.ForegroundColor = LogColor("white");
-                    Console.WriteLine($"{DateTime.Now.ToLongTimeString()} - '{context.Channel}' {context.User}: {message}");
-                    Console.ResetColor();
+                        File.AppendAllText(LogFile,
+                            $"{DateTime.Now.ToLongTimeString()} - ERROR '{context.Channel}' {context.User}: {message} || {task.Result.ErrorReason} \n");
+                    }
+                    else
+                    {
+                        Console.ForegroundColor = LogColor("white");
+                        Console.WriteLine(
+                            $"{DateTime.Now.ToLongTimeString()} - '{context.Channel}' {context.User}: {message}");
+                        Console.ResetColor();
 
-                    File.AppendAllText(LogFile, $"{DateTime.Now.ToLongTimeString()} - '{context.Channel}' {context.User}: {message} \n");
-                  
-                }
+                        File.AppendAllText(LogFile,
+                            $"{DateTime.Now.ToLongTimeString()} - '{context.Channel}' {context.User}: {message} \n");
+                    }
+                });
+
+
             }
         }
 
@@ -271,6 +301,6 @@ namespace OctoBot.Handeling
             }
         }
 
-        
+
     }
 }
