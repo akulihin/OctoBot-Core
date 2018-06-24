@@ -1,5 +1,6 @@
 ﻿/*
-This file made by https://github.com/petrspelos
+This logic is made by https://github.com/petrspelos 
+I just changed it a little bit to fit my need and fix some problems
 */
 
 using System;

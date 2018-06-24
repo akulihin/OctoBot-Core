@@ -3,10 +3,12 @@ using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
 using OctoBot.Configs.Users;
+using OctoBot.Handeling;
+using OctoBot.Services;
 
 namespace OctoBot.Commands
 {
-    public class OctoGift : ModuleBase<SocketCommandContext>
+    public class OctoGift : ModuleBase<SocketCommandContextCustom>
     {
         [Command("GiftCooki")]
         [Alias("Gift Cooki","подаритьКуки", "Подарить Куки")]
@@ -39,7 +41,15 @@ namespace OctoBot.Commands
                 embed.AddField("Fees was applied (1488 OctoPoints)", $"{contextUser.Points} Octo Points left");
                 embed.WithImageUrl("https://i.imgur.com/dCJwloV.jpg");
 
-                await Context.Channel.SendMessageAsync("", false, embed.Build());
+                if (Context.MessegeContent228 != "edit")
+                {
+                    await CommandHandeling.SendingMess(Context, embed);
+  
+                }
+                else if(Context.MessegeContent228 == "edit")
+                {
+                    await CommandHandeling.SendingMess(Context, embed, "edit");
+                }
 
             }
             else
@@ -85,7 +95,15 @@ namespace OctoBot.Commands
                 embed.AddField("Fees was applied (1488 OctoPoints)", $"{contextUser.Points} Octo Points left");
                 embed.WithImageUrl("https://i.imgur.com/xxE7EeX.jpg");
 
-                await Context.Channel.SendMessageAsync("", false, embed.Build());
+                if (Context.MessegeContent228 != "edit")
+                {
+                    await CommandHandeling.SendingMess(Context, embed);
+  
+                }
+                else if(Context.MessegeContent228 == "edit")
+                {
+                    await CommandHandeling.SendingMess(Context, embed, "edit");
+                }
 
             }
             else
@@ -134,7 +152,15 @@ namespace OctoBot.Commands
                 embed.AddField("Fees was applied (1488 OctoPoints)", $"{contextUser.Points} Octo Points left");
                 embed.WithImageUrl("https://i.imgur.com/Ufky6UB.jpg");
 
-                await Context.Channel.SendMessageAsync("", false, embed.Build());
+                if (Context.MessegeContent228 != "edit")
+                {
+                    await CommandHandeling.SendingMess(Context, embed);
+  
+                }
+                else if(Context.MessegeContent228 == "edit")
+                {
+                    await CommandHandeling.SendingMess(Context, embed, "edit");
+                }
 
             }
             else
@@ -161,7 +187,15 @@ namespace OctoBot.Commands
             embed.AddField("**Cooki!**", "`GiftCooki [user]` cost: **1488** ОктоПоинтов");
             embed.AddField("**Pinki~**", "`GiftPinki [user]` cost: **1488** ОктоПоинтов");
             embed.AddField("**Rainbow** :gay_pride_flag:", "`GiftRainbow [user]` cost: **1488** Octo Points");
-            await Context.Channel.SendMessageAsync("", false, embed.Build());
+                if (Context.MessegeContent228 != "edit")
+                {
+                    await CommandHandeling.SendingMess(Context, embed);
+  
+                }
+                else if(Context.MessegeContent228 == "edit")
+                {
+                    await CommandHandeling.SendingMess(Context, embed, "edit");
+                }
             }
             catch
             {

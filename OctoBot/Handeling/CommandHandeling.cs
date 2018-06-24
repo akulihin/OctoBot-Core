@@ -7,6 +7,10 @@ using Discord.Commands;
 using Discord.WebSocket;
 using OctoBot.Configs;
 using OctoBot.Configs.LvLingSystem;
+using OctoBot.Services;
+using Discord;
+using OctoBot.Configs.Server;
+
 
 namespace OctoBot.Handeling
 {
@@ -66,16 +70,137 @@ namespace OctoBot.Handeling
                 assembly: Assembly.GetEntryAssembly(), 
                 services: _services);
             _client.MessageReceived += HandleCommandAsync;
+            _client.MessageUpdated += _client_MessageUpdated;
         }
+
+
+        ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        /// Edit on Edit
+                private async Task _client_MessageUpdated(Cacheable<IMessage, ulong> messageBefore,
+            SocketMessage messageAfter, ISocketMessageChannel arg3)
+        {
+            if(messageAfter.Author.IsBot)
+                return;
+            var after = messageAfter as IUserMessage;
+            if (messageAfter.Content == null)
+            {
+                return;
+            }
+            var before = (messageBefore.HasValue ? messageBefore.Value : null) as IUserMessage;
+            if (before == null)
+                return;
+            if (arg3 == null)
+                return;
+            if (before.Content == after?.Content)
+                return;
+
+
+
+            var list = Global.CommandList;
+            foreach (var t in list)
+            {
+                if (t.UserSocketMsg.Id != messageAfter.Id) continue;
+
+                if (!(messageAfter is SocketUserMessage message)) continue;
+
+                if (t.BotSocketMsg == null)
+                    return;
+
+                var context = new SocketCommandContextCustom(_client, message, "edit");
+                var argPos = 0;
+
+                if (message.Channel is SocketDMChannel)
+                {
+                    await _commands.ExecuteAsync(
+                        context,
+                        argPos,
+                        _services);
+                    return;
+                }
+
+
+                var guild = ServerAccounts.GetServerAccount(context.Guild);
+
+                if (!message.HasStringPrefix(guild.Prefix, ref argPos) &&
+                    !message.HasMentionPrefix(_client.CurrentUser, ref argPos)) continue;
+                await _commands.ExecuteAsync(
+                    context,
+                    argPos,
+                    _services);
+
+                return;
+            }
+
+            await Task.CompletedTask;
+        }
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+     
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/// Sinding Module
+
+        public static async Task SendingMess(SocketCommandContextCustom context, EmbedBuilder embed, string edit = null, [Remainder]string regularMess = null)
+        {
+            if (edit == null && regularMess == null) 
+            {
+                var message = await context.Channel.SendMessageAsync("", false, embed.Build());
+                var kek = new Global.CommandRam(context.User, context.Message, message);
+                Global.CommandList.Add(kek);
+            }
+            else if (edit == "edit" && regularMess == null)
+            {
+                foreach (var t in Global.CommandList)
+                {
+                    if (t.UserSocketMsg.Id == context.Message.Id)
+                    {
+                    
+
+                        await t.BotSocketMsg.ModifyAsync(message =>
+                        {
+
+                            message.Content = "";
+                            message.Embed = embed.Build();
+
+                        });
+                    }
+                }
+            }
+            else if (regularMess != null)
+            {
+
+                if (edit == null)
+                {
+                    var message = await context.Channel.SendMessageAsync($"{regularMess}");
+                    var kek = new Global.CommandRam(context.User, context.Message, message);
+                    Global.CommandList.Add(kek);
+                }
+                else if (edit == "edit")
+                {
+                    foreach (var t in Global.CommandList)
+                    {
+                        if (t.UserSocketMsg.Id == context.Message.Id)
+                        {
+                       
+                            await t.BotSocketMsg.ModifyAsync(m =>
+                            {
+                                m.Embed = null;
+                                m.Content = regularMess.ToString();
+                            });
+                        }
+                    }
+                }    
+            }
+        }
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 
         private async Task HandleCommandAsync(SocketMessage msg)
         {
             var message = msg as SocketUserMessage;
 
-        
-
             if (message == null) return;
-            var context = new SocketCommandContext(_client, message);
+            var context = new SocketCommandContextCustom(_client, message);
             var argPos = 0;
 
 
@@ -116,8 +241,8 @@ namespace OctoBot.Handeling
                 LvLing.UserSentMess((SocketGuildUser)context.User, (SocketTextChannel)context.Channel, message);
 
             ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-          
-            if (message.HasStringPrefix(Config.Bot.Prefix, ref argPos) || message.HasMentionPrefix(_client.CurrentUser, ref argPos))
+            var guild = ServerAccounts.GetServerAccount(context.Guild);
+            if (message.HasStringPrefix(guild.Prefix, ref argPos) || message.HasMentionPrefix(_client.CurrentUser, ref argPos))
             {
 
                 var result = await _commands.ExecuteAsync(

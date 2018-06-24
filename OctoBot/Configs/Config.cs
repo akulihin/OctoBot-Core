@@ -102,6 +102,26 @@ namespace OctoBot.Configs
             }
         }
 
+
+        public static List<CommandRam> CommandList  { get; set; }  = new List<CommandRam>();
+
+        public class CommandRam
+        {
+           
+            public IUser BlogAuthor;
+            public IUserMessage UserSocketMsg;
+            public IUserMessage BotSocketMsg;
+            
+
+            public CommandRam(IUser blogAuthor, IUserMessage userSocketMsg, IUserMessage botSocketMsg)
+            {
+                
+                BlogAuthor = blogAuthor;
+                UserSocketMsg = userSocketMsg;
+                BotSocketMsg = botSocketMsg;
+            }
+        }
+
     }
 
     internal class Config

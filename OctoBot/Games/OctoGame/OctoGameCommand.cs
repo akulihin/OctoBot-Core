@@ -9,17 +9,18 @@ using OctoBot.Configs;
 using OctoBot.Games.OctoGame.GameSpells;
 using OctoBot.Games.OctoGame.GameUsers;
 using OctoBot.Handeling;
+using OctoBot.Services;
 
 namespace OctoBot.Games.OctoGame
 {
-    public class OctoGameCommand : ModuleBase<SocketCommandContext>
+    public class OctoGameCommand : ModuleBase<SocketCommandContextCustom>
     {
         [Command("CreateOcto", RunMode = RunMode.Async)]
         [Alias("UpdateOcto", "OctoCreate")]
         public async Task CreateOctopusFighter()
         {
             var account = GameUserAccounts.GetAccount(Context.User);
-            string response = "бу";
+            var response = "бу";
             
            
             if (account.OctopusFighterInfo != null)
@@ -98,7 +99,15 @@ namespace OctoBot.Games.OctoGame
             embed.WithAuthor(Context.User);
             embed.WithColor(Color.Blue);
             embed.AddField($"Твой осьминожка!", $"**Имя:** {octoInfoArray[0]}\n**Цвет:** {octoInfoArray[1]}\n**Характер** {octoInfoArray[2]}\n**Лор:** {octoInfoArray[3]}");
-            await Context.Channel.SendMessageAsync("", false, embed.Build());
+            if (Context.MessegeContent228 != "edit")
+            {
+                await CommandHandeling.SendingMess(Context, embed);
+  
+            }
+            else if(Context.MessegeContent228 == "edit")
+            {
+                await CommandHandeling.SendingMess(Context, embed, "edit");
+            }
         }
 
         [Command("endGame")]
@@ -160,6 +169,9 @@ namespace OctoBot.Games.OctoGame
                                                                    $"{new Emoji("3⃣")} Enemy {account.CurrentOctopusFighterLvl + 1} LvL\n" +
                                                                    $"{new Emoji("❌")} - End Fight.");
        
+
+
+
                 var message = await Context.Channel.SendMessageAsync("", false, embed.Build());
 
                 await message.AddReactionAsync(new Emoji("1⃣"));             
@@ -216,7 +228,15 @@ namespace OctoBot.Games.OctoGame
 
             var embed = new EmbedBuilder();
             embed.AddField("Введи Номер дерева скилла, у тебя 5 минута", "1 - AD\n2 - DEF\n3 - AGI\n4 - AP");
-            await Context.Channel.SendMessageAsync("", false, embed.Build());
+            if (Context.MessegeContent228 != "edit")
+            {
+                await CommandHandeling.SendingMess(Context, embed);
+  
+            }
+            else if(Context.MessegeContent228 == "edit")
+            {
+                await CommandHandeling.SendingMess(Context, embed, "edit");
+            }
             response = await CommandHandeling.AwaitMessage(Context.User.Id, Context.Channel.Id, 300000);
             skill.SpellTree = Convert.ToInt32(response.ToString());
 

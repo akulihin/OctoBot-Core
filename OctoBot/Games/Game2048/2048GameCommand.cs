@@ -2,10 +2,11 @@
 using Discord;
 using Discord.Commands;
 using OctoBot.Configs;
+using OctoBot.Services;
 
 namespace OctoBot.Games.Game2048
 {
-    public class GameBridge : ModuleBase<SocketCommandContext>
+    public class GameBridge : ModuleBase<SocketCommandContextCustom>
     {
 
 

@@ -3,7 +3,6 @@ using System.Threading.Tasks;
 using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
-using Microsoft.Extensions.DependencyInjection;
 using OctoBot.Automated;
 using OctoBot.Commands;
 using OctoBot.Commands.PersonalCommands;
@@ -39,7 +38,7 @@ namespace OctoBot
             {
                 LogLevel = LogSeverity.Verbose,
                 DefaultRetryMode = RetryMode.AlwaysRetry,       
-                MessageCacheSize = 5000
+                MessageCacheSize = 10000
                 
                 
             });
@@ -64,7 +63,7 @@ namespace OctoBot
          
             //  _client.Ready += YellowTurtle.StartTimer; //// Timer3
 
-
+           
             await _client.SetGameAsync("Осьминожек! | *help");
             _handler = new CommandHandeling(_services, _commands, _client);
             await _handler.InitializeAsync();

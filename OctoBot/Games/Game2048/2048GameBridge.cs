@@ -156,7 +156,7 @@ namespace OctoBot.Games.Game2048
                 {
                     var paddingCount = 4 - (board[i][j].ToString().Length);
                     builder.Append(board[i][j]);
-                    for (int m = 0; m < paddingCount; m++) builder.Append(" ");
+                    for (var m = 0; m < paddingCount; m++) builder.Append(" ");
                     builder.Append("|");
                 }
 
@@ -168,9 +168,9 @@ namespace OctoBot.Games.Game2048
 
         public static void PrintGridToConsole(int[][] grid)
         {
-            for (int i = 0; i < 4; i++)
+            for (var i = 0; i < 4; i++)
             {
-                for (int j = 0; j < 4; j++)
+                for (var j = 0; j < 4; j++)
                 {
                     Console.Write(grid[i][j]);
                     Console.Write(" ");
