@@ -5,6 +5,11 @@
 
 **Also, there will be _better explanation_ of what the bot does for the server, and how to use it (bot do have a welcome message so you will understand what it does)**
 
+
+
+
+
+
 This is a C# project using 3rd party API, for to interact with Discord users. 
 
 Interesting commands, from programmer perspective:
