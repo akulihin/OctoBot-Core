@@ -289,6 +289,7 @@ namespace OctoBot.Commands
                         embed.WithFooter("lil octo notebook");
                         embed.WithAuthor(Context.User);
                         embed.WithImageUrl("" + octoToPost);
+                        
 
                         if (Context.MessegeContent228 != "edit")
                         {

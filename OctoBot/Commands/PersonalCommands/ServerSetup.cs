@@ -88,6 +88,28 @@ namespace OctoBot.Commands.PersonalCommands
             }
         }
 
+
+        [Command("offLog")]
+        [RequireUserPermission(GuildPermission.Administrator)]
+        public async Task SetServerActivivtyLogOff()
+        {
+            var guild = ServerAccounts.GetServerAccount(Context.Guild);
+            guild.LogChannelId = 0;
+            guild.ServerActivityLog = 0;
+            ServerAccounts.SaveServerAccounts();
+
+            if (Context.MessegeContent228 != "edit")
+            {
+                await CommandHandeling.SendingMess(Context, null, null, $"Boole.");
+
+            }
+            else if (Context.MessegeContent228 == "edit")
+            {
+                await CommandHandeling.SendingMess(Context, null, "edit",  $"Boole.");
+            }
+        }
+
+
         [Command("SetLog")]
         [RequireUserPermission(GuildPermission.Administrator)]
         public async Task SetServerActivivtyLog(ulong logChannel = 0)
@@ -99,7 +121,7 @@ namespace OctoBot.Commands.PersonalCommands
                 try
                 {
                     var channel = Context.Guild.GetTextChannel(logChannel);
-                    guild.LogsId = channel.Id;
+                    guild.LogChannelId = channel.Id;
                     guild.ServerActivityLog = 1;
                     ServerAccounts.SaveServerAccounts();
 
@@ -124,6 +146,7 @@ namespace OctoBot.Commands.PersonalCommands
             {
                 case 1:
                     guild.ServerActivityLog = 0;
+                    guild.LogChannelId = 0;
                     ServerAccounts.SaveServerAccounts();
 
                     if (Context.MessegeContent228 != "edit")
@@ -139,40 +162,49 @@ namespace OctoBot.Commands.PersonalCommands
                 case 0:
                     try
                     {
-                        var tryChannel = Context.Guild.GetTextChannel(guild.LogsId);
-                        if (tryChannel.Name != null)
+                        try
                         {
-                            guild.LogsId = tryChannel.Id;
+                            var tryChannel = Context.Guild.GetTextChannel(guild.LogChannelId);
+                            if (tryChannel.Name != null)
+                            {
+                                guild.LogChannelId = tryChannel.Id;
+                                guild.ServerActivityLog = 1;
+                                ServerAccounts.SaveServerAccounts();
+
+                                var text2 =
+                                    $"Boole! Now we log everything to {tryChannel.Mention}, you may rename and move it.";
+                                if (Context.MessegeContent228 != "edit")
+                                {
+                                    await CommandHandeling.SendingMess(Context, null, null, text2);
+
+                                }
+                                else if (Context.MessegeContent228 == "edit")
+                                {
+                                    await CommandHandeling.SendingMess(Context, null, "edit", text2);
+                                }
+
+                                return;
+                            }
+                        }
+                        catch
+                        {
+
+                            var channel = Context.Guild.CreateTextChannelAsync("OctoLogs");
+                            guild.LogChannelId = channel.Result.Id;
                             guild.ServerActivityLog = 1;
                             ServerAccounts.SaveServerAccounts();
-                            
-                            var text2 = $"Boole! Now we log everything to {tryChannel.Mention}, you may rename and move it.";
+
+                            var text =
+                                $"Boole! Now we log everything to {channel.Result.Mention}, you may rename and move it.";
                             if (Context.MessegeContent228 != "edit")
                             {
-                                await CommandHandeling.SendingMess(Context, null, null, text2);
+                                await CommandHandeling.SendingMess(Context, null, null, text);
 
                             }
                             else if (Context.MessegeContent228 == "edit")
                             {
-                                await CommandHandeling.SendingMess(Context, null, "edit", text2);
+                                await CommandHandeling.SendingMess(Context, null, "edit", text);
                             }
-                            return;
-                        }
-
-                        var channel = Context.Guild.CreateTextChannelAsync("OctoLogs");
-                        guild.LogsId = channel.Result.Id;
-                        guild.ServerActivityLog = 1;
-                        ServerAccounts.SaveServerAccounts();
-
-                        var text = $"Boole! Now we log everything to {channel.Result.Mention}, you may rename and move it.";
-                        if (Context.MessegeContent228 != "edit")
-                        {
-                            await CommandHandeling.SendingMess(Context, null, null, text);
-
-                        }
-                        else if (Context.MessegeContent228 == "edit")
-                        {
-                            await CommandHandeling.SendingMess(Context, null, "edit", text);
                         }
 
                     }

@@ -44,7 +44,7 @@ namespace OctoBot.Commands
 
     public class Reminder : ModuleBase<SocketCommandContextCustom>
     {
-        [Command("Remind")]
+        [Command("Remind"), Priority(1)]
         [Alias("Напомнить", "напомни мне", "напиши мне", "напомни", "алярм", " Напомнить", " напомни мне",
             " напиши мне", " напомни", " алярм", " Remind")]
         public async Task AddReminder([Remainder] string args)
@@ -118,7 +118,7 @@ namespace OctoBot.Commands
 
         ///REMINDER FOR MINUTES!
         [Command("Re")]
-        public async Task AddReminderMinute(uint minute, [Remainder] string reminderString)
+        public async Task AddReminderMinute(uint minute = 0, [Remainder] string reminderString = null)
         {
             try {
             if (minute > 1439)
@@ -188,9 +188,8 @@ namespace OctoBot.Commands
         }
 
         //REminder To A User
-        [Command("Rem"), Priority(1)]
-        [Alias("Напомнить", "напомни мне", "напиши мне", "напомни", "алярм", " Напомнить", " напомни мне",
-            " напиши мне", " напомни", " алярм", " Remind", "Remind")]
+        [Command("RemTo")]
+        [Alias("RemindTo", "RemindTo")]
         public async Task AddReminderToSomeOne(ulong userId, [Remainder] string args)
         {
 

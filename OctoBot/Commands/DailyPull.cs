@@ -146,8 +146,19 @@ namespace OctoBot.Commands
                         {
                             try
                             {
+                             
+
                                 var dmChannel = await globalAccount.GetOrCreateDMChannelAsync();
                                 var embed = new EmbedBuilder();
+                                ////taci
+                                if (account.Id == 236184944064331777)
+                                {
+                                    await dmChannel.SendMessageAsync("бу-бу-бу-бу-бу!!!");
+                                    account.LastDailyPull = DateTime.UtcNow;
+                                    UserAccounts.SaveAccounts();
+                                    return;
+                                }
+                                ////taci
                                 embed.WithFooter("lil octo notebook");
                                 embed.WithTitle("OctoNotification");
                                 embed.WithDescription($"Ты потерял свои ежедневные поинты, буль ;c");

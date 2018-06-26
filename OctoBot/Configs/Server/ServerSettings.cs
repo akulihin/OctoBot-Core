@@ -10,7 +10,7 @@ namespace OctoBot.Configs.Server
         public string Prefix { get; set; }
         public string Language { get; set; }
         public int ServerActivityLog { get; set; }
-        public ulong LogsId { get; set; }
+        public ulong LogChannelId { get; set; }
 
     }
 }

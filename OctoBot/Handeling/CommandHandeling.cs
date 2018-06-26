@@ -212,7 +212,7 @@ namespace OctoBot.Handeling
                     context: context, 
                     argPos: argPos, 
                     services: _services);
-              await  resultTask.ContinueWith(task =>
+                resultTask.ContinueWith(task =>
                 {
                     if (!task.Result.IsSuccess)
                     {
@@ -244,6 +244,7 @@ namespace OctoBot.Handeling
                 LvLing.UserSentMess((SocketGuildUser)context.User, (SocketTextChannel)context.Channel, message);
 
             ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
             var guild = ServerAccounts.GetServerAccount(context.Guild);
             if (message.HasStringPrefix(guild.Prefix, ref argPos) || message.HasMentionPrefix(_client.CurrentUser, ref argPos))
             {
@@ -252,7 +253,7 @@ namespace OctoBot.Handeling
                     context: context, 
                     argPos: argPos, 
                     services: _services);
-                await   resultTask.ContinueWith(task =>
+                  resultTask.ContinueWith(task =>
                 {
                     if (!task.Result.IsSuccess)
                     {

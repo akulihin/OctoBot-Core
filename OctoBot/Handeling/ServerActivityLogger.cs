@@ -1,5 +1,7 @@
 ﻿using System;
+using System.IO;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 using Discord;
 using Discord.Rest;
@@ -35,6 +37,7 @@ namespace OctoBot.Handeling
             Client.ChannelDestroyed += Client_ChannelDestroyed;
             Client.RoleDeleted += Client_RoleDeleted;
             Client.RoleUpdated += Client_RoleUpdated;
+            Client.MessageReceived += Client_MessageReceived;
            
 
 
@@ -45,6 +48,7 @@ namespace OctoBot.Handeling
             return Task.CompletedTask;
 
         }
+
 
         public async Task NonStaticMethod(Cacheable<IUserMessage, ulong> arg1, SocketReaction arg3)
         {
@@ -336,7 +340,7 @@ namespace OctoBot.Handeling
         {
             try
             {
-                //await Task.Delay(509000);
+             //   await Task.Delay(509000);
 
                 var embed = new EmbedBuilder();
                 embed.WithColor(Color.DarkGreen);
@@ -345,6 +349,7 @@ namespace OctoBot.Handeling
                 {
                     var log = await channel.Guild.GetAuditLogAsync(1);
                     var audit = log.ToList();
+
                     var name = audit[0].Action == ActionType.ChannelDeleted ? audit[0].User.Mention : "error";
                     var a = audit[0].Data as ChannelDeleteAuditLogData;
                     embed.AddField("Channel Destroyed", $"Name: {arg.Name}\n" +
@@ -366,7 +371,7 @@ namespace OctoBot.Handeling
                 var guild = ServerAccounts.GetServerAccount(argument);
                 if (guild.ServerActivityLog == 1)
                 {
-                    await Global.Client.GetGuild(guild.ServerId).GetTextChannel(guild.LogsId)
+                    await Global.Client.GetGuild(guild.ServerId).GetTextChannel(guild.LogChannelId)
                         .SendMessageAsync("", false, embed.Build());
                   
                 }
@@ -406,7 +411,7 @@ namespace OctoBot.Handeling
                 var guild = ServerAccounts.GetServerAccount(argument);
                 if (guild.ServerActivityLog == 1)
                 {
-                    await Global.Client.GetGuild(guild.ServerId).GetTextChannel(guild.LogsId)
+                    await Global.Client.GetGuild(guild.ServerId).GetTextChannel(guild.LogChannelId)
                         .SendMessageAsync("", false, embed.Build());
                 }
             }
@@ -451,7 +456,7 @@ namespace OctoBot.Handeling
 
                     if (guild.ServerActivityLog == 1)
                     {
-                        await Global.Client.GetGuild(guild.ServerId).GetTextChannel(guild.LogsId)
+                        await Global.Client.GetGuild(guild.ServerId).GetTextChannel(guild.LogChannelId)
                             .SendMessageAsync("", false, embed.Build());
                     }
 
@@ -495,7 +500,7 @@ namespace OctoBot.Handeling
 
                     if (guild.ServerActivityLog == 1)
                     {
-                        await Global.Client.GetGuild(guild.ServerId).GetTextChannel(guild.LogsId)
+                        await Global.Client.GetGuild(guild.ServerId).GetTextChannel(guild.LogChannelId)
                             .SendMessageAsync("", false, embed.Build());
                     }
                 }
@@ -517,7 +522,7 @@ namespace OctoBot.Handeling
 
                     if (guild.ServerActivityLog == 1)
                     {
-                        await Global.Client.GetGuild(guild.ServerId).GetTextChannel(guild.LogsId)
+                        await Global.Client.GetGuild(guild.ServerId).GetTextChannel(guild.LogChannelId)
                             .SendMessageAsync("", false, embed.Build());
                     }
                 }
@@ -570,7 +575,7 @@ namespace OctoBot.Handeling
 
                     if (guild.ServerActivityLog == 1)
                     {
-                        await Global.Client.GetGuild(guild.ServerId).GetTextChannel(guild.LogsId)
+                        await Global.Client.GetGuild(guild.ServerId).GetTextChannel(guild.LogChannelId)
                             .SendMessageAsync("", false, embed.Build());
                     }
                 }
@@ -593,9 +598,9 @@ namespace OctoBot.Handeling
             var text = $"Boooole! {new Emoji("<:octo_hi:371424193008369664>")} I am an **Octopus** and I do many thing, you may check it via `Help` commands\n" +
                        $"Set Prefix: `{Global.Client.CurrentUser.Mention} setPrefix !`\n" +
                        $"See prefix: `prefix`\n" +
-                       $"Set Channel for logs: `SetLog` OR `SetLog Channel_ID`\n" +
+                       $"Set Channel for logs: `SetLog` OR `SetLog Channel_ID` ( I can logg files and even 2000 lenght messages)\n" +
                        $"**You can edit your previous commands, and OctoBot will edit previous response to that command**, so you don't have to spam Channels with messages\n" +
-                       $"I need an admin role (see channel, manage emojis, messages, roles, channels, Audit log access, etc...)\n" +
+                       $"I need an admin role (see channel, manage emojis, messages, roles, channels, **Audit log** access, etc...) to logg all info to `SetLog`, otherwise, I will not log anything.\n" +
                        $"Please note: all Help commands are Russian, I will translate them as soon as possible! (c) mylorik#2828\n" +
                        $"Also, `boole` is bot's language, if you want to hear *close enough* pronunciation of it, please use Google Translate and listen to Ukrainian pronunciation of `Буль` {new Emoji("<:octo_shrug_v0_2:434100874889920522>")}";
            var mess =  await arg.DefaultChannel.SendMessageAsync(text);
@@ -623,7 +628,7 @@ namespace OctoBot.Handeling
         public static async Task Client_MessageUpdated(Cacheable<IMessage, ulong> messageBefore,
             SocketMessage messageAfter, ISocketMessageChannel arg3)
         {
- 
+
 
             try
             {
@@ -631,7 +636,7 @@ namespace OctoBot.Handeling
                     return;
 
                 var after = messageAfter as IUserMessage;
-               
+
                 if (messageAfter.Content == null)
                 {
                     return;
@@ -657,21 +662,114 @@ namespace OctoBot.Handeling
                 embed.WithTitle($"📝 Updated Message");
                 embed.WithDescription($"Where: <#{before.Channel.Id}>" +
                                       $"\nMess Author: **{after?.Author}**\n");
-                embed.AddField("Before:", $"{messageBefore.Value.Content}\n**______**");
-                if (messageBefore.Value.Attachments.Any())
-                    embed.AddField("attachments", $"{messageBefore.Value.Attachments.FirstOrDefault()?.Url}");
-                embed.AddField("After:", $"{after}");
-                if (messageAfter.Attachments.Any())
-                    embed.AddField("attachments", $"{messageAfter.Attachments.FirstOrDefault()?.Url}");
 
-                await LogOwnerTextChannel.SendMessageAsync("", false, embed.Build());
 
-                var argument  = arg3 as IGuildChannel;
-                var guild = ServerAccounts.GetServerAccount(argument);
-                if (guild.ServerActivityLog == 1)
+
+
+                if (messageBefore.Value.Content.Length > 1000)
                 {
-                    await Global.Client.GetGuild(guild.ServerId).GetTextChannel(guild.LogsId)
-                        .SendMessageAsync("", false, embed.Build());
+                    var string1 = messageBefore.Value.Content.Substring(0, 1000);
+
+                    embed.AddField("Before:", $"{string1}");
+
+                    if (messageBefore.Value.Content.Length <= 2000)
+                    {
+
+                        var string2 =
+                            messageBefore.Value.Content.Substring(1000, messageBefore.Value.Content.Length - 1000);
+                        embed.AddField("Before: Continued", $"...{string2}");
+
+                    }
+                }
+                else if (messageBefore.Value.Content.Length != 0)
+                {
+                    embed.AddField("Before:", $"{messageBefore.Value.Content}");
+                }
+
+
+                if (messageAfter.Content.Length > 1000)
+                {
+                    var string1 = messageAfter.Content.Substring(0, 1000);
+
+                    embed.AddField("After:", $"{string1}");
+
+                    if (messageAfter.Content.Length <= 2000)
+                    {
+
+                        var string2 =
+                            messageAfter.Content.Substring(1000, messageAfter.Content.Length - 1000);
+                        embed.AddField("After: Continued", $"...{string2}");
+
+                    }
+                }
+                else if (messageAfter.Content.Length != 0)
+                {
+                    embed.AddField("After:", $"{messageAfter.Content}");
+                }
+
+
+
+                if (messageBefore.Value.Attachments.Any())
+                {
+                    var temp = messageBefore.Value.Attachments.FirstOrDefault()?.Url;
+                    var output = "";
+                    var check2 = $"{temp?.Substring(temp.Length - 8, 8)}";
+                    output = check2.Substring(check2.IndexOf('.') + 1);
+
+
+                   
+                    
+                    Console.WriteLine(check2);
+                    if (output == "png" || output == "jpg" || output == "gif")
+                    {
+                        embed.WithImageUrl(
+                            $"attachment://{Path.GetFileName($"OctoDataBase/OctoPic/{messageBefore.Id}.{output}")}");
+                        await LogOwnerTextChannel.SendFileAsync($"OctoDataBase/OctoPic/{messageBefore.Id}.{output}", "",
+                            embed: embed.Build());
+
+                        var argument = arg3 as IGuildChannel;
+                        var guild = ServerAccounts.GetServerAccount(argument);
+                        if (guild.ServerActivityLog == 1)
+                        {
+
+                            await Global.Client.GetGuild(guild.ServerId).GetTextChannel(guild.LogChannelId)
+                                .SendFileAsync($"OctoDataBase/OctoPic/{messageBefore.Id}.{output}", "",
+                                    embed: embed.Build());
+                        }
+                    }
+                    else
+                    {
+
+                        await LogOwnerTextChannel.SendMessageAsync("", false, embed.Build());
+                        await LogOwnerTextChannel.SendFileAsync($@"OctoDataBase/OctoPic/{messageBefore.Id}.{output}",
+                            $"");
+
+                        var argument = arg3 as IGuildChannel;
+                        var guild = ServerAccounts.GetServerAccount(argument);
+                        if (guild.ServerActivityLog == 1)
+                        {
+
+                            await Global.Client.GetGuild(guild.ServerId).GetTextChannel(guild.LogChannelId)
+                                .SendMessageAsync("", false, embed.Build());
+                            await Global.Client.GetGuild(guild.ServerId).GetTextChannel(guild.LogChannelId)
+                                .SendFileAsync($@"OctoDataBase/OctoPic/{messageBefore.Id}.{output}", $"");
+                        }
+                    }
+
+                }
+                else
+                {
+
+                    await LogOwnerTextChannel.SendMessageAsync("", false, embed.Build());
+
+                    var argument = arg3 as IGuildChannel;
+                    var guild = ServerAccounts.GetServerAccount(argument);
+                    if (guild.ServerActivityLog == 1)
+                    {
+
+                        await Global.Client.GetGuild(guild.ServerId).GetTextChannel(guild.LogChannelId)
+                            .SendMessageAsync("", false, embed.Build());
+                    }
                 }
             }
             catch
@@ -680,6 +778,37 @@ namespace OctoBot.Handeling
             }
         }
 
+        private static async Task Client_MessageReceived(SocketMessage arg)
+        {
+            var temp = arg.Attachments.FirstOrDefault()?.Url;
+            
+            if(!arg.Attachments.Any())
+                return;
+            var check = $"{temp?.Substring(temp.Length - 8, 8)}";
+            var output = check.Substring(check.IndexOf('.') + 1);
+
+            if (output == "png" || output == "jpg" || output == "gif")
+            {
+                using (var client = new WebClient())
+                {
+                    client.DownloadFileAsync(new Uri(arg.Attachments.FirstOrDefault()?.Url),
+                        $@"OctoDataBase/OctoPic/{arg.Id}.{output}");
+                }
+            }
+            else
+            {
+                Console.WriteLine(output);
+                using (var client = new WebClient())
+                {
+                    client.DownloadFileAsync(new Uri(arg.Attachments.FirstOrDefault()?.Url),
+                        $@"OctoDataBase/OctoPic/{arg.Id}.{output}");
+                }
+            }
+
+            await Task.CompletedTask;
+        }
+
+
         private static async Task Client_MessageDeleted(Cacheable<IMessage, ulong> messageBefore,
             ISocketMessageChannel arg3)
         {
@@ -687,11 +816,16 @@ namespace OctoBot.Handeling
             {
                 if (messageBefore.Value.Channel is ITextChannel kek)
                 {
+                    
+
                     var log = await kek.Guild.GetAuditLogAsync(1);
                     var audit = log.ToList();
-                    var name = audit[0].Action == ActionType.MessageDeleted
-                        ? audit[0].User.Mention
-                        : messageBefore.Value.Author.Mention;
+
+                    var name = $"{messageBefore.Value.Author.Mention}";        
+                    var check = audit[0].Data as MessageDeleteAuditLogData;         
+                    
+                    if (check?.ChannelId == messageBefore.Value.Channel.Id && audit[0].Action == ActionType.MessageDeleted)
+                        name = $"{audit[0].User.Mention}";
                     
                     var embedDel = new EmbedBuilder();
 
@@ -702,31 +836,90 @@ namespace OctoBot.Handeling
                     embedDel.WithColor(Color.Red);
                     embedDel.WithTitle($"🗑 Deleted Message");
                     embedDel.WithDescription($"Where: <#{messageBefore.Value.Channel.Id}>\n" +
-                                             $"WHO: **{name}**\n" +
+                                             $"WHO: **{name}** (not always correct)\n" +
                                              $"Mess Author: **{messageBefore.Value.Author}**\n");
-                    embedDel.AddField("Content", $"{messageBefore.Value.Content}");
-
-                    if (messageBefore.Value.Attachments.Any())
-                        embedDel.AddField("attachments",
-                            $"URL: {messageBefore.Value.Attachments.FirstOrDefault()?.Url}\n" +
-                            $"Proxy URL: {messageBefore.Value.Attachments.FirstOrDefault()?.ProxyUrl}");
 
 
-                    await LogOwnerTextChannel.SendMessageAsync("", false, embedDel.Build());
-
-                    var argument  = arg3 as IGuildChannel;
-                    var guild = ServerAccounts.GetServerAccount(argument);
-                    if (guild.ServerActivityLog == 1)
+                    if (messageBefore.Value.Content.Length > 1000)
                     {
-                        await Global.Client.GetGuild(guild.ServerId).GetTextChannel(guild.LogsId)
-                            .SendMessageAsync("", false, embedDel.Build());
+                        var string1 = messageBefore.Value.Content.Substring(0, 1000);
+
+                        embedDel.AddField("Content1", $"{string1}");
+ 
+                        if (messageBefore.Value.Content.Length <= 2000)
+                        {
+      
+                            var string2 = messageBefore.Value.Content.Substring(1000, messageBefore.Value.Content.Length - 1000);
+                            embedDel.AddField("Continued", $"...{string2}");
+
+                        }               
+                    }
+                    else if(messageBefore.Value.Content.Length != 0)
+                    {
+                        embedDel.AddField("Content", $"{messageBefore.Value.Content}");
+                    }
+    
+                    if (messageBefore.Value.Attachments.Any())
+                    {
+                        var temp = messageBefore.Value.Attachments.FirstOrDefault()?.Url;
+                        var output = "";
+                        var check2 = $"{temp?.Substring(temp.Length - 8, 8)}";
+                         output = check2.Substring(check2.IndexOf('.') + 1);
+
+                        if (output == "png" || output == "jpg" || output  == "gif")
+                        {
+                            embedDel.WithImageUrl(
+                                $"attachment://{Path.GetFileName($"OctoDataBase/OctoPic/{messageBefore.Id}.{output}")}");
+                            await LogOwnerTextChannel.SendFileAsync($"OctoDataBase/OctoPic/{messageBefore.Id}.{output}", "",
+                                embed: embedDel.Build());
+
+                            var argument = arg3 as IGuildChannel;
+                            var guild = ServerAccounts.GetServerAccount(argument);
+                            if (guild.ServerActivityLog == 1)
+                            {
+
+                                await Global.Client.GetGuild(guild.ServerId).GetTextChannel(guild.LogChannelId)
+                                    .SendFileAsync($"OctoDataBase/OctoPic/{messageBefore.Id}.{output}", "",
+                                        embed: embedDel.Build());
+                            }
+                        }
+                        else
+                        {
+                            await LogOwnerTextChannel.SendMessageAsync("", false, embedDel.Build());
+                            await LogOwnerTextChannel.SendFileAsync($@"OctoDataBase/OctoPic/{messageBefore.Id}.{output}", $"");
+
+                            var argument = arg3 as IGuildChannel;
+                            var guild = ServerAccounts.GetServerAccount(argument);
+                            if (guild.ServerActivityLog == 1)
+                            {
+
+                                await Global.Client.GetGuild(guild.ServerId).GetTextChannel(guild.LogChannelId)
+                                    .SendMessageAsync("", false, embedDel.Build());
+                                await Global.Client.GetGuild(guild.ServerId).GetTextChannel(guild.LogChannelId)
+                                    .SendFileAsync($@"OctoDataBase/OctoPic/{messageBefore.Id}.{output}", $"");
+                            }
+                        }
+                    }
+                    else
+                    {
+
+                        await LogOwnerTextChannel.SendMessageAsync("", false, embedDel.Build());
+
+                        var argument = arg3 as IGuildChannel;
+                        var guild = ServerAccounts.GetServerAccount(argument);
+                        if (guild.ServerActivityLog == 1)
+                        {
+
+                            await Global.Client.GetGuild(guild.ServerId).GetTextChannel(guild.LogChannelId)
+                                .SendMessageAsync("", false, embedDel.Build());
+                        }
                     }
                 }
             }
-            catch
+            catch(Exception e)
             {
-
-                //
+                Console.WriteLine(e);
+               
             }
         }
 
@@ -783,12 +976,18 @@ namespace OctoBot.Handeling
 
             var log = await before.Guild.GetAuditLogsAsync(1).FlattenAsync();
             var audit = log.ToList();
+            var check = audit[0].Data as RoleUpdateAuditLogData;
+            var name = "error";
+            if (check?.After.Name == arg2.Name)
+            {
+                name = audit[0].User.Mention;
+            }
+
             var guild = ServerAccounts.GetServerAccount(before.Guild);
             var embed = new EmbedBuilder();
             embed.WithColor(Color.Purple);
-           
             embed.AddField($"Role Updatet({roleString})", $"Role: {after.Mention}\n" +
-                                                          $"WHO: {audit[0].User.Mention}\n" +
+                                                          $"WHO: {name}\n" +
                                                           $"ID: {before.Id}\n" +
                                                           $"Guild: {before.Guild.Name}\n" +                 
                                                           $"{extra}" +
@@ -800,7 +999,7 @@ namespace OctoBot.Handeling
            
             if (guild.ServerActivityLog == 1)
             {
-                await Global.Client.GetGuild(guild.ServerId).GetTextChannel(guild.LogsId)
+                await Global.Client.GetGuild(guild.ServerId).GetTextChannel(guild.LogChannelId)
                     .SendMessageAsync("", false, embed.Build());
             }
         }
@@ -819,9 +1018,13 @@ namespace OctoBot.Handeling
 
                 var log = await arg.Guild.GetAuditLogsAsync(1).FlattenAsync();
                 var audit = log.ToList();
-
-                var name = audit[0].Action == ActionType.RoleDeleted ? audit[0].User.Mention : "error";
-
+                var check = audit[0].Data as RoleDeleteAuditLogData;
+                var name = "erorr";
+                if (check?.RoleId == arg.Id)
+                {
+                    name = audit[0].User.Mention;
+                }
+             
                 var embed = new EmbedBuilder();
                 embed.WithColor(Color.DarkRed);
                 embed.AddField("Role Deleted", $"WHO: {name}\n" +
@@ -832,13 +1035,12 @@ namespace OctoBot.Handeling
                 embed.WithTimestamp(DateTimeOffset.UtcNow);
                 embed.WithThumbnailUrl($"{audit[0].User.GetAvatarUrl()}");
                 await LogOwnerTextChannel.SendMessageAsync("", false, embed.Build());
-
-               
+ 
                 var guild = ServerAccounts.GetServerAccount(arg.Guild);
 
                 if (guild.ServerActivityLog == 1)
                 {
-                    await Global.Client.GetGuild(guild.ServerId).GetTextChannel(guild.LogsId)
+                    await Global.Client.GetGuild(guild.ServerId).GetTextChannel(guild.LogChannelId)
                         .SendMessageAsync("", false, embed.Build());
                 }
             }

@@ -6,6 +6,7 @@ using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
 using OctoBot.Configs;
+using OctoBot.Configs.Server;
 using OctoBot.Configs.Users;
 using OctoBot.Handeling;
 using OctoBot.Services;
@@ -33,6 +34,9 @@ namespace OctoBot.Commands
                     embed.WithColor(Color.DarkRed);
                 embed.AddField($"**PURGE** {number}", $"Used By {Context.User.Mention} in {Context.Channel}");
                 await LogTextChannel.SendMessageAsync("", false, embed.Build());
+
+                    var guild = ServerAccounts.GetServerAccount(Context.Guild);
+                await Context.Guild.GetTextChannel(guild.LogChannelId).SendMessageAsync("", false, embed.Build());
             }
             else
               
@@ -189,6 +193,7 @@ namespace OctoBot.Commands
                   var roleToGive = Global.Client.GetGuild(Context.Guild.Id).Roles
                       .SingleOrDefault(x => x.Name.ToString() == "Muted");
               await user.AddRoleAsync(roleToGive);
+                    
             var account = UserAccounts.GetAccount(user);
             account.MuteTimer = timeDateTime;
                   var time = DateTime.Now.ToString("");
