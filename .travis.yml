@@ -5,3 +5,5 @@ script:
   - dotnet restore
   - dotnet build ./OctoBot/
   - dotnet test ./OctoBotTests/
+  before_install:
+  - dotnet add package Discord.Net -s https://www.myget.org/F/discord-net/api/v3/index.json
