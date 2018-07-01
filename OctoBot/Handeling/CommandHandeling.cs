@@ -67,10 +67,10 @@ namespace OctoBot.Handeling
             // AddModulesAsync to inject dependencies to all modules 
             // that may require them.
             await _commands.AddModulesAsync(
-                assembly: Assembly.GetEntryAssembly(), 
-                services: _services);
+                Assembly.GetEntryAssembly(), 
+                _services);
             _client.MessageReceived += HandleCommandAsync;
-            _client.MessageUpdated += _client_MessageUpdated;
+                _client.MessageUpdated += _client_MessageUpdated;
         }
 
 
@@ -195,7 +195,8 @@ namespace OctoBot.Handeling
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-        private async Task HandleCommandAsync(SocketMessage msg)
+        public async Task HandleCommandAsync(SocketMessage msg)
+        
         {
             var message = msg as SocketUserMessage;
 
@@ -212,7 +213,7 @@ namespace OctoBot.Handeling
                     context: context, 
                     argPos: argPos, 
                     services: _services);
-                resultTask.ContinueWith(task =>
+            var k =    resultTask.ContinueWith(task =>
                 {
                     if (!task.Result.IsSuccess)
                     {
@@ -235,7 +236,7 @@ namespace OctoBot.Handeling
                             $"{DateTime.Now.ToLongTimeString()} - DM: '{context.Channel}' {context.User}: {message} \n");
                     }
                 });
-
+                await Task.CompletedTask;
                 return;
             }
 
@@ -253,7 +254,7 @@ namespace OctoBot.Handeling
                     context: context, 
                     argPos: argPos, 
                     services: _services);
-                  resultTask.ContinueWith(task =>
+                var k =  resultTask.ContinueWith(task =>
                 {
                     if (!task.Result.IsSuccess)
                     {

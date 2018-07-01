@@ -11,6 +11,7 @@ namespace OctoBot.Configs.Server
         public string Language { get; set; }
         public int ServerActivityLog { get; set; }
         public ulong LogChannelId { get; set; }
+        public string RoleOnJoin { get; set; }
 
     }
 }

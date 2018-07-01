@@ -23,12 +23,12 @@ namespace OctoBot.Commands.PersonalCommands
                 ServerAccounts.GetServerAccount(t);
             } 
                    
-            if (Context.MessegeContent228 != "edit")
+            if (Context.MessageContentForEdit != "edit")
             {
                 await CommandHandeling.SendingMess(Context, null, null,  "Севера бобавлены, бууууль!");
   
             }
-            else if(Context.MessegeContent228 == "edit")
+            else if(Context.MessageContentForEdit == "edit")
             {
                 await CommandHandeling.SendingMess(Context, null, "edit",  "Севера бобавлены, бууууль!");
             }
@@ -38,18 +38,19 @@ namespace OctoBot.Commands.PersonalCommands
         public async Task CheckPrefix()
         {
             var guild = ServerAccounts.GetServerAccount(Context.Guild);
-            if (Context.MessegeContent228 != "edit")
+            if (Context.MessageContentForEdit != "edit")
             {
                 await CommandHandeling.SendingMess(Context, null, null, $"boole: `{guild.Prefix}`");
   
             }
-            else if(Context.MessegeContent228 == "edit")
+            else if(Context.MessageContentForEdit == "edit")
             {
                 await CommandHandeling.SendingMess(Context, null, "edit", $"boole: `{guild.Prefix}`");
             } 
         }
 
         [Command("setPrefix")]
+        [Alias("setpref")]
         [RequireUserPermission(GuildPermission.ManageRoles)]
         public async Task SetPrefix([Remainder]string prefix)
         {
@@ -57,12 +58,12 @@ namespace OctoBot.Commands.PersonalCommands
             {
                 if (prefix.Length >= 5)
                 {
-                    if (Context.MessegeContent228 != "edit")
+                    if (Context.MessageContentForEdit != "edit")
                     {
                         await CommandHandeling.SendingMess(Context, null, null, $"boole!! Please choose prefix using up to 4 characters");
 
                     }
-                    else if (Context.MessegeContent228 == "edit")
+                    else if (Context.MessageContentForEdit == "edit")
                     {
                         await CommandHandeling.SendingMess(Context, null, "edit", $"boole!! Please choose prefix using up to 4 characters");
                     }
@@ -72,12 +73,12 @@ namespace OctoBot.Commands.PersonalCommands
                 var guild = ServerAccounts.GetServerAccount(Context.Guild);
                 guild.Prefix = prefix;
                 ServerAccounts.SaveServerAccounts();            
-                if (Context.MessegeContent228 != "edit")
+                if (Context.MessageContentForEdit != "edit")
                 {
                     await CommandHandeling.SendingMess(Context, null, null, $"boole is now: `{guild.Prefix}`");
 
                 }
-                else if (Context.MessegeContent228 == "edit")
+                else if (Context.MessageContentForEdit == "edit")
                 {
                     await CommandHandeling.SendingMess(Context, null, "edit", $"boole is now: `{guild.Prefix}`");
                 }
@@ -98,12 +99,12 @@ namespace OctoBot.Commands.PersonalCommands
             guild.ServerActivityLog = 0;
             ServerAccounts.SaveServerAccounts();
 
-            if (Context.MessegeContent228 != "edit")
+            if (Context.MessageContentForEdit != "edit")
             {
                 await CommandHandeling.SendingMess(Context, null, null, $"Boole.");
 
             }
-            else if (Context.MessegeContent228 == "edit")
+            else if (Context.MessageContentForEdit == "edit")
             {
                 await CommandHandeling.SendingMess(Context, null, "edit",  $"Boole.");
             }
@@ -111,6 +112,7 @@ namespace OctoBot.Commands.PersonalCommands
 
 
         [Command("SetLog")]
+        [Alias("SetLogs")]
         [RequireUserPermission(GuildPermission.Administrator)]
         public async Task SetServerActivivtyLog(ulong logChannel = 0)
         {
@@ -128,12 +130,12 @@ namespace OctoBot.Commands.PersonalCommands
                 }
                 catch
                 {
-                    if (Context.MessegeContent228 != "edit")
+                    if (Context.MessageContentForEdit != "edit")
                     {
                         await CommandHandeling.SendingMess(Context, null, null, $"Booole >_< **an error** Maybe I am not an Administrator of this server? I need this permission to access audit, manage channel, emojis and users.");
 
                     }
-                    else if (Context.MessegeContent228 == "edit")
+                    else if (Context.MessageContentForEdit == "edit")
                     {
                         await CommandHandeling.SendingMess(Context, null, "edit",  $"Booole >_< **an error** Maybe I am not an Administrator of this server? I need this permission to access audit, manage channel, emojis and users.");
                     }
@@ -149,12 +151,12 @@ namespace OctoBot.Commands.PersonalCommands
                     guild.LogChannelId = 0;
                     ServerAccounts.SaveServerAccounts();
 
-                    if (Context.MessegeContent228 != "edit")
+                    if (Context.MessageContentForEdit != "edit")
                     {
                         await CommandHandeling.SendingMess(Context, null, null, $"Octopuses are not logging any activity now **:c**\n");
 
                     }
-                    else if (Context.MessegeContent228 == "edit")
+                    else if (Context.MessageContentForEdit == "edit")
                     {
                         await CommandHandeling.SendingMess(Context, null, "edit", $"Octopuses are not logging any activity now **:c**");
                     }
@@ -173,12 +175,12 @@ namespace OctoBot.Commands.PersonalCommands
 
                                 var text2 =
                                     $"Boole! Now we log everything to {tryChannel.Mention}, you may rename and move it.";
-                                if (Context.MessegeContent228 != "edit")
+                                if (Context.MessageContentForEdit != "edit")
                                 {
                                     await CommandHandeling.SendingMess(Context, null, null, text2);
 
                                 }
-                                else if (Context.MessegeContent228 == "edit")
+                                else if (Context.MessageContentForEdit == "edit")
                                 {
                                     await CommandHandeling.SendingMess(Context, null, "edit", text2);
                                 }
@@ -196,12 +198,12 @@ namespace OctoBot.Commands.PersonalCommands
 
                             var text =
                                 $"Boole! Now we log everything to {channel.Result.Mention}, you may rename and move it.";
-                            if (Context.MessegeContent228 != "edit")
+                            if (Context.MessageContentForEdit != "edit")
                             {
                                 await CommandHandeling.SendingMess(Context, null, null, text);
 
                             }
-                            else if (Context.MessegeContent228 == "edit")
+                            else if (Context.MessageContentForEdit == "edit")
                             {
                                 await CommandHandeling.SendingMess(Context, null, "edit", text);
                             }
@@ -210,12 +212,12 @@ namespace OctoBot.Commands.PersonalCommands
                     }
                     catch
                     {
-                        if (Context.MessegeContent228 != "edit")
+                        if (Context.MessageContentForEdit != "edit")
                         {
                             await CommandHandeling.SendingMess(Context, null, null, $"Booole >_< **an error** Maybe I am not an Administrator of this server? I need this permission to access audit, manage channel, emojis and users.");
 
                         }
-                        else if (Context.MessegeContent228 == "edit")
+                        else if (Context.MessageContentForEdit == "edit")
                         {
                             await CommandHandeling.SendingMess(Context, null, "edit",  $"Booole >_< **an error** Maybe I am not an Administrator of this server? I need this permission to access audit, manage channel, emojis and users.");
                         }
@@ -234,12 +236,12 @@ namespace OctoBot.Commands.PersonalCommands
            
             if (lang.ToLower() != "en" && lang.ToLower() != "ru")
             {
-                if (Context.MessegeContent228 != "edit")
+                if (Context.MessageContentForEdit != "edit")
                 {
                     await CommandHandeling.SendingMess(Context, null, null, $"boole! only available options for now: `en`(default) and `ru`");
   
                 }
-                else if(Context.MessegeContent228 == "edit")
+                else if(Context.MessageContentForEdit == "edit")
                 {
                     await CommandHandeling.SendingMess(Context, null, "edit", $"boole! only available options for now: `en`(default) and `ru`");
                 } 
@@ -248,12 +250,12 @@ namespace OctoBot.Commands.PersonalCommands
             var guild = ServerAccounts.GetServerAccount(Context.Guild);
             guild.Language = lang.ToLower();
             ServerAccounts.SaveServerAccounts();
-            if (Context.MessegeContent228 != "edit")
+            if (Context.MessageContentForEdit != "edit")
             {
                 await CommandHandeling.SendingMess(Context, null, null, $"boole~ language is now: `{lang.ToLower()}`");
   
             }
-            else if(Context.MessegeContent228 == "edit")
+            else if(Context.MessageContentForEdit == "edit")
             {
                 await CommandHandeling.SendingMess(Context, null, "edit", $"boole~ language is now: `{lang.ToLower()}`");
             } 
@@ -267,15 +269,47 @@ namespace OctoBot.Commands.PersonalCommands
             var guild = Global.Client.GetGuild(serverId);
             var inv = guild.GetInvitesAsync();
             
-            if (Context.MessegeContent228 != "edit")
+            if (Context.MessageContentForEdit != "edit")
             {
                 await CommandHandeling.SendingMess(Context, null, null, $"{inv.Result}");
   
             }
-            else if(Context.MessegeContent228 == "edit")
+            else if(Context.MessageContentForEdit == "edit")
             {
                 await CommandHandeling.SendingMess(Context, null, "edit", $"{inv.Result}");
             } 
+        }
+
+        [Command("SetRoleOnJoin")]
+        [Alias("RoleOnJoin")]
+        [RequireUserPermission(GuildPermission.ManageRoles)]
+        public async Task SetRoleOnJoin(string role = null)
+        {
+
+            var text = "";
+            var guild = ServerAccounts.GetServerAccount(Context.Guild);
+            if (role == null)
+            {
+                guild.RoleOnJoin = null;
+                text = $"boole... No one will get role on join from me!";
+            }
+            else
+            {
+                guild.RoleOnJoin = role;
+                text = $"boole. Everyone will now be getting {role} role on join!";
+            }
+
+            ServerAccounts.SaveServerAccounts();
+            if (Context.MessageContentForEdit != "edit")
+            {
+                await CommandHandeling.SendingMess(Context, null, null,text );
+  
+            }
+            else if(Context.MessageContentForEdit == "edit")
+            {
+                await CommandHandeling.SendingMess(Context, null, "edit", text);
+            } 
+          
         }
     }
 }

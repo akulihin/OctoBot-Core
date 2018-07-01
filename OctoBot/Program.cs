@@ -38,9 +38,7 @@ namespace OctoBot
             {
                 LogLevel = LogSeverity.Verbose,
                 DefaultRetryMode = RetryMode.AlwaysRetry,       
-                MessageCacheSize = 10000
-                
-                
+                MessageCacheSize = 10000             
             });
 
             var botToken = Config.Bot.Token;

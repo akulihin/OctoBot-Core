@@ -15,9 +15,9 @@ namespace OctoBot.Commands
         public async Task GiftCooki(IGuildUser user)
         {
             try{
-            var contextUser = UserAccounts.GetAccount(Context.User);
+            var contextUser = UserAccounts.GetAccount(Context.User, Context.Guild.Id);
 
-            var account = UserAccounts.GetAccount((SocketUser)user);
+            var account = UserAccounts.GetAccount((SocketUser)user, Context.Guild.Id);
             if (account.Cooki >= 1)
             {
                 await Context.Channel.SendMessageAsync($"{user.Mention} Already have Cooki, you should choose another Octopus or Turtle!");
@@ -28,11 +28,11 @@ namespace OctoBot.Commands
             {
 
                 contextUser.Points -= 1488;
-                UserAccounts.SaveAccounts();
+                UserAccounts.SaveAccounts(Context.Guild.Id);
 
                 account.Cooki += 1;
                 account.Octopuses += ("Cooki|");
-                UserAccounts.SaveAccounts();
+                UserAccounts.SaveAccounts(Context.Guild.Id);
 
                 var embed = new EmbedBuilder();
                 embed.WithColor(244, 66, 107);
@@ -41,12 +41,12 @@ namespace OctoBot.Commands
                 embed.AddField("Fees was applied (1488 OctoPoints)", $"{contextUser.Points} Octo Points left");
                 embed.WithImageUrl("https://i.imgur.com/dCJwloV.jpg");
 
-                if (Context.MessegeContent228 != "edit")
+                if (Context.MessageContentForEdit != "edit")
                 {
                     await CommandHandeling.SendingMess(Context, embed);
   
                 }
-                else if(Context.MessegeContent228 == "edit")
+                else if(Context.MessageContentForEdit == "edit")
                 {
                     await CommandHandeling.SendingMess(Context, embed, "edit");
                 }
@@ -69,9 +69,9 @@ namespace OctoBot.Commands
         public async Task GiftPinki(IGuildUser user)
         {
             try {
-            var contextUser = UserAccounts.GetAccount(Context.User);
+            var contextUser = UserAccounts.GetAccount(Context.User, Context.Guild.Id);
 
-            var account = UserAccounts.GetAccount((SocketUser)user);
+            var account = UserAccounts.GetAccount((SocketUser)user, Context.Guild.Id);
             if (account.Pinki >= 1)
             {
                 await Context.Channel.SendMessageAsync($"{user.Mention} Already have Pinki, you should choose another Octopus or Turtle!");
@@ -82,11 +82,11 @@ namespace OctoBot.Commands
             {
 
                 contextUser.Points -= 1488;
-                UserAccounts.SaveAccounts();
+                UserAccounts.SaveAccounts(Context.Guild.Id);
 
                 account.Pinki += 1;
                 account.Octopuses += ("Pinki|");
-                UserAccounts.SaveAccounts();
+                UserAccounts.SaveAccounts(Context.Guild.Id);
 
                 var embed = new EmbedBuilder();
                 embed.WithColor(244, 66, 107);
@@ -95,12 +95,12 @@ namespace OctoBot.Commands
                 embed.AddField("Fees was applied (1488 OctoPoints)", $"{contextUser.Points} Octo Points left");
                 embed.WithImageUrl("https://i.imgur.com/xxE7EeX.jpg");
 
-                if (Context.MessegeContent228 != "edit")
+                if (Context.MessageContentForEdit != "edit")
                 {
                     await CommandHandeling.SendingMess(Context, embed);
   
                 }
-                else if(Context.MessegeContent228 == "edit")
+                else if(Context.MessageContentForEdit == "edit")
                 {
                     await CommandHandeling.SendingMess(Context, embed, "edit");
                 }
@@ -126,9 +126,9 @@ namespace OctoBot.Commands
         public async Task GiftRainbow(IGuildUser user)
         {
             try {
-            var contextUser = UserAccounts.GetAccount(Context.User);
+            var contextUser = UserAccounts.GetAccount(Context.User, Context.Guild.Id);
 
-            var account = UserAccounts.GetAccount((SocketUser)user);
+            var account = UserAccounts.GetAccount((SocketUser)user, Context.Guild.Id);
             if (account.Raqinbow >= 1)
             {
                 await Context.Channel.SendMessageAsync($"{user.Mention} Already have Rainbow, you should choose another Octopus or Turtle!");
@@ -139,11 +139,11 @@ namespace OctoBot.Commands
             {
 
                 contextUser.Points -= 1488;
-                UserAccounts.SaveAccounts();
+                UserAccounts.SaveAccounts(Context.Guild.Id);
 
                 account.Raqinbow += 1;
                 account.Octopuses += ("Rainbow|");
-                UserAccounts.SaveAccounts();
+                UserAccounts.SaveAccounts(Context.Guild.Id);
 
                 var embed = new EmbedBuilder();
                 embed.WithColor(244, 66, 107);
@@ -152,12 +152,12 @@ namespace OctoBot.Commands
                 embed.AddField("Fees was applied (1488 OctoPoints)", $"{contextUser.Points} Octo Points left");
                 embed.WithImageUrl("https://i.imgur.com/Ufky6UB.jpg");
 
-                if (Context.MessegeContent228 != "edit")
+                if (Context.MessageContentForEdit != "edit")
                 {
                     await CommandHandeling.SendingMess(Context, embed);
   
                 }
-                else if(Context.MessegeContent228 == "edit")
+                else if(Context.MessageContentForEdit == "edit")
                 {
                     await CommandHandeling.SendingMess(Context, embed, "edit");
                 }
@@ -187,12 +187,12 @@ namespace OctoBot.Commands
             embed.AddField("**Cooki!**", "`GiftCooki [user]` cost: **1488** ОктоПоинтов");
             embed.AddField("**Pinki~**", "`GiftPinki [user]` cost: **1488** ОктоПоинтов");
             embed.AddField("**Rainbow** :gay_pride_flag:", "`GiftRainbow [user]` cost: **1488** Octo Points");
-                if (Context.MessegeContent228 != "edit")
+                if (Context.MessageContentForEdit != "edit")
                 {
                     await CommandHandeling.SendingMess(Context, embed);
   
                 }
-                else if(Context.MessegeContent228 == "edit")
+                else if(Context.MessageContentForEdit == "edit")
                 {
                     await CommandHandeling.SendingMess(Context, embed, "edit");
                 }

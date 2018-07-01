@@ -20,8 +20,8 @@ namespace OctoBot.Commands
                 if(Context.Guild.Id != 338355570669256705)
                     return;
 
-            var account = UserAccounts.GetAccount(Context.User);
-            var result = GetDailyPull(Context.User);
+            var account = UserAccounts.GetAccount(Context.User, Context.Guild.Id);
+            var result = GetDailyPull(Context.User, Context.Guild.Id);
             var difference = DateTime.UtcNow - account.LastDailyPull;
                var embed = new EmbedBuilder();
                 embed.WithAuthor(Context.User);
@@ -29,27 +29,16 @@ namespace OctoBot.Commands
             switch (result)
             {
 
-                    /*
-                                    if (Context.MessegeContent228 != "edit")
-                {
-                    await CommandHandeling.SendingMess(Context, embed);
-  
-                }
-                else if(Context.MessegeContent228 == "edit")
-                {
-                    await CommandHandeling.SendingMess(Context, embed, "edit");
-                }
-                */
                 case DailyPullResult.AlreadyRecieved:
                     embed.AddField("Pull Points",
                         $"Ты **уже** получал 1 поинт, {Context.User.Username}, у тебя сейчас {account.DailyPullPoints} поинтов. попробуй ещё раз через {23 - (int) difference.TotalHours} часов");
                     
-                    if (Context.MessegeContent228 != "edit")
+                    if (Context.MessageContentForEdit != "edit")
                     {
                         await CommandHandeling.SendingMess(Context, embed);
   
                     }
-                    else if(Context.MessegeContent228 == "edit")
+                    else if(Context.MessageContentForEdit == "edit")
                     {
                         await CommandHandeling.SendingMess(Context, embed, "edit");
                     }
@@ -58,12 +47,12 @@ namespace OctoBot.Commands
                     if (account.DailyPullPoints == 31)
                     {
                         embed.AddField("Pull Points",  $"**Поит записан!** У тебя все {account.DailyPullPoints} поинтов!! В течении минуты наши черепашки вышлют тебе в ЛС ключик!");
-                        if (Context.MessegeContent228 != "edit")
+                        if (Context.MessageContentForEdit != "edit")
                         {
                             await CommandHandeling.SendingMess(Context, embed);
   
                         }
-                        else if(Context.MessegeContent228 == "edit")
+                        else if(Context.MessageContentForEdit == "edit")
                         {
                             await CommandHandeling.SendingMess(Context, embed, "edit");
                         }
@@ -74,12 +63,12 @@ namespace OctoBot.Commands
                             $"**Поит записан!** У тебя **теперь** есть {account.DailyPullPoints} поинтов. Приходи через 1 день за новым!");
                       
 
-                        if (Context.MessegeContent228 != "edit")
+                        if (Context.MessageContentForEdit != "edit")
                         {
                             await CommandHandeling.SendingMess(Context, embed);
   
                         }
-                        else if(Context.MessegeContent228 == "edit")
+                        else if(Context.MessageContentForEdit == "edit")
                         {
                             await CommandHandeling.SendingMess(Context, embed, "edit");
                         }
@@ -95,16 +84,16 @@ namespace OctoBot.Commands
 
         public enum DailyPullResult { Success, AlreadyRecieved }
 
-        public static DailyPullResult GetDailyPull(SocketUser user)
+        public static DailyPullResult GetDailyPull(SocketUser user, ulong guilid)
         {
-            var account = UserAccounts.GetAccount(user);
+            var account = UserAccounts.GetAccount(user, guilid);
             var difference = DateTime.UtcNow - account.LastDailyPull;
 
             if (difference.TotalHours < 23) return DailyPullResult.AlreadyRecieved;
 
             account.DailyPullPoints += 1;
             account.LastDailyPull = DateTime.UtcNow;
-            UserAccounts.SaveAccounts();
+            UserAccounts.SaveAccounts(guilid);
             return DailyPullResult.Success;
         }
 
@@ -120,7 +109,7 @@ namespace OctoBot.Commands
                 Interval = 60000,
                 Enabled = true
             };
-            _loopingTimerForPull.Elapsed += CheckPulls;
+          //  _loopingTimerForPull.Elapsed += CheckPulls;
 
 
             return Task.CompletedTask;
@@ -130,7 +119,8 @@ namespace OctoBot.Commands
         {          
             try
             {
-                var allUserAccounts = UserAccounts.GetAllAccounts();
+                ulong shadowFoxGuildId = 338355570669256705;
+                var allUserAccounts = UserAccounts.GetOrAddUserAccountsForGuild(shadowFoxGuildId);
 
                 foreach (var t in allUserAccounts)
                 {
@@ -138,7 +128,7 @@ namespace OctoBot.Commands
                     {
 
                         var globalAccount = Global.Client.GetUser(t.Id);
-                        var account = UserAccounts.GetAccount(globalAccount);
+                        var account = UserAccounts.GetAccount(globalAccount, shadowFoxGuildId);
                         var difference = DateTime.UtcNow - account.LastDailyPull;
 
 
@@ -155,7 +145,7 @@ namespace OctoBot.Commands
                                 {
                                     await dmChannel.SendMessageAsync("бу-бу-бу-бу-бу!!!");
                                     account.LastDailyPull = DateTime.UtcNow;
-                                    UserAccounts.SaveAccounts();
+                                    UserAccounts.SaveAccounts(shadowFoxGuildId);
                                     return;
                                 }
                                 ////taci
@@ -164,22 +154,22 @@ namespace OctoBot.Commands
                                 embed.WithDescription($"Ты потерял свои ежедневные поинты, буль ;c");
                                 await dmChannel.SendMessageAsync("", false, embed.Build());
                                 account.DailyPullPoints = 0;
-                                UserAccounts.SaveAccounts();
+                                UserAccounts.SaveAccounts(shadowFoxGuildId);
                             }
                             catch
                             {
                                 Console.WriteLine($"ERROR DM SENING {account.UserName} Closed DM");
                                 account.DailyPullPoints = 0;
-                                UserAccounts.SaveAccounts();
+                                UserAccounts.SaveAccounts(shadowFoxGuildId);
                                 return;
 
                             }
                         }
                         
-                        if (account.DailyPullPoints >= 31)
+                        if (account.DailyPullPoints >= 25)
                         {
                             var mylorikGlobal = Global.Client.GetUser(181514288278536193);
-                            var mylorik = UserAccounts.GetAccount(mylorikGlobal);
+                            var mylorik = UserAccounts.GetAccount(mylorikGlobal, shadowFoxGuildId);
 
                             if (mylorik.KeyPullName != null)
                             {
@@ -210,21 +200,20 @@ namespace OctoBot.Commands
                                     fullKeysKeyList[fullKeysKeyList.Length - 1] = "Доволен?";
                                 }
 
-
                                 int randonKey1;
                                 int randonKey2;
                                 int randonKey3;
                                 var key = new Random();
                                 do
                                 {
-                                    randonKey1 = key.Next(fullKeysNameList.Length);
-                                    randonKey2 = key.Next(fullKeysNameList.Length);
-                                    randonKey3 = key.Next(fullKeysNameList.Length);
+                                     randonKey1 = SecureRandom.Random(0,fullKeysNameList.Length);
+                                     randonKey2 = SecureRandom.Random(0,fullKeysNameList.Length);
+                                     randonKey3 = SecureRandom.Random(0,fullKeysNameList.Length);
 
                                 } while (randonKey1 == randonKey2 || randonKey2 == randonKey3 || randonKey1 == randonKey3);
 
                                 
-                                UserAccounts.SaveAccounts();
+                                UserAccounts.SaveAccounts(shadowFoxGuildId);
 
 
                                 var dmChannel = await globalAccount.GetOrCreateDMChannelAsync();
@@ -242,7 +231,7 @@ namespace OctoBot.Commands
                                 account.PullToChoose += $"{randonKey2}%%";
                                 account.PullToChoose += $"{randonKey3}%%";
                                 account.DailyPullPoints = 0;
-                                UserAccounts.SaveAccounts();
+                                UserAccounts.SaveAccounts(shadowFoxGuildId);
                             }
                             else
                             {
@@ -267,7 +256,7 @@ namespace OctoBot.Commands
         {
             try {
             var mylorikGlobal = Global.Client.GetUser(181514288278536193);
-            var mylorik = UserAccounts.GetAccount(mylorikGlobal);
+            var mylorik = UserAccounts.GetAccount(mylorikGlobal,338355570669256705);
 
            var gameAndKey = mess.Split(new[] {"&&"}, StringSplitOptions.RemoveEmptyEntries);
                 if(gameAndKey.Length < 2 || gameAndKey.Length >= 3 )
@@ -275,14 +264,14 @@ namespace OctoBot.Commands
 
             mylorik.KeyPullName += (gameAndKey[0] + "|");
             mylorik.KeyPullKey += (gameAndKey[1] + "|");
-            UserAccounts.SaveAccounts();
+            UserAccounts.SaveAccounts(Context.Guild.Id);
            
-                if (Context.MessegeContent228 != "edit")
+                if (Context.MessageContentForEdit != "edit")
                 {
                     await CommandHandeling.SendingMess(Context, null, null, "бууль-буль, записали!");
   
                 }
-                else if(Context.MessegeContent228 == "edit")
+                else if(Context.MessageContentForEdit == "edit")
                 {
                     await CommandHandeling.SendingMess(Context, null, "edit", "бууль-буль, записали!");
                 }
@@ -298,11 +287,11 @@ namespace OctoBot.Commands
         public async Task JsonDel(int index)
         {
             try {
-            var account = UserAccounts.GetAccount(Context.User);
+            var account = UserAccounts.GetAccount(Context.User, Context.Guild.Id);
             if (account.OctoPass >= 100)
             {
             var mylorikGlobal = Global.Client.GetUser(181514288278536193);
-            var mylorik = UserAccounts.GetAccount(mylorikGlobal);
+            var mylorik = UserAccounts.GetAccount(mylorikGlobal, 338355570669256705);
             var keyName =
                 mylorik.KeyPullName.Split(new[] {'|'}, StringSplitOptions.RemoveEmptyEntries);
             var keykey =
@@ -320,25 +309,25 @@ namespace OctoBot.Commands
                 }
             }
            
-                if (Context.MessegeContent228 != "edit")
+                if (Context.MessageContentForEdit != "edit")
                 {
                     await CommandHandeling.SendingMess(Context, null, null, $"ключ **{keyName[index]} {keykey[index]}** был удалён");
   
                 }
-                else if(Context.MessegeContent228 == "edit")
+                else if(Context.MessageContentForEdit == "edit")
                 {
                     await CommandHandeling.SendingMess(Context, null, "edit", $"ключ **{keyName[index]} {keykey[index]}** был удалён");
                 }
-            UserAccounts.SaveAccounts();
+            UserAccounts.SaveAccounts(Context.Guild.Id);
             }
             else
                 
-                if (Context.MessegeContent228 != "edit")
+                if (Context.MessageContentForEdit != "edit")
                 {
                     await CommandHandeling.SendingMess(Context, null, null, "буль-буль, у тебя нет допуска 100го уровня!");
   
                 }
-                else if(Context.MessegeContent228 == "edit")
+                else if(Context.MessageContentForEdit == "edit")
                 {
                     await CommandHandeling.SendingMess(Context, null, "edit", "буль-буль, у тебя нет допуска 100го уровня!");
                 }
@@ -354,7 +343,7 @@ namespace OctoBot.Commands
         public async Task AllKeys( )
         {
          try {
-            var account = UserAccounts.GetAccount(Context.User);
+            var account = UserAccounts.GetAccount(Context.User, 338355570669256705);
           
                 var keyName = account.KeyPullName.Split(new[] {'|'}, StringSplitOptions.RemoveEmptyEntries);
                 var keyKey = account.KeyPullKey.Split(new[] {'|'}, StringSplitOptions.RemoveEmptyEntries);
@@ -388,12 +377,12 @@ namespace OctoBot.Commands
              if(keysExtra2.Length > 10)
                  embed.AddField("Ключи(cont):", $"{keysExtra2}\n**KeyDel [index]** Чтобы удалить ");
 
-             if (Context.MessegeContent228 != "edit")
+             if (Context.MessageContentForEdit != "edit")
              {
                  await CommandHandeling.SendingMess(Context, embed);
   
              }
-             else if(Context.MessegeContent228 == "edit")
+             else if(Context.MessageContentForEdit == "edit")
              {
                  await CommandHandeling.SendingMess(Context, embed, "edit");
              }
@@ -416,21 +405,21 @@ namespace OctoBot.Commands
                     await ReplyAsync("бу!");
                     return;
                 }
-                var account = UserAccounts.GetAccount(Context.User);
+                var account = UserAccounts.GetAccount(Context.User, 338355570669256705);
                 if (choice == 0)
                 {
                     
-                    if (Context.MessegeContent228 != "edit")
+                    if (Context.MessageContentForEdit != "edit")
                     {
                         await CommandHandeling.SendingMess(Context, null, null, "Бульк~");
   
                     }
-                    else if(Context.MessegeContent228 == "edit")
+                    else if(Context.MessageContentForEdit == "edit")
                     {
                         await CommandHandeling.SendingMess(Context, null, "edit", "Бульк~");
                     }
                     account.PullToChoose = null;
-                    UserAccounts.SaveAccounts();
+                    UserAccounts.SaveAccounts(338355570669256705);
                     return;
                 }
 
@@ -461,7 +450,7 @@ namespace OctoBot.Commands
                 }
             
                 var mylorikGlobal = Global.Client.GetUser(181514288278536193);
-                var mylorik = UserAccounts.GetAccount(mylorikGlobal);
+                var mylorik = UserAccounts.GetAccount(mylorikGlobal, 338355570669256705);
                 var keyName =
                     mylorik.KeyPullName.Split(new[] {'|'}, StringSplitOptions.RemoveEmptyEntries);
                 var keykey =
@@ -473,12 +462,12 @@ namespace OctoBot.Commands
                 embed.WithTitle("OctoNotification");
                 embed.WithDescription($"А вот и ключ!\n\n**{keyName[index]} : {keykey[index]}**\n\nБуль!");
                
-                if (Context.MessegeContent228 != "edit")
+                if (Context.MessageContentForEdit != "edit")
                 {
                     await CommandHandeling.SendingMess(Context, embed);
   
                 }
-                else if(Context.MessegeContent228 == "edit")
+                else if(Context.MessageContentForEdit == "edit")
                 {
                     await CommandHandeling.SendingMess(Context, embed, "edit");
                 }
@@ -496,18 +485,18 @@ namespace OctoBot.Commands
                 }
 
                 account.PullToChoose = null;
-                UserAccounts.SaveAccounts();
+                UserAccounts.SaveAccounts(338355570669256705);
             }
             catch(Exception e)
             {
                 Console.WriteLine(e);
                
-                if (Context.MessegeContent228 != "edit")
+                if (Context.MessageContentForEdit != "edit")
                 {
                     await CommandHandeling.SendingMess(Context, null, null, "У тебя либо нет ключей на выбор, либо произошла какая-то ошибка.");
   
                 }
-                else if(Context.MessegeContent228 == "edit")
+                else if(Context.MessageContentForEdit == "edit")
                 {
                     await CommandHandeling.SendingMess(Context, null, "edit", "У тебя либо нет ключей на выбор, либо произошла какая-то ошибка.");
                 }
@@ -517,24 +506,24 @@ namespace OctoBot.Commands
         [Command("pullp")]
         public async Task GivePullPoints(SocketGuildUser user, int pullPoints)
         {
-            var commander = UserAccounts.GetAccount(Context.User);
+            var commander = UserAccounts.GetAccount(Context.User, Context.Guild.Id);
             if (commander.OctoPass < 100)
                 return;
-            var account = UserAccounts.GetAccount(user);
+            var account = UserAccounts.GetAccount(user, Context.Guild.Id);
 
             account.DailyPullPoints += pullPoints;
-            UserAccounts.SaveAccounts();
+            UserAccounts.SaveAccounts(Context.Guild.Id);
 
             var embed = new EmbedBuilder();
             embed.WithColor(Color.DarkMagenta);
             embed.AddField("буууль~", $"Мы добавили {pullPoints} пулл Поинтов {user.Mention}. Теперь у него {account.DailyPullPoints} поинтов, буль!");
 
-            if (Context.MessegeContent228 != "edit")
+            if (Context.MessageContentForEdit != "edit")
             {
                 await CommandHandeling.SendingMess(Context, embed);
   
             }
-            else if(Context.MessegeContent228 == "edit")
+            else if(Context.MessageContentForEdit == "edit")
             {
                 await CommandHandeling.SendingMess(Context, embed, "edit");
             }

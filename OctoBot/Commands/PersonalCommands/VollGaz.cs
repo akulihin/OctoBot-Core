@@ -50,12 +50,12 @@ namespace OctoBot.Commands.PersonalCommands
                 embed.WithColor(color1Index, color2Index, color3Index);
                 embed.WithAuthor("MISERUM!");
                 embed.WithImageUrl("" + memeToPost);
-                if (Context.MessegeContent228 != "edit")
+                if (Context.MessageContentForEdit != "edit")
                 {
                     await CommandHandeling.SendingMess(Context, embed);
   
                 }
-                else if(Context.MessegeContent228 == "edit")
+                else if(Context.MessageContentForEdit == "edit")
                 {
                     await CommandHandeling.SendingMess(Context, embed, "edit");
                 }
@@ -65,12 +65,12 @@ namespace OctoBot.Commands.PersonalCommands
             {
                 var embed = new EmbedBuilder();
                 embed.WithImageUrl("https://i.imgur.com/wt8EN8R.jpg");
-                if (Context.MessegeContent228 != "edit")
+                if (Context.MessageContentForEdit != "edit")
                 {
                     await CommandHandeling.SendingMess(Context, embed);
   
                 }
-                else if(Context.MessegeContent228 == "edit")
+                else if(Context.MessageContentForEdit == "edit")
                 {
                     await CommandHandeling.SendingMess(Context, embed, "edit");
                 }
@@ -98,12 +98,12 @@ namespace OctoBot.Commands.PersonalCommands
                 embed.WithColor(color1Index, color2Index, color3Index);
                 embed.WithAuthor("Фистурион Одобряет");
                 embed.WithImageUrl("" + url);
-                if (Context.MessegeContent228 != "edit")
+                if (Context.MessageContentForEdit != "edit")
                 {
                     await CommandHandeling.SendingMess(Context, embed);
   
                 }
-                else if(Context.MessegeContent228 == "edit")
+                else if(Context.MessageContentForEdit == "edit")
                 {
                     await CommandHandeling.SendingMess(Context, embed, "edit");
                 }
@@ -112,12 +112,12 @@ namespace OctoBot.Commands.PersonalCommands
             {
                 var embed = new EmbedBuilder();
                 embed.WithImageUrl("https://i.imgur.com/wt8EN8R.jpg");
-                if (Context.MessegeContent228 != "edit")
+                if (Context.MessageContentForEdit != "edit")
                 {
                     await CommandHandeling.SendingMess(Context, embed);
   
                 }
-                else if(Context.MessegeContent228 == "edit")
+                else if(Context.MessageContentForEdit == "edit")
                 {
                     await CommandHandeling.SendingMess(Context, embed, "edit");
                 }
@@ -141,12 +141,12 @@ namespace OctoBot.Commands.PersonalCommands
                 embed.WithColor(color1Index, color2Index, color3Index);
 
                 embed.WithImageUrl("" + url);
-                if (Context.MessegeContent228 != "edit")
+                if (Context.MessageContentForEdit != "edit")
                 {
                     await CommandHandeling.SendingMess(Context, embed);
   
                 }
-                else if(Context.MessegeContent228 == "edit")
+                else if(Context.MessageContentForEdit == "edit")
                 {
                     await CommandHandeling.SendingMess(Context, embed, "edit");
                 }
@@ -155,12 +155,12 @@ namespace OctoBot.Commands.PersonalCommands
             {
                 var embed = new EmbedBuilder();
                 embed.WithImageUrl("https://i.imgur.com/wt8EN8R.jpg");
-                if (Context.MessegeContent228 != "edit")
+                if (Context.MessageContentForEdit != "edit")
                 {
                     await CommandHandeling.SendingMess(Context, embed);
   
                 }
-                else if(Context.MessegeContent228 == "edit")
+                else if(Context.MessageContentForEdit == "edit")
                 {
                     await CommandHandeling.SendingMess(Context, embed, "edit");
                 }
@@ -185,12 +185,12 @@ namespace OctoBot.Commands.PersonalCommands
                 embed.WithColor(color1Index, color2Index, color3Index);
                 embed.WithAuthor("Oh yea");
                 embed.WithImageUrl("" + url);
-                if (Context.MessegeContent228 != "edit")
+                if (Context.MessageContentForEdit != "edit")
                 {
                     await CommandHandeling.SendingMess(Context, embed);
   
                 }
-                else if(Context.MessegeContent228 == "edit")
+                else if(Context.MessageContentForEdit == "edit")
                 {
                     await CommandHandeling.SendingMess(Context, embed, "edit");
                 }
@@ -199,12 +199,12 @@ namespace OctoBot.Commands.PersonalCommands
             {
                 var embed = new EmbedBuilder();
                 embed.WithImageUrl("https://i.imgur.com/wt8EN8R.jpg");
-                if (Context.MessegeContent228 != "edit")
+                if (Context.MessageContentForEdit != "edit")
                 {
                     await CommandHandeling.SendingMess(Context, embed);
   
                 }
-                else if(Context.MessegeContent228 == "edit")
+                else if(Context.MessageContentForEdit == "edit")
                 {
                     await CommandHandeling.SendingMess(Context, embed, "edit");
                 }
@@ -227,12 +227,12 @@ namespace OctoBot.Commands.PersonalCommands
             embed.WithColor(color1Index, color2Index, color3Index);
             embed.WithAuthor("INCREDIBLIS");
             embed.WithImageUrl("" + url);
-            if (Context.MessegeContent228 != "edit")
+            if (Context.MessageContentForEdit != "edit")
             {
                 await CommandHandeling.SendingMess(Context, embed);
   
             }
-            else if(Context.MessegeContent228 == "edit")
+            else if(Context.MessageContentForEdit == "edit")
             {
                 await CommandHandeling.SendingMess(Context, embed, "edit");
             }
@@ -272,15 +272,15 @@ namespace OctoBot.Commands.PersonalCommands
 
            // await ReplyAsync(convertedText);
 
-            if (Context.MessegeContent228 != "edit")
+            if (Context.MessageContentForEdit != "edit")
             {
-                await CommandHandeling.SendingMess(Context, null, null, convertedText);
+                await CommandHandeling.SendingMess(Context, null, null, $"{convertedText}\nby `{Context.User.Username}`");
   
             }
-            else if(Context.MessegeContent228 == "edit")
+            else if(Context.MessageContentForEdit == "edit")
             {
                
-                await CommandHandeling.SendingMess(Context, null, "edit", convertedText);
+                await CommandHandeling.SendingMess(Context, null, "edit", $"{convertedText}\nby `{Context.User.Username}`");
             }
         }
 
@@ -417,18 +417,26 @@ namespace OctoBot.Commands.PersonalCommands
                         Int32.TryParse(numberString, out var num1);
                         Int32.TryParse(numberString2, out var num2);
 
-                         
-                         answer = Calculator(num1, num2, sign);
+                        var result = Calculator(num1, num2, sign);
+                         answer = result.Item1;
+
                         if (i == low.Length - 1 && check == 1)
                         {
-                        
-                            embed.AddField($"It's a **{answer}**!", $"{results}");
-                            if (Context.MessegeContent228 != "edit")
+                            if (result.Item2.Length > 0)
+                            {
+                                embed.AddField($"It's a {answer}!", $"{results} **{result.Item2}**");
+                            }
+                            else
+                            {
+                                embed.AddField($"It's a {answer}!", $"{results}");
+                            }
+
+                            if (Context.MessageContentForEdit != "edit")
                             {
                                 await CommandHandeling.SendingMess(Context, embed);
   
                             }
-                            else if(Context.MessegeContent228 == "edit")
+                            else if(Context.MessageContentForEdit == "edit")
                             {
                                 await CommandHandeling.SendingMess(Context, embed, "edit");
                             }
@@ -447,7 +455,14 @@ namespace OctoBot.Commands.PersonalCommands
                             low = reminder;
 
                             count++;
-                            results += $"{count}) {reminder}\n";
+                        if (result.Item2.Length > 0)
+                        {
+                            results += $"{count})**|({result.Item2})|** {reminder} \n";
+                        }
+                        else
+                        {
+                            results += $"{count}) {reminder} \n";
+                        }
 
 
                         i = -1;
@@ -516,19 +531,19 @@ namespace OctoBot.Commands.PersonalCommands
             } 
             }
            
-            if (Context.MessegeContent228 != "edit")
+            if (Context.MessageContentForEdit != "edit")
             {
-                await CommandHandeling.SendingMess(Context, null, null, $"It's a **{answer}**!");
+                await CommandHandeling.SendingMess(Context, null, null, $"It's a {answer}!");
   
             }
-            else if(Context.MessegeContent228 == "edit")
+            else if(Context.MessageContentForEdit == "edit")
             {
-                await CommandHandeling.SendingMess(Context, null, "edit", $"It's a **{answer}**!");
+                await CommandHandeling.SendingMess(Context, null, "edit", $"It's a {answer}!");
             }
         }
        
 
-        public int Calculator(int times, int num, char sign)
+        public (int, string ) Calculator(int times, int num, char sign)
         {
             switch (sign)
             {    
@@ -538,42 +553,46 @@ namespace OctoBot.Commands.PersonalCommands
                 case 'l':
                     break;
                 case '+':
-                    return times + num;
+                    return (times + num, "");
                 case '-':
-                    return times - num;
+                    return (times - num, "");
                 case '*':
-                    return times * num;
+                    return (times * num, "");
                 case '/':
-                    return times / num;
+                    return (times / num, "");
                 case 'd':
                     var result = new List<int>();
-                    var random = new Random();
+                   // var random = new Random();
                     var answer = 0;
                    
                     if (times <= 0 || num <= 0)
-                        return 0;
+                        return (0,"error");
                     if (times == 1)
-                        return random.Next(num) + 1;
-            
+                        return (SecureRandom.Random(1, num), "");
 
+                    var resultString = "";
                     if (times <= 1000 && num <= 120)
                     {
                         for (var i = 0; i < times; i++)
                         {
-                            var lol = random.Next(num) + 1;
+                            var lol = SecureRandom.Random(1, num);
                             result.Add(lol);
-                     
+                           
                         }
 
-                        foreach (var t in result)
+                        for (var i = 0; i < result.Count; i++)
                         {
-                            answer += t;
+                           
+                            answer += result[i];
+                            resultString += $"{result[i]}";
+                            if(i < result.Count - 1)
+                            resultString += $" + ";
                         }
                     }
                     
-                    return answer;
+                    return (answer, resultString);
             }
-            return 0;
+            return (0,"error");
         }
 
 

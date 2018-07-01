@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
@@ -70,12 +71,12 @@ namespace OctoBot.Commands
                                        "(Time can be different, but follow the rules! **day-hour-minute-second**. You can skip any of those parts, but they have to be in the same order. One space or without it between each of the parts\n" +
                                        "I'm a loving order octopus!";
 
-                if (Context.MessegeContent228 != "edit")
+                if (Context.MessageContentForEdit != "edit")
                 {
                     await CommandHandeling.SendingMess(Context, null, null, bigmess);
   
                 }
-                else if(Context.MessegeContent228 == "edit")
+                else if(Context.MessageContentForEdit == "edit")
                 {
                     await CommandHandeling.SendingMess(Context, null, "edit", bigmess);
                 }
@@ -86,28 +87,46 @@ namespace OctoBot.Commands
             splittedArgs[splittedArgs.Length - 1] = "";
             var reminderString = string.Join(" in ", splittedArgs, 0, splittedArgs.Length - 1);
             
-            var timeDateTime = DateTime.UtcNow + TimeSpan.ParseExact(timeString, ReminderFormat.Formats, CultureInfo.CurrentCulture);
-
-           var bigmess2 = $"Розовая черепашка напомнит тебе:\n" +
-                                                   $"*{reminderString}*\n\n" +
-                                                   $"We will send you a DM in  __**{timeDateTime}**__ `by UTC`\n" +
-                                                   $"**Time Now:                  {DateTime.UtcNow}** `by UTC`";
               
-                if (Context.MessegeContent228 != "edit")
+
+            var timeDateTime = DateTime.UtcNow + TimeSpan.ParseExact(timeString, ReminderFormat.Formats, CultureInfo.CurrentCulture);
+                var randomIndex = SecureRandom.Random(0, OctoNamePull.OctoNameRU.Length);
+                var randomOcto = OctoNamePull.OctoNameRU[randomIndex];
+
+                var extra = randomOcto.Split(new[] {"]("}, StringSplitOptions.RemoveEmptyEntries);
+                var name = extra[0].Remove(0,1);
+                var url = extra[1].Remove(extra[1].Length - 1,1);
+              
+           var bigmess2 = 
+                                                   $"{reminderString}\n\n" +
+                                                   $"We will send you a DM in  __**{timeDateTime}**__ `by UTC`\n" +
+                                                   $"**Time Now:                               {DateTime.UtcNow}** `by UTC`";
+                var embed = new EmbedBuilder();
+                embed.WithAuthor(Context.User);
+                embed.WithTimestamp(DateTimeOffset.UtcNow);
+                embed.WithColor(SecureRandom.Random(0, 255), SecureRandom.Random(0, 255),
+                    SecureRandom.Random(0, 255));
+                embed.AddField($"**____**", $"{bigmess2}");
+                embed.WithTitle($"{name} напомнит тебе:");
+                embed.WithUrl(url);
+               
+
+
+                if (Context.MessageContentForEdit != "edit")
                 {
-                    await CommandHandeling.SendingMess(Context, null, null, bigmess2);
+                    await CommandHandeling.SendingMess(Context, embed);
   
                 }
-                else if(Context.MessegeContent228 == "edit")
+                else if(Context.MessageContentForEdit == "edit")
                 {
-                    await CommandHandeling.SendingMess(Context, null, "edit", bigmess2);
+                    await CommandHandeling.SendingMess(Context, embed, "edit");
                 }
 
-            var account = UserAccounts.GetAccount(Context.User);
+            var account = UserAccounts.GetAccount(Context.User, 0);
             var newReminder = new CreateReminder(timeDateTime, reminderString);
 
             account.ReminderList.Add(newReminder);
-            UserAccounts.SaveAccounts();
+            UserAccounts.SaveAccounts(0);
             }
             catch
             {
@@ -124,12 +143,12 @@ namespace OctoBot.Commands
             if (minute > 1439)
             {
 
-                if (Context.MessegeContent228 != "edit")
+                if (Context.MessageContentForEdit != "edit")
                 {
                     await CommandHandeling.SendingMess(Context, null, null,  "Booole. [time] have to be in range 0-1439 (in minutes)");
   
                 }
-                else if(Context.MessegeContent228 == "edit")
+                else if(Context.MessageContentForEdit == "edit")
                 {
                     await CommandHandeling.SendingMess(Context, null, "edit",  "Booole. [time] have to be in range 0-1439 (in minutes)");
                 }
@@ -159,26 +178,44 @@ namespace OctoBot.Commands
 
             var timeDateTime = DateTime.UtcNow + TimeSpan.ParseExact(timeString, ReminderFormat.Formats, CultureInfo.CurrentCulture);
 
-            var bigmess = $"An Octopus will remind you\n" +
-                                                   $"*{reminderString}*\n\n" +
-                                                   $"We will send you a DM in  __**{timeDateTime}**__ `by UTC`\n" +
-                                                   $"**Time Now:                                {DateTime.UtcNow}** `by UTC`";
-                if (Context.MessegeContent228 != "edit")
+                var randomIndex = SecureRandom.Random(0, OctoNamePull.OctoNameRU.Length);
+                var randomOcto = OctoNamePull.OctoNameRU[randomIndex];
+                var extra = randomOcto.Split(new[] {"]("}, StringSplitOptions.RemoveEmptyEntries);
+                var name = extra[0].Remove(0,1);
+                var url = extra[1].Remove(extra[1].Length - 1,1);
+
+                var bigmess = 
+                    $"{reminderString}\n\n" +
+                    $"We will send you a DM in  __**{timeDateTime}**__ `by UTC`\n" +
+                    $"**Time Now:                               {DateTime.UtcNow}** `by UTC`";
+
+                var embed = new EmbedBuilder();
+                embed.WithAuthor(Context.User);
+                embed.WithTimestamp(DateTimeOffset.UtcNow);
+                embed.WithColor(SecureRandom.Random(0, 255), SecureRandom.Random(0, 255),
+                    SecureRandom.Random(0, 255));
+                embed.AddField($"**____**", $"{bigmess}");
+                embed.WithTitle($"{name} напомнит тебе:");
+                embed.WithUrl(url);
+
+
+              
+                if (Context.MessageContentForEdit != "edit")
                 {
-                    await CommandHandeling.SendingMess(Context, null, null,  bigmess);
+                    await CommandHandeling.SendingMess(Context, embed);
   
                 }
-                else if(Context.MessegeContent228 == "edit")
+                else if(Context.MessageContentForEdit == "edit")
                 {
-                    await CommandHandeling.SendingMess(Context, null, "edit",  bigmess);
+                    await CommandHandeling.SendingMess(Context, embed, "edit");
                 }
 
-            var account = UserAccounts.GetAccount(Context.User);
+            var account = UserAccounts.GetAccount(Context.User, 0);
             //account.SocketUser = SocketGuildUser(Context.User);
             var newReminder = new CreateReminder(timeDateTime, reminderString);
 
             account.ReminderList.Add(newReminder);
-            UserAccounts.SaveAccounts();
+            UserAccounts.SaveAccounts(0);
 
             }
             catch
@@ -194,7 +231,7 @@ namespace OctoBot.Commands
         {
 
             try{
-            //       var commander = UserAccounts.GetAccount(Context.User);
+            //       var commander = UserAccounts.GetAccount(Context.User, Context.Guild.Id);
 
 
             string[] splittedArgs = null;
@@ -215,12 +252,12 @@ namespace OctoBot.Commands
                                  "Between message and time **HAVE TO BE** written `in` part" +
                                  "(Time can be different, but follow the rules! **day-hour-minute-second**. You can skip any of those parts, but they have to be in the same order. One space or without it between each of the parts\n" +
                                  "I'm a loving order octopus!";
-                if (Context.MessegeContent228 != "edit")
+                if (Context.MessageContentForEdit != "edit")
                 {
                     await CommandHandeling.SendingMess(Context, null, null,  bigmess);
   
                 }
-                else if(Context.MessegeContent228 == "edit")
+                else if(Context.MessageContentForEdit == "edit")
                 {
                     await CommandHandeling.SendingMess(Context, null, "edit",  bigmess);
                 }
@@ -235,25 +272,44 @@ namespace OctoBot.Commands
 
             var user = Global.Client.GetUser(userId);
 
-            var bigmess2 = $"An Octopus will remind {user.Mention}\n" +
-                                                   $"*{reminderString}*\n\n" +
-                                                   $"We will send him a DM in  __**{timeDateTime}**__ `by UTC`\n" +
-                                                   $"**Time Now:                                {DateTime.UtcNow}** `by UTC`";
-                if (Context.MessegeContent228 != "edit")
+
+                var randomIndex = SecureRandom.Random(0, OctoNamePull.OctoNameRU.Length);
+                var randomOcto = OctoNamePull.OctoNameRU[randomIndex];
+                var extra = randomOcto.Split(new[] {"]("}, StringSplitOptions.RemoveEmptyEntries);
+                var name = extra[0].Remove(0,1);
+                var url = extra[1].Remove(extra[1].Length - 1,1);
+
+                var embed = new EmbedBuilder();
+                embed.WithAuthor(Context.User);
+                embed.WithTimestamp(DateTimeOffset.UtcNow);
+                embed.WithColor(SecureRandom.Random(0, 255), SecureRandom.Random(0, 255),
+                    SecureRandom.Random(0, 255));
+
+                var bigmess2 = 
+                    $"{reminderString}\n\n" +
+                    $"We will send you a DM in  __**{timeDateTime}**__ `by UTC`\n" +
+                    $"**Time Now:                               {DateTime.UtcNow}** `by UTC`";
+              
+              
+                embed.AddField($"**____**", $"{bigmess2}");
+                embed.WithTitle($"{name} напомнит {user.Mention}:");
+                embed.WithUrl(url);
+          
+                if (Context.MessageContentForEdit != "edit")
                 {
-                    await CommandHandeling.SendingMess(Context, null, null,  bigmess2);
+                    await CommandHandeling.SendingMess(Context, embed);
   
                 }
-                else if(Context.MessegeContent228 == "edit")
+                else if(Context.MessageContentForEdit == "edit")
                 {
-                    await CommandHandeling.SendingMess(Context, null, "edit",  bigmess2);
+                    await CommandHandeling.SendingMess(Context, embed, "edit");
                 }
 
-            var account = UserAccounts.GetAccount(user);
+            var account = UserAccounts.GetAccount(user, 0);
             var newReminder = new CreateReminder(timeDateTime, $"From {Context.User.Username}: " + reminderString);
 
             account.ReminderList.Add(newReminder);
-            UserAccounts.SaveAccounts();
+            UserAccounts.SaveAccounts(0);
             }
             catch
             {
@@ -267,19 +323,19 @@ namespace OctoBot.Commands
         public async Task ShowReminders()
         {
             try {
-            var account = UserAccounts.GetAccount(Context.User);
+            var account = UserAccounts.GetAccount(Context.User, 0);
             if (account.ReminderList.Count == 0)
             {
                 var bigmess =
                     "Booole... You have no reminders! You can create one by using the command `Remind [text] in [time]`\n" +
                     "(Time can be different, but follow the rules! **day-hour-minute-second**. You can skip any of those parts, but they have to be in the same order. One space or without it between each of the parts\n" +
                     "I'm a loving order octopus!";
-                if (Context.MessegeContent228 != "edit")
+                if (Context.MessageContentForEdit != "edit")
                 {
                     await CommandHandeling.SendingMess(Context, null, null,  bigmess);
   
                 }
-                else if(Context.MessegeContent228 == "edit")
+                else if(Context.MessageContentForEdit == "edit")
                 {
                     await CommandHandeling.SendingMess(Context, null, "edit",  bigmess);
                 }
@@ -299,20 +355,30 @@ namespace OctoBot.Commands
                 embed.AddField($"[{i + 1}] {reminders[i].DateToPost:f}", reminders[i].ReminderMessage, true);
             }
 
-                if (Context.MessegeContent228 != "edit")
+                if (Context.MessageContentForEdit != "edit")
                 {
                     await CommandHandeling.SendingMess(Context, embed);
   
                 }
-                else if(Context.MessegeContent228 == "edit")
+                else if(Context.MessageContentForEdit == "edit")
                 {
                     await CommandHandeling.SendingMess(Context, embed, "edit");
                 }
             }
             catch
             {
-                await ReplyAsync("boo... An error just appear >_< \nTry to use this command properly: **List**(list all of your reminders)\n" +
-                                 "Alias: Напоминания, список, Мои Напоминания");
+                 var text = "boo... An error just appear >_< \nTry to use this command properly: **List**(list all of your reminders)\n" +
+                                 "Alias: Напоминания, список, Мои Напоминания";
+
+                if (Context.MessageContentForEdit != "edit")
+                {
+                    await CommandHandeling.SendingMess(Context, null, null, text);
+  
+                }
+                else if(Context.MessageContentForEdit == "edit")
+                {
+                    await CommandHandeling.SendingMess(Context, null, "edit", text);
+                }
             }
         }
 
@@ -322,22 +388,22 @@ namespace OctoBot.Commands
         public async Task ShowUserReminders(SocketUser user)
         {
             try {
-            var commander = UserAccounts.GetAccount(Context.User);
+            var commander = UserAccounts.GetAccount(Context.User, Context.Guild.Id);
             if (commander.OctoPass >= 10)
             {
-                var account = UserAccounts.GetAccount(user);
+                var account = UserAccounts.GetAccount(user, 0);
                 if (account.ReminderList.Count == 0)
                 {
                     var bigmess =
                     "Booole... You have no reminders! You can create one by using the command `Remind [text] in [time]`\n" +
                         "(Time can be different, but follow the rules! **day-hour-minute-second**. You can skip any of those parts, but they have to be in the same order. One space or without it between each of the parts\n" +
                         "I'm a loving order octopus!";
-                    if (Context.MessegeContent228 != "edit")
+                    if (Context.MessageContentForEdit != "edit")
                     {
                         await CommandHandeling.SendingMess(Context, null, null,  bigmess);
   
                     }
-                    else if(Context.MessegeContent228 == "edit")
+                    else if(Context.MessageContentForEdit == "edit")
                     {
                         await CommandHandeling.SendingMess(Context, null, "edit",  bigmess);
                     }
@@ -357,12 +423,12 @@ namespace OctoBot.Commands
                     embed.AddField($"[{i + 1}] {reminders[i].DateToPost:f}", reminders[i].ReminderMessage, true);
                 }
 
-                if (Context.MessegeContent228 != "edit")
+                if (Context.MessageContentForEdit != "edit")
                 {
                     await CommandHandeling.SendingMess(Context, embed);
   
                 }
-                else if(Context.MessegeContent228 == "edit")
+                else if(Context.MessageContentForEdit == "edit")
                 {
                     await CommandHandeling.SendingMess(Context, embed, "edit");
                 }
@@ -373,8 +439,17 @@ namespace OctoBot.Commands
             }
             catch
             {
-                await ReplyAsync("boo... An error just appear >_< \nTry to use this command properly: **List [user_ping(or user ID)]**(list all of user's reminders)\n" +
-                                 "Alias: Напоминания, список, Мои Напоминания");
+                var text = "boo... An error just appear >_< \nTry to use this command properly: **List [user_ping(or user ID)]**(list all of user's reminders)\n" +
+                                 "Alias: Напоминания, список, Мои Напоминания";
+                if (Context.MessageContentForEdit != "edit")
+                {
+                    await CommandHandeling.SendingMess(Context, null, null, text);
+  
+                }
+                else if(Context.MessageContentForEdit == "edit")
+                {
+                    await CommandHandeling.SendingMess(Context, null, "edit", text);
+                }
             }
         }
 
@@ -383,40 +458,58 @@ namespace OctoBot.Commands
         public async Task DeleteReminder(int index)
         {
             try {
-            var account = UserAccounts.GetAccount(Context.User);
+            var account = UserAccounts.GetAccount(Context.User, 0);
 
             var reminders = account.ReminderList;
 
             if (index > 0 && index <= reminders.Count)
             {
                 reminders.RemoveAt(index - 1);
-                UserAccounts.SaveAccounts();
+                UserAccounts.SaveAccounts(0);
                 var embed = new EmbedBuilder();
                 // embed.WithImageUrl("");
                 embed.WithTitle("Boole.");
                 embed.WithDescription($"Message by index **{index}** was removed!");
                 embed.WithFooter("lil octo notebook");
-                await Context.Channel.SendMessageAsync("", false, embed.Build());
+              
+                if (Context.MessageContentForEdit != "edit")
+                {
+                    await CommandHandeling.SendingMess(Context, embed);
+  
+                }
+                else if(Context.MessageContentForEdit == "edit")
+                {
+                    await CommandHandeling.SendingMess(Context, embed, "edit");
+                }
                 return;
             }
 
            var bigmess =
                 $"Booole...We could not find this reminder, could there be an error?\n" +
                 $"Try to see all of your reminders through the command `list`";
-                if (Context.MessegeContent228 != "edit")
+                if (Context.MessageContentForEdit != "edit")
                 {
                     await CommandHandeling.SendingMess(Context, null, null,  bigmess);
   
                 }
-                else if(Context.MessegeContent228 == "edit")
+                else if(Context.MessageContentForEdit == "edit")
                 {
                     await CommandHandeling.SendingMess(Context, null, "edit",  bigmess);
                 }
             }
             catch
             {
-                await ReplyAsync("boo... An error just appear >_< \nTry to use this command properly: **del [index_num]**(delete the reminder(see all of them though comm **list**))\n" +
-                                 "Alias: Удалить, Delete");
+                var text = "boo... An error just appear >_< \nTry to use this command properly: **del [index_num]**(delete the reminder(see all of them though comm **list**))\n" +
+                                 "Alias: Удалить, Delete";
+                if (Context.MessageContentForEdit != "edit")
+                {
+                    await CommandHandeling.SendingMess(Context, null, null, text);
+  
+                }
+                else if(Context.MessageContentForEdit == "edit")
+                {
+                    await CommandHandeling.SendingMess(Context, null, "edit", text);
+                }
             }
         }
 
@@ -426,12 +519,12 @@ namespace OctoBot.Commands
         {
             try {
             var bigmess = $"**UTC Current Time: {DateTime.UtcNow}**";
-                if (Context.MessegeContent228 != "edit")
+                if (Context.MessageContentForEdit != "edit")
                 {
                     await CommandHandeling.SendingMess(Context, null, null,  bigmess);
   
                 }
-                else if(Context.MessegeContent228 == "edit")
+                else if(Context.MessageContentForEdit == "edit")
                 {
                     await CommandHandeling.SendingMess(Context, null, "edit",  bigmess);
                 }
@@ -469,80 +562,88 @@ namespace OctoBot.Commands
         {
             try
             {
-                var allUserAccounts = UserAccounts.GetAllAccounts();
+                var allUserAccounts = UserAccounts.GetOrAddUserAccountsForGuild(0);
                 var now = DateTime.UtcNow;
 
                 foreach (var t in allUserAccounts)
                 {
-                    if (Global.Client.GetUser(t.Id) != null)
+                    if (Global.Client.GetUser(t.Id) == null)
+                        continue;
+
+
+                    var globalAccount = Global.Client.GetUser(t.Id);
+                    var account = UserAccounts.GetAccount(globalAccount, 0);
+
+                    var removeLaterList = new List<CreateReminder>();
+
+                    for (var j = 0; j < account.ReminderList?.Count; j++)
                     {
 
-                        var globalAccount = Global.Client.GetUser(t.Id);
-                        var account = UserAccounts.GetAccount(globalAccount);
+                        if (account.ReminderList[j].DateToPost > now)
+                            continue;
 
-                        for (var j = 0; j < account.ReminderList?.Count; j++)
+                        try
                         {
+                            var dmChannel = await globalAccount.GetOrCreateDMChannelAsync();
+                            var embed = new EmbedBuilder();
+                            embed.WithFooter("lil octo notebook");
+                            embed.WithColor(Color.Teal);
+                            embed.WithTitle("Розовенькая черепашка напоминает тебе:");
+                            embed.WithDescription($"\n{account.ReminderList[j].ReminderMessage}");
 
-                            if (account.ReminderList[j].DateToPost <= now)
+                            await dmChannel.SendMessageAsync("", false, embed.Build());
+
+                            removeLaterList.Add(account.ReminderList[j]);
+
+                            //  account.ReminderList.RemoveAt(j);
+                           //   UserAccounts.SaveAccounts(0);
+                        }
+                        catch (Exception closedDm)
+                        {
+                            try
                             {
-                                try
-                                {
-                                    var dmChannel = await globalAccount.GetOrCreateDMChannelAsync();
-                                    var embed = new EmbedBuilder();
-                                    embed.WithFooter("lil octo notebook");
-                                    embed.WithColor(Color.Teal);
-                                    embed.WithTitle("Розовенькая черепашка напоминает тебе:");
-                                    embed.WithDescription($"\n{account.ReminderList[j].ReminderMessage}");
-
-                                    await dmChannel.SendMessageAsync("", false, embed.Build());
-
-                                    account.ReminderList.RemoveAt(j);
-                                    UserAccounts.SaveAccounts();
-                                }
-                                catch (Exception closedDm)
-                                {
-                                    try
-                                    {
-                                        Console.WriteLine($"ERROR DM SENING {account.UserName} Closed DM: '{0}'",
-                                            closedDm);
-                                        account.ReminderList = null;
-                                        UserAccounts.SaveAccounts();
-                                        return;
-                                    }
-                                    catch
-                                    {
-                                        Console.ForegroundColor = ConsoleColor.Red;
-                                        Console.WriteLine($"ERROR REMINDER (Catch-catch) {account.UserName}");
-                                        Console.ResetColor();
-                                    }
-
-                                }
+                                if (!closedDm.Message.Contains("404") || !closedDm.Message.Contains("403")) continue;
+                                Console.WriteLine($"ERROR DM SENING {account.UserName} Closed DM: '{0}'",
+                                    closedDm);
+                                account.ReminderList = null;
+                                UserAccounts.SaveAccounts(0);
+                                return;
+                            }
+                            catch
+                            {
+                                Console.ForegroundColor = ConsoleColor.Red;
+                                Console.WriteLine($"ERROR REMINDER (Catch-catch) {account.UserName}");
+                                Console.ResetColor();
                             }
                         }
-
                     }
+
+                    if (!removeLaterList.Any()) continue;
+                    removeLaterList.ForEach(item => account.ReminderList.Remove(item));
+                    UserAccounts.SaveAccounts(0);
                 }
             }
             catch (Exception error)
             {
                 Console.WriteLine("ERROR!!! REMINDER(Big try) Does not work: '{0}'", error);
-               
+
             }
         }
 
-          public static async void CheckForMute(object sender, ElapsedEventArgs e)
+        public static async void CheckForMute(object sender, ElapsedEventArgs e)
         {
             try
             {
-                var allUserAccounts = UserAccounts.GetAllAccounts();
+                var allUserAccounts = UserAccounts.GetOrAddUserAccountsForGuild(0);
                 var now = DateTime.UtcNow;
 
                 foreach (var t in allUserAccounts)
                 {
-                    if (Global.Client.GetUser(t.Id) != null)
-                    {
+                    if (Global.Client.GetUser(t.Id) == null)
+                        continue;
+                    
                         var globalAccount = Global.Client.GetUser(t.Id);
-                        var account = UserAccounts.GetAccount(globalAccount);
+                        var account = UserAccounts.GetAccount(globalAccount, 0);
          
                             if (account.MuteTimer <= now && account.MuteTimer != Convert.ToDateTime("0001-01-01T00:00:00"))
                             {
@@ -552,9 +653,9 @@ namespace OctoBot.Commands
                                     .SingleOrDefault(x => x.Name.ToString() == "Muted");
                                 var wtf = Global.Client.GetGuild(338355570669256705).GetUser(account.Id);
                                 await wtf.RemoveRoleAsync(roleToGive);
-
+                                await wtf.ModifyAsync(u => u.Mute = false);
                                 account.MuteTimer = Convert.ToDateTime("0001-01-01T00:00:00");
-                                UserAccounts.SaveAccounts();
+                                UserAccounts.SaveAccounts(0);
 
                                 try
                                 {
@@ -579,7 +680,7 @@ namespace OctoBot.Commands
                                         .SendMessageAsync("", false, embed.Build());
                                 }
                             }
-                    }
+                    
                 }
             }
             catch (Exception error)

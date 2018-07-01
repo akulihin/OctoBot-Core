@@ -11,6 +11,85 @@ namespace OctoBot.Commands.ShadowCItyCOmmand
     internal static class RoomRoleReaction
     {
 
+        public static async Task RemoveReactions(Cacheable<IUserMessage, ulong> cash,
+            ISocketMessageChannel channel, SocketReaction reaction, int editCheck, SocketUser globalAccount )
+        {
+            try
+            {
+                if (editCheck == 1)
+                {
+                    await cash.GetOrDownloadAsync().Result
+                        .RemoveReactionAsync(reaction.Emote, globalAccount, RequestOptions.Default);
+                }
+                else if (editCheck == 2)
+                {
+                    var rkn = Emote.Parse("<:RKN:445325930022436874>");
+                    var realy = Emote.Parse("<:realy:374655750657540106>");
+                    var feelsBadMan = Emote.Parse("<:FeelsBadMan:374655964843868162>");
+                    var woahMorfin = Emote.Parse("<:WoahMorfin:436787514813186050>");
+                    var thonk = Emote.Parse("<:thonk:445324435403309087>");
+                    var akaShrug = Emote.Parse("<:AkaShrug:374802737596071936>");
+                    var such = Emote.Parse("<:such:445322074781908993>");
+                    var kannNom = Emote.Parse("<:GWnanamiKannaNom:445321264169746434>");
+                    var pogChamp = Emote.Parse("<:PogChamp:374656108117098517>");
+                    var hanzo = Emote.Parse("<:hanzo:445324859690582018>");
+
+                    var yasuo = Emote.Parse("<:yasuo:445323301137547264>");
+                    var gacHiPride = Emote.Parse("<:gacHIPride:394782921749430273>");
+                    var pekaohmy = Emote.Parse("<:pekaohmy:374656330742497280>");
+                    var warframe = Emote.Parse("<:warframe:445467639242948618>");
+                    var nintendoswitch = Emote.Parse("<:nintendoswitch:447209808064413707>");
+
+                    await cash.GetOrDownloadAsync().Result.RemoveAllReactionsAsync();
+                    await cash.GetOrDownloadAsync().Result.AddReactionAsync(rkn);
+                    await cash.GetOrDownloadAsync().Result.AddReactionAsync(realy);
+                    await cash.GetOrDownloadAsync().Result.AddReactionAsync(feelsBadMan);
+                    await cash.GetOrDownloadAsync().Result.AddReactionAsync(woahMorfin);
+                    await cash.GetOrDownloadAsync().Result.AddReactionAsync(thonk);
+                    await cash.GetOrDownloadAsync().Result.AddReactionAsync(akaShrug);
+                    await cash.GetOrDownloadAsync().Result.AddReactionAsync(such);
+                    await cash.GetOrDownloadAsync().Result.AddReactionAsync(kannNom);
+                    await cash.GetOrDownloadAsync().Result.AddReactionAsync(pogChamp);
+                    await cash.GetOrDownloadAsync().Result.AddReactionAsync(hanzo);
+
+                    await cash.GetOrDownloadAsync().Result.AddReactionAsync(yasuo);
+                    await cash.GetOrDownloadAsync().Result.AddReactionAsync(gacHiPride);
+                    await cash.GetOrDownloadAsync().Result.AddReactionAsync(warframe);
+                    await cash.GetOrDownloadAsync().Result.AddReactionAsync(nintendoswitch);
+                    await cash.GetOrDownloadAsync().Result.AddReactionAsync(pekaohmy);
+                }
+                else if (editCheck == 3)
+                {
+                                                var peaceKeepo = Emote.Parse("<:PeaceKeepo:438257037667729408>");
+                            var praise = Emote.Parse("<:praise:445274481917952001>");
+                            var rem = Emote.Parse("<:rem:445275743719522304>");
+                            var steampunk = Emote.Parse("<:Steampunk:445276776676196353>");
+                            var mumu = Emote.Parse("<:mumu:445277916872310785>");
+                            var monkaS = Emote.Parse("<:monkaS:398183436613058570>");
+                            var pekaohmy = Emote.Parse("<:pekaohmy:374656330742497280>");
+
+                             await cash.GetOrDownloadAsync().Result.RemoveAllReactionsAsync();
+                            await cash.GetOrDownloadAsync().Result.AddReactionAsync(rem);
+                            await cash.GetOrDownloadAsync().Result.AddReactionAsync(new Emoji("🦊"));
+                            await cash.GetOrDownloadAsync().Result.AddReactionAsync(peaceKeepo);
+                            await cash.GetOrDownloadAsync().Result.AddReactionAsync(steampunk);
+                            await cash.GetOrDownloadAsync().Result.AddReactionAsync(praise);
+                            await cash.GetOrDownloadAsync().Result.AddReactionAsync(monkaS);
+                            await cash.GetOrDownloadAsync().Result.AddReactionAsync(new Emoji("🐲"));
+                            await cash.GetOrDownloadAsync().Result.AddReactionAsync(new Emoji("🐼"));
+                            await cash.GetOrDownloadAsync().Result.AddReactionAsync(new Emoji("🦎"));
+                            await cash.GetOrDownloadAsync().Result.AddReactionAsync(new Emoji("🌑"));
+                            await cash.GetOrDownloadAsync().Result.AddReactionAsync(mumu);      
+                            await cash.GetOrDownloadAsync().Result.AddReactionAsync(new Emoji("🐱"));
+                            await cash.GetOrDownloadAsync().Result.AddReactionAsync(pekaohmy);   
+                }
+            }
+            catch
+            {
+                //
+            }
+        }
+
         public static async Task ReactionAddedForRole(Cacheable<IUserMessage, ulong> cash,
             ISocketMessageChannel channel, SocketReaction reaction)
         {
@@ -33,8 +112,8 @@ namespace OctoBot.Commands.ShadowCItyCOmmand
                             if (roleList.Any(t => t.Name == "блок"))
                             {
                                 await guildUser.RemoveRoleAsync(roleToGive);
-                                await cash.DownloadAsync().Result
-                                    .RemoveReactionAsync(reaction.Emote, globalAccount, RequestOptions.Default);
+
+                                var k = RemoveReactions(cash, channel, reaction, 1, globalAccount);
                                 return;
                             }
 
@@ -51,8 +130,7 @@ namespace OctoBot.Commands.ShadowCItyCOmmand
                             if (roleList.Any(t => t.Name == "антисрач"))
                             {
                                 await guildUser.RemoveRoleAsync(roleToGive);
-                                await cash.DownloadAsync().Result
-                                    .RemoveReactionAsync(reaction.Emote, globalAccount, RequestOptions.Default);
+                                var k = RemoveReactions(cash, channel, reaction, 1, globalAccount);
                                 return;
                             }
 
@@ -69,8 +147,7 @@ namespace OctoBot.Commands.ShadowCItyCOmmand
                             if (roleList.Any(t => t.Name == "event block"))
                             {
                                 await guildUser.RemoveRoleAsync(roleToGive);
-                                await cash.DownloadAsync().Result
-                                    .RemoveReactionAsync(reaction.Emote, globalAccount, RequestOptions.Default);
+                                var k = RemoveReactions(cash, channel, reaction, 1, globalAccount);
                                 return;
                             }
 
@@ -87,8 +164,7 @@ namespace OctoBot.Commands.ShadowCItyCOmmand
                             if (roleList.Any(t => t.Name == "voice-game"))
                             {
                                 await guildUser.RemoveRoleAsync(roleToGive);
-                                await cash.DownloadAsync().Result
-                                    .RemoveReactionAsync(reaction.Emote, globalAccount, RequestOptions.Default);
+                                var k = RemoveReactions(cash, channel, reaction, 1, globalAccount);
                                 return;
                             }
 
@@ -105,8 +181,7 @@ namespace OctoBot.Commands.ShadowCItyCOmmand
                             if (roleList.Any(t => t.Name == "riddler"))
                             {
                                 await guildUser.RemoveRoleAsync(roleToGive);
-                                await cash.DownloadAsync().Result
-                                    .RemoveReactionAsync(reaction.Emote, globalAccount, RequestOptions.Default);
+                                var k = RemoveReactions(cash, channel, reaction, 1, globalAccount);
                                 return;
                             }
 
@@ -123,8 +198,7 @@ namespace OctoBot.Commands.ShadowCItyCOmmand
                             if (roleList.Any(t => t.Name == "настолочник"))
                             {
                                 await guildUser.RemoveRoleAsync(roleToGive);
-                                await cash.DownloadAsync().Result
-                                    .RemoveReactionAsync(reaction.Emote, globalAccount, RequestOptions.Default);
+                                var k = RemoveReactions(cash, channel, reaction, 1, globalAccount);
                                 return;
                             }
 
@@ -141,8 +215,7 @@ namespace OctoBot.Commands.ShadowCItyCOmmand
                             if (roleList.Any(t => t.Name == "Технарь"))
                             {
                                 await guildUser.RemoveRoleAsync(roleToGive);
-                                await cash.DownloadAsync().Result
-                                    .RemoveReactionAsync(reaction.Emote, globalAccount, RequestOptions.Default);
+                                var k = RemoveReactions(cash, channel, reaction, 1, globalAccount);
                                 return;
                             }
 
@@ -159,8 +232,7 @@ namespace OctoBot.Commands.ShadowCItyCOmmand
                             if (roleList.Any(t => t.Name == "Аниме"))
                             {
                                 await guildUser.RemoveRoleAsync(roleToGive);
-                                await cash.DownloadAsync().Result
-                                    .RemoveReactionAsync(reaction.Emote, globalAccount, RequestOptions.Default);
+                                var k = RemoveReactions(cash, channel, reaction, 1, globalAccount);
                                 return;
                             }
 
@@ -177,8 +249,7 @@ namespace OctoBot.Commands.ShadowCItyCOmmand
                             if (roleList.Any(t => t.Name == "card player"))
                             {
                                 await guildUser.RemoveRoleAsync(roleToGive);
-                                await cash.DownloadAsync().Result
-                                    .RemoveReactionAsync(reaction.Emote, globalAccount, RequestOptions.Default);
+                                var k = RemoveReactions(cash, channel, reaction, 1, globalAccount);
                                 return;
                             }
 
@@ -195,8 +266,7 @@ namespace OctoBot.Commands.ShadowCItyCOmmand
                             if (roleList.Any(t => t.Name == "hots"))
                             {
                                 await guildUser.RemoveRoleAsync(roleToGive);
-                                await cash.DownloadAsync().Result
-                                    .RemoveReactionAsync(reaction.Emote, globalAccount, RequestOptions.Default);
+                                var k = RemoveReactions(cash, channel, reaction, 1, globalAccount);
                                 return;
                             }
 
@@ -214,8 +284,7 @@ namespace OctoBot.Commands.ShadowCItyCOmmand
                             if (roleList.Any(t => t.Name == "LoL"))
                             {
                                 await guildUser.RemoveRoleAsync(roleToGive);
-                                await cash.DownloadAsync().Result
-                                    .RemoveReactionAsync(reaction.Emote, globalAccount, RequestOptions.Default);
+                                var k = RemoveReactions(cash, channel, reaction, 1, globalAccount);
                                 return;
                             }
 
@@ -232,8 +301,7 @@ namespace OctoBot.Commands.ShadowCItyCOmmand
                             if (roleList.Any(t => t.Name == "Recruit"))
                             {
                                 await guildUser.RemoveRoleAsync(roleToGive);
-                                await cash.DownloadAsync().Result
-                                    .RemoveReactionAsync(reaction.Emote, globalAccount, RequestOptions.Default);
+                                var k = RemoveReactions(cash, channel, reaction, 1, globalAccount);
                                 return;
                             }
 
@@ -243,42 +311,9 @@ namespace OctoBot.Commands.ShadowCItyCOmmand
                         case "pekaohmy" when reaction.UserId == 181514288278536193:
                         {
                             
-                            var rkn = Emote.Parse("<:RKN:445325930022436874>");
-                            var realy = Emote.Parse("<:realy:374655750657540106>");
-                            var feelsBadMan = Emote.Parse("<:FeelsBadMan:374655964843868162>");
-                            var woahMorfin = Emote.Parse("<:WoahMorfin:436787514813186050>");
-                            var thonk = Emote.Parse("<:thonk:445324435403309087>");
-                            var akaShrug = Emote.Parse("<:AkaShrug:374802737596071936>");
-                            var such = Emote.Parse("<:such:445322074781908993>");
-                            var kannNom = Emote.Parse("<:GWnanamiKannaNom:445321264169746434>");
-                            var pogChamp = Emote.Parse("<:PogChamp:374656108117098517>");
-                            var hanzo = Emote.Parse("<:hanzo:445324859690582018>");
-                           
-                            var yasuo = Emote.Parse("<:yasuo:445323301137547264>");
-                            var gacHiPride = Emote.Parse("<:gacHIPride:394782921749430273>");
-                            var pekaohmy = Emote.Parse("<:pekaohmy:374656330742497280>");
-                            var warframe = Emote.Parse("<:warframe:445467639242948618>");
-                            var nintendoswitch = Emote.Parse("<:nintendoswitch:447209808064413707>");
-
-                            await cash.DownloadAsync().Result.RemoveAllReactionsAsync();
-                            await cash.DownloadAsync().Result.AddReactionAsync(rkn);
-                            await cash.DownloadAsync().Result.AddReactionAsync(realy);
-                            await cash.DownloadAsync().Result.AddReactionAsync(feelsBadMan);
-                            await cash.DownloadAsync().Result.AddReactionAsync(woahMorfin);
-                            await cash.DownloadAsync().Result.AddReactionAsync(thonk);
-                            await cash.DownloadAsync().Result.AddReactionAsync(akaShrug);
-                            await cash.DownloadAsync().Result.AddReactionAsync(such);
-                            await cash.DownloadAsync().Result.AddReactionAsync(kannNom);
-                            await cash.DownloadAsync().Result.AddReactionAsync(pogChamp);
-                            await cash.DownloadAsync().Result.AddReactionAsync(hanzo);
+             
                             
-                            await cash.DownloadAsync().Result.AddReactionAsync(yasuo);
-                            await cash.DownloadAsync().Result.AddReactionAsync(gacHiPride);
-                            await cash.DownloadAsync().Result.AddReactionAsync(warframe);
-                            await cash.DownloadAsync().Result.AddReactionAsync(nintendoswitch);
-                            await cash.DownloadAsync().Result.AddReactionAsync(pekaohmy);
-                            
-                              
+                            var k = RemoveReactions(cash, channel, reaction, 2, globalAccount);
                             break;
                             
                         }
@@ -292,8 +327,7 @@ namespace OctoBot.Commands.ShadowCItyCOmmand
                             if (roleList.Any(t => t.Name == "warframe"))
                             {
                                 await guildUser.RemoveRoleAsync(roleToGive);
-                                await cash.DownloadAsync().Result
-                                    .RemoveReactionAsync(reaction.Emote, globalAccount, RequestOptions.Default);
+                                var k = RemoveReactions(cash, channel, reaction, 1, globalAccount);
                                 return;
                             }
 
@@ -310,8 +344,7 @@ namespace OctoBot.Commands.ShadowCItyCOmmand
                             if (roleList.Any(t => t.Name == "switcher"))
                             {
                                 await guildUser.RemoveRoleAsync(roleToGive);
-                                await cash.DownloadAsync().Result
-                                    .RemoveReactionAsync(reaction.Emote, globalAccount, RequestOptions.Default);
+                                var k = RemoveReactions(cash, channel, reaction, 1, globalAccount);
                                 return;
                             }
 
@@ -323,8 +356,7 @@ namespace OctoBot.Commands.ShadowCItyCOmmand
                             return;
                     }
                     
-                    await cash.DownloadAsync().Result
-                        .RemoveReactionAsync(reaction.Emote, globalAccount, RequestOptions.Default);
+                    var kk = RemoveReactions(cash, channel, reaction, 1, globalAccount);
                  
                 }
                 

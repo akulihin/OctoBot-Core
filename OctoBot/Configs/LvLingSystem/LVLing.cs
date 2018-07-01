@@ -36,7 +36,7 @@ namespace OctoBot.Configs.LvLingSystem
 
 
 
-            var userAccount = UserAccounts.GetAccount(user);
+            var userAccount = UserAccounts.GetAccount(user, channel.Guild.Id);
             userAccount.Points += 5 + (int)wordsPoints;
             userAccount.LvlPoinnts += 30 + (uint)wordsPointsActivity;
             userAccount.UserName = user.Username;
@@ -44,11 +44,7 @@ namespace OctoBot.Configs.LvLingSystem
           
             userAccount.Lvl = Math.Sqrt(userAccount.LvlPoinnts / 150);
 
-            UserAccounts.SaveAccounts();
-
-
-
-
+            UserAccounts.SaveAccounts(channel.Guild.Id);
         }
     }
 }

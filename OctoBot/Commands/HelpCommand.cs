@@ -22,12 +22,12 @@ namespace OctoBot.Commands
             embed.WithTitle("Bonafak")
                     .WithDescription("wanna fak?")
                     .WithColor(Color.Blue);
-            if (Context.MessegeContent228 != "edit")
+            if (Context.MessageContentForEdit != "edit")
             {
                 await CommandHandeling.SendingMess(Context, embed);
   
             }
-            else if(Context.MessegeContent228 == "edit")
+            else if(Context.MessageContentForEdit == "edit")
             {
                 await CommandHandeling.SendingMess(Context, embed, "edit");
             }
@@ -75,12 +75,12 @@ namespace OctoBot.Commands
       
             embed.WithFooter("Записная книжечка Осьминожек");
             embed.WithColor(Color.LightOrange);
-            if (Context.MessegeContent228 != "edit")
+            if (Context.MessageContentForEdit != "edit")
             {
                 await CommandHandeling.SendingMess(Context, embed);
   
             }
-            else if(Context.MessegeContent228 == "edit")
+            else if(Context.MessageContentForEdit == "edit")
             {
                 await CommandHandeling.SendingMess(Context, embed, "edit");
             }
@@ -114,12 +114,12 @@ namespace OctoBot.Commands
 
             embed.WithFooter("Записная книжечка Осьминожек");
             embed.WithColor(Color.LightOrange);
-            if (Context.MessegeContent228 != "edit")
+            if (Context.MessageContentForEdit != "edit")
             {
                 await CommandHandeling.SendingMess(Context, embed);
   
             }
-            else if(Context.MessegeContent228 == "edit")
+            else if(Context.MessageContentForEdit == "edit")
             {
                 await CommandHandeling.SendingMess(Context, embed, "edit");
             }
@@ -169,12 +169,12 @@ namespace OctoBot.Commands
            
             embed.WithFooter("Записная книжечка Осьминожек");
             embed.WithColor(Color.LightOrange);
-            if (Context.MessegeContent228 != "edit")
+            if (Context.MessageContentForEdit != "edit")
             {
                 await CommandHandeling.SendingMess(Context, embed);
   
             }
-            else if(Context.MessegeContent228 == "edit")
+            else if(Context.MessageContentForEdit == "edit")
             {
                 await CommandHandeling.SendingMess(Context, embed, "edit");
             }
@@ -199,12 +199,12 @@ namespace OctoBot.Commands
           
             embed.WithFooter("Записная книжечка Осьминожек");
             embed.WithColor(Color.LightOrange);
-            if (Context.MessegeContent228 != "edit")
+            if (Context.MessageContentForEdit != "edit")
             {
                 await CommandHandeling.SendingMess(Context, embed);
   
             }
-            else if(Context.MessegeContent228 == "edit")
+            else if(Context.MessageContentForEdit == "edit")
             {
                 await CommandHandeling.SendingMess(Context, embed, "edit");
             }
@@ -239,12 +239,12 @@ namespace OctoBot.Commands
 
             embed.WithFooter("Записная книжечка Осьминожек");
             embed.WithColor(Color.LightOrange);
-            if (Context.MessegeContent228 != "edit")
+            if (Context.MessageContentForEdit != "edit")
             {
                 await CommandHandeling.SendingMess(Context, embed);
   
             }
-            else if(Context.MessegeContent228 == "edit")
+            else if(Context.MessageContentForEdit == "edit")
             {
                 await CommandHandeling.SendingMess(Context, embed, "edit");
             }
@@ -276,12 +276,12 @@ namespace OctoBot.Commands
            
             embed.WithFooter("Записная книжечка Осьминожек");
             embed.WithColor(Color.Blue);
-            if (Context.MessegeContent228 != "edit")
+            if (Context.MessageContentForEdit != "edit")
             {
                 await CommandHandeling.SendingMess(Context, embed);
   
             }
-            else if(Context.MessegeContent228 == "edit")
+            else if(Context.MessageContentForEdit == "edit")
             {
                 await CommandHandeling.SendingMess(Context, embed, "edit");
             }
@@ -306,12 +306,12 @@ namespace OctoBot.Commands
             embed.AddField("Extra:", "Все доступные роли можно получить в #info нажам на определенную реакцию\n");
             embed.WithFooter("Записная книжечка Осьминожек");
             embed.WithColor(Color.LightOrange);
-            if (Context.MessegeContent228 != "edit")
+            if (Context.MessageContentForEdit != "edit")
             {
                 await CommandHandeling.SendingMess(Context, embed);
   
             }
-            else if(Context.MessegeContent228 == "edit")
+            else if(Context.MessageContentForEdit == "edit")
             {
                 await CommandHandeling.SendingMess(Context, embed, "edit");
             }

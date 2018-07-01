@@ -20,12 +20,12 @@ namespace OctoBot.Commands
             if (page < 1)
             {
                 
-                if (Context.MessegeContent228 != "edit")
+                if (Context.MessageContentForEdit != "edit")
                 {
                     await CommandHandeling.SendingMess(Context, null, null,  "Are you fucking sure about that?");
   
                 }
-                else if(Context.MessegeContent228 == "edit")
+                else if(Context.MessageContentForEdit == "edit")
                 {
                     await CommandHandeling.SendingMess(Context, null, "edit",  "Are you fucking sure about that?");
                 }
@@ -34,7 +34,7 @@ namespace OctoBot.Commands
 
             var currentGuildUsersId = Context.Guild.Users.Select(user => user.Id);
             // Get only accounts of this server
-            var accounts = UserAccounts.GetFilteredAccounts(acc => currentGuildUsersId.Contains(acc.Id));
+            var accounts = UserAccounts.GetFilteredAccounts(acc => currentGuildUsersId.Contains(acc.Id), Context.Guild.Id);
 
             const int usersPerPage = 9;
 
@@ -42,12 +42,12 @@ namespace OctoBot.Commands
             if (page > lastPage)
             {
                 
-                if (Context.MessegeContent228 != "edit")
+                if (Context.MessageContentForEdit != "edit")
                 {
                     await CommandHandeling.SendingMess(Context, null, null, $"Boole. Last Page is {lastPage}");
   
                 }
-                else if(Context.MessegeContent228 == "edit")
+                else if(Context.MessageContentForEdit == "edit")
                 {
                     await CommandHandeling.SendingMess(Context, null, "edit", $"Boole. Last Page is {lastPage}");
                 }
@@ -78,12 +78,12 @@ namespace OctoBot.Commands
             }
 
            
-                if (Context.MessegeContent228 != "edit")
+                if (Context.MessageContentForEdit != "edit")
                 {
                     await CommandHandeling.SendingMess(Context, embB);
   
                 }
-                else if(Context.MessegeContent228 == "edit")
+                else if(Context.MessageContentForEdit == "edit")
                 {
                     await CommandHandeling.SendingMess(Context, embB, "edit");
                 }
@@ -100,12 +100,12 @@ namespace OctoBot.Commands
             try {
             if (page < 1)
             {
-                if (Context.MessegeContent228 != "edit")
+                if (Context.MessageContentForEdit != "edit")
                 {
                     await CommandHandeling.SendingMess(Context, null, null,  "Are you fucking sure about that?");
   
                 }
-                else if(Context.MessegeContent228 == "edit")
+                else if(Context.MessageContentForEdit == "edit")
                 {
                     await CommandHandeling.SendingMess(Context, null, "edit",  "Are you fucking sure about that?");
                 }
@@ -113,19 +113,19 @@ namespace OctoBot.Commands
             }
 
             // Get only accounts of this server
-            var accounts = UserAccounts.GetFilteredAccounts(acc => Context.Guild.Users.Select(user => user.Id).Contains(acc.Id));
+            var accounts = UserAccounts.GetFilteredAccounts(acc => Context.Guild.Users.Select(user => user.Id).Contains(acc.Id), Context.Guild.Id);
 
             const int usersPerPage = 9;
 
             var lastPage = 1 + (accounts.Count / (usersPerPage+1));
             if (page > lastPage)
             {
-                if (Context.MessegeContent228 != "edit")
+                if (Context.MessageContentForEdit != "edit")
                 {
                     await CommandHandeling.SendingMess(Context, null, null, $"Boole. Last Page is {lastPage}");
   
                 }
-                else if(Context.MessegeContent228 == "edit")
+                else if(Context.MessageContentForEdit == "edit")
                 {
                     await CommandHandeling.SendingMess(Context, null, "edit", $"Boole. Last Page is {lastPage}");
                 }
@@ -169,12 +169,12 @@ namespace OctoBot.Commands
              embB.AddField($"#{i + usersPerPage * page} {user.Username}", $"{size} Subscribers", true);
             }
             
-                if (Context.MessegeContent228 != "edit")
+                if (Context.MessageContentForEdit != "edit")
                 {
                     await CommandHandeling.SendingMess(Context, embB);
   
                 }
-                else if(Context.MessegeContent228 == "edit")
+                else if(Context.MessageContentForEdit == "edit")
                 {
                     await CommandHandeling.SendingMess(Context, embB, "edit");
                 }
@@ -192,12 +192,12 @@ namespace OctoBot.Commands
             try {
             if (page < 1)
             {
-                if (Context.MessegeContent228 != "edit")
+                if (Context.MessageContentForEdit != "edit")
                 {
                     await CommandHandeling.SendingMess(Context, null, null,  "Are you fucking sure about that?");
   
                 }
-                else if(Context.MessegeContent228 == "edit")
+                else if(Context.MessageContentForEdit == "edit")
                 {
                     await CommandHandeling.SendingMess(Context, null, "edit",  "Are you fucking sure about that?");
                 }
@@ -207,13 +207,13 @@ namespace OctoBot.Commands
 
             var currentGuildUsersId = Context.Guild.Users.Select(user => user.Id);
             // Get only accounts of this server
-            var accounts = UserAccounts.GetFilteredAccounts(acc => currentGuildUsersId.Contains(acc.Id));
+            var accounts = UserAccounts.GetFilteredAccounts(acc => currentGuildUsersId.Contains(acc.Id), Context.Guild.Id);
 
 
             foreach (var t in accounts)
             {
                 t.Lvl = Math.Sqrt((double)t.LvlPoinnts / 150);
-                UserAccounts.SaveAccounts();
+                UserAccounts.SaveAccounts(Context.Guild.Id);
             }
 
             const int usersPerPage = 9;
@@ -222,12 +222,12 @@ namespace OctoBot.Commands
             if (page > lastPage)
             {
                
-                if (Context.MessegeContent228 != "edit")
+                if (Context.MessageContentForEdit != "edit")
                 {
                     await CommandHandeling.SendingMess(Context, null, null, $"Boole. Last Page is {lastPage}");
   
                 }
-                else if(Context.MessegeContent228 == "edit")
+                else if(Context.MessageContentForEdit == "edit")
                 {
                     await CommandHandeling.SendingMess(Context, null, "edit", $"Boole. Last Page is {lastPage}");
                 }
@@ -256,12 +256,12 @@ namespace OctoBot.Commands
                 embB.AddField($"#{i + usersPerPage * page} {user.Username}", $"{Math.Round(account.Lvl, 2)} LVL", true);
             }
 
-                if (Context.MessegeContent228 != "edit")
+                if (Context.MessageContentForEdit != "edit")
                 {
                     await CommandHandeling.SendingMess(Context, embB);
   
                 }
-                else if(Context.MessegeContent228 == "edit")
+                else if(Context.MessageContentForEdit == "edit")
                 {
                     await CommandHandeling.SendingMess(Context, embB, "edit");
                 }
@@ -279,12 +279,12 @@ namespace OctoBot.Commands
             try {
             if (page < 1)
             {
-                if (Context.MessegeContent228 != "edit")
+                if (Context.MessageContentForEdit != "edit")
                 {
                     await CommandHandeling.SendingMess(Context, null, null,  "Are you fucking sure about that?");
   
                 }
-                else if(Context.MessegeContent228 == "edit")
+                else if(Context.MessageContentForEdit == "edit")
                 {
                     await CommandHandeling.SendingMess(Context, null, "edit",  "Are you fucking sure about that?");
                 }
@@ -294,7 +294,7 @@ namespace OctoBot.Commands
 
             var currentGuildUsersId = Context.Guild.Users.Select(user => user.Id);
             // Get only accounts of this server
-            var accounts = UserAccounts.GetFilteredAccounts(acc => currentGuildUsersId.Contains(acc.Id));
+            var accounts = UserAccounts.GetFilteredAccounts(acc => currentGuildUsersId.Contains(acc.Id), Context.Guild.Id);
 
 
             foreach (var t in accounts)
@@ -308,7 +308,7 @@ namespace OctoBot.Commands
                     t.BlogAvarageScoreVotes = (float)t.BlogVotesSum / t.BlogVotesQty;
                 }
 
-                UserAccounts.SaveAccounts();
+                UserAccounts.SaveAccounts(Context.Guild.Id);
             }
 
             const int usersPerPage = 9;
@@ -316,12 +316,12 @@ namespace OctoBot.Commands
             var lastPage = 1 + (accounts.Count / (usersPerPage+1));
             if (page > lastPage)
             {
-                if (Context.MessegeContent228 != "edit")
+                if (Context.MessageContentForEdit != "edit")
                 {
                     await CommandHandeling.SendingMess(Context, null, null, $"Boole. Last Page is {lastPage}");
   
                 }
-                else if(Context.MessegeContent228 == "edit")
+                else if(Context.MessageContentForEdit == "edit")
                 {
                     await CommandHandeling.SendingMess(Context, null, "edit", $"Boole. Last Page is {lastPage}");
                 }
@@ -351,12 +351,12 @@ namespace OctoBot.Commands
               embB.AddField($"#{i + usersPerPage * page} {user.Username}", $"**{Math.Round(account.BlogAvarageScoreVotes, 2)}** out of 5 ({account.BlogVotesQty} votes)", true);
             }
 
-                if (Context.MessegeContent228 != "edit")
+                if (Context.MessageContentForEdit != "edit")
                 {
                     await CommandHandeling.SendingMess(Context, embB);
   
                 }
-                else if(Context.MessegeContent228 == "edit")
+                else if(Context.MessageContentForEdit == "edit")
                 {
                     await CommandHandeling.SendingMess(Context, embB, "edit");
                 }
@@ -373,12 +373,12 @@ namespace OctoBot.Commands
             try {
             if (page < 1)
             {
-                if (Context.MessegeContent228 != "edit")
+                if (Context.MessageContentForEdit != "edit")
                 {
                     await CommandHandeling.SendingMess(Context, null, null,  "Are you fucking sure about that?");
   
                 }
-                else if(Context.MessegeContent228 == "edit")
+                else if(Context.MessageContentForEdit == "edit")
                 {
                     await CommandHandeling.SendingMess(Context, null, "edit",  "Are you fucking sure about that?");
                 }
@@ -388,7 +388,7 @@ namespace OctoBot.Commands
 
             var currentGuildUsersId = Context.Guild.Users.Select(user => user.Id);
             // Get only accounts of this server
-            var accounts = UserAccounts.GetFilteredAccounts(acc => currentGuildUsersId.Contains(acc.Id));
+            var accounts = UserAccounts.GetFilteredAccounts(acc => currentGuildUsersId.Contains(acc.Id), Context.Guild.Id);
 
 
             foreach (var t in accounts)
@@ -402,7 +402,7 @@ namespace OctoBot.Commands
                     t.ArtAvarageScoreVotes = (float)t.ArtVotesSum / t.ArtVotesQty;
                 }
 
-                UserAccounts.SaveAccounts();
+                UserAccounts.SaveAccounts(Context.Guild.Id);
             }
 
             const int usersPerPage = 9;
@@ -410,12 +410,12 @@ namespace OctoBot.Commands
             var lastPage = 1 + (accounts.Count / (usersPerPage+1));
             if (page > lastPage)
             {
-                if (Context.MessegeContent228 != "edit")
+                if (Context.MessageContentForEdit != "edit")
                 {
                     await CommandHandeling.SendingMess(Context, null, null, $"Boole. Last Page is {lastPage}");
   
                 }
-                else if(Context.MessegeContent228 == "edit")
+                else if(Context.MessageContentForEdit == "edit")
                 {
                     await CommandHandeling.SendingMess(Context, null, "edit", $"Boole. Last Page is {lastPage}");
                 }
@@ -444,12 +444,12 @@ namespace OctoBot.Commands
                  embB.AddField($"#{i + usersPerPage * page} {user.Username}", $"**{Math.Round(account.ArtAvarageScoreVotes, 2)}** out of 5 ({account.ArtVotesQty} votes)", true);
             }
 
-                if (Context.MessegeContent228 != "edit")
+                if (Context.MessageContentForEdit != "edit")
                 {
                     await CommandHandeling.SendingMess(Context, embB);
   
                 }
-                else if(Context.MessegeContent228 == "edit")
+                else if(Context.MessageContentForEdit == "edit")
                 {
                     await CommandHandeling.SendingMess(Context, embB, "edit");
                 }

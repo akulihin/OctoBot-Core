@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Discord;
 using Discord.Rest;
 using OctoBot.Configs;
 using OctoBot.Configs.Users;
@@ -99,12 +100,14 @@ namespace OctoBot.Games.Game2048
         {
             try
             {
+
                 var globalAccount = Global.Client.GetUser(userId);
-                var account = UserAccounts.GetAccount(globalAccount);
+                var chanelGuil = game.Message.Channel as IGuildChannel;
+                var account = UserAccounts.GetAccount(globalAccount, chanelGuil.Guild.Id);
                 if (game.Score > account.Best2048Score)
                 {
                     account.Best2048Score = game.Score;
-                    UserAccounts.SaveAccounts();
+                    UserAccounts.SaveAccounts(chanelGuil.Guild.Id);
                 }
 
                

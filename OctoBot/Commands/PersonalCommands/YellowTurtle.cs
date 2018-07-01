@@ -51,7 +51,7 @@ namespace OctoBot.Commands.PersonalCommands
             if (Global.CommandEnabled != 1)
                 return;
 
-            var account = UserAccounts.GetAccount(Context.User);
+            var account = UserAccounts.GetAccount(Context.User, Context.Guild.Id);
             if (Context.Channel.Id == Global.YellowTurlteChannelId && account.YellowTries != 2 )
             {
                 Global.CommandEnabled = 0;
@@ -67,7 +67,7 @@ namespace OctoBot.Commands.PersonalCommands
 
                
                 account.Rep += 100;
-                UserAccounts.SaveAccounts();
+                UserAccounts.SaveAccounts(Context.Guild.Id);
 
                 var embedtwo = new EmbedBuilder();
                 embedtwo.WithImageUrl("https://i.imgur.com/c4x1Cgw.jpg");
@@ -84,7 +84,7 @@ namespace OctoBot.Commands.PersonalCommands
                 await Context.Channel.SendMessageAsync("", false, embed.Build());
 
                 account.YellowTries += 1;
-                UserAccounts.SaveAccounts();
+                UserAccounts.SaveAccounts(Context.Guild.Id);
             }
             else if (account.YellowTries  >= 2)
             {
@@ -105,7 +105,7 @@ namespace OctoBot.Commands.PersonalCommands
                 await Context.Channel.SendMessageAsync("", false, embed.Build());
                
                 account.YellowTries += 1;
-                UserAccounts.SaveAccounts();
+                UserAccounts.SaveAccounts(Context.Guild.Id);
             }
 
         }

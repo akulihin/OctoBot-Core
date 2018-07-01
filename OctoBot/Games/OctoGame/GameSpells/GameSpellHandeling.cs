@@ -5,7 +5,6 @@ namespace OctoBot.Games.OctoGame.GameSpells
 {
     public class GameSpellHandeling
     {
-
         public static double ArmorHandeling(int armPen, int arm, double dmg)
         {
             double def = 0;
@@ -86,6 +85,7 @@ namespace OctoBot.Games.OctoGame.GameSpells
 
             return dmg;
         }
+
         public static double DodgeHandeling(int agi, double dmg, GameAccountSettings account)
         {
             var rand = new Random();
@@ -178,7 +178,6 @@ namespace OctoBot.Games.OctoGame.GameSpells
             return status;
         }
 
-
         public static double AdSkills(ulong skillId, GameAccountSettings account)
         {
             double dmg = 0;
@@ -204,7 +203,6 @@ namespace OctoBot.Games.OctoGame.GameSpells
             return dmg;
         }
 
-
         public static double DefdSkills(ulong skillId, GameAccountSettings account)
         {
             double dmg = 0;
@@ -223,8 +221,6 @@ namespace OctoBot.Games.OctoGame.GameSpells
             double dmg = 0;
             return dmg;
         }
-
-
     }
 }
 

@@ -229,12 +229,12 @@ namespace OctoBot.Commands.ShadowCItyCOmmand
                         // message.Content =  Constants.InvisibleString;
                     });
               
-                if (Context.MessegeContent228 != "edit")
+                if (Context.MessageContentForEdit != "edit")
                 {
                     await CommandHandeling.SendingMess(Context, null, null, "Бульк. Мы заапдейтили сообщение для рум!");
   
                 }
-                else if(Context.MessegeContent228 == "edit")
+                else if(Context.MessageContentForEdit == "edit")
                 {
                     await CommandHandeling.SendingMess(Context, null, "edit", "Бульк. Мы заапдейтили сообщение для рум!");
                 }
@@ -286,12 +286,12 @@ namespace OctoBot.Commands.ShadowCItyCOmmand
                           // message.Content =  Constants.InvisibleString;
                       });
                  
-                  if (Context.MessegeContent228 != "edit")
+                  if (Context.MessageContentForEdit != "edit")
                   {
                       await CommandHandeling.SendingMess(Context, null, null, "Бульк. Мы заапдейтили сообщение для цветов!");
   
                   }
-                  else if(Context.MessegeContent228 == "edit")
+                  else if(Context.MessageContentForEdit == "edit")
                   {
                       await CommandHandeling.SendingMess(Context, null, "edit", "Бульк. Мы заапдейтили сообщение для цветов!");
                   }

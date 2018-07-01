@@ -43,13 +43,13 @@ namespace OctoBot.Games.Game2048
                             NewGame.EndGame(reaction.UserId);                         
                             break;
                         case "🔃":
-                            await cash.DownloadAsync().Result.RemoveAllReactionsAsync();
-                            await cash.DownloadAsync().Result.AddReactionAsync(new Emoji("⬅"));
-                            await cash.DownloadAsync().Result.AddReactionAsync(new Emoji("➡"));
-                            await cash.DownloadAsync().Result.AddReactionAsync(new Emoji("⬆"));
-                            await cash.DownloadAsync().Result.AddReactionAsync(new Emoji("⬇"));  
-                            await cash.DownloadAsync().Result.AddReactionAsync(new Emoji("🔃"));
-                            await cash.DownloadAsync().Result.AddReactionAsync(new Emoji("❌"));
+                            await cash.GetOrDownloadAsync().Result.RemoveAllReactionsAsync();
+                            await cash.GetOrDownloadAsync().Result.AddReactionAsync(new Emoji("⬅"));
+                            await cash.GetOrDownloadAsync().Result.AddReactionAsync(new Emoji("➡"));
+                            await cash.GetOrDownloadAsync().Result.AddReactionAsync(new Emoji("⬆"));
+                            await cash.GetOrDownloadAsync().Result.AddReactionAsync(new Emoji("⬇"));  
+                            await cash.GetOrDownloadAsync().Result.AddReactionAsync(new Emoji("🔃"));
+                            await cash.GetOrDownloadAsync().Result.AddReactionAsync(new Emoji("❌"));
                             break;
                         default:
                             return;

@@ -17,7 +17,7 @@ namespace OctoBot.Services
 
         public SocketUserMessage Message { get; }
 
-        public string MessegeContent228 { get; }
+        public string MessageContentForEdit { get; }
 
         public bool IsPrivate
         {
@@ -34,7 +34,7 @@ namespace OctoBot.Services
             this.Channel = msg.Channel;
             this.User = msg.Author;
             this.Message = msg;
-            this.MessegeContent228 = edit;
+            this.MessageContentForEdit = edit;
         }
    
 

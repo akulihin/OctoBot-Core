@@ -1,84 +1,98 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using Discord;
+using Newtonsoft.Json;
+using OctoBot.Configs.Server;
 
 namespace OctoBot.Configs.Users
 {
     public static class UserAccounts
     {
 
-        private static List<AccountSettings> _accounts;
+        private static readonly ConcurrentDictionary<ulong, List<AccountSettings>> UserAccountsDictionary =
+            new ConcurrentDictionary<ulong, List<AccountSettings>>();
 
-        private static string _accountsFile = @"OctoDataBase/accounts.json";
 
         static UserAccounts()
         {
-            if (DataStorage.SaveExists(_accountsFile))
-                _accounts = DataStorage.LoadAccountSettings(_accountsFile).ToList();
-            else
+            var guildList = ServerAccounts.GetAllServerAccounts();
+            foreach (var guild in guildList)
             {
-                _accounts = new List<AccountSettings>();
-                SaveAccounts();
+                UserAccountsDictionary.GetOrAdd(guild.ServerId,
+                    x => DataStorage.LoadAccountSettings(guild.ServerId).ToList());
             }
         }
 
-        public static void SaveAccounts()
+        public static List<AccountSettings> GetOrAddUserAccountsForGuild(ulong guildId)
         {
-            DataStorage.SaveAccountSettings(_accounts, _accountsFile);
-
+            return UserAccountsDictionary.GetOrAdd(guildId, x => DataStorage.LoadAccountSettings(guildId).ToList());
         }
 
-        public static AccountSettings GetAccount(IUser user)
+        public static AccountSettings GetAccount(IUser user, ulong guildId)
         {
-            return GetOrCreateAccount(user.Id);
+            return GetOrCreateAccount(user, guildId);
         }
 
-        private static AccountSettings GetOrCreateAccount(ulong id)
-        {
-            var result = from a in _accounts
-                         where a.Id == id
-                         select a;
 
+        private static AccountSettings GetOrCreateAccount(IUser user, ulong guildId)
+        {
+            var accounts = GetOrAddUserAccountsForGuild(guildId);
+
+            var result = from a in accounts
+                where a.Id == user.Id
+                select a;
 
             var account = result.FirstOrDefault();
             if (account == null)
-                account = CreateUserAccount(id);
-
+                account = CreateUserAccount(user, guildId);
 
             return account;
         }
 
-       
 
-
-        internal static List<AccountSettings> GetAllAccounts()
+        public static void SaveAccounts(ulong guildId)
         {
-            return _accounts.ToList();
+            var accounts = GetOrAddUserAccountsForGuild(guildId);
+            DataStorage.SaveAccountSettings(accounts, guildId);
         }
 
-            internal static List<AccountSettings> GetFilteredAccounts(Func<AccountSettings, bool> filter)
-            {
-               
-                return _accounts.Where(filter).ToList();
-            }
-
-
-        private static AccountSettings CreateUserAccount(ulong id)
+        internal static List<AccountSettings> GetAllAccountForAllGuild()
         {
+            var accounts = new List<AccountSettings>();
+            foreach (var values in UserAccountsDictionary.Values)
+            {
+                accounts.AddRange(values);
+            }
+            return accounts;
+        }
+
+
+        internal static List<AccountSettings> GetFilteredAccounts(Func<AccountSettings, bool> filter, ulong guildId)
+        {
+            var accounts = GetOrAddUserAccountsForGuild(guildId);
+            return accounts.Where(filter).ToList();
+        }
+
+
+        private static AccountSettings CreateUserAccount(IUser user, ulong guildId)
+        {
+            var accounts = GetOrAddUserAccountsForGuild(guildId);
+
             var newAccount = new AccountSettings
             {
-                // Username = "буль"б
-                Id = id,
-                Rep = 0,
-                Points = 0
+
+                Id = user.Id,
+                UserName = user.Username
             };
 
-            _accounts.Add(newAccount);
-            SaveAccounts();
+            accounts.Add(newAccount);
+            SaveAccounts(guildId);
             return newAccount;
 
         }
-
     }
 }
+

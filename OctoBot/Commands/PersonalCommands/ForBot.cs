@@ -42,8 +42,8 @@ namespace OctoBot.Commands.PersonalCommands
             try
             {
                 var rand = new Random();
-                var randomIndex = rand.Next(OctoPull.OctoPics.Length);
-                var octoToPost = OctoPull.OctoPics[randomIndex];
+                var randomIndex = rand.Next(OctoPicPull.OctoPics.Length);
+                var octoToPost = OctoPicPull.OctoPics[randomIndex];
 
                 var webClient = new WebClient();
                 var imageBytes = webClient.DownloadData(octoToPost);
@@ -64,7 +64,7 @@ namespace OctoBot.Commands.PersonalCommands
         [Command("op")]
         public async Task ModerMode()
         {
-            var account = UserAccounts.GetAccount(Context.User);
+            var account = UserAccounts.GetAccount(Context.User, Context.Guild.Id);
             if (account.OctoPass < 100)
                 return;
             var guildUser = Global.Client.GetGuild(Context.Guild.Id).GetUser(Context.User.Id);
@@ -79,12 +79,12 @@ namespace OctoBot.Commands.PersonalCommands
                 await guildUser.RemoveRoleAsync(roleToGive);
                 
 
-                if (Context.MessegeContent228 != "edit")
+                if (Context.MessageContentForEdit != "edit")
                 {
                     await CommandHandeling.SendingMess(Context, null, null, "Буль!");
   
                 }
-                else if(Context.MessegeContent228 == "edit")
+                else if(Context.MessageContentForEdit == "edit")
                 {
                     await CommandHandeling.SendingMess(Context, null, "edit", "Буль!");
                 }
@@ -93,12 +93,12 @@ namespace OctoBot.Commands.PersonalCommands
             }
 
             await guildUser.AddRoleAsync(roleToGive);
-            if (Context.MessegeContent228 != "edit")
+            if (Context.MessageContentForEdit != "edit")
             {
                 await CommandHandeling.SendingMess(Context, null, null, "Буль?");
   
             }
-            else if(Context.MessegeContent228 == "edit")
+            else if(Context.MessageContentForEdit == "edit")
             {
                 await CommandHandeling.SendingMess(Context, null, "edit", "Буль?");
             }
@@ -118,12 +118,12 @@ namespace OctoBot.Commands.PersonalCommands
             }
 
             //await Context.Channel.SendMessageAsync(text);
-            if (Context.MessegeContent228 != "edit")
+            if (Context.MessageContentForEdit != "edit")
             {
                 await CommandHandeling.SendingMess(Context, null, null, text);
   
             }
-            else if(Context.MessegeContent228 == "edit")
+            else if(Context.MessageContentForEdit == "edit")
             {
                 await CommandHandeling.SendingMess(Context, null, "edit", text);
             }
@@ -146,7 +146,7 @@ namespace OctoBot.Commands.PersonalCommands
 
         
 
-            var account = UserAccounts.GetAccount(Context.User);
+            var account = UserAccounts.GetAccount(Context.User, Context.Guild.Id);
             if (account.OctoPass < 100)
             {
                 var errorUser = Global.Client.GetGuild(Context.Guild.Id).GetUser(Context.User.Id);
@@ -182,18 +182,18 @@ namespace OctoBot.Commands.PersonalCommands
                   var mutedRole = Global.Client.GetGuild(Context.Guild.Id).Roles
                       .SingleOrDefault(x => x.Name.ToString() == "Muted");
               await errorUser.AddRoleAsync(mutedRole);
-            var mutedAccount = UserAccounts.GetAccount(Context.User);
+            var mutedAccount = UserAccounts.GetAccount(Context.User, Context.Guild.Id);
                 mutedAccount.MuteTimer = timeDateTime;
                   var time = DateTime.Now.ToString("");
           
-            UserAccounts.SaveAccounts();
+            UserAccounts.SaveAccounts(Context.Guild.Id);
 
-                if (Context.MessegeContent228 != "edit")
+                if (Context.MessageContentForEdit != "edit")
                 {
                     await CommandHandeling.SendingMess(Context, null, null, $"{user.Mention} бу!");
   
                 }
-                else if(Context.MessegeContent228 == "edit")
+                else if(Context.MessageContentForEdit == "edit")
                 {
                     await CommandHandeling.SendingMess(Context, null, "edit", $"{user.Mention} бу!");
                 }
@@ -211,12 +211,12 @@ namespace OctoBot.Commands.PersonalCommands
             if (roleList.Any(t => t.Name == role))
             {
                 await guildUser.RemoveRoleAsync(roleToGive);
-                if (Context.MessegeContent228 != "edit")
+                if (Context.MessageContentForEdit != "edit")
                 {
                     await CommandHandeling.SendingMess(Context, null, null, "Буль!");
   
                 }
-                else if(Context.MessegeContent228 == "edit")
+                else if(Context.MessageContentForEdit == "edit")
                 {
                     await CommandHandeling.SendingMess(Context, null, "edit", "Буль!");
                 }
@@ -224,12 +224,12 @@ namespace OctoBot.Commands.PersonalCommands
             }
 
             await guildUser.AddRoleAsync(roleToGive);
-            if (Context.MessegeContent228 != "edit")
+            if (Context.MessageContentForEdit != "edit")
             {
                 await CommandHandeling.SendingMess(Context, null, null, "Буль?");
   
             }
-            else if(Context.MessegeContent228 == "edit")
+            else if(Context.MessageContentForEdit == "edit")
             {
                 await CommandHandeling.SendingMess(Context, null, "edit", "Буль?");
             }
@@ -245,30 +245,30 @@ namespace OctoBot.Commands.PersonalCommands
             if (re == "yes" || re == "yes." || re == "yes!" || re == "for sure!" || re == "ofc." || re == "да" ||
                 re == "да!" || re == "да." || re == "конечно!" || re == "конечно." || re == "конечно")
             {
-                var contextAcc = UserAccounts.GetAccount(Context.User);
-                var userAcc = UserAccounts.GetAccount(user);
+                var contextAcc = UserAccounts.GetAccount(Context.User, Context.Guild.Id);
+                var userAcc = UserAccounts.GetAccount(user, Context.Guild.Id);
                 contextAcc.MarryTo = user.Id;
                 userAcc.MarryTo = Context.User.Id;
-                UserAccounts.SaveAccounts();
+                UserAccounts.SaveAccounts(Context.Guild.Id);
            
-                if (Context.MessegeContent228 != "edit")
+                if (Context.MessageContentForEdit != "edit")
                 {
                     await CommandHandeling.SendingMess(Context, null, null, $"{Context.User.Username} и {user.Username} теперь женаты, бууууууль!");
   
                 }
-                else if(Context.MessegeContent228 == "edit")
+                else if(Context.MessageContentForEdit == "edit")
                 {
                     await CommandHandeling.SendingMess(Context, null, "edit", $"{Context.User.Username} и {user.Username} теперь женаты, бууууууль!");
                 }
             }
             else
             {
-                if (Context.MessegeContent228 != "edit")
+                if (Context.MessageContentForEdit != "edit")
                 {
                     await CommandHandeling.SendingMess(Context, null, null, $"Буль");
   
                 }
-                else if(Context.MessegeContent228 == "edit")
+                else if(Context.MessageContentForEdit == "edit")
                 {
                     await CommandHandeling.SendingMess(Context, null, "edit", $"Буль");
                 }
@@ -279,16 +279,16 @@ namespace OctoBot.Commands.PersonalCommands
         [Alias("marryd")]
         public async Task MarryMe()
         {
-            var account = UserAccounts.GetAccount(Context.User);
+            var account = UserAccounts.GetAccount(Context.User, Context.Guild.Id);
             var marr = Context.Guild.GetUser(account.MarryTo);
 
 
-            if (Context.MessegeContent228 != "edit")
+            if (Context.MessageContentForEdit != "edit")
             {
                 await CommandHandeling.SendingMess(Context, null, null, $"ты женат/а на {marr.Username}!");
   
             }
-            else if(Context.MessegeContent228 == "edit")
+            else if(Context.MessageContentForEdit == "edit")
             {
                 await CommandHandeling.SendingMess(Context, null, "edit",$"ты женат/а на {marr.Username}!");
             }
@@ -317,12 +317,12 @@ namespace OctoBot.Commands.PersonalCommands
                 var embed = new EmbedBuilder();
                 embed.WithFooter("Записная книжечка Осьминожек");
                 embed.AddField("Ошибка", $"Не можем поставить аватарку: {e.Message}");
-                if (Context.MessegeContent228 != "edit")
+                if (Context.MessageContentForEdit != "edit")
                 {
                     await CommandHandeling.SendingMess(Context, embed);
   
                 }
-                else if(Context.MessegeContent228 == "edit")
+                else if(Context.MessageContentForEdit == "edit")
                 {
                     await CommandHandeling.SendingMess(Context, embed, "edit");
                 }
@@ -346,12 +346,12 @@ namespace OctoBot.Commands.PersonalCommands
                 var embed = new EmbedBuilder();
                 embed.WithFooter("Записная книжечка Осьминожек");
                 embed.AddField("Ошибка", $"Не можем изменить игру: {e.Message}");
-                if (Context.MessegeContent228 != "edit")
+                if (Context.MessageContentForEdit != "edit")
                 {
                     await CommandHandeling.SendingMess(Context, embed);
   
                 }
-                else if(Context.MessegeContent228 == "edit")
+                else if(Context.MessageContentForEdit == "edit")
                 {
                     await CommandHandeling.SendingMess(Context, embed, "edit");
                 }
@@ -388,18 +388,17 @@ namespace OctoBot.Commands.PersonalCommands
                 var embed = new EmbedBuilder();
                 embed.WithFooter("Записная книжечка Осьминожек");
                 embed.AddField("Ошибка", $"Не можем изменить ник: {e.Message}");
-                if (Context.MessegeContent228 != "edit")
+                if (Context.MessageContentForEdit != "edit")
                 {
                     await CommandHandeling.SendingMess(Context, embed);
   
                 }
-                else if(Context.MessegeContent228 == "edit")
+                else if(Context.MessageContentForEdit == "edit")
                 {
                     await CommandHandeling.SendingMess(Context, embed, "edit");
                 }
             }
         }
-
 
         [Command("ApdMessEm")]
         public async Task ApdMessEmbed(ulong channeld, ulong messId, [Remainder] string messa)
@@ -546,12 +545,12 @@ namespace OctoBot.Commands.PersonalCommands
                                                           $"After Stuffing: {afterStuff} - {afterStuff.Length - (times * 8)} characters\n" +
                                                           $"After Framing: **01111110**{afterStuff}**01111110**");
 
-            if (Context.MessegeContent228 != "edit")
+            if (Context.MessageContentForEdit != "edit")
             {
                 await CommandHandeling.SendingMess(Context, embed);
   
             }
-            else if(Context.MessegeContent228 == "edit")
+            else if(Context.MessageContentForEdit == "edit")
             {
                 await CommandHandeling.SendingMess(Context, embed, "edit");
             }
@@ -559,7 +558,34 @@ namespace OctoBot.Commands.PersonalCommands
 
         }
 
-    
+        [Command("chanInfo")]
+        [Alias("ci")]
+        public async Task ChannelInfo(ulong guildID)
+        {
+         
+            var channels = Global.Client.GetGuild(guildID).TextChannels.ToList();
+            var text = "";
+            var text2 = "";
+            for (var i = 0; i < channels.Count; i++)
+            {
+                if(text.Length <= 900)
+                text += $"{i+1}) {channels[i].Name} - {channels[i].Users.Count}\n";
+                else
+                {
+                 text2 += $"{i+1}) {channels[i].Name} - {channels[i].Users.Count}\n"; 
+                }
+            }
+            var embed = new EmbedBuilder();
+            embed.AddField($"{Global.Client.GetGuild(guildID).Name} Channel Info", $"{text}");
+            if (text2.Length > 1)
+            {
+                embed.AddField($"Continued", $"{text2}");
+            }
+
+
+            await ReplyAsync("", false, embed.Build());
+            await Task.CompletedTask;
+        }
 
     }
 }

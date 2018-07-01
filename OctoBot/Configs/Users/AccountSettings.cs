@@ -3,15 +3,12 @@ using System.Collections.Generic;
 
 namespace OctoBot.Configs.Users
 {
-
-
-
-    public class AccountSettings 
+    public class AccountSettings  
     {
 
         public string UserName { get; set; }
-
         public ulong Id { get; set; }
+        public int IsModerator { get; set; }
         public string ExtraUserName { get; set; }
 
         public long Rep { get; set; }
@@ -77,6 +74,8 @@ namespace OctoBot.Configs.Users
                 ReminderMessage = reminderMessage;
             }
         }
+
+      
 
     }
 }

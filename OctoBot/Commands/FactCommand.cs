@@ -19,12 +19,12 @@ namespace OctoBot.Commands
         public async Task WriteFuckt(IGuildUser user, [Remainder] string message)
         {
             try {
-            var account = UserAccounts.GetAccount((SocketUser) user);
+            var account = UserAccounts.GetAccount((SocketUser) user, Context.Guild.Id);
             if (account == null)
                 return;
          
             account.Fuckt += message + "|";
-            UserAccounts.SaveAccounts();
+            UserAccounts.SaveAccounts(Context.Guild.Id);
             var id = Context.Message.Id;
 
 
@@ -32,12 +32,12 @@ namespace OctoBot.Commands
             await msg.DeleteAsync();
             
            
-                if (Context.MessegeContent228 != "edit")
+                if (Context.MessageContentForEdit != "edit")
                 {
                     await CommandHandeling.SendingMess(Context, null, null, $"We wrote down this fact about {user.Mention}!");
   
                 }
-                else if(Context.MessegeContent228 == "edit")
+                else if(Context.MessageContentForEdit == "edit")
                 {
                     await CommandHandeling.SendingMess(Context, null, "edit", $"We wrote down this fact about {user.Mention}!");
                 }
@@ -54,17 +54,17 @@ namespace OctoBot.Commands
         public async Task ReadFuckt(SocketUser user)
         {
             try {
-            var account = UserAccounts.GetAccount(user);
+            var account = UserAccounts.GetAccount(user, Context.Guild.Id);
 
             if (account.Fuckt == null)
             {
                
-                if (Context.MessegeContent228 != "edit")
+                if (Context.MessageContentForEdit != "edit")
                 {
                     await CommandHandeling.SendingMess(Context, null, null, "boole. :c\nWe could not find the facts about this user");
   
                 }
-                else if(Context.MessegeContent228 == "edit")
+                else if(Context.MessageContentForEdit == "edit")
                 {
                     await CommandHandeling.SendingMess(Context, null, "edit", "boole. :c\nWe could not find the facts about this user");
                 }
@@ -113,12 +113,12 @@ namespace OctoBot.Commands
             else
                 embed.AddField("Random fact: ", " " + randomFukt);
 
-                if (Context.MessegeContent228 != "edit")
+                if (Context.MessageContentForEdit != "edit")
                 {
                     await CommandHandeling.SendingMess(Context, embed);
   
                 }
-                else if(Context.MessegeContent228 == "edit")
+                else if(Context.MessageContentForEdit == "edit")
                 {
                     await CommandHandeling.SendingMess(Context, embed, "edit");
                 }
@@ -134,18 +134,18 @@ namespace OctoBot.Commands
         public async Task ReadFucktIndex(SocketUser user, int index)
         {
             try {
-            var account = UserAccounts.GetAccount(user);
-            var comander = UserAccounts.GetAccount(Context.User);
+            var account = UserAccounts.GetAccount(user, Context.Guild.Id);
+            var comander = UserAccounts.GetAccount(Context.User, Context.Guild.Id);
             if (comander.OctoPass >= 10)
             {
                 if (account.Fuckt == null)
                 {
-                    if (Context.MessegeContent228 != "edit")
+                    if (Context.MessageContentForEdit != "edit")
                     {
                         await CommandHandeling.SendingMess(Context, null, null, "boole. :c\nWe could not find the facts about this user");
   
                     }
-                    else if(Context.MessegeContent228 == "edit")
+                    else if(Context.MessageContentForEdit == "edit")
                     {
                         await CommandHandeling.SendingMess(Context, null, "edit", "boole. :c\nWe could not find the facts about this user");
                     }
@@ -192,12 +192,12 @@ namespace OctoBot.Commands
                     embed.AddField("Random fact: ", " " + randomFukt);
 
 
-                if (Context.MessegeContent228 != "edit")
+                if (Context.MessageContentForEdit != "edit")
                 {
                     await CommandHandeling.SendingMess(Context, embed);
   
                 }
-                else if(Context.MessegeContent228 == "edit")
+                else if(Context.MessageContentForEdit == "edit")
                 {
                     await CommandHandeling.SendingMess(Context, embed, "edit");
                 }
@@ -215,7 +215,7 @@ namespace OctoBot.Commands
         public async Task DeleteTheFucktUser( )
         {
          try {
-            var account = UserAccounts.GetAccount(Context.User);
+            var account = UserAccounts.GetAccount(Context.User, Context.Guild.Id);
             if (account.OctoPass >= 3)
             {
                 var fuckts = account.Fuckt.Split(new[] {'|'}, StringSplitOptions.RemoveEmptyEntries);
@@ -232,24 +232,24 @@ namespace OctoBot.Commands
                 embed.WithFooter("lil octo notebook");
                 embed.WithTitle("All the facts about you:");
                 embed.WithDescription($"{mess}\n**del [index]** to delete the fact");
-                if (Context.MessegeContent228 != "edit")
+                if (Context.MessageContentForEdit != "edit")
                 {
                     await CommandHandeling.SendingMess(Context, embed);
   
                 }
-                else if(Context.MessegeContent228 == "edit")
+                else if(Context.MessageContentForEdit == "edit")
                 {
                     await CommandHandeling.SendingMess(Context, embed, "edit");
                 }
             }
             else
             
-             if (Context.MessegeContent228 != "edit")
+             if (Context.MessageContentForEdit != "edit")
              {
                  await CommandHandeling.SendingMess(Context, null, null, "Boole :< You do not have 3rd level tolerance");
   
              }
-             else if(Context.MessegeContent228 == "edit")
+             else if(Context.MessageContentForEdit == "edit")
              {
                  await CommandHandeling.SendingMess(Context, null, "edit", "Boole :< You do not have 3rd level tolerance");
              }
@@ -266,8 +266,8 @@ namespace OctoBot.Commands
         public async Task DeleteTheFuckt(IGuildUser user)
         {
             try {
-            var account = UserAccounts.GetAccount((SocketUser) user);
-            var comander = UserAccounts.GetAccount(Context.User);
+            var account = UserAccounts.GetAccount((SocketUser) user, Context.Guild.Id);
+            var comander = UserAccounts.GetAccount(Context.User, Context.Guild.Id);
             if (comander.OctoPass >= 4)
             {
 
@@ -284,24 +284,24 @@ namespace OctoBot.Commands
                 embed.WithFooter("lil octo notebook");
                 embed.WithTitle("All the facts about you:");
                 embed.WithDescription($"{mess}\n**del [index]** to delete the fact");
-                if (Context.MessegeContent228 != "edit")
+                if (Context.MessageContentForEdit != "edit")
                 {
                     await CommandHandeling.SendingMess(Context, embed);
   
                 }
-                else if(Context.MessegeContent228 == "edit")
+                else if(Context.MessageContentForEdit == "edit")
                 {
                     await CommandHandeling.SendingMess(Context, embed, "edit");
                 }
           
             }
             else
-            if (Context.MessegeContent228 != "edit")
+            if (Context.MessageContentForEdit != "edit")
             {
                 await CommandHandeling.SendingMess(Context, null, null, "Boole :< You do not have 4rd level tolerance");
   
             }
-            else if(Context.MessegeContent228 == "edit")
+            else if(Context.MessageContentForEdit == "edit")
             {
                 await CommandHandeling.SendingMess(Context, null, "edit", "Boole :< You do not have 4rd level tolerance");
             }
@@ -319,7 +319,7 @@ namespace OctoBot.Commands
         public async Task DeleteTheFucktUser(int index)
         {
            try { 
-            var account = UserAccounts.GetAccount(Context.User);
+            var account = UserAccounts.GetAccount(Context.User, Context.Guild.Id);
             if (account.OctoPass >= 2)
             {
                 var fuckts = account.Fuckt.Split(new[] {'|'}, StringSplitOptions.RemoveEmptyEntries);
@@ -332,27 +332,27 @@ namespace OctoBot.Commands
 
                 }
 
-                UserAccounts.SaveAccounts();
+                UserAccounts.SaveAccounts(Context.Guild.Id);
 
       
-                if (Context.MessegeContent228 != "edit")
+                if (Context.MessageContentForEdit != "edit")
                 {
                     await CommandHandeling.SendingMess(Context, null, null,  $"fact under index {index} was removed from the lil octo notebook ;c");
   
                 }
-                else if(Context.MessegeContent228 == "edit")
+                else if(Context.MessageContentForEdit == "edit")
                 {
                     await CommandHandeling.SendingMess(Context, null, "edit",  $"fact under index {index} was removed from the lil octo notebook ;c");
                 }
 
             }
             else
-            if (Context.MessegeContent228 != "edit")
+            if (Context.MessageContentForEdit != "edit")
             {
                 await CommandHandeling.SendingMess(Context, null, null, "Boole :< You do not have 3rd level tolerance");
   
             }
-            else if(Context.MessegeContent228 == "edit")
+            else if(Context.MessageContentForEdit == "edit")
             {
                 await CommandHandeling.SendingMess(Context, null, "edit", "Boole :< You do not have 3rd level tolerance");
             }
@@ -371,8 +371,8 @@ namespace OctoBot.Commands
         public async Task DeleteTheFuckt(IGuildUser user, int index)
         {
             try {
-            var account = UserAccounts.GetAccount((SocketUser) user);
-            var comander = UserAccounts.GetAccount(Context.User);
+            var account = UserAccounts.GetAccount((SocketUser) user, Context.Guild.Id);
+            var comander = UserAccounts.GetAccount(Context.User, Context.Guild.Id);
             if (comander.OctoPass >= 100)
             {
                 var fuckts = account.Fuckt.Split(new[] {'|'}, StringSplitOptions.RemoveEmptyEntries);
@@ -385,26 +385,26 @@ namespace OctoBot.Commands
 
                 }
 
-                UserAccounts.SaveAccounts();
+                UserAccounts.SaveAccounts(Context.Guild.Id);
 
-                if (Context.MessegeContent228 != "edit")
+                if (Context.MessageContentForEdit != "edit")
                 {
                     await CommandHandeling.SendingMess(Context, null, null,  $"fact under index {index} was removed from the lil octo notebook ;c");
   
                 }
-                else if(Context.MessegeContent228 == "edit")
+                else if(Context.MessageContentForEdit == "edit")
                 {
                     await CommandHandeling.SendingMess(Context, null, "edit",  $"fact under index {index} was removed from the lil octo notebook ;c");
                 }
 
             }
             else
-            if (Context.MessegeContent228 != "edit")
+            if (Context.MessageContentForEdit != "edit")
             {
                 await CommandHandeling.SendingMess(Context, null, null, "Boole :< You do not have 10th level tolerance");
   
             }
-            else if(Context.MessegeContent228 == "edit")
+            else if(Context.MessageContentForEdit == "edit")
             {
                 await CommandHandeling.SendingMess(Context, null, "edit", "Boole :< You do not have 10th level tolerance");
             }
