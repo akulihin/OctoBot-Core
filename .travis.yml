@@ -5,5 +5,3 @@ script:
   - dotnet restore
   - dotnet build ./OctoBot/
   - dotnet test ./OctoBotTests/
-  before_install:
-  - nuget sources Add -Name "Discord.net Nightly" -Source https://www.myget.org/F/discord-net/api/v3/index.json
