@@ -6,4 +6,4 @@ script:
   - dotnet build ./OctoBot/
   - dotnet test ./OctoBotTests/
   before_install:
-  - dotnet add package Discord.Net -s https://www.myget.org/F/discord-net/api/v3/index.json
+  - nuget sources Add -Name "Discord.net Nightly" -Source https://www.myget.org/F/discord-net/api/v3/index.json
