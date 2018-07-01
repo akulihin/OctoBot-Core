@@ -1,4 +1,8 @@
 # OctoBot-Core
+[![Build Status](https://travis-ci.org/petrspelos/Community-Discord-BOT.svg?branch=master)](https://travis-ci.org/petrspelos/Community-Discord-BOT)
+[![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/petrspelos/Community-Discord-BOT/blob/master/LICENSE)
+
+
 **THE FILE IN PROGRESS EDITING**
 
 **You can add this bot to your server using this webSite: https://discordbots.org/bot/423593006436712458**
