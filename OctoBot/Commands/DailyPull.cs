@@ -109,7 +109,7 @@ namespace OctoBot.Commands
                 Interval = 60000,
                 Enabled = true
             };
-          //  _loopingTimerForPull.Elapsed += CheckPulls;
+            _loopingTimerForPull.Elapsed += CheckPulls;
 
 
             return Task.CompletedTask;
@@ -254,40 +254,42 @@ namespace OctoBot.Commands
         [Command("AddKey")]
         public async Task JsonTask([Remainder] string mess)
         {
-            try {
-            var mylorikGlobal = Global.Client.GetUser(181514288278536193);
-            var mylorik = UserAccounts.GetAccount(mylorikGlobal,338355570669256705);
+            try
+            {
+                var mylorikGlobal = Global.Client.GetUser(181514288278536193);
+                var mylorik = UserAccounts.GetAccount(mylorikGlobal, 338355570669256705);
 
-           var gameAndKey = mess.Split(new[] {"&&"}, StringSplitOptions.RemoveEmptyEntries);
-                if(gameAndKey.Length < 2 || gameAndKey.Length >= 3 )
+                var gameAndKey = mess.Split(new[] {"&&"}, StringSplitOptions.RemoveEmptyEntries);
+                if (gameAndKey.Length < 2 || gameAndKey.Length >= 3)
                     return;
 
-            mylorik.KeyPullName += (gameAndKey[0] + "|");
-            mylorik.KeyPullKey += (gameAndKey[1] + "|");
-            UserAccounts.SaveAccounts(Context.Guild.Id);
-           
+                mylorik.KeyPullName += (gameAndKey[0] + "|");
+                mylorik.KeyPullKey += (gameAndKey[1] + "|");
+                UserAccounts.SaveAccounts(338355570669256705);
+
                 if (Context.MessageContentForEdit != "edit")
                 {
                     await CommandHandeling.SendingMess(Context, null, null, "бууль-буль, записали!");
-  
+
                 }
-                else if(Context.MessageContentForEdit == "edit")
+                else if (Context.MessageContentForEdit == "edit")
                 {
                     await CommandHandeling.SendingMess(Context, null, "edit", "бууль-буль, записали!");
                 }
             }
             catch
             {
-                await ReplyAsync("boo... An error just appear >_< \nTry to use this command properly: **AddKey [Gamename: key (platform)]**\n");
+                await ReplyAsync(
+                    "boo... An error just appear >_< \nTry to use this command properly: **AddKey Gamename && key (platform)**\n");
             }
         }
-        
+
         [Command("KeyDel")]
         [RequireOwner]
         public async Task JsonDel(int index)
         {
             try {
-            var account = UserAccounts.GetAccount(Context.User, Context.Guild.Id);
+            var account = UserAccounts.GetAccount(Context.User, 338355570669256705);
             if (account.OctoPass >= 100)
             {
             var mylorikGlobal = Global.Client.GetUser(181514288278536193);
@@ -318,7 +320,7 @@ namespace OctoBot.Commands
                 {
                     await CommandHandeling.SendingMess(Context, null, "edit", $"ключ **{keyName[index]} {keykey[index]}** был удалён");
                 }
-            UserAccounts.SaveAccounts(Context.Guild.Id);
+            UserAccounts.SaveAccounts(338355570669256705);
             }
             else
                 

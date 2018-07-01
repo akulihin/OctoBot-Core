@@ -43,8 +43,11 @@ namespace OctoBot.Commands
         };
     }
 
+    
     public class Reminder : ModuleBase<SocketCommandContextCustom>
     {
+
+
         [Command("Remind"), Priority(1)]
         [Alias("Напомнить", "напомни мне", "напиши мне", "напомни", "алярм", " Напомнить", " напомни мне",
             " напиши мне", " напомни", " алярм", " Remind")]
@@ -130,8 +133,9 @@ namespace OctoBot.Commands
             }
             catch
             {
-                await ReplyAsync("boo... An error just appear >_< \nTry to use this command properly: **Remind [Any_text] [in] [time format]**\n" +
+               var botMess = await ReplyAsync("boo... An error just appear >_< \nTry to use this command properly: **Remind [Any_text] [in] [time format]**\n" +
                                  "Alias: Напомнить, напомни мне, напиши мне, напомни, алярм, ");
+                var k = HelperFunctions.DeleteMessOverTime(botMess, 10);
             }
         }
 
@@ -220,7 +224,8 @@ namespace OctoBot.Commands
             }
             catch
             {
-                await ReplyAsync("boo... An error just appear >_< \nTry to use this command properly: **Remind [time_in_minutes] [Any_text]**\n");
+               var botMess = await ReplyAsync("boo... An error just appear >_< \nTry to use this command properly: **Remind [time_in_minutes] [Any_text]**\n");
+                var k = HelperFunctions.DeleteMessOverTime(botMess, 10);
             }
         }
 
@@ -313,8 +318,9 @@ namespace OctoBot.Commands
             }
             catch
             {
-                await ReplyAsync("boo... An error just appear >_< \nTry to use this command properly: **Remind [user_id] [Any_text] [in] [time format]** (remind to another user in my DB)\n" +
+               var botMess = await ReplyAsync("boo... An error just appear >_< \nTry to use this command properly: **Remind [user_id] [Any_text] [in] [time format]** (remind to another user in my DB)\n" +
                                  "Alias: Напомнить, напомни мне, напиши мне, напомни, алярм, ");
+                var k = HelperFunctions.DeleteMessOverTime(botMess, 10);
             }
         }
 
@@ -367,18 +373,10 @@ namespace OctoBot.Commands
             }
             catch
             {
-                 var text = "boo... An error just appear >_< \nTry to use this command properly: **List**(list all of your reminders)\n" +
-                                 "Alias: Напоминания, список, Мои Напоминания";
+                var botMess = await ReplyAsync("boo... An error just appear >_< \nTry to use this command properly: **List**(list all of your reminders)\n" +
+                                               "Alias: Напоминания, список, Мои Напоминания");
 
-                if (Context.MessageContentForEdit != "edit")
-                {
-                    await CommandHandeling.SendingMess(Context, null, null, text);
-  
-                }
-                else if(Context.MessageContentForEdit == "edit")
-                {
-                    await CommandHandeling.SendingMess(Context, null, "edit", text);
-                }
+                var k = HelperFunctions.DeleteMessOverTime(botMess, 10);
             }
         }
 
@@ -439,17 +437,9 @@ namespace OctoBot.Commands
             }
             catch
             {
-                var text = "boo... An error just appear >_< \nTry to use this command properly: **List [user_ping(or user ID)]**(list all of user's reminders)\n" +
-                                 "Alias: Напоминания, список, Мои Напоминания";
-                if (Context.MessageContentForEdit != "edit")
-                {
-                    await CommandHandeling.SendingMess(Context, null, null, text);
-  
-                }
-                else if(Context.MessageContentForEdit == "edit")
-                {
-                    await CommandHandeling.SendingMess(Context, null, "edit", text);
-                }
+                var botMess = await ReplyAsync("boo... An error just appear >_< \nTry to use this command properly: **List [user_ping(or user ID)]**(list all of user's reminders)\n" +
+                                               "Alias: Напоминания, список, Мои Напоминания");
+                var k = HelperFunctions.DeleteMessOverTime(botMess, 10);
             }
         }
 
@@ -499,17 +489,9 @@ namespace OctoBot.Commands
             }
             catch
             {
-                var text = "boo... An error just appear >_< \nTry to use this command properly: **del [index_num]**(delete the reminder(see all of them though comm **list**))\n" +
-                                 "Alias: Удалить, Delete";
-                if (Context.MessageContentForEdit != "edit")
-                {
-                    await CommandHandeling.SendingMess(Context, null, null, text);
-  
-                }
-                else if(Context.MessageContentForEdit == "edit")
-                {
-                    await CommandHandeling.SendingMess(Context, null, "edit", text);
-                }
+                var botMess = await ReplyAsync("boo... An error just appear >_< \nTry to use this command properly: **del [index_num]**(delete the reminder(see all of them though comm **list**))\n" +
+                                               "Alias: Удалить, Delete");
+                var k = HelperFunctions.DeleteMessOverTime(botMess, 10);
             }
         }
 
@@ -531,8 +513,9 @@ namespace OctoBot.Commands
             }
             catch
             {
-                await ReplyAsync("boo... An error just appear >_< \nTry to use this command properly: **time**(see current time by UTC)\n" +
+               var botMess = await ReplyAsync("boo... An error just appear >_< \nTry to use this command properly: **time**(see current time by UTC)\n" +
                                  "Alias: Удалить, Delete");
+                var k = HelperFunctions.DeleteMessOverTime(botMess, 10);
             }
         }
 
