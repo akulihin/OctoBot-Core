@@ -52,12 +52,12 @@ namespace OctoBot.Commands.PersonalCommands
                 embed.WithImageUrl("" + memeToPost);
                 if (Context.MessageContentForEdit != "edit")
                 {
-                    await CommandHandeling.SendingMess(Context, embed);
+                    await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, embed);
   
                 }
                 else if(Context.MessageContentForEdit == "edit")
                 {
-                    await CommandHandeling.SendingMess(Context, embed, "edit");
+                    await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, embed, "edit");
                 }
 
             }
@@ -67,12 +67,12 @@ namespace OctoBot.Commands.PersonalCommands
                 embed.WithImageUrl("https://i.imgur.com/wt8EN8R.jpg");
                 if (Context.MessageContentForEdit != "edit")
                 {
-                    await CommandHandeling.SendingMess(Context, embed);
+                    await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, embed);
   
                 }
                 else if(Context.MessageContentForEdit == "edit")
                 {
-                    await CommandHandeling.SendingMess(Context, embed, "edit");
+                    await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, embed, "edit");
                 }
             }
         }
@@ -100,12 +100,12 @@ namespace OctoBot.Commands.PersonalCommands
                 embed.WithImageUrl("" + url);
                 if (Context.MessageContentForEdit != "edit")
                 {
-                    await CommandHandeling.SendingMess(Context, embed);
+                    await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, embed);
   
                 }
                 else if(Context.MessageContentForEdit == "edit")
                 {
-                    await CommandHandeling.SendingMess(Context, embed, "edit");
+                    await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, embed, "edit");
                 }
             }
             else
@@ -114,12 +114,12 @@ namespace OctoBot.Commands.PersonalCommands
                 embed.WithImageUrl("https://i.imgur.com/wt8EN8R.jpg");
                 if (Context.MessageContentForEdit != "edit")
                 {
-                    await CommandHandeling.SendingMess(Context, embed);
+                    await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, embed);
   
                 }
                 else if(Context.MessageContentForEdit == "edit")
                 {
-                    await CommandHandeling.SendingMess(Context, embed, "edit");
+                    await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, embed, "edit");
                 }
             }
         }
@@ -143,12 +143,12 @@ namespace OctoBot.Commands.PersonalCommands
                 embed.WithImageUrl("" + url);
                 if (Context.MessageContentForEdit != "edit")
                 {
-                    await CommandHandeling.SendingMess(Context, embed);
+                    await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, embed);
   
                 }
                 else if(Context.MessageContentForEdit == "edit")
                 {
-                    await CommandHandeling.SendingMess(Context, embed, "edit");
+                    await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, embed, "edit");
                 }
             }
             else
@@ -157,12 +157,12 @@ namespace OctoBot.Commands.PersonalCommands
                 embed.WithImageUrl("https://i.imgur.com/wt8EN8R.jpg");
                 if (Context.MessageContentForEdit != "edit")
                 {
-                    await CommandHandeling.SendingMess(Context, embed);
+                    await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, embed);
   
                 }
                 else if(Context.MessageContentForEdit == "edit")
                 {
-                    await CommandHandeling.SendingMess(Context, embed, "edit");
+                    await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, embed, "edit");
                 }
             }
         }
@@ -187,12 +187,12 @@ namespace OctoBot.Commands.PersonalCommands
                 embed.WithImageUrl("" + url);
                 if (Context.MessageContentForEdit != "edit")
                 {
-                    await CommandHandeling.SendingMess(Context, embed);
+                    await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, embed);
   
                 }
                 else if(Context.MessageContentForEdit == "edit")
                 {
-                    await CommandHandeling.SendingMess(Context, embed, "edit");
+                    await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, embed, "edit");
                 }
             }
             else
@@ -201,12 +201,12 @@ namespace OctoBot.Commands.PersonalCommands
                 embed.WithImageUrl("https://i.imgur.com/wt8EN8R.jpg");
                 if (Context.MessageContentForEdit != "edit")
                 {
-                    await CommandHandeling.SendingMess(Context, embed);
+                    await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, embed);
   
                 }
                 else if(Context.MessageContentForEdit == "edit")
                 {
-                    await CommandHandeling.SendingMess(Context, embed, "edit");
+                    await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, embed, "edit");
                 }
             }
         }
@@ -229,12 +229,12 @@ namespace OctoBot.Commands.PersonalCommands
             embed.WithImageUrl("" + url);
             if (Context.MessageContentForEdit != "edit")
             {
-                await CommandHandeling.SendingMess(Context, embed);
+                await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, embed);
   
             }
             else if(Context.MessageContentForEdit == "edit")
             {
-                await CommandHandeling.SendingMess(Context, embed, "edit");
+                await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, embed, "edit");
             }
 
         }
@@ -274,13 +274,13 @@ namespace OctoBot.Commands.PersonalCommands
 
             if (Context.MessageContentForEdit != "edit")
             {
-                await CommandHandeling.SendingMess(Context, null, null, $"{convertedText}\nby `{Context.User.Username}`");
+                await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, null, null, $"{convertedText}\nby `{Context.User.Username}`");
   
             }
             else if(Context.MessageContentForEdit == "edit")
             {
                
-                await CommandHandeling.SendingMess(Context, null, "edit", $"{convertedText}\nby `{Context.User.Username}`");
+                await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, null, "edit", $"{convertedText}\nby `{Context.User.Username}`");
             }
         }
 
@@ -433,12 +433,12 @@ namespace OctoBot.Commands.PersonalCommands
 
                             if (Context.MessageContentForEdit != "edit")
                             {
-                                await CommandHandeling.SendingMess(Context, embed);
+                                await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, embed);
   
                             }
                             else if(Context.MessageContentForEdit == "edit")
                             {
-                                await CommandHandeling.SendingMess(Context, embed, "edit");
+                                await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, embed, "edit");
                             }
                             return;
                         }
@@ -533,12 +533,12 @@ namespace OctoBot.Commands.PersonalCommands
            
             if (Context.MessageContentForEdit != "edit")
             {
-                await CommandHandeling.SendingMess(Context, null, null, $"It's a {answer}!");
+                await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, null, null, $"It's a {answer}!");
   
             }
             else if(Context.MessageContentForEdit == "edit")
             {
-                await CommandHandeling.SendingMess(Context, null, "edit", $"It's a {answer}!");
+                await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, null, "edit", $"It's a {answer}!");
             }
         }
        

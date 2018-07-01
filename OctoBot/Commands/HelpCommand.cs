@@ -24,12 +24,12 @@ namespace OctoBot.Commands
                     .WithColor(Color.Blue);
             if (Context.MessageContentForEdit != "edit")
             {
-                await CommandHandeling.SendingMess(Context, embed);
+                await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, embed);
   
             }
             else if(Context.MessageContentForEdit == "edit")
             {
-                await CommandHandeling.SendingMess(Context, embed, "edit");
+                await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, embed, "edit");
             }
         }
 
@@ -77,12 +77,12 @@ namespace OctoBot.Commands
             embed.WithColor(Color.LightOrange);
             if (Context.MessageContentForEdit != "edit")
             {
-                await CommandHandeling.SendingMess(Context, embed);
+                await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, embed);
   
             }
             else if(Context.MessageContentForEdit == "edit")
             {
-                await CommandHandeling.SendingMess(Context, embed, "edit");
+                await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, embed, "edit");
             }
         }
        
@@ -116,12 +116,12 @@ namespace OctoBot.Commands
             embed.WithColor(Color.LightOrange);
             if (Context.MessageContentForEdit != "edit")
             {
-                await CommandHandeling.SendingMess(Context, embed);
+                await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, embed);
   
             }
             else if(Context.MessageContentForEdit == "edit")
             {
-                await CommandHandeling.SendingMess(Context, embed, "edit");
+                await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, embed, "edit");
             }
 
 
@@ -171,12 +171,12 @@ namespace OctoBot.Commands
             embed.WithColor(Color.LightOrange);
             if (Context.MessageContentForEdit != "edit")
             {
-                await CommandHandeling.SendingMess(Context, embed);
+                await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, embed);
   
             }
             else if(Context.MessageContentForEdit == "edit")
             {
-                await CommandHandeling.SendingMess(Context, embed, "edit");
+                await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, embed, "edit");
             }
         }
 
@@ -201,12 +201,12 @@ namespace OctoBot.Commands
             embed.WithColor(Color.LightOrange);
             if (Context.MessageContentForEdit != "edit")
             {
-                await CommandHandeling.SendingMess(Context, embed);
+                await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, embed);
   
             }
             else if(Context.MessageContentForEdit == "edit")
             {
-                await CommandHandeling.SendingMess(Context, embed, "edit");
+                await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, embed, "edit");
             }
         }
 
@@ -241,12 +241,12 @@ namespace OctoBot.Commands
             embed.WithColor(Color.LightOrange);
             if (Context.MessageContentForEdit != "edit")
             {
-                await CommandHandeling.SendingMess(Context, embed);
+                await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, embed);
   
             }
             else if(Context.MessageContentForEdit == "edit")
             {
-                await CommandHandeling.SendingMess(Context, embed, "edit");
+                await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, embed, "edit");
             }
         }
 
@@ -278,12 +278,12 @@ namespace OctoBot.Commands
             embed.WithColor(Color.Blue);
             if (Context.MessageContentForEdit != "edit")
             {
-                await CommandHandeling.SendingMess(Context, embed);
+                await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, embed);
   
             }
             else if(Context.MessageContentForEdit == "edit")
             {
-                await CommandHandeling.SendingMess(Context, embed, "edit");
+                await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, embed, "edit");
             }
 
 
@@ -308,12 +308,12 @@ namespace OctoBot.Commands
             embed.WithColor(Color.LightOrange);
             if (Context.MessageContentForEdit != "edit")
             {
-                await CommandHandeling.SendingMess(Context, embed);
+                await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, embed);
   
             }
             else if(Context.MessageContentForEdit == "edit")
             {
-                await CommandHandeling.SendingMess(Context, embed, "edit");
+                await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, embed, "edit");
             }
         }
         

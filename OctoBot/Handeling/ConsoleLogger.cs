@@ -9,7 +9,7 @@ namespace  OctoBot.Handeling
     internal static class ConsoleLogger
     {
 
-        private static string runTime = @"OctoDataBase/runtime.json";
+        private static string _runTime = @"OctoDataBase/runtime.json";
 
         internal static Task Log(LogMessage logMessage)
         {
@@ -25,12 +25,12 @@ namespace  OctoBot.Handeling
             Console.WriteLine($"{DateTime.Now.ToLongTimeString()} - {message}");
             Console.ResetColor();
 
-            File.AppendAllText(runTime, $"\n{DateTime.Now.ToLongTimeString()} - {message}");
+            File.AppendAllText(_runTime, $"\n{DateTime.Now.ToLongTimeString()} - {message}");
         }
 
         internal static void ClearLog()
         {
-            File.AppendAllText(runTime, "");
+            File.AppendAllText(_runTime, "");
         }
 
         private static ConsoleColor SeverityToConsoleColor(LogSeverity severity)

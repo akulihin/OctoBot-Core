@@ -25,12 +25,12 @@ namespace OctoBot.Commands.PersonalCommands
                    
             if (Context.MessageContentForEdit != "edit")
             {
-                await CommandHandeling.SendingMess(Context, null, null,  "Севера бобавлены, бууууль!");
+                await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, null, null,  "Севера бобавлены, бууууль!");
   
             }
             else if(Context.MessageContentForEdit == "edit")
             {
-                await CommandHandeling.SendingMess(Context, null, "edit",  "Севера бобавлены, бууууль!");
+                await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, null, "edit",  "Севера бобавлены, бууууль!");
             }
         }
 
@@ -40,12 +40,12 @@ namespace OctoBot.Commands.PersonalCommands
             var guild = ServerAccounts.GetServerAccount(Context.Guild);
             if (Context.MessageContentForEdit != "edit")
             {
-                await CommandHandeling.SendingMess(Context, null, null, $"boole: `{guild.Prefix}`");
+                await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, null, null, $"boole: `{guild.Prefix}`");
   
             }
             else if(Context.MessageContentForEdit == "edit")
             {
-                await CommandHandeling.SendingMess(Context, null, "edit", $"boole: `{guild.Prefix}`");
+                await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, null, "edit", $"boole: `{guild.Prefix}`");
             } 
         }
 
@@ -60,12 +60,12 @@ namespace OctoBot.Commands.PersonalCommands
                 {
                     if (Context.MessageContentForEdit != "edit")
                     {
-                        await CommandHandeling.SendingMess(Context, null, null, $"boole!! Please choose prefix using up to 4 characters");
+                        await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, null, null, $"boole!! Please choose prefix using up to 4 characters");
 
                     }
                     else if (Context.MessageContentForEdit == "edit")
                     {
-                        await CommandHandeling.SendingMess(Context, null, "edit", $"boole!! Please choose prefix using up to 4 characters");
+                        await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, null, "edit", $"boole!! Please choose prefix using up to 4 characters");
                     }
 
                     return;
@@ -75,12 +75,12 @@ namespace OctoBot.Commands.PersonalCommands
                 ServerAccounts.SaveServerAccounts();            
                 if (Context.MessageContentForEdit != "edit")
                 {
-                    await CommandHandeling.SendingMess(Context, null, null, $"boole is now: `{guild.Prefix}`");
+                    await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, null, null, $"boole is now: `{guild.Prefix}`");
 
                 }
                 else if (Context.MessageContentForEdit == "edit")
                 {
-                    await CommandHandeling.SendingMess(Context, null, "edit", $"boole is now: `{guild.Prefix}`");
+                    await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, null, "edit", $"boole is now: `{guild.Prefix}`");
                 }
             }
             catch
@@ -101,12 +101,12 @@ namespace OctoBot.Commands.PersonalCommands
 
             if (Context.MessageContentForEdit != "edit")
             {
-                await CommandHandeling.SendingMess(Context, null, null, $"Boole.");
+                await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, null, null, $"Boole.");
 
             }
             else if (Context.MessageContentForEdit == "edit")
             {
-                await CommandHandeling.SendingMess(Context, null, "edit",  $"Boole.");
+                await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, null, "edit",  $"Boole.");
             }
         }
 
@@ -132,12 +132,12 @@ namespace OctoBot.Commands.PersonalCommands
                 {
                     if (Context.MessageContentForEdit != "edit")
                     {
-                        await CommandHandeling.SendingMess(Context, null, null, $"Booole >_< **an error** Maybe I am not an Administrator of this server? I need this permission to access audit, manage channel, emojis and users.");
+                        await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, null, null, $"Booole >_< **an error** Maybe I am not an Administrator of this server? I need this permission to access audit, manage channel, emojis and users.");
 
                     }
                     else if (Context.MessageContentForEdit == "edit")
                     {
-                        await CommandHandeling.SendingMess(Context, null, "edit",  $"Booole >_< **an error** Maybe I am not an Administrator of this server? I need this permission to access audit, manage channel, emojis and users.");
+                        await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, null, "edit",  $"Booole >_< **an error** Maybe I am not an Administrator of this server? I need this permission to access audit, manage channel, emojis and users.");
                     }
                 }
 
@@ -153,12 +153,12 @@ namespace OctoBot.Commands.PersonalCommands
 
                     if (Context.MessageContentForEdit != "edit")
                     {
-                        await CommandHandeling.SendingMess(Context, null, null, $"Octopuses are not logging any activity now **:c**\n");
+                        await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, null, null, $"Octopuses are not logging any activity now **:c**\n");
 
                     }
                     else if (Context.MessageContentForEdit == "edit")
                     {
-                        await CommandHandeling.SendingMess(Context, null, "edit", $"Octopuses are not logging any activity now **:c**");
+                        await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, null, "edit", $"Octopuses are not logging any activity now **:c**");
                     }
                     return;
                 case 0:
@@ -177,12 +177,12 @@ namespace OctoBot.Commands.PersonalCommands
                                     $"Boole! Now we log everything to {tryChannel.Mention}, you may rename and move it.";
                                 if (Context.MessageContentForEdit != "edit")
                                 {
-                                    await CommandHandeling.SendingMess(Context, null, null, text2);
+                                    await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, null, null, text2);
 
                                 }
                                 else if (Context.MessageContentForEdit == "edit")
                                 {
-                                    await CommandHandeling.SendingMess(Context, null, "edit", text2);
+                                    await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, null, "edit", text2);
                                 }
 
                                 return;
@@ -200,12 +200,12 @@ namespace OctoBot.Commands.PersonalCommands
                                 $"Boole! Now we log everything to {channel.Result.Mention}, you may rename and move it.";
                             if (Context.MessageContentForEdit != "edit")
                             {
-                                await CommandHandeling.SendingMess(Context, null, null, text);
+                                await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, null, null, text);
 
                             }
                             else if (Context.MessageContentForEdit == "edit")
                             {
-                                await CommandHandeling.SendingMess(Context, null, "edit", text);
+                                await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, null, "edit", text);
                             }
                         }
 
@@ -214,12 +214,12 @@ namespace OctoBot.Commands.PersonalCommands
                     {
                         if (Context.MessageContentForEdit != "edit")
                         {
-                            await CommandHandeling.SendingMess(Context, null, null, $"Booole >_< **an error** Maybe I am not an Administrator of this server? I need this permission to access audit, manage channel, emojis and users.");
+                            await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, null, null, $"Booole >_< **an error** Maybe I am not an Administrator of this server? I need this permission to access audit, manage channel, emojis and users.");
 
                         }
                         else if (Context.MessageContentForEdit == "edit")
                         {
-                            await CommandHandeling.SendingMess(Context, null, "edit",  $"Booole >_< **an error** Maybe I am not an Administrator of this server? I need this permission to access audit, manage channel, emojis and users.");
+                            await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, null, "edit",  $"Booole >_< **an error** Maybe I am not an Administrator of this server? I need this permission to access audit, manage channel, emojis and users.");
                         }
                     }
 
@@ -238,12 +238,12 @@ namespace OctoBot.Commands.PersonalCommands
             {
                 if (Context.MessageContentForEdit != "edit")
                 {
-                    await CommandHandeling.SendingMess(Context, null, null, $"boole! only available options for now: `en`(default) and `ru`");
+                    await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, null, null, $"boole! only available options for now: `en`(default) and `ru`");
   
                 }
                 else if(Context.MessageContentForEdit == "edit")
                 {
-                    await CommandHandeling.SendingMess(Context, null, "edit", $"boole! only available options for now: `en`(default) and `ru`");
+                    await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, null, "edit", $"boole! only available options for now: `en`(default) and `ru`");
                 } 
                 return;
             }
@@ -252,12 +252,12 @@ namespace OctoBot.Commands.PersonalCommands
             ServerAccounts.SaveServerAccounts();
             if (Context.MessageContentForEdit != "edit")
             {
-                await CommandHandeling.SendingMess(Context, null, null, $"boole~ language is now: `{lang.ToLower()}`");
+                await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, null, null, $"boole~ language is now: `{lang.ToLower()}`");
   
             }
             else if(Context.MessageContentForEdit == "edit")
             {
-                await CommandHandeling.SendingMess(Context, null, "edit", $"boole~ language is now: `{lang.ToLower()}`");
+                await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, null, "edit", $"boole~ language is now: `{lang.ToLower()}`");
             } 
           
         }
@@ -271,12 +271,12 @@ namespace OctoBot.Commands.PersonalCommands
             
             if (Context.MessageContentForEdit != "edit")
             {
-                await CommandHandeling.SendingMess(Context, null, null, $"{inv.Result}");
+                await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, null, null, $"{inv.Result}");
   
             }
             else if(Context.MessageContentForEdit == "edit")
             {
-                await CommandHandeling.SendingMess(Context, null, "edit", $"{inv.Result}");
+                await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, null, "edit", $"{inv.Result}");
             } 
         }
 
@@ -302,12 +302,12 @@ namespace OctoBot.Commands.PersonalCommands
             ServerAccounts.SaveServerAccounts();
             if (Context.MessageContentForEdit != "edit")
             {
-                await CommandHandeling.SendingMess(Context, null, null,text );
+                await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, null, null,text );
   
             }
             else if(Context.MessageContentForEdit == "edit")
             {
-                await CommandHandeling.SendingMess(Context, null, "edit", text);
+                await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, null, "edit", text);
             } 
           
         }

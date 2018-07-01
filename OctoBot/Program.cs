@@ -3,13 +3,8 @@ using System.Threading.Tasks;
 using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
-using OctoBot.Automated;
-using OctoBot.Commands;
-using OctoBot.Commands.PersonalCommands;
-using OctoBot.Commands.ShadowCItyCOmmand;
+using Microsoft.Extensions.DependencyInjection;
 using OctoBot.Configs;
-using OctoBot.Games.Game2048;
-using OctoBot.Games.OctoGame;
 using OctoBot.Handeling;
 
 namespace OctoBot
@@ -17,18 +12,10 @@ namespace OctoBot
 
     public class ProgramOctoBot
     {
-        private readonly CommandService _commands;
-        private DiscordSocketClient _client;
-        private CommandHandeling _handler;
-        private readonly IServiceProvider _services;
-        
-        public ProgramOctoBot(CommandService commands = null, DiscordSocketClient client = null)
-        {
-            _commands = commands ?? new CommandService();
-            _client = client ?? new DiscordSocketClient();
-          
-        }
 
+        private DiscordSocketClient _client;
+        private IServiceProvider _services;
+        
         private static void Main() => new ProgramOctoBot().RunBotAsync().GetAwaiter().GetResult();
 
         public async Task RunBotAsync()
@@ -41,30 +28,13 @@ namespace OctoBot
                 MessageCacheSize = 10000             
             });
 
-            var botToken = Config.Bot.Token;
-
-            //event subsciption
-            _client.Log += ConsoleLogger.Log;
-            
-           _client.ReactionAdded += Reaction.ReactionAddedFor2048;                                                        
-           _client.ReactionAdded += OctoGameReaction.ReactionAddedForOctoGameAsync;
-           _client.ReactionAdded += ColorRoleReaction.ReactionAddedForRole;
-            _client.ReactionAdded += RoomRoleReaction.ReactionAddedForRole;
-            _client.Ready += GreenBuuTimerClass.StartTimer;             ////////////// Timer1 Green Boo starts
-            _client.Ready += DailyPull.CheckTimerForPull;                 ////////////// Timer3 For Pulls   
-            _client.Ready += Reminder.CheckTimer;                       ////////////// Timer4 For For Reminders
-            _client.Ready += ForBot.TimerForBotAvatar;   
-            _client.UserJoined += Announcer.AnnounceUserJoin;
-            _client.Ready += EveryLogHandeling._client_Ready;
-            
-          
-         
-            //  _client.Ready += YellowTurtle.StartTimer; //// Timer3
-
+            _services = ConfigureServices();
+            _services.GetRequiredService<DiscordEventHandler>().InitDiscordEvents();
+           await _services.GetRequiredService<CommandHandelingSendingAndUpdatingMessages>().InitializeAsync();
            
+            var botToken = Config.Bot.Token;     
             await _client.SetGameAsync("Осьминожек! | *help");
-            _handler = new CommandHandeling(_services, _commands, _client);
-            await _handler.InitializeAsync();
+
             await _client.LoginAsync(TokenType.Bot, botToken);
             await _client.StartAsync();
             Global.Client = _client;
@@ -73,6 +43,15 @@ namespace OctoBot
             await Task.Delay(-1);
         }
 
+        private IServiceProvider ConfigureServices()
+        {
+            return new ServiceCollection()
+                .AddSingleton(_client)
+                .AddSingleton<CommandService>()
+                .AddSingleton<CommandHandelingSendingAndUpdatingMessages>()
+                .AddSingleton<DiscordEventHandler>()
+                .BuildServiceProvider();
+        }
 
     }
 }

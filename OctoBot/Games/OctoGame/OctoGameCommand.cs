@@ -9,6 +9,7 @@ using OctoBot.Configs;
 using OctoBot.Games.OctoGame.GameSpells;
 using OctoBot.Games.OctoGame.GameUsers;
 using OctoBot.Handeling;
+using OctoBot.Helper;
 using OctoBot.Services;
 
 namespace OctoBot.Games.OctoGame
@@ -26,7 +27,7 @@ namespace OctoBot.Games.OctoGame
             if (account.OctopusFighterInfo != null)
             {
                 await ReplyAsync("У тебя уже есть осьминожка! Если ты хочешь ПОЛНОСТЬЮ обновить информацию осьминожки напиши **да**");
-               var res = await CommandHandeling.AwaitMessage(Context.User.Id, Context.Channel.Id, 6000);
+               var res = await AwaitForUserMessage.AwaitMessage(Context.User.Id, Context.Channel.Id, 6000);
                 response = res.Content;
             }
 
@@ -37,21 +38,21 @@ namespace OctoBot.Games.OctoGame
                 
                 
                 await Context.Channel.SendMessageAsync("Введи имя своего осьминожка, у тебя 1 минута.");
-                var res = await CommandHandeling.AwaitMessage(Context.User.Id, Context.Channel.Id, 60000);
+                var res = await AwaitForUserMessage.AwaitMessage(Context.User.Id, Context.Channel.Id, 60000);
                 account.OctopusFighterInfo += res.Content + "|";
                 account.OctopusFighterName = res.Content;
 
                 await Context.Channel.SendMessageAsync("Введи цвет своего осьминожка, у тебя 1 минута.");
-                res = await CommandHandeling.AwaitMessage(Context.User.Id, Context.Channel.Id, 60000);
+                res = await AwaitForUserMessage.AwaitMessage(Context.User.Id, Context.Channel.Id, 60000);
                 account.OctopusFighterInfo += res.Content + "|";
                
 
                 await Context.Channel.SendMessageAsync("Введи характер своего осьминожка, у тебя 2 минуты.");
-                res = await CommandHandeling.AwaitMessage(Context.User.Id, Context.Channel.Id, 120000);
+                res = await AwaitForUserMessage.AwaitMessage(Context.User.Id, Context.Channel.Id, 120000);
                 account.OctopusFighterInfo += res.Content + "|";
 
                 await Context.Channel.SendMessageAsync("Введи Лор своего осьминожка, у тебя 2 минуты.");
-                res = await CommandHandeling.AwaitMessage(Context.User.Id, Context.Channel.Id, 120000);
+                res = await AwaitForUserMessage.AwaitMessage(Context.User.Id, Context.Channel.Id, 120000);
                 account.OctopusFighterInfo += res.Content + "|";
 
 
@@ -101,12 +102,12 @@ namespace OctoBot.Games.OctoGame
             embed.AddField($"Твой осьминожка!", $"**Имя:** {octoInfoArray[0]}\n**Цвет:** {octoInfoArray[1]}\n**Характер** {octoInfoArray[2]}\n**Лор:** {octoInfoArray[3]}");
             if (Context.MessageContentForEdit != "edit")
             {
-                await CommandHandeling.SendingMess(Context, embed);
+                await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, embed);
   
             }
             else if(Context.MessageContentForEdit == "edit")
             {
-                await CommandHandeling.SendingMess(Context, embed, "edit");
+                await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, embed, "edit");
             }
         }
 
@@ -208,7 +209,7 @@ namespace OctoBot.Games.OctoGame
                                                                   "Если хочешь полностью его изменить, напиши **да** (1 минута)");
                 await ReplyAsync("", false, embed1.Build());
 
-                var res = await CommandHandeling.AwaitMessage(Context.User.Id, Context.Channel.Id, 60000);
+                var res = await AwaitForUserMessage.AwaitMessage(Context.User.Id, Context.Channel.Id, 60000);
 
                 if (res.Content == "да")
                 {
@@ -223,66 +224,66 @@ namespace OctoBot.Games.OctoGame
             }
 
             await Context.Channel.SendMessageAsync("Введи Назваие скилла, у тебя 5 минута.");
-            var response = await CommandHandeling.AwaitMessage(Context.User.Id, Context.Channel.Id, 300000);
+            var response = await AwaitForUserMessage.AwaitMessage(Context.User.Id, Context.Channel.Id, 300000);
             skill.SpellName = response.ToString();
 
             var embed = new EmbedBuilder();
             embed.AddField("Введи Номер дерева скилла, у тебя 5 минута", "1 - AD\n2 - DEF\n3 - AGI\n4 - AP");
             if (Context.MessageContentForEdit != "edit")
             {
-                await CommandHandeling.SendingMess(Context, embed);
+                await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, embed);
   
             }
             else if(Context.MessageContentForEdit == "edit")
             {
-                await CommandHandeling.SendingMess(Context, embed, "edit");
+                await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, embed, "edit");
             }
-            response = await CommandHandeling.AwaitMessage(Context.User.Id, Context.Channel.Id, 300000);
+            response = await AwaitForUserMessage.AwaitMessage(Context.User.Id, Context.Channel.Id, 300000);
             skill.SpellTree = Convert.ToInt32(response.ToString());
 
             await Context.Channel.SendMessageAsync("Введи Русское описание скилла (либо просто **нету**), у тебя 5 минут.");
-            response = await CommandHandeling.AwaitMessage(Context.User.Id, Context.Channel.Id, 300000 );
+            response = await AwaitForUserMessage.AwaitMessage(Context.User.Id, Context.Channel.Id, 300000 );
             skill.SpellDescriptionRu = response.ToString();
 
             await Context.Channel.SendMessageAsync("Введи Английское описание скилла (либо просто **нету**), у тебя 5 минут.");
-            response = await CommandHandeling.AwaitMessage(Context.User.Id, Context.Channel.Id, 300000 );
+            response = await AwaitForUserMessage.AwaitMessage(Context.User.Id, Context.Channel.Id, 300000 );
             skill.SpellDescriptionEn = response.ToString();
 
             var embedAc = new EmbedBuilder();
             embedAc.AddField("Введи Активка или Пассивка, у тебя 5 минута", "0 - Пассив\n1 - Актив");
             await Context.Channel.SendMessageAsync("", false, embedAc.Build());
-            response = await CommandHandeling.AwaitMessage(Context.User.Id, Context.Channel.Id, 300000);
+            response = await AwaitForUserMessage.AwaitMessage(Context.User.Id, Context.Channel.Id, 300000);
             skill.ActiveOrPassive = Convert.ToInt32(response.ToString());
             /*
             await Context.Channel.SendMessageAsync("Введи Формулу описание скилла, у тебя 5 минут.");
-            response = await CommandHandeling.AwaitMessage(Context.User.Id, Context.Channel.Id, 300000 );
+            response = await AwaitForUserMessage.AwaitMessage(Context.User.Id, Context.Channel.Id, 300000 );
             skill.SpellFormula = response.ToString();
             */
             var embedCd = new EmbedBuilder();      
             embedCd.AddField("Введи КД скилла, у тебя 5 минут", "1)Если есть - в ходах\n2)Если КД = 1 раз в игру, пиши 9999\n3)Если КД нету вообще, пиши 0");
             await Context.Channel.SendMessageAsync("", false, embedCd.Build());
-            response = await CommandHandeling.AwaitMessage(Context.User.Id, Context.Channel.Id, 300000);      
+            response = await AwaitForUserMessage.AwaitMessage(Context.User.Id, Context.Channel.Id, 300000);      
             skill.SpellCd = Convert.ToInt32(response.ToString());
 
             await Context.Channel.SendMessageAsync("Тип урона (AD or AP), у тебя 5 минут.");
-            response = await CommandHandeling.AwaitMessage(Context.User.Id, Context.Channel.Id, 300000 );
+            response = await AwaitForUserMessage.AwaitMessage(Context.User.Id, Context.Channel.Id, 300000 );
             skill.SpellDmgType = response.ToString();
 
             /*
             await Context.Channel.SendMessageAsync("Введи Пойзен (прокает он хит), у тебя 5 минут.");
-            response = await CommandHandeling.AwaitMessage(Context.User.Id, Context.Channel.Id, 300000 );
+            response = await AwaitForUserMessage.AwaitMessage(Context.User.Id, Context.Channel.Id, 300000 );
             skill.Poisen = response.ToString();
            
             await Context.Channel.SendMessageAsync("Введи ОнХит, у тебя 5 минут.");
-            response = await CommandHandeling.AwaitMessage(Context.User.Id, Context.Channel.Id, 300000 );
+            response = await AwaitForUserMessage.AwaitMessage(Context.User.Id, Context.Channel.Id, 300000 );
             skill.Onhit = response.ToString();
 
             await Context.Channel.SendMessageAsync("Введи Бафф, у тебя 5 минут.");
-            response = await CommandHandeling.AwaitMessage(Context.User.Id, Context.Channel.Id, 300000 );
+            response = await AwaitForUserMessage.AwaitMessage(Context.User.Id, Context.Channel.Id, 300000 );
             skill.Buff = response.ToString();
 
             await Context.Channel.SendMessageAsync("Введи ДЕбафф, у тебя 5 минут.");
-            response = await CommandHandeling.AwaitMessage(Context.User.Id, Context.Channel.Id, 300000 );
+            response = await AwaitForUserMessage.AwaitMessage(Context.User.Id, Context.Channel.Id, 300000 );
             skill.DeBuff = response.ToString();
             */
             SpellUserAccounts.SaveAccounts();

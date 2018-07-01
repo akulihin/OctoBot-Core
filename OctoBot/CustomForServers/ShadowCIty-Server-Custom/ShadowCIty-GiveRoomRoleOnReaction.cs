@@ -1,12 +1,11 @@
-﻿
-using System;
+﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
 using Discord;
 using Discord.WebSocket;
 using OctoBot.Configs;
 
-namespace OctoBot.Commands.ShadowCItyCOmmand
+namespace OctoBot.CustomForServers
 {
     internal static class RoomRoleReaction
     {

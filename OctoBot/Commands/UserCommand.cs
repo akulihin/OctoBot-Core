@@ -5,6 +5,7 @@ using Discord.Commands;
 using Discord.WebSocket;
 using OctoBot.Configs.Users;
 using OctoBot.Handeling;
+using OctoBot.Helper;
 using OctoBot.Services;
 
 namespace OctoBot.Commands
@@ -117,12 +118,12 @@ namespace OctoBot.Commands
 
                 if (Context.MessageContentForEdit != "edit")
                 {
-                    await CommandHandeling.SendingMess(Context, embed);
+                    await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, embed);
   
                 }
                 else if(Context.MessageContentForEdit == "edit")
                 {
-                    await CommandHandeling.SendingMess(Context, embed, "edit");
+                    await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, embed, "edit");
                 }
         }
         catch
@@ -146,12 +147,12 @@ namespace OctoBot.Commands
 
                 if (Context.MessageContentForEdit != "edit")
                 {
-                    await CommandHandeling.SendingMess(Context, null, null,  $"{rep} Octo Reputation were credited, altogether {user.Mention} have {account.Rep} Octo Reputation!");
+                    await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, null, null,  $"{rep} Octo Reputation were credited, altogether {user.Mention} have {account.Rep} Octo Reputation!");
   
                 }
                 else if(Context.MessageContentForEdit == "edit")
                 {
-                    await CommandHandeling.SendingMess(Context, null, "edit",  $"{rep} Octo Reputation were credited, altogether {user.Mention} have {account.Rep} Octo Reputation!");
+                    await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, null, "edit",  $"{rep} Octo Reputation were credited, altogether {user.Mention} have {account.Rep} Octo Reputation!");
                 }
 
             }
@@ -159,12 +160,12 @@ namespace OctoBot.Commands
               
                 if (Context.MessageContentForEdit != "edit")
                 {
-                    await CommandHandeling.SendingMess(Context, null, null,  "Boole! You do not have a tolerance of this level!");
+                    await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, null, null,  "Boole! You do not have a tolerance of this level!");
   
                 }
                 else if(Context.MessageContentForEdit == "edit")
                 {
-                    await CommandHandeling.SendingMess(Context, null, "edit",  "Boole! You do not have a tolerance of this level!");
+                    await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, null, "edit",  "Boole! You do not have a tolerance of this level!");
                 }
             }
             catch
@@ -192,23 +193,23 @@ namespace OctoBot.Commands
 
                 if (Context.MessageContentForEdit != "edit")
                 {
-                    await CommandHandeling.SendingMess(Context, null, null,   $"{points} Octo Points were credited, altogether {user.Mention} have {account.Points} Octo Points!");
+                    await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, null, null,   $"{points} Octo Points were credited, altogether {user.Mention} have {account.Points} Octo Points!");
   
                 }
                 else if(Context.MessageContentForEdit == "edit")
                 {
-                    await CommandHandeling.SendingMess(Context, null, "edit",   $"{points} Octo Points were credited, altogether {user.Mention} have {account.Points} Octo Points!");
+                    await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, null, "edit",   $"{points} Octo Points were credited, altogether {user.Mention} have {account.Points} Octo Points!");
                 }
             }
             else
             if (Context.MessageContentForEdit != "edit")
             {
-                await CommandHandeling.SendingMess(Context, null, null,  "Boole! You do not have a tolerance of this level!");
+                await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, null, null,  "Boole! You do not have a tolerance of this level!");
   
             }
             else if(Context.MessageContentForEdit == "edit")
             {
-                await CommandHandeling.SendingMess(Context, null, "edit",  "Boole! You do not have a tolerance of this level!");
+                await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, null, "edit",  "Boole! You do not have a tolerance of this level!");
             }
             }
             catch
@@ -331,22 +332,22 @@ namespace OctoBot.Commands
 
                 if (Context.MessageContentForEdit != "edit")
                 {
-                    await CommandHandeling.SendingMess(Context, embed);
+                    await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, embed);
   
                 }
                 else if(Context.MessageContentForEdit == "edit")
                 {
-                    await CommandHandeling.SendingMess(Context, embed, "edit");
+                    await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, embed, "edit");
                 }
             }else
             if (Context.MessageContentForEdit != "edit")
             {
-                await CommandHandeling.SendingMess(Context, null, null,  "Boole! You do not have a tolerance of this level!");
+                await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, null, null,  "Boole! You do not have a tolerance of this level!");
   
             }
             else if(Context.MessageContentForEdit == "edit")
             {
-                await CommandHandeling.SendingMess(Context, null, "edit",  "Boole! You do not have a tolerance of this level!");
+                await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, null, "edit",  "Boole! You do not have a tolerance of this level!");
             }
             }
             catch
@@ -367,7 +368,7 @@ namespace OctoBot.Commands
             {
                 await Context.Channel.SendMessageAsync(
                     $"Are you sure about buying pass #{account.OctoPass + 1} for {cost} Octo Points? Than write **yes**!");
-                var response = await CommandHandeling.AwaitMessage(Context.User.Id, Context.Channel.Id, 6000);
+                var response = await AwaitForUserMessage.AwaitMessage(Context.User.Id, Context.Channel.Id, 6000);
                
                 if (response.Content == "yes" || response.Content == "Yes")
                 {
@@ -377,12 +378,12 @@ namespace OctoBot.Commands
                    
                     if (Context.MessageContentForEdit != "edit")
                     {
-                        await CommandHandeling.SendingMess(Context, null, null,   $"Booole! You've Got Access **#{account.OctoPass}**");
+                        await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, null, null,   $"Booole! You've Got Access **#{account.OctoPass}**");
   
                     }
                     else if(Context.MessageContentForEdit == "edit")
                     {
-                        await CommandHandeling.SendingMess(Context, null, "edit",   $"Booole! You've Got Access **#{account.OctoPass}**");
+                        await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, null, "edit",   $"Booole! You've Got Access **#{account.OctoPass}**");
                     }
                 }
                 else
@@ -390,12 +391,12 @@ namespace OctoBot.Commands
                   
                     if (Context.MessageContentForEdit != "edit")
                     {
-                        await CommandHandeling.SendingMess(Context, null, null,   "You should say `yes` или `Yes` in 6s to get the pass.");
+                        await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, null, null,   "You should say `yes` или `Yes` in 6s to get the pass.");
   
                     }
                     else if(Context.MessageContentForEdit == "edit")
                     {
-                        await CommandHandeling.SendingMess(Context, null, "edit",  "You should say `yes` или `Yes` in 6s to get the pass.");
+                        await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, null, "edit",  "You should say `yes` или `Yes` in 6s to get the pass.");
                     }
                 }
             }
@@ -439,12 +440,12 @@ namespace OctoBot.Commands
                     
                     if (Context.MessageContentForEdit != "edit")
                     {
-                        await CommandHandeling.SendingMess(Context, null, null,   "You cannot send 0 or -number, boo!");
+                        await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, null, null,   "You cannot send 0 or -number, boo!");
   
                     }
                     else if(Context.MessageContentForEdit == "edit")
                     {
-                        await CommandHandeling.SendingMess(Context, null, "edit",  "You cannot send 0 or -number, boo!");
+                        await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, null, "edit",  "You cannot send 0 or -number, boo!");
                     }
                     return;
                 }
@@ -468,12 +469,12 @@ namespace OctoBot.Commands
 
                     if (Context.MessageContentForEdit != "edit")
                     {
-                        await CommandHandeling.SendingMess(Context, null, null,   $"Was transferred{points}\n {user.Mention} now have {account.Points} Octo Points!\nyou have left {passCheck.Points}\ntaxes: {taxes}");
+                        await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, null, null,   $"Was transferred{points}\n {user.Mention} now have {account.Points} Octo Points!\nyou have left {passCheck.Points}\ntaxes: {taxes}");
   
                     }
                     else if(Context.MessageContentForEdit == "edit")
                     {
-                        await CommandHandeling.SendingMess(Context, null, "edit",  $"Was transferred{points}\n {user.Mention} now have {account.Points} Octo Points!\nyou have left {passCheck.Points}\ntaxes: {taxes}");
+                        await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, null, "edit",  $"Was transferred{points}\n {user.Mention} now have {account.Points} Octo Points!\nyou have left {passCheck.Points}\ntaxes: {taxes}");
                     }
 
                 }
@@ -481,12 +482,12 @@ namespace OctoBot.Commands
                     
                 if (Context.MessageContentForEdit != "edit")
                 {
-                    await CommandHandeling.SendingMess(Context, null, null,   $"You do not have enough Octo Points to pass them.");
+                    await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, null, null,   $"You do not have enough Octo Points to pass them.");
   
                 }
                 else if(Context.MessageContentForEdit == "edit")
                 {
-                    await CommandHandeling.SendingMess(Context, null, "edit",  $"You do not have enough Octo Points to pass them.");
+                    await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, null, "edit",  $"You do not have enough Octo Points to pass them.");
                 }
 
             }
@@ -494,12 +495,12 @@ namespace OctoBot.Commands
             {
                 if (Context.MessageContentForEdit != "edit")
                 {
-                    await CommandHandeling.SendingMess(Context, null, null,  "Boole! You do not have a tolerance of this level!");
+                    await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, null, null,  "Boole! You do not have a tolerance of this level!");
   
                 }
                 else if(Context.MessageContentForEdit == "edit")
                 {
-                    await CommandHandeling.SendingMess(Context, null, "edit",  "Boole! You do not have a tolerance of this level!");
+                    await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, null, "edit",  "Boole! You do not have a tolerance of this level!");
                 }
             }
             }

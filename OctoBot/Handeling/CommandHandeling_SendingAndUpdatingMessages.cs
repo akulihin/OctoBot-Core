@@ -1,7 +1,6 @@
 ﻿using System;
 using System.IO;
 using System.Reflection;
-using System.Threading;
 using System.Threading.Tasks;
 using Discord.Commands;
 using Discord.WebSocket;
@@ -16,45 +15,15 @@ namespace OctoBot.Handeling
 {
 
 
-   public class CommandHandeling
+   public class CommandHandelingSendingAndUpdatingMessages
     {
       
         private readonly DiscordSocketClient _client;
         private readonly CommandService _commands;
         private readonly IServiceProvider _services;
+        private static string _logFile = @"OctoDataBase/Log.json";
 
-        private static string LogFile = @"OctoDataBase/Log.json";
-       
-        ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// Await for user input in chat
- 
-        public static async Task<SocketMessage> AwaitMessage(ulong userId, ulong channelId, int delayInMs)
-        {
-            SocketMessage response = null;
-            var cancler = new CancellationTokenSource();
-            var waiter = Task.Delay(delayInMs, cancler.Token);
-
-            Global.Client.MessageReceived += OnMessageReceived;
-            try { await waiter; }
-            catch (TaskCanceledException) { }
-            Global.Client.MessageReceived -= OnMessageReceived;
-           
-            return response;
-
-            async Task OnMessageReceived(SocketMessage message)
-            {
-
-                if (message.Author.Id != userId || message.Channel.Id != channelId)
-                    return;
-                response = message;
-                cancler.Cancel();
-                await Task.CompletedTask;
-            }
-        }
-        
-        ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    
-        public CommandHandeling(IServiceProvider services, CommandService commands, DiscordSocketClient client)
+        public CommandHandelingSendingAndUpdatingMessages(IServiceProvider services, CommandService commands, DiscordSocketClient client)
         {
             _commands = commands;
             _services = services;
@@ -63,29 +32,23 @@ namespace OctoBot.Handeling
 
         public async Task InitializeAsync()
         {
-            // Pass the service provider to the second parameter of
-            // AddModulesAsync to inject dependencies to all modules 
-            // that may require them.
             await _commands.AddModulesAsync(
                 Assembly.GetEntryAssembly(), 
                 _services);
-            _client.MessageReceived += HandleCommandAsync;
-                _client.MessageUpdated += _client_MessageUpdated;
         }
 
 
-        ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// Edit on Edit
-                private async Task _client_MessageUpdated(Cacheable<IMessage, ulong> messageBefore,
+        public async Task _client_MessageUpdated(Cacheable<IMessage, ulong> messageBefore,
             SocketMessage messageAfter, ISocketMessageChannel arg3)
         {
-            if(messageAfter.Author.IsBot)
+            if (messageAfter.Author.IsBot)
                 return;
             var after = messageAfter as IUserMessage;
             if (messageAfter.Content == null)
             {
                 return;
             }
+
             var before = (messageBefore.HasValue ? messageBefore.Value : null) as IUserMessage;
             if (before == null)
                 return;
@@ -127,17 +90,10 @@ namespace OctoBot.Handeling
                     context,
                     argPos,
                     _services);
-
                 return;
             }
-
             await Task.CompletedTask;
         }
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-     
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-/// Sinding Module
 
         public static async Task SendingMess(SocketCommandContextCustom context, EmbedBuilder embed, string edit = null, [Remainder]string regularMess = null)
         {
@@ -153,14 +109,10 @@ namespace OctoBot.Handeling
                 {
                     if (t.UserSocketMsg.Id == context.Message.Id)
                     {
-                    
-
                         await t.BotSocketMsg.ModifyAsync(message =>
                         {
-
                             message.Content = "";
                             message.Embed = embed.Build();
-
                         });
                     }
                 }
@@ -192,7 +144,6 @@ namespace OctoBot.Handeling
             }
         }
 
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
         public async Task HandleCommandAsync(SocketMessage msg)
@@ -222,7 +173,7 @@ namespace OctoBot.Handeling
                             $"{DateTime.Now.ToLongTimeString()} - DM: ERROR '{context.Channel}' {context.User}: {message} || {task.Result.ErrorReason}");
                         Console.ResetColor();
 
-                        File.AppendAllText(LogFile,
+                        File.AppendAllText(_logFile,
                             $"{DateTime.Now.ToLongTimeString()} - DM: ERROR '{context.Channel}' {context.User}: {message} || {task.Result.ErrorReason} \n");
                     }
                     else
@@ -232,7 +183,7 @@ namespace OctoBot.Handeling
                             $"{DateTime.Now.ToLongTimeString()} - DM: '{context.Channel}' {context.User}: {message}");
                         Console.ResetColor();
 
-                        File.AppendAllText(LogFile,
+                        File.AppendAllText(_logFile,
                             $"{DateTime.Now.ToLongTimeString()} - DM: '{context.Channel}' {context.User}: {message} \n");
                     }
                 });
@@ -244,7 +195,6 @@ namespace OctoBot.Handeling
             // Leveling up
                 LvLing.UserSentMess((SocketGuildUser)context.User, (SocketTextChannel)context.Channel, message);
 
-            ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
             var guild = ServerAccounts.GetServerAccount(context.Guild);
             if (message.HasStringPrefix(guild.Prefix, ref argPos) || message.HasMentionPrefix(_client.CurrentUser, ref argPos))
@@ -263,7 +213,7 @@ namespace OctoBot.Handeling
                             $"{DateTime.Now.ToLongTimeString()} - ERROR '{context.Channel}' {context.User}: {message} || {task.Result.ErrorReason}");
                         Console.ResetColor();
 
-                        File.AppendAllText(LogFile,
+                        File.AppendAllText(_logFile,
                             $"{DateTime.Now.ToLongTimeString()} - ERROR '{context.Channel}' {context.User}: {message} || {task.Result.ErrorReason} \n");
                     }
                     else
@@ -273,7 +223,7 @@ namespace OctoBot.Handeling
                             $"{DateTime.Now.ToLongTimeString()} - '{context.Channel}' {context.User}: {message}");
                         Console.ResetColor();
 
-                        File.AppendAllText(LogFile,
+                        File.AppendAllText(_logFile,
                             $"{DateTime.Now.ToLongTimeString()} - '{context.Channel}' {context.User}: {message} \n");
                     }
                 });
@@ -282,7 +232,6 @@ namespace OctoBot.Handeling
             }
         }
 
-        //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
         private static ConsoleColor LogColor(string color)
         {

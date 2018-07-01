@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace OctoBot.Configs.Users
+﻿namespace OctoBot.Configs.Users
 {
     public interface  IAccount
     {

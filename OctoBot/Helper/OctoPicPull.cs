@@ -162,7 +162,7 @@ namespace OctoBot.Services
         public static class OctoNamePull
     {
        
-        public static string[] OctoNameRU =
+        public static string[] OctoNameRu =
         {
             "[Фиолетовый дракон](https://i.imgur.com/jAnjdX0.jpg)",
             "[Красный дракон](https://i.imgur.com/liSAh1O.jpg)",

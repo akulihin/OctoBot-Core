@@ -16,12 +16,12 @@ namespace OctoBot.Commands.Translate
            
             if (Context.MessageContentForEdit != "edit")
             {
-                await CommandHandeling.SendingMess(Context, null, null, $"{TranslatorApi.DetectLanguageName(query)}");
+                await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, null, null, $"{TranslatorApi.DetectLanguageName(query)}");
   
             }
             else if(Context.MessageContentForEdit == "edit")
             {
-                await CommandHandeling.SendingMess(Context, null, "edit", $"{TranslatorApi.DetectLanguageName(query)}");
+                await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, null, "edit", $"{TranslatorApi.DetectLanguageName(query)}");
             }
         }
 
@@ -46,12 +46,12 @@ namespace OctoBot.Commands.Translate
             embed.WithColor(new Color(rand.Next(0, 256), rand.Next(0, 256), rand.Next(0, 256)));
             if (Context.MessageContentForEdit != "edit")
             {
-                await CommandHandeling.SendingMess(Context, embed);
+                await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, embed);
   
             }
             else if(Context.MessageContentForEdit == "edit")
             {
-                await CommandHandeling.SendingMess(Context, embed, "edit");
+                await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, embed, "edit");
             }
         }
     }

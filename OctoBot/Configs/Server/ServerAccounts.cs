@@ -9,24 +9,24 @@ namespace OctoBot.Configs.Server
     public static class ServerAccounts
     {
 
-        private static readonly List<ServerSettings> _accounts;
+        private static readonly List<ServerSettings> Accounts;
 
         private static string _serverAccountsFile = @"OctoDataBase/ServerAccounts.json";
 
         static ServerAccounts()
         {
             if (ServerDataStorage.SaveExists(_serverAccountsFile))
-                _accounts = ServerDataStorage.LoadServerSettings(_serverAccountsFile).ToList();
+                Accounts = ServerDataStorage.LoadServerSettings(_serverAccountsFile).ToList();
             else
             {
-                _accounts = new List<ServerSettings>();
+                Accounts = new List<ServerSettings>();
                 SaveServerAccounts();
             }
         }
 
         public static void SaveServerAccounts()
         {
-            ServerDataStorage.SaveServerSettings(_accounts, _serverAccountsFile);
+            ServerDataStorage.SaveServerSettings(Accounts, _serverAccountsFile);
         }
 
         public static ServerSettings GetServerAccount(SocketGuild guild)
@@ -41,7 +41,7 @@ namespace OctoBot.Configs.Server
 
         private static ServerSettings GetOrCreateServerAccount(ulong id, string name)
         {
-            var result = from a in _accounts
+            var result = from a in Accounts
                          where a.ServerId == id
                          select a;
             var account = result.FirstOrDefault() ?? CreateServerAccount(id, name);
@@ -54,13 +54,13 @@ namespace OctoBot.Configs.Server
 
         internal static List<ServerSettings> GetAllServerAccounts()
         {
-            return _accounts.ToList();
+            return Accounts.ToList();
         }
 
             internal static List<ServerSettings> GetFilteredServerAccounts(Func<ServerSettings, bool> filter)
             {
                
-                return _accounts.Where(filter).ToList();
+                return Accounts.Where(filter).ToList();
             }
 
 
@@ -75,7 +75,7 @@ namespace OctoBot.Configs.Server
                 Language = "en"
             };
 
-            _accounts.Add(newAccount);
+            Accounts.Add(newAccount);
             SaveServerAccounts();
             return newAccount;
         }

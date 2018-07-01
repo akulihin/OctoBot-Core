@@ -7,13 +7,13 @@ namespace OctoBot.Services
     public class SecureRandom
     {
         
-        private static readonly RNGCryptoServiceProvider generator = new RNGCryptoServiceProvider();
+        private static readonly RNGCryptoServiceProvider Generator = new RNGCryptoServiceProvider();
 
         public static int Random(int min, int max)
         {
             var randomNumber = new byte[1];
 
-            generator.GetBytes(randomNumber);
+            Generator.GetBytes(randomNumber);
 
             var asc2ConvertBytes = Convert.ToDouble(randomNumber[0]);
 

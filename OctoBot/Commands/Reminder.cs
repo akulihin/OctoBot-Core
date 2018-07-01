@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
 using System.Threading.Tasks;
-using System.Timers;
 using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
@@ -76,12 +73,12 @@ namespace OctoBot.Commands
 
                 if (Context.MessageContentForEdit != "edit")
                 {
-                    await CommandHandeling.SendingMess(Context, null, null, bigmess);
+                    await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, null, null, bigmess);
   
                 }
                 else if(Context.MessageContentForEdit == "edit")
                 {
-                    await CommandHandeling.SendingMess(Context, null, "edit", bigmess);
+                    await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, null, "edit", bigmess);
                 }
                 return;
             }
@@ -93,8 +90,8 @@ namespace OctoBot.Commands
               
 
             var timeDateTime = DateTime.UtcNow + TimeSpan.ParseExact(timeString, ReminderFormat.Formats, CultureInfo.CurrentCulture);
-                var randomIndex = SecureRandom.Random(0, OctoNamePull.OctoNameRU.Length);
-                var randomOcto = OctoNamePull.OctoNameRU[randomIndex];
+                var randomIndex = SecureRandom.Random(0, OctoNamePull.OctoNameRu.Length);
+                var randomOcto = OctoNamePull.OctoNameRu[randomIndex];
 
                 var extra = randomOcto.Split(new[] {"]("}, StringSplitOptions.RemoveEmptyEntries);
                 var name = extra[0].Remove(0,1);
@@ -117,12 +114,12 @@ namespace OctoBot.Commands
 
                 if (Context.MessageContentForEdit != "edit")
                 {
-                    await CommandHandeling.SendingMess(Context, embed);
+                    await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, embed);
   
                 }
                 else if(Context.MessageContentForEdit == "edit")
                 {
-                    await CommandHandeling.SendingMess(Context, embed, "edit");
+                    await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, embed, "edit");
                 }
 
             var account = UserAccounts.GetAccount(Context.User, 0);
@@ -149,12 +146,12 @@ namespace OctoBot.Commands
 
                 if (Context.MessageContentForEdit != "edit")
                 {
-                    await CommandHandeling.SendingMess(Context, null, null,  "Booole. [time] have to be in range 0-1439 (in minutes)");
+                    await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, null, null,  "Booole. [time] have to be in range 0-1439 (in minutes)");
   
                 }
                 else if(Context.MessageContentForEdit == "edit")
                 {
-                    await CommandHandeling.SendingMess(Context, null, "edit",  "Booole. [time] have to be in range 0-1439 (in minutes)");
+                    await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, null, "edit",  "Booole. [time] have to be in range 0-1439 (in minutes)");
                 }
 
                 return;
@@ -182,8 +179,8 @@ namespace OctoBot.Commands
 
             var timeDateTime = DateTime.UtcNow + TimeSpan.ParseExact(timeString, ReminderFormat.Formats, CultureInfo.CurrentCulture);
 
-                var randomIndex = SecureRandom.Random(0, OctoNamePull.OctoNameRU.Length);
-                var randomOcto = OctoNamePull.OctoNameRU[randomIndex];
+                var randomIndex = SecureRandom.Random(0, OctoNamePull.OctoNameRu.Length);
+                var randomOcto = OctoNamePull.OctoNameRu[randomIndex];
                 var extra = randomOcto.Split(new[] {"]("}, StringSplitOptions.RemoveEmptyEntries);
                 var name = extra[0].Remove(0,1);
                 var url = extra[1].Remove(extra[1].Length - 1,1);
@@ -206,12 +203,12 @@ namespace OctoBot.Commands
               
                 if (Context.MessageContentForEdit != "edit")
                 {
-                    await CommandHandeling.SendingMess(Context, embed);
+                    await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, embed);
   
                 }
                 else if(Context.MessageContentForEdit == "edit")
                 {
-                    await CommandHandeling.SendingMess(Context, embed, "edit");
+                    await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, embed, "edit");
                 }
 
             var account = UserAccounts.GetAccount(Context.User, 0);
@@ -259,12 +256,12 @@ namespace OctoBot.Commands
                                  "I'm a loving order octopus!";
                 if (Context.MessageContentForEdit != "edit")
                 {
-                    await CommandHandeling.SendingMess(Context, null, null,  bigmess);
+                    await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, null, null,  bigmess);
   
                 }
                 else if(Context.MessageContentForEdit == "edit")
                 {
-                    await CommandHandeling.SendingMess(Context, null, "edit",  bigmess);
+                    await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, null, "edit",  bigmess);
                 }
                 return;
             }
@@ -278,8 +275,8 @@ namespace OctoBot.Commands
             var user = Global.Client.GetUser(userId);
 
 
-                var randomIndex = SecureRandom.Random(0, OctoNamePull.OctoNameRU.Length);
-                var randomOcto = OctoNamePull.OctoNameRU[randomIndex];
+                var randomIndex = SecureRandom.Random(0, OctoNamePull.OctoNameRu.Length);
+                var randomOcto = OctoNamePull.OctoNameRu[randomIndex];
                 var extra = randomOcto.Split(new[] {"]("}, StringSplitOptions.RemoveEmptyEntries);
                 var name = extra[0].Remove(0,1);
                 var url = extra[1].Remove(extra[1].Length - 1,1);
@@ -302,12 +299,12 @@ namespace OctoBot.Commands
           
                 if (Context.MessageContentForEdit != "edit")
                 {
-                    await CommandHandeling.SendingMess(Context, embed);
+                    await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, embed);
   
                 }
                 else if(Context.MessageContentForEdit == "edit")
                 {
-                    await CommandHandeling.SendingMess(Context, embed, "edit");
+                    await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, embed, "edit");
                 }
 
             var account = UserAccounts.GetAccount(user, 0);
@@ -338,12 +335,12 @@ namespace OctoBot.Commands
                     "I'm a loving order octopus!";
                 if (Context.MessageContentForEdit != "edit")
                 {
-                    await CommandHandeling.SendingMess(Context, null, null,  bigmess);
+                    await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, null, null,  bigmess);
   
                 }
                 else if(Context.MessageContentForEdit == "edit")
                 {
-                    await CommandHandeling.SendingMess(Context, null, "edit",  bigmess);
+                    await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, null, "edit",  bigmess);
                 }
                 return;
 
@@ -363,12 +360,12 @@ namespace OctoBot.Commands
 
                 if (Context.MessageContentForEdit != "edit")
                 {
-                    await CommandHandeling.SendingMess(Context, embed);
+                    await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, embed);
   
                 }
                 else if(Context.MessageContentForEdit == "edit")
                 {
-                    await CommandHandeling.SendingMess(Context, embed, "edit");
+                    await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, embed, "edit");
                 }
             }
             catch
@@ -398,12 +395,12 @@ namespace OctoBot.Commands
                         "I'm a loving order octopus!";
                     if (Context.MessageContentForEdit != "edit")
                     {
-                        await CommandHandeling.SendingMess(Context, null, null,  bigmess);
+                        await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, null, null,  bigmess);
   
                     }
                     else if(Context.MessageContentForEdit == "edit")
                     {
-                        await CommandHandeling.SendingMess(Context, null, "edit",  bigmess);
+                        await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, null, "edit",  bigmess);
                     }
                     return;
 
@@ -423,12 +420,12 @@ namespace OctoBot.Commands
 
                 if (Context.MessageContentForEdit != "edit")
                 {
-                    await CommandHandeling.SendingMess(Context, embed);
+                    await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, embed);
   
                 }
                 else if(Context.MessageContentForEdit == "edit")
                 {
-                    await CommandHandeling.SendingMess(Context, embed, "edit");
+                    await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, embed, "edit");
                 }
 
             }
@@ -464,12 +461,12 @@ namespace OctoBot.Commands
               
                 if (Context.MessageContentForEdit != "edit")
                 {
-                    await CommandHandeling.SendingMess(Context, embed);
+                    await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, embed);
   
                 }
                 else if(Context.MessageContentForEdit == "edit")
                 {
-                    await CommandHandeling.SendingMess(Context, embed, "edit");
+                    await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, embed, "edit");
                 }
                 return;
             }
@@ -479,12 +476,12 @@ namespace OctoBot.Commands
                 $"Try to see all of your reminders through the command `list`";
                 if (Context.MessageContentForEdit != "edit")
                 {
-                    await CommandHandeling.SendingMess(Context, null, null,  bigmess);
+                    await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, null, null,  bigmess);
   
                 }
                 else if(Context.MessageContentForEdit == "edit")
                 {
-                    await CommandHandeling.SendingMess(Context, null, "edit",  bigmess);
+                    await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, null, "edit",  bigmess);
                 }
             }
             catch
@@ -503,12 +500,12 @@ namespace OctoBot.Commands
             var bigmess = $"**UTC Current Time: {DateTime.UtcNow}**";
                 if (Context.MessageContentForEdit != "edit")
                 {
-                    await CommandHandeling.SendingMess(Context, null, null,  bigmess);
+                    await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, null, null,  bigmess);
   
                 }
                 else if(Context.MessageContentForEdit == "edit")
                 {
-                    await CommandHandeling.SendingMess(Context, null, "edit",  bigmess);
+                    await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, null, "edit",  bigmess);
                 }
             }
             catch
@@ -519,159 +516,7 @@ namespace OctoBot.Commands
             }
         }
 
-        private static Timer _loopingTimer;
-
-        internal static Task CheckTimer()
-        {
-
-
-            _loopingTimer = new Timer
-            {
-                AutoReset = true,
-                Interval = 5000,
-                Enabled = true
-            };
-            _loopingTimer.Elapsed += CheckReminders;
-            _loopingTimer.Elapsed += CheckForMute;
-
-
-            return Task.CompletedTask;
-        }
-
-
-
-        //client.GetUser(userId);
-        public static async void CheckReminders(object sender, ElapsedEventArgs e)
-        {
-            try
-            {
-                var allUserAccounts = UserAccounts.GetOrAddUserAccountsForGuild(0);
-                var now = DateTime.UtcNow;
-
-                foreach (var t in allUserAccounts)
-                {
-                    if (Global.Client.GetUser(t.Id) == null)
-                        continue;
-
-
-                    var globalAccount = Global.Client.GetUser(t.Id);
-                    var account = UserAccounts.GetAccount(globalAccount, 0);
-
-                    var removeLaterList = new List<CreateReminder>();
-
-                    for (var j = 0; j < account.ReminderList?.Count; j++)
-                    {
-
-                        if (account.ReminderList[j].DateToPost > now)
-                            continue;
-
-                        try
-                        {
-                            var dmChannel = await globalAccount.GetOrCreateDMChannelAsync();
-                            var embed = new EmbedBuilder();
-                            embed.WithFooter("lil octo notebook");
-                            embed.WithColor(Color.Teal);
-                            embed.WithTitle("Розовенькая черепашка напоминает тебе:");
-                            embed.WithDescription($"\n{account.ReminderList[j].ReminderMessage}");
-
-                            await dmChannel.SendMessageAsync("", false, embed.Build());
-
-                            removeLaterList.Add(account.ReminderList[j]);
-
-                            //  account.ReminderList.RemoveAt(j);
-                           //   UserAccounts.SaveAccounts(0);
-                        }
-                        catch (Exception closedDm)
-                        {
-                            try
-                            {
-                                if (!closedDm.Message.Contains("404") || !closedDm.Message.Contains("403")) continue;
-                                Console.WriteLine($"ERROR DM SENING {account.UserName} Closed DM: '{0}'",
-                                    closedDm);
-                                account.ReminderList = null;
-                                UserAccounts.SaveAccounts(0);
-                                return;
-                            }
-                            catch
-                            {
-                                Console.ForegroundColor = ConsoleColor.Red;
-                                Console.WriteLine($"ERROR REMINDER (Catch-catch) {account.UserName}");
-                                Console.ResetColor();
-                            }
-                        }
-                    }
-
-                    if (!removeLaterList.Any()) continue;
-                    removeLaterList.ForEach(item => account.ReminderList.Remove(item));
-                    UserAccounts.SaveAccounts(0);
-                }
-            }
-            catch (Exception error)
-            {
-                Console.WriteLine("ERROR!!! REMINDER(Big try) Does not work: '{0}'", error);
-
-            }
-        }
-
-        public static async void CheckForMute(object sender, ElapsedEventArgs e)
-        {
-            try
-            {
-                var allUserAccounts = UserAccounts.GetOrAddUserAccountsForGuild(0);
-                var now = DateTime.UtcNow;
-
-                foreach (var t in allUserAccounts)
-                {
-                    if (Global.Client.GetUser(t.Id) == null)
-                        continue;
-                    
-                        var globalAccount = Global.Client.GetUser(t.Id);
-                        var account = UserAccounts.GetAccount(globalAccount, 0);
-         
-                            if (account.MuteTimer <= now && account.MuteTimer != Convert.ToDateTime("0001-01-01T00:00:00"))
-                            {
-
-
-                                var roleToGive = Global.Client.GetGuild(338355570669256705).Roles
-                                    .SingleOrDefault(x => x.Name.ToString() == "Muted");
-                                var wtf = Global.Client.GetGuild(338355570669256705).GetUser(account.Id);
-                                await wtf.RemoveRoleAsync(roleToGive);
-                                await wtf.ModifyAsync(u => u.Mute = false);
-                                account.MuteTimer = Convert.ToDateTime("0001-01-01T00:00:00");
-                                UserAccounts.SaveAccounts(0);
-
-                                try
-                                {
-                                    var dmChannel = await globalAccount.GetOrCreateDMChannelAsync();
-                                    var embed = new EmbedBuilder();
-                                    embed.WithFooter("lil octo notebook");
-                                    embed.WithColor(Color.Red);
-                                    embed.WithImageUrl("https://i.imgur.com/puNz7pu.jpg");
-                                    embed.WithDescription($"бу-бу-бу!\nБольше так не делай, тебя размутили.");
-
-                                    await dmChannel.SendMessageAsync("", false, embed.Build());
-                                }
-                                catch
-                                {
-                                    var embed = new EmbedBuilder();
-                                    embed.WithFooter("lil octo notebook");
-                                    embed.WithColor(Color.Red);
-                                    embed.WithImageUrl("https://i.imgur.com/puNz7pu.jpg");
-                                    embed.WithDescription($"бу-бу-бу!\nБольше так не делай, тебя размутили.");
-
-                                   await Global.Client.GetGuild(338355570669256705).GetTextChannel(374914059679694848)
-                                        .SendMessageAsync("", false, embed.Build());
-                                }
-                            }
-                    
-                }
-            }
-            catch (Exception error)
-            {
-                Console.WriteLine("ERROR!!! CheckForMute(Big try) Does not work: '{0}'", error);
-               
-            }
-        }
+ 
 
     }
 }

@@ -22,12 +22,12 @@ namespace OctoBot.Commands
                 
                 if (Context.MessageContentForEdit != "edit")
                 {
-                    await CommandHandeling.SendingMess(Context, null, null,  "Are you fucking sure about that?");
+                    await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, null, null,  "Are you fucking sure about that?");
   
                 }
                 else if(Context.MessageContentForEdit == "edit")
                 {
-                    await CommandHandeling.SendingMess(Context, null, "edit",  "Are you fucking sure about that?");
+                    await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, null, "edit",  "Are you fucking sure about that?");
                 }
                 return;
             }
@@ -44,12 +44,12 @@ namespace OctoBot.Commands
                 
                 if (Context.MessageContentForEdit != "edit")
                 {
-                    await CommandHandeling.SendingMess(Context, null, null, $"Boole. Last Page is {lastPage}");
+                    await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, null, null, $"Boole. Last Page is {lastPage}");
   
                 }
                 else if(Context.MessageContentForEdit == "edit")
                 {
-                    await CommandHandeling.SendingMess(Context, null, "edit", $"Boole. Last Page is {lastPage}");
+                    await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, null, "edit", $"Boole. Last Page is {lastPage}");
                 }
                 return;
             }
@@ -80,12 +80,12 @@ namespace OctoBot.Commands
            
                 if (Context.MessageContentForEdit != "edit")
                 {
-                    await CommandHandeling.SendingMess(Context, embB);
+                    await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, embB);
   
                 }
                 else if(Context.MessageContentForEdit == "edit")
                 {
-                    await CommandHandeling.SendingMess(Context, embB, "edit");
+                    await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, embB, "edit");
                 }
             }
             catch
@@ -102,12 +102,12 @@ namespace OctoBot.Commands
             {
                 if (Context.MessageContentForEdit != "edit")
                 {
-                    await CommandHandeling.SendingMess(Context, null, null,  "Are you fucking sure about that?");
+                    await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, null, null,  "Are you fucking sure about that?");
   
                 }
                 else if(Context.MessageContentForEdit == "edit")
                 {
-                    await CommandHandeling.SendingMess(Context, null, "edit",  "Are you fucking sure about that?");
+                    await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, null, "edit",  "Are you fucking sure about that?");
                 }
                 return;
             }
@@ -122,12 +122,12 @@ namespace OctoBot.Commands
             {
                 if (Context.MessageContentForEdit != "edit")
                 {
-                    await CommandHandeling.SendingMess(Context, null, null, $"Boole. Last Page is {lastPage}");
+                    await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, null, null, $"Boole. Last Page is {lastPage}");
   
                 }
                 else if(Context.MessageContentForEdit == "edit")
                 {
-                    await CommandHandeling.SendingMess(Context, null, "edit", $"Boole. Last Page is {lastPage}");
+                    await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, null, "edit", $"Boole. Last Page is {lastPage}");
                 }
                 return;
             }
@@ -171,12 +171,12 @@ namespace OctoBot.Commands
             
                 if (Context.MessageContentForEdit != "edit")
                 {
-                    await CommandHandeling.SendingMess(Context, embB);
+                    await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, embB);
   
                 }
                 else if(Context.MessageContentForEdit == "edit")
                 {
-                    await CommandHandeling.SendingMess(Context, embB, "edit");
+                    await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, embB, "edit");
                 }
             }
             catch
@@ -194,12 +194,12 @@ namespace OctoBot.Commands
             {
                 if (Context.MessageContentForEdit != "edit")
                 {
-                    await CommandHandeling.SendingMess(Context, null, null,  "Are you fucking sure about that?");
+                    await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, null, null,  "Are you fucking sure about that?");
   
                 }
                 else if(Context.MessageContentForEdit == "edit")
                 {
-                    await CommandHandeling.SendingMess(Context, null, "edit",  "Are you fucking sure about that?");
+                    await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, null, "edit",  "Are you fucking sure about that?");
                 }
                 return;
             }
@@ -224,12 +224,12 @@ namespace OctoBot.Commands
                
                 if (Context.MessageContentForEdit != "edit")
                 {
-                    await CommandHandeling.SendingMess(Context, null, null, $"Boole. Last Page is {lastPage}");
+                    await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, null, null, $"Boole. Last Page is {lastPage}");
   
                 }
                 else if(Context.MessageContentForEdit == "edit")
                 {
-                    await CommandHandeling.SendingMess(Context, null, "edit", $"Boole. Last Page is {lastPage}");
+                    await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, null, "edit", $"Boole. Last Page is {lastPage}");
                 }
                 return;
             }
@@ -258,12 +258,12 @@ namespace OctoBot.Commands
 
                 if (Context.MessageContentForEdit != "edit")
                 {
-                    await CommandHandeling.SendingMess(Context, embB);
+                    await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, embB);
   
                 }
                 else if(Context.MessageContentForEdit == "edit")
                 {
-                    await CommandHandeling.SendingMess(Context, embB, "edit");
+                    await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, embB, "edit");
                 }
             }
             catch
@@ -281,12 +281,12 @@ namespace OctoBot.Commands
             {
                 if (Context.MessageContentForEdit != "edit")
                 {
-                    await CommandHandeling.SendingMess(Context, null, null,  "Are you fucking sure about that?");
+                    await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, null, null,  "Are you fucking sure about that?");
   
                 }
                 else if(Context.MessageContentForEdit == "edit")
                 {
-                    await CommandHandeling.SendingMess(Context, null, "edit",  "Are you fucking sure about that?");
+                    await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, null, "edit",  "Are you fucking sure about that?");
                 }
                 return;
             }
@@ -318,12 +318,12 @@ namespace OctoBot.Commands
             {
                 if (Context.MessageContentForEdit != "edit")
                 {
-                    await CommandHandeling.SendingMess(Context, null, null, $"Boole. Last Page is {lastPage}");
+                    await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, null, null, $"Boole. Last Page is {lastPage}");
   
                 }
                 else if(Context.MessageContentForEdit == "edit")
                 {
-                    await CommandHandeling.SendingMess(Context, null, "edit", $"Boole. Last Page is {lastPage}");
+                    await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, null, "edit", $"Boole. Last Page is {lastPage}");
                 }
                 return;
             }
@@ -353,12 +353,12 @@ namespace OctoBot.Commands
 
                 if (Context.MessageContentForEdit != "edit")
                 {
-                    await CommandHandeling.SendingMess(Context, embB);
+                    await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, embB);
   
                 }
                 else if(Context.MessageContentForEdit == "edit")
                 {
-                    await CommandHandeling.SendingMess(Context, embB, "edit");
+                    await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, embB, "edit");
                 }
             }
             catch
@@ -375,12 +375,12 @@ namespace OctoBot.Commands
             {
                 if (Context.MessageContentForEdit != "edit")
                 {
-                    await CommandHandeling.SendingMess(Context, null, null,  "Are you fucking sure about that?");
+                    await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, null, null,  "Are you fucking sure about that?");
   
                 }
                 else if(Context.MessageContentForEdit == "edit")
                 {
-                    await CommandHandeling.SendingMess(Context, null, "edit",  "Are you fucking sure about that?");
+                    await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, null, "edit",  "Are you fucking sure about that?");
                 }
                 return;
             }
@@ -412,12 +412,12 @@ namespace OctoBot.Commands
             {
                 if (Context.MessageContentForEdit != "edit")
                 {
-                    await CommandHandeling.SendingMess(Context, null, null, $"Boole. Last Page is {lastPage}");
+                    await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, null, null, $"Boole. Last Page is {lastPage}");
   
                 }
                 else if(Context.MessageContentForEdit == "edit")
                 {
-                    await CommandHandeling.SendingMess(Context, null, "edit", $"Boole. Last Page is {lastPage}");
+                    await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, null, "edit", $"Boole. Last Page is {lastPage}");
                 }
                 return;
             }
@@ -446,12 +446,12 @@ namespace OctoBot.Commands
 
                 if (Context.MessageContentForEdit != "edit")
                 {
-                    await CommandHandeling.SendingMess(Context, embB);
+                    await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, embB);
   
                 }
                 else if(Context.MessageContentForEdit == "edit")
                 {
-                    await CommandHandeling.SendingMess(Context, embB, "edit");
+                    await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, embB, "edit");
                 }
             }
             catch

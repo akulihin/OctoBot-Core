@@ -22,9 +22,8 @@ namespace OctoBot.Commands
                 if (index == 5 || index == 38 || index == 69)
                 {
 
-                    var lll = await Context.Channel.SendMessageAsync("boole");
-                    await Task.Delay(6000);
-                    await lll.DeleteAsync();
+                   var lll = await Context.Channel.SendMessageAsync("boole");
+                  var k =  HelperFunctions.DeleteMessOverTime(lll, 6);
                 }
                 else
                 {
@@ -36,8 +35,8 @@ namespace OctoBot.Commands
                     var color2Index = SecureRandom.Random(0, 255);
                     var color3Index = SecureRandom.Random(0, 255);
                
-                    var randomIndex = SecureRandom.Random(0, OctoNamePull.OctoNameRU.Length);
-                    var randomOcto = OctoNamePull.OctoNameRU[randomIndex];
+                    var randomIndex = SecureRandom.Random(0, OctoNamePull.OctoNameRu.Length);
+                    var randomOcto = OctoNamePull.OctoNameRu[randomIndex];
 
                     var embed = new EmbedBuilder();
                     embed.WithDescription($"{randomOcto} нашоль фото:");
@@ -48,12 +47,12 @@ namespace OctoBot.Commands
 
                     if (Context.MessageContentForEdit != "edit")
                     {
-                        await CommandHandeling.SendingMess(Context, embed);
+                        await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, embed);
   
                     }
                     else if(Context.MessageContentForEdit == "edit")
                     {
-                        await CommandHandeling.SendingMess(Context, embed, "edit");
+                        await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, embed, "edit");
                     }
 
 
@@ -61,22 +60,19 @@ namespace OctoBot.Commands
                     if (octoIndex == 19)
                     {
                       var lll=  await Context.Channel.SendMessageAsync("Oppa, it was I who passed Dark Souls!");
-                        await Task.Delay(6000);
-                        await lll.DeleteAsync();
+                        var k =  HelperFunctions.DeleteMessOverTime(lll, 6);
                     }
 
                     if (octoIndex == 9)
                     {
                         var lll=   await Context.Channel.SendMessageAsync("I'm drawing an octopus :3");
-                        await Task.Delay(6000);
-                        await lll.DeleteAsync();
+                        var k =  HelperFunctions.DeleteMessOverTime(lll, 6);
                     }
 
                     if (octoIndex == 26)
                     {
                         var lll=    await Context.Channel.SendMessageAsync("Oh, this is New Year! time to gift turtles!!");
-                        await Task.Delay(6000);
-                        await lll.DeleteAsync();
+                        var k =  HelperFunctions.DeleteMessOverTime(lll, 6);
                     }
 
                 }
@@ -130,30 +126,13 @@ namespace OctoBot.Commands
 
                         if (Context.MessageContentForEdit != "edit")
                         {
-                            await CommandHandeling.SendingMess(Context, embed);
+                            await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, embed);
   
                         }
                         else if(Context.MessageContentForEdit == "edit")
                         {
-                            await CommandHandeling.SendingMess(Context, embed, "edit");
+                            await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, embed, "edit");
                         }
-
-
-                        if (selection == 19)
-                        {
-                            await Context.Channel.SendMessageAsync("Oppa, it was I who passed Dark Souls!");
-                        }
-
-                        if (selection == 9)
-                        {
-                            await Context.Channel.SendMessageAsync("I'm drawing an octopus :3");
-                        }
-
-                        if (selection == 26)
-                        {
-                            await Context.Channel.SendMessageAsync("Oh, this is New Year! time to gift turtles!!");
-                        }
-
                     }
                 }
                 else

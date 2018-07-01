@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace OctoBot.Configs.Server
+﻿namespace OctoBot.Configs.Server
 {
     public class ServerSettings 
     {

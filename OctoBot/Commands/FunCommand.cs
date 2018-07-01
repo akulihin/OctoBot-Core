@@ -4,6 +4,7 @@ using Discord;
 using Discord.Commands;
 using OctoBot.Configs.Users;
 using OctoBot.Handeling;
+using OctoBot.Helper;
 using OctoBot.Services;
 namespace OctoBot.Commands
 {
@@ -29,12 +30,12 @@ namespace OctoBot.Commands
 
                 if (Context.MessageContentForEdit != "edit")
                 {
-                    await CommandHandeling.SendingMess(Context, embed);
+                    await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, embed);
   
                 }
                 else if(Context.MessageContentForEdit == "edit")
                 {
-                    await CommandHandeling.SendingMess(Context, embed, "edit");
+                    await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, embed, "edit");
                 }
             }
             catch
@@ -55,12 +56,12 @@ namespace OctoBot.Commands
                    
                     if (Context.MessageContentForEdit != "edit")
                     {
-                        await CommandHandeling.SendingMess(Context, null, null,  "Boole! We are not going to roll that many times!");
+                        await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, null, null,  "Boole! We are not going to roll that many times!");
   
                     }
                     else if(Context.MessageContentForEdit == "edit")
                     {
-                        await CommandHandeling.SendingMess(Context, null, "edit",  "Boole! We are not going to roll that many times!");
+                        await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, null, "edit",  "Boole! We are not going to roll that many times!");
                     }
                     return;
                 }
@@ -70,12 +71,12 @@ namespace OctoBot.Commands
                     
                     if (Context.MessageContentForEdit != "edit")
                     {
-                        await CommandHandeling.SendingMess(Context, null, null,  "Boole! This numbers is way too big for us :c");
+                        await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, null, null,  "Boole! This numbers is way too big for us :c");
   
                     }
                     else if(Context.MessageContentForEdit == "edit")
                     {
-                        await CommandHandeling.SendingMess(Context, null, "edit",  "Boole! This numbers is way too big for us :c");
+                        await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, null, "edit",  "Boole! This numbers is way too big for us :c");
                     }
                     return;
                 }
@@ -94,12 +95,12 @@ namespace OctoBot.Commands
 
                 if (Context.MessageContentForEdit != "edit")
                 {
-                    await CommandHandeling.SendingMess(Context, embed);
+                    await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, embed);
   
                 }
                 else if(Context.MessageContentForEdit == "edit")
                 {
-                    await CommandHandeling.SendingMess(Context, embed, "edit");
+                    await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, embed, "edit");
                 }
 
               
@@ -127,12 +128,12 @@ namespace OctoBot.Commands
                
                 if (Context.MessageContentForEdit != "edit")
                 {
-                    await CommandHandeling.SendingMess(Context, null, null,  $"It's a {randomIndexRoll}!");
+                    await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, null, null,  $"It's a {randomIndexRoll}!");
   
                 }
                 else if(Context.MessageContentForEdit == "edit")
                 {
-                    await CommandHandeling.SendingMess(Context, null, "edit",  $"It's a {randomIndexRoll}!");
+                    await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, null, "edit",  $"It's a {randomIndexRoll}!");
                 }
             }
             catch
@@ -152,12 +153,12 @@ namespace OctoBot.Commands
             
                 if (Context.MessageContentForEdit != "edit")
                 {
-                    await CommandHandeling.SendingMess(Context, null, null,  $"{Context.User.Mention} pong!");
+                    await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, null, null,  $"{Context.User.Mention} pong!");
   
                 }
                 else if(Context.MessageContentForEdit == "edit")
                 {
-                    await CommandHandeling.SendingMess(Context, null, "edit",  $"{Context.User.Mention} pong!");
+                    await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, null, "edit",  $"{Context.User.Mention} pong!");
                 }
             }
             catch
@@ -198,12 +199,12 @@ namespace OctoBot.Commands
 
                 if (Context.MessageContentForEdit != "edit")
                 {
-                    await CommandHandeling.SendingMess(Context, null, null,  "You do not have enough OktoPoints! Or you just entered something wrong.");
+                    await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, null, null,  "You do not have enough OktoPoints! Or you just entered something wrong.");
   
                 }
                 else if(Context.MessageContentForEdit == "edit")
                 {
-                    await CommandHandeling.SendingMess(Context, null, "edit",  "You do not have enough OktoPoints! Or you just entered something wrong.");
+                    await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, null, "edit",  "You do not have enough OktoPoints! Or you just entered something wrong.");
                 }
                 return;
             }
@@ -216,14 +217,14 @@ namespace OctoBot.Commands
            
                 if (Context.MessageContentForEdit != "edit")
                 {
-                    await CommandHandeling.SendingMess(Context, null, null,  $"Number of slots **{slots}**. What is your choice?");
+                    await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, null, null,  $"Number of slots **{slots}**. What is your choice?");
   
                 }
                 else if(Context.MessageContentForEdit == "edit")
                 {
-                    await CommandHandeling.SendingMess(Context, null, "edit",  $"Number of slots **{slots}**. What is your choice?");
+                    await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, null, "edit",  $"Number of slots **{slots}**. What is your choice?");
                 }
-            var response = await CommandHandeling.AwaitMessage(Context.User.Id, Context.Channel.Id, 10000);
+            var response = await AwaitForUserMessage.AwaitMessage(Context.User.Id, Context.Channel.Id, 10000);
 
             var result = int.TryParse(response.Content, out _);
             if (result)
@@ -243,12 +244,12 @@ namespace OctoBot.Commands
 
                     if (Context.MessageContentForEdit != "edit")
                     {
-                        await CommandHandeling.SendingMess(Context, null, null,   $"You won **{bank}** OctoPoints!\nNow you have **{userAccount.Points}** OctoPoints!");
+                        await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, null, null,   $"You won **{bank}** OctoPoints!\nNow you have **{userAccount.Points}** OctoPoints!");
   
                     }
                     else if(Context.MessageContentForEdit == "edit")
                     {
-                        await CommandHandeling.SendingMess(Context, null, "edit",   $"You won **{bank}** OctoPoints!\nNow you have **{userAccount.Points}** OctoPoints!");
+                        await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, null, "edit",   $"You won **{bank}** OctoPoints!\nNow you have **{userAccount.Points}** OctoPoints!");
                     }
                     userAccount.Points += bank;
                     UserAccounts.SaveAccounts(Context.Guild.Id);
@@ -258,12 +259,12 @@ namespace OctoBot.Commands
                 {
                     if (Context.MessageContentForEdit != "edit")
                     {
-                        await CommandHandeling.SendingMess(Context, null, null,    $"booole. Yuor **{amount}** OctoPoints stayed with us. Btw, number was **{random}**");
+                        await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, null, null,    $"booole. Yuor **{amount}** OctoPoints stayed with us. Btw, number was **{random}**");
   
                     }
                     else if(Context.MessageContentForEdit == "edit")
                     {
-                        await CommandHandeling.SendingMess(Context, null, "edit",   $"booole. Yuor **{amount}** OctoPoints stayed with us. Btw, number was **{random}**");
+                        await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, null, "edit",   $"booole. Yuor **{amount}** OctoPoints stayed with us. Btw, number was **{random}**");
                     }
 
                     userAccount.Points -= amount;
@@ -276,12 +277,12 @@ namespace OctoBot.Commands
 
                 if (Context.MessageContentForEdit != "edit")
                 {
-                    await CommandHandeling.SendingMess(Context, null, null,     $"The choice should be between 0 and {slots}, answer only with a number.");
+                    await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, null, null,     $"The choice should be between 0 and {slots}, answer only with a number.");
   
                 }
                 else if(Context.MessageContentForEdit == "edit")
                 {
-                    await CommandHandeling.SendingMess(Context, null, "edit",    $"The choice should be between 0 and {slots}, answer only with a number.");
+                    await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, null, "edit",    $"The choice should be between 0 and {slots}, answer only with a number.");
                 }
             }
             catch

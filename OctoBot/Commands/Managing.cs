@@ -43,13 +43,13 @@ namespace OctoBot.Commands
                 }
                 else if (Context.MessageContentForEdit != "edit")
                 {
-                    await CommandHandeling.SendingMess(Context, null, null,
+                    await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, null, null,
                         "Boole! You do not have a tolerance of this level!");
 
                 }
                 else if (Context.MessageContentForEdit == "edit")
                 {
-                    await CommandHandeling.SendingMess(Context, null, "edit",
+                    await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, null, "edit",
                         "Boole! You do not have a tolerance of this level!");
                 }
             }
@@ -78,12 +78,12 @@ namespace OctoBot.Commands
 
                     if (Context.MessageContentForEdit != "edit")
                     {
-                        await CommandHandeling.SendingMess(Context, null, null, user.Mention + " Was Forewarned");
+                        await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, null, null, user.Mention + " Was Forewarned");
 
                     }
                     else if (Context.MessageContentForEdit == "edit")
                     {
-                        await CommandHandeling.SendingMess(Context, null, "edit", user.Mention + " Was Forewarned");
+                        await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, null, "edit", user.Mention + " Was Forewarned");
                     }
 
                     var embed = new EmbedBuilder()
@@ -99,13 +99,13 @@ namespace OctoBot.Commands
                 }
                 else if (Context.MessageContentForEdit != "edit")
                 {
-                    await CommandHandeling.SendingMess(Context, null, null,
+                    await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, null, null,
                         "Boole! You do not have a tolerance of this level!");
 
                 }
                 else if (Context.MessageContentForEdit == "edit")
                 {
-                    await CommandHandeling.SendingMess(Context, null, "edit",
+                    await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, null, "edit",
                         "Boole! You do not have a tolerance of this level!");
                 }
             }
@@ -233,12 +233,12 @@ namespace OctoBot.Commands
 
                     if (Context.MessageContentForEdit != "edit")
                     {
-                        await CommandHandeling.SendingMess(Context, null, null, $"{user.Mention} бу!");
+                        await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, null, null, $"{user.Mention} бу!");
 
                     }
                     else if (Context.MessageContentForEdit == "edit")
                     {
-                        await CommandHandeling.SendingMess(Context, null, "edit", $"{user.Mention} бу!");
+                        await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, null, "edit", $"{user.Mention} бу!");
                     }
                 }
             }
@@ -269,12 +269,12 @@ namespace OctoBot.Commands
 
                 if (Context.MessageContentForEdit != "edit")
                 {
-                    await CommandHandeling.SendingMess(Context, null, null, "как хочешь, буль...");
+                    await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, null, null, "как хочешь, буль...");
 
                 }
                 else if (Context.MessageContentForEdit == "edit")
                 {
-                    await CommandHandeling.SendingMess(Context, null, "edit", "как хочешь, буль...");
+                    await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, null, "edit", "как хочешь, буль...");
                 }
             }
         }
@@ -294,13 +294,13 @@ namespace OctoBot.Commands
 
                 if (Context.MessageContentForEdit != "edit")
                 {
-                    await CommandHandeling.SendingMess(Context, null, null,
+                    await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, null, null,
                         $"{user.Mention} is now a moderator! Booole~");
 
                 }
                 else if (Context.MessageContentForEdit == "edit")
                 {
-                    await CommandHandeling.SendingMess(Context, null, "edit",
+                    await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, null, "edit",
                         $"{user.Mention} is now a moderator! Booole~");
                 }
             }

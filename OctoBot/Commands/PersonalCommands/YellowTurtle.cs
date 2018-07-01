@@ -36,7 +36,7 @@ namespace OctoBot.Commands.PersonalCommands
                     Enabled = true
                 };
                     _loopingTimer.Elapsed += YellowTurtleEvent;
-                  // _loopingTimer.Elapsed += Reminder.CheckReminders;
+                  // _loopingTimer.Elapsed += Reminder.CheckAllReminders;
                 return Task.CompletedTask;
             }
 
