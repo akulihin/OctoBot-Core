@@ -19,7 +19,7 @@ namespace  OctoBot.Handeling
             return Task.CompletedTask;
         }
 
-        internal static void Log(string message, ConsoleColor color = ConsoleColor.White)
+        internal static void Log(string message, ConsoleColor color)
         {
             Console.ForegroundColor = color;
             Console.WriteLine($"{DateTime.Now.ToLongTimeString()} - {message}");
@@ -40,15 +40,15 @@ namespace  OctoBot.Handeling
                 case LogSeverity.Critical:
                     return ConsoleColor.Red;
                 case LogSeverity.Debug:
-                    return ConsoleColor.Green;
+                    return ConsoleColor.Blue;
                 case LogSeverity.Error:
-                    return ConsoleColor.Red;
+                    return ConsoleColor.Yellow;
                 case LogSeverity.Info:
                     return ConsoleColor.Cyan;
                 case LogSeverity.Verbose:
-                    return ConsoleColor.White;
+                    return ConsoleColor.Green;
                 case LogSeverity.Warning:
-                    return ConsoleColor.Yellow;
+                    return ConsoleColor.Magenta;
                 default:
                     return ConsoleColor.White;
             }

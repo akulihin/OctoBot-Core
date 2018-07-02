@@ -4,6 +4,7 @@ using System.Timers;
 using Discord;
 using OctoBot.Configs;
 using OctoBot.Configs.Users;
+using OctoBot.Handeling;
 using OctoBot.Services;
 
 namespace OctoBot.Automated
@@ -132,13 +133,16 @@ namespace OctoBot.Automated
                                 var dmChannel = await globalAccount.GetOrCreateDMChannelAsync();
                                 var embed = new EmbedBuilder();
 
+                                var text =
+                                    $"Вот и ключик подъе... буууль. Выбери одну:\nЧерез команду __cKey номер__\n\n**1. {fullKeysNameList[randonKey1]}**\n**2. {fullKeysNameList[randonKey2]}**\n**3. {fullKeysNameList[randonKey3]}**\n\n**0. Ничего не брать.**\n\n" +
+                                    $"**ВАЖНО, прочти пожалуйста:**\nЕсли ты НЕ будешь играть в эту игру, а просто добавишь ее и забьешь, тогда **прошу** верни ее осьминожкам, а мы подарим ее другому! - \n" +
+                                    $"Просто Проигнорь это сообщение, или выбери 0 В таком случае.\n__Мы не любим топить ресурсы__. Буль c:";
                                 embed.WithFooter("lil octo notebook");
                                 embed.WithColor(Color.Green);
                                 embed.WithTitle("OctoNotification");
-                                embed.WithDescription($"Вот и ключик подъе... буууль. Выбери одну:\nЧерез команду __cKey номер__\n\n**1. {fullKeysNameList[randonKey1]}**\n**2. {fullKeysNameList[randonKey2]}**\n**3. {fullKeysNameList[randonKey3]}**\n\n**0. Ничего не брать.**\n\n"+
-                                                      $"**ВАЖНО, прочти пожалуйста:**\nЕсли ты НЕ будешь играть в эту игру, а просто добавишь ее и забьешь, тогда **прошу** верни ее осьминожкам, а мы подарим ее другому! - \nПросто Проигнорь это сообщение, или выбери 0 В таком случае.\n__Мы не любим топить ресурсы__. Буль c:");
+                                embed.WithDescription(text);
                                 await dmChannel.SendMessageAsync("", false, embed.Build());
-
+                              
                                 account.PullToChoose = null;
                                 account.PullToChoose += $"{randonKey1}%%";
                                 account.PullToChoose += $"{randonKey2}%%";

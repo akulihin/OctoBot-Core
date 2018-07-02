@@ -8,47 +8,39 @@ using Discord;
 using Discord.Commands;
 using Discord.Rest;
 using Discord.WebSocket;
-
+using OctoBot.Configs;
 using OctoBot.Configs.Server;
 using OctoBot.Configs.Users;
-using static OctoBot.Configs.Global;
 
 namespace OctoBot.Handeling
 {
-    public class EveryLogHandeling
+    public class ServerActivityLogger
     {
 #pragma warning disable CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
 #pragma warning disable CS1998 // This async method lacks 'await' operators and will run synchronously. Consider using the 'await' operator to await non-blocking API calls, or 'await Task.Run(...)' to do CPU-bound work on a background thread.
 
-        static readonly SocketTextChannel LogOwnerTextChannel =
-            Client.GetGuild(375104801018609665).GetTextChannel(454435962089373696);
-            
-        public async Task NonStaticMethod(Cacheable<IUserMessage, ulong> arg1, SocketReaction arg3)
-        {
-            try
-            {
-                var artVoteMess = new ArtVotes(arg1.Value.Author, arg1.Value, arg1.Value.Author, arg3.Emote.Name);
-                ArtVotesList.Add(artVoteMess);
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine("NonStaticMethod");
-                Console.WriteLine(e.Message);
-            }
 
-            await Task.CompletedTask;
+        public readonly DiscordSocketClient Client;
+        public  readonly IServiceProvider Services;
+   
+        
+
+        public ServerActivityLogger(DiscordSocketClient client, IServiceProvider services)
+        {
+            Client = client;
+            Services = services;
         }
 
-        public static async Task ReactionAddedForArtVotes(Cacheable<IUserMessage, ulong> arg1,
+        public  async Task ReactionAddedForArtVotes(Cacheable<IUserMessage, ulong> arg1,
             ISocketMessageChannel arg2, SocketReaction arg3)
         {
-
+          
 
             if (arg3.User.Value.IsBot)
                 return;
 
 
-            var artMessagesList = ArtVotesList;
+            var artMessagesList = Global.ArtVotesList;
 
             if (arg3.Emote.Name == "📊" || arg3.Emote.Name == "🎨" || arg3.Emote.Name == "🏆")
             {
@@ -62,8 +54,9 @@ namespace OctoBot.Handeling
 
                 try
                 {
-                    var everyLogHandeling = new EveryLogHandeling();
-                    await everyLogHandeling.NonStaticMethod(arg1, arg3);
+
+                    var artVoteMess = new Global.ArtVotes(arg1.Value.Author, arg1.Value, arg1.Value.Author, arg3.Emote.Name);
+                    Global.ArtVotesList.Add(artVoteMess);
 
                 }
                 catch (Exception e)
@@ -131,14 +124,14 @@ namespace OctoBot.Handeling
             }
         }
 
-        public static async Task Client_ReactionAddedForArtVotes(Cacheable<IUserMessage, ulong> arg1,
+        public  async Task Client_ReactionAddedForArtVotes(Cacheable<IUserMessage, ulong> arg1,
             ISocketMessageChannel arg2, SocketReaction arg3)
         {
             ReactionAddedForArtVotes(arg1, arg2, arg3);
             await Task.CompletedTask;
         }
 
-        public static async Task ReactionRemovedForArtVotes(Cacheable<IUserMessage, ulong> arg1,
+        public  async Task ReactionRemovedForArtVotes(Cacheable<IUserMessage, ulong> arg1,
             ISocketMessageChannel arg2, SocketReaction arg3)
         {
             if (arg3.User.Value.IsBot)
@@ -146,7 +139,7 @@ namespace OctoBot.Handeling
             if (arg3.User.Value.Id == arg1.Value.Author.Id)
                 return;
 
-            var artMessagesList = ArtVotesList;
+            var artMessagesList = Global.ArtVotesList;
             foreach (var v in artMessagesList)
             {
                 if (v.UserVoted.Contains(arg3.User.Value) && v.SocketMsg == arg1.Value)
@@ -202,7 +195,7 @@ namespace OctoBot.Handeling
         }
 
 
-        public static async Task Client_ReactionRemovedForArtVotes(Cacheable<IUserMessage, ulong> arg1,
+        public  async Task Client_ReactionRemovedForArtVotes(Cacheable<IUserMessage, ulong> arg1,
             ISocketMessageChannel arg2, SocketReaction arg3)
         {
 
@@ -210,13 +203,13 @@ namespace OctoBot.Handeling
             await Task.CompletedTask;
         }
 
-        public static async Task ReactionAddedAsyncForBlog(Cacheable<IUserMessage, ulong> arg1,
+        public  async Task ReactionAddedAsyncForBlog(Cacheable<IUserMessage, ulong> arg1,
             ISocketMessageChannel arg2, SocketReaction arg3)
         {
             if (arg3.User.Value.IsBot)
                 return;
 
-            var blogList = BlogVotesMessIdList;
+            var blogList = Global.BlogVotesMessIdList;
             foreach (var v in blogList)
             {
 
@@ -276,17 +269,17 @@ namespace OctoBot.Handeling
             await Task.CompletedTask;
         }
 
-        public static async Task Client_ReactionAddedAsyncForBlog(Cacheable<IUserMessage, ulong> arg1,
+        public  async Task Client_ReactionAddedAsyncForBlog(Cacheable<IUserMessage, ulong> arg1,
             ISocketMessageChannel arg2, SocketReaction arg3)
         {
              ReactionAddedAsyncForBlog(arg1, arg2, arg3);
             await Task.CompletedTask;
         }
 
-        public static async Task ReactionRemovedForBlog(Cacheable<IUserMessage, ulong> arg1,
+        public  async Task ReactionRemovedForBlog(Cacheable<IUserMessage, ulong> arg1,
             ISocketMessageChannel arg2, SocketReaction arg3)
         {
-            var blogList = BlogVotesMessIdList;
+            var blogList = Global.BlogVotesMessIdList;
             foreach (var v in blogList)
             {
 
@@ -339,7 +332,7 @@ namespace OctoBot.Handeling
             await Task.CompletedTask;
         }
 
-        public static async Task Client_ReactionRemovedForBlog(Cacheable<IUserMessage, ulong> arg1,
+        public  async Task Client_ReactionRemovedForBlog(Cacheable<IUserMessage, ulong> arg1,
             ISocketMessageChannel arg2, SocketReaction arg3)
         {
              ReactionRemovedForBlog(arg1, arg2, arg3);
@@ -352,7 +345,7 @@ namespace OctoBot.Handeling
         ///
         /// 
 
-        public static async Task Client_UserJoined_ForRoleOnJoin(SocketGuildUser arg)
+        public  async Task Client_UserJoined_ForRoleOnJoin(SocketGuildUser arg)
         {
             var guid = ServerAccounts.GetServerAccount(arg.Guild);
             Console.WriteLine($"{guid.RoleOnJoin}");
@@ -369,7 +362,7 @@ namespace OctoBot.Handeling
          
         }
 
-        public static async Task ChannelDestroyed(IChannel arg)
+        public  async Task ChannelDestroyed(IChannel arg)
         {
             try
             {
@@ -380,21 +373,20 @@ namespace OctoBot.Handeling
                 {
                     var log = await channel.Guild.GetAuditLogAsync(1);
                     var audit = log.ToList();
-
+                    
                     var name = audit[0].Action == ActionType.ChannelDeleted ? audit[0].User.Mention : "error";
                     var auditLogData = audit[0].Data as ChannelDeleteAuditLogData;
                     embed.AddField("🚫 Channel Destroyed", $"Name: {arg.Name}\n" +
                                                            $"WHO: {name}\n" +
-                                                           $"Type { auditLogData?.ChannelType}" +
+                                                           $"Type {auditLogData?.ChannelType}\n" +
                                                            $"NSFW: {channel.IsNsfw}\n" +
-                                                           $"Category: {channel.GetCategoryAsync().Result.Name}\n" +
+                                                           $"Category: {channel.GetCategoryAsync()?.Result?.Name}\n" +
                                                            $"ID: {arg.Id}\n");
 
                     embed.WithTimestamp(DateTimeOffset.UtcNow);
                     embed.WithThumbnailUrl($"{audit[0].User.GetAvatarUrl()}");
                 }
 
-                 
 
                 var currentIguildChannel = arg as IGuildChannel;
                 var guild = ServerAccounts.GetServerAccount(currentIguildChannel);
@@ -410,13 +402,13 @@ namespace OctoBot.Handeling
             }
         }
 
-        public static async Task Client_ChannelDestroyed(IChannel arg)
+        public  async Task Client_ChannelDestroyed(IChannel arg)
         {
              ChannelDestroyed(arg);
             await Task.CompletedTask;
         }
 
-        public static async Task ChannelCreated(IChannel arg)
+        public  async Task ChannelCreated(IChannel arg)
         {
             try
             {
@@ -455,14 +447,14 @@ namespace OctoBot.Handeling
 
         }
 
-        public static async Task Client_ChannelCreated(IChannel arg)
+        public  async Task Client_ChannelCreated(IChannel arg)
         {
              ChannelCreated(arg);
             await Task.CompletedTask;
 
         }
 
-        public static async Task GuildMemberUpdated(SocketGuildUser before, SocketGuildUser after)
+        public  async Task GuildMemberUpdated(SocketGuildUser before, SocketGuildUser after)
         {
             try
             {
@@ -627,13 +619,13 @@ namespace OctoBot.Handeling
 
         }
 
-        public static async Task Client_GuildMemberUpdated(SocketGuildUser before, SocketGuildUser after)
+        public  async Task Client_GuildMemberUpdated(SocketGuildUser before, SocketGuildUser after)
         {
              GuildMemberUpdated(before, after);
             await Task.CompletedTask;
         }
 
-        public static async Task JoinedGuild(SocketGuild arg)
+        public  async Task JoinedGuild(SocketGuild arg)
         {
             //<:octo_hi:371424193008369664>
             //<:octo_ye:365703699601031170>
@@ -641,7 +633,8 @@ namespace OctoBot.Handeling
             try
             {
                 var emoji = Emote.Parse("<:warframe:445467639242948618>");
-                await LogOwnerTextChannel.SendMessageAsync(
+               
+                await  Client.GetGuild(375104801018609665).GetTextChannel(454435962089373696).SendMessageAsync(
                     $"<@181514288278536193> OctoBot have been connected to {arg.Name}");
                 var text =
                     $"Boooole! {new Emoji("<:octo_hi:371424193008369664>")} I am an **Octopus** and I do many thing, you may check it via `Help` commands\n" +
@@ -664,33 +657,33 @@ namespace OctoBot.Handeling
 
         }
 
-        public static async Task Client_JoinedGuild(SocketGuild arg)
+        public  async Task Client_JoinedGuild(SocketGuild arg)
         {
              JoinedGuild(arg);
             await Task.CompletedTask;
         }
 
-        public static async Task Client_Connected()
+        public  async Task Client_Connected()
         {
-            await LogOwnerTextChannel.SendMessageAsync($"OctoBot on Duty!");
+            await  Client.GetGuild(375104801018609665).GetTextChannel(454435962089373696).SendMessageAsync($"OctoBot on Duty!");
         }
 
-        public static async Task Client_Disconnected(Exception arg)
+        public  async Task Client_Disconnected(Exception arg)
         {
             /*
-            Client.Ready -= GreenBuuTimerClass.StartTimer; ////////////// Timer1 Green Boo starts
-            Client.Ready -= DailyPull.CheckTimerForPull; ////////////// Timer3 For Pulls   
-            Client.Ready -= Reminder.CheckTimer; ////////////// Timer4 For For Reminders
-            Client.Ready -= ForBot.TimerForChangeBotAvatar;
-            Client.Ready -= _client_Ready;
+            _client.Ready -= GreenBuuTimerClass.StartTimer; ////////////// Timer1 Green Boo starts
+            _client.Ready -= DailyPull.CheckTimerForPull; ////////////// Timer3 For Pulls   
+            _client.Ready -= Reminder.CheckTimer; ////////////// Timer4 For For Reminders
+            _client.Ready -= ForBot.TimerForChangeBotAvatar;
+            _client.Ready -= _client_Ready;
             */
-            await LogOwnerTextChannel.SendMessageAsync($"OctoBot Disconnect: {arg.Message}");
+            await  Client.GetGuild(375104801018609665).GetTextChannel(454435962089373696).SendMessageAsync($"OctoBot Disconnect: {arg.Message}");
             // await LogOwnerTextChannel.SendMessageAsync($"<@181514288278536193> Disconnect!");
         }
 
-        public static readonly IServiceProvider Services;
 
-        public static async Task ReplyOnEdit(SocketMessage messageAfter)
+
+        public  async Task ReplyOnEdit(SocketMessage messageAfter)
         {
             var commands = new CommandService();
             await commands.AddModulesAsync(
@@ -698,11 +691,10 @@ namespace OctoBot.Handeling
                 Services);
             var tempTask = new CommandHandelingSendingAndUpdatingMessages(Services, commands, Client );
             await tempTask.HandleCommandAsync(messageAfter);
-          //  CommandHandelingSendingAndUpdatingMessages.SendingMess()
         }
 
 
-        public static async Task MessageUpdated(Cacheable<IMessage, ulong> messageBefore,
+        public  async Task MessageUpdated(Cacheable<IMessage, ulong> messageBefore,
             SocketMessage messageAfter, ISocketMessageChannel arg3)
         {
             try
@@ -711,7 +703,7 @@ namespace OctoBot.Handeling
                 var guild = ServerAccounts.GetServerAccount(currentIGuildChannel);
 
                 var ss = 0;
-                foreach (var t in CommandList)
+                foreach (var t in Global.CommandList)
                 {
                     if (t.UserSocketMsg.Id == messageAfter.Id)
                     {
@@ -915,7 +907,7 @@ namespace OctoBot.Handeling
         }
 
 
-        public static async Task Client_MessageUpdated(Cacheable<IMessage, ulong> messageBefore,
+        public  async Task Client_MessageUpdated(Cacheable<IMessage, ulong> messageBefore,
             SocketMessage messageAfter, ISocketMessageChannel arg3)
         {
              MessageUpdated(messageBefore, messageAfter, arg3);
@@ -923,7 +915,7 @@ namespace OctoBot.Handeling
 
         }
 
-        public static async Task MessageReceivedDownloadAttachment(SocketMessage arg)
+        public  async Task MessageReceivedDownloadAttachment(SocketMessage arg)
         {
             try
             {
@@ -1004,7 +996,7 @@ namespace OctoBot.Handeling
         }
 
 
-        public static async Task Client_MessageReceived(SocketMessage arg)
+        public  async Task Client_MessageReceived(SocketMessage arg)
         {
             if (arg.Author.Id == Client.CurrentUser.Id)
                 return;
@@ -1014,13 +1006,13 @@ namespace OctoBot.Handeling
         }
 
 
-        public static async Task DeleteLogg(Cacheable<IMessage, ulong> messageBefore,
+        public  async Task DeleteLogg(Cacheable<IMessage, ulong> messageBefore,
             ISocketMessageChannel arg3)
         {
             try
             {
 
-                foreach (var t in CommandList)
+                foreach (var t in Global.CommandList)
                 {
                     if (t.UserSocketMsg.Id == messageBefore.Id)
                     {
@@ -1122,7 +1114,7 @@ namespace OctoBot.Handeling
                                     await Client.GetGuild(guild.ServerId).GetTextChannel(guild.LogChannelId)
                                         .SendFileAsync(
                                             $@"OctoDataBase/OctoAttachments/{ll?.GuildId}/{messageBefore.Id}.{output}",
-                                            $"");
+                                            "");
                                 }
                             }
                         }
@@ -1169,7 +1161,7 @@ namespace OctoBot.Handeling
                                                 $@"OctoDataBase/OctoAttachments/{ll?.GuildId}/{
                                                         messageBefore.Id
                                                     }-{i + 1}.{outputMylty}",
-                                                $"");
+                                                "");
                                     }
 
                                     sent = 1;
@@ -1202,14 +1194,14 @@ namespace OctoBot.Handeling
 
         }
 
-        public static async Task Client_MessageDeleted(Cacheable<IMessage, ulong> messageBefore,
+        public  async Task Client_MessageDeleted(Cacheable<IMessage, ulong> messageBefore,
             ISocketMessageChannel arg3)
         {
              DeleteLogg(messageBefore, arg3);
             await Task.CompletedTask;
         }
 
-        public static async Task RoleUpdated(SocketRole arg1, SocketRole arg2)
+        public  async Task RoleUpdated(SocketRole arg1, SocketRole arg2)
         {
             try
             {
@@ -1231,7 +1223,7 @@ namespace OctoBot.Handeling
                     roleString = "Removed";
                     var differenceQuery = list1.Except(list2);
                     var socketRoles = differenceQuery as GuildPermission[] ?? differenceQuery.ToArray();
-                    for (var i = 0; i < socketRoles.Count(); i++)
+                    for (var i = 0; i < socketRoles.Length; i++)
                         role += $"{socketRoles[i]}\n";
                 }
                 else if (list1.Count < list2.Count)
@@ -1239,7 +1231,7 @@ namespace OctoBot.Handeling
                     roleString = "Added";
                     var differenceQuery = list2.Except(list1);
                     var socketRoles = differenceQuery as GuildPermission[] ?? differenceQuery.ToArray();
-                    for (var i = 0; i < socketRoles.Count(); i++)
+                    for (var i = 0; i < socketRoles.Length; i++)
                         role += $"{socketRoles[i]}\n";
                 }
 
@@ -1312,7 +1304,7 @@ namespace OctoBot.Handeling
             }
         }
 
-        public static async Task Client_RoleUpdated(SocketRole arg1, SocketRole arg2)
+        public  async Task Client_RoleUpdated(SocketRole arg1, SocketRole arg2)
         {
              RoleUpdated(arg1, arg2);
             await Task.CompletedTask;
@@ -1320,13 +1312,13 @@ namespace OctoBot.Handeling
         }
 
         //Fix it
-        public static async Task Client_ChannelUpdated(SocketChannel arg1, SocketChannel arg2)
+        public  async Task Client_ChannelUpdated(SocketChannel arg1, SocketChannel arg2)
         {
             await Task.CompletedTask;
 
         }
 
-        public static async Task RoleDeleted(SocketRole arg)
+        public  async Task RoleDeleted(SocketRole arg)
         {
             try
             {
@@ -1368,7 +1360,7 @@ namespace OctoBot.Handeling
 
         }
 
-        public static async Task Client_RoleDeleted(SocketRole arg)
+        public  async Task Client_RoleDeleted(SocketRole arg)
         {
              RoleDeleted(arg);
             await Task.CompletedTask;

@@ -50,6 +50,7 @@ namespace OctoBot
                 .AddSingleton<CommandService>()
                 .AddSingleton<CommandHandelingSendingAndUpdatingMessages>()
                 .AddSingleton<DiscordEventHandler>()
+                .AddScoped<ServerActivityLogger>()
                 .BuildServiceProvider();
         }
 

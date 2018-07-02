@@ -6,6 +6,7 @@ using System.Timers;
 using Discord;
 using OctoBot.Configs;
 using OctoBot.Configs.Users;
+using OctoBot.Handeling;
 
 namespace OctoBot.Automated
 {
@@ -74,6 +75,7 @@ namespace OctoBot.Automated
                         {
                             try
                             {
+                                ConsoleLogger.Log($" [REMINDER] TRY-CATCH DELETE ({account.UserName}) - {account.ReminderList[j].ReminderMessage}", ConsoleColor.DarkBlue);
                                 if (!closedDm.Message.Contains("404") || !closedDm.Message.Contains("403")) continue;
                                 Console.WriteLine($"ERROR DM SENING {account.UserName} Closed DM: '{0}'",
                                     closedDm);
@@ -84,7 +86,7 @@ namespace OctoBot.Automated
                             catch
                             {
                                 Console.ForegroundColor = ConsoleColor.Red;
-                                Console.WriteLine($"ERROR REMINDER (Catch-catch) {account.UserName}");
+                                Console.WriteLine($"ERROR REMINDER (Catch-catch) ?????? {account.UserName}");
                                 Console.ResetColor();
                             }
                         }

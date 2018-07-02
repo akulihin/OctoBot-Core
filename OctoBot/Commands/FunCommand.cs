@@ -291,5 +291,6 @@ namespace OctoBot.Commands
                                  "Alias: Рулетка, угадайка");
             }
         }
+
     }
 }

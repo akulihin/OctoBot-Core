@@ -17,11 +17,13 @@ namespace OctoBot.Handeling
 
    public class CommandHandelingSendingAndUpdatingMessages
     {
-      
+#pragma warning disable CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
+#pragma warning disable CS1998 // This async method lacks 'await' operators and will run synchronously. Consider using the 'await' operator to await non-blocking API calls, or 'await Task.Run(...)' to do CPU-bound work on a background thread.
+
         private readonly DiscordSocketClient _client;
         private readonly CommandService _commands;
         private readonly IServiceProvider _services;
-        private static string _logFile = @"OctoDataBase/Log.json";
+        private const string LogFile = @"OctoDataBase/Log.json";
 
         public CommandHandelingSendingAndUpdatingMessages(IServiceProvider services, CommandService commands, DiscordSocketClient client)
         {
@@ -156,39 +158,40 @@ namespace OctoBot.Handeling
             var argPos = 0;
 
 
-            if (message.Channel is SocketDMChannel)
+            switch (message.Channel)
             {
-                if (context.User.IsBot) return; 
-                
-                var resultTask = _commands.ExecuteAsync(
-                    context: context, 
-                    argPos: argPos, 
-                    services: _services);
-            var k =    resultTask.ContinueWith(task =>
-                {
-                    if (!task.Result.IsSuccess)
+                case SocketDMChannel _ when context.User.IsBot:
+                    return;
+                case SocketDMChannel _:
+                    var resultTask = _commands.ExecuteAsync(
+                        context: context, 
+                        argPos: argPos, 
+                        services: _services);
+                    resultTask.ContinueWith(task =>
                     {
-                        Console.ForegroundColor = LogColor("red");
-                        Console.WriteLine(
-                            $"{DateTime.Now.ToLongTimeString()} - DM: ERROR '{context.Channel}' {context.User}: {message} || {task.Result.ErrorReason}");
-                        Console.ResetColor();
+                        if (!task.Result.IsSuccess)
+                        {
+                            Console.ForegroundColor = LogColor("red");
+                            Console.WriteLine(
+                                $"{DateTime.Now.ToLongTimeString()} - DM: ERROR '{context.Channel}' {context.User}: {message} || {task.Result.ErrorReason}");
+                            Console.ResetColor();
 
-                        File.AppendAllText(_logFile,
-                            $"{DateTime.Now.ToLongTimeString()} - DM: ERROR '{context.Channel}' {context.User}: {message} || {task.Result.ErrorReason} \n");
-                    }
-                    else
-                    {
-                        Console.ForegroundColor = LogColor("white");
-                        Console.WriteLine(
-                            $"{DateTime.Now.ToLongTimeString()} - DM: '{context.Channel}' {context.User}: {message}");
-                        Console.ResetColor();
+                            File.AppendAllText(LogFile,
+                                $"{DateTime.Now.ToLongTimeString()} - DM: ERROR '{context.Channel}' {context.User}: {message} || {task.Result.ErrorReason} \n");
+                        }
+                        else
+                        {
+                            Console.ForegroundColor = LogColor("white");
+                            Console.WriteLine(
+                                $"{DateTime.Now.ToLongTimeString()} - DM: '{context.Channel}' {context.User}: {message}");
+                            Console.ResetColor();
 
-                        File.AppendAllText(_logFile,
-                            $"{DateTime.Now.ToLongTimeString()} - DM: '{context.Channel}' {context.User}: {message} \n");
-                    }
-                });
-                await Task.CompletedTask;
-                return;
+                            File.AppendAllText(LogFile,
+                                $"{DateTime.Now.ToLongTimeString()} - DM: '{context.Channel}' {context.User}: {message} \n");
+                        }
+                    });
+                    await Task.CompletedTask;
+                    return;
             }
 
 
@@ -204,7 +207,7 @@ namespace OctoBot.Handeling
                     context: context, 
                     argPos: argPos, 
                     services: _services);
-                var k =  resultTask.ContinueWith(task =>
+                 resultTask.ContinueWith(task =>
                 {
                     if (!task.Result.IsSuccess)
                     {
@@ -213,7 +216,7 @@ namespace OctoBot.Handeling
                             $"{DateTime.Now.ToLongTimeString()} - ERROR '{context.Channel}' {context.User}: {message} || {task.Result.ErrorReason}");
                         Console.ResetColor();
 
-                        File.AppendAllText(_logFile,
+                        File.AppendAllText(LogFile,
                             $"{DateTime.Now.ToLongTimeString()} - ERROR '{context.Channel}' {context.User}: {message} || {task.Result.ErrorReason} \n");
                     }
                     else
@@ -223,7 +226,7 @@ namespace OctoBot.Handeling
                             $"{DateTime.Now.ToLongTimeString()} - '{context.Channel}' {context.User}: {message}");
                         Console.ResetColor();
 
-                        File.AppendAllText(_logFile,
+                        File.AppendAllText(LogFile,
                             $"{DateTime.Now.ToLongTimeString()} - '{context.Channel}' {context.User}: {message} \n");
                     }
                 });

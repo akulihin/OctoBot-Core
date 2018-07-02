@@ -50,6 +50,7 @@ namespace OctoBot.Commands
                 case DailyPullResult.AlreadyRecieved:
                     embed.AddField("Pull Points",
                         $"Ты **уже** получал 1 поинт, {Context.User.Username}, у тебя сейчас {account.DailyPullPoints} поинтов. попробуй ещё раз через {23 - (int) difference.TotalHours} часов\n" +
+                        $"**_____**\n" +
                         $"Если тебе нравится осьминожка, пожалуйста, поставь свой осьминожий лайк ему сюда https://discordbots.org/bot/423593006436712458. Спасибо!");
                     
                     if (Context.MessageContentForEdit != "edit")
@@ -66,6 +67,7 @@ namespace OctoBot.Commands
                     if (account.DailyPullPoints == 31)
                     {
                         embed.AddField("Pull Points",  $"**Поит записан!** У тебя все {account.DailyPullPoints} поинтов!! В течении минуты наши черепашки вышлют тебе в ЛС ключик!\n" +
+                                                       $"**_____**\n" +
                                                        $"Если тебе нравится осьминожка, пожалуйста, поставь свой осьминожий лайк ему сюда https://discordbots.org/bot/423593006436712458. Спасибо!");
                         if (Context.MessageContentForEdit != "edit")
                         {
@@ -80,7 +82,9 @@ namespace OctoBot.Commands
                     else
                     {
                         embed.AddField("Pull Points",
-                            $"**Поит записан!** У тебя **теперь** есть {account.DailyPullPoints} поинтов. Приходи через 1 день за новым!");
+                            $"**Поит записан!** У тебя **теперь** есть {account.DailyPullPoints} поинтов. Приходи через 1 день за новым!\n" +
+                            $"**_____**\n" +
+                            $"Если тебе нравится осьминожка, пожалуйста, поставь свой осьминожий лайк ему сюда https://discordbots.org/bot/423593006436712458. Спасибо!");
                       
 
                         if (Context.MessageContentForEdit != "edit")
@@ -127,6 +131,8 @@ namespace OctoBot.Commands
                 {
                     await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, null, "edit", "бууль-буль, записали!");
                 }
+
+                ConsoleLogger.Log($" [ADD KEY] ({Context.User.Username}) - {mess}", ConsoleColor.DarkBlue);
             }
             catch
             {
@@ -314,7 +320,8 @@ namespace OctoBot.Commands
                 embed.WithFooter("lil octo notebook");
                 embed.WithTitle("OctoNotification");
                 embed.WithDescription($"А вот и ключ!\n\n**{keyName[index]} : {keykey[index]}**\n\nБуль!");
-               
+                ConsoleLogger.Log($"DM [KEY] ({Context.User.Username}) - {keyName[index]} : {keykey[index]}", ConsoleColor.DarkBlue);
+
                 if (Context.MessageContentForEdit != "edit")
                 {
                     await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, embed);

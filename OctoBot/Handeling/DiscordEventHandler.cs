@@ -18,13 +18,15 @@ namespace OctoBot.Handeling
 
         private readonly DiscordSocketClient _client;
         private readonly CommandHandelingSendingAndUpdatingMessages _commandHandler;
+        private readonly ServerActivityLogger _serverActivityLogger;
 
 
 
-        public DiscordEventHandler(DiscordSocketClient client, CommandHandelingSendingAndUpdatingMessages commandHandler)
+        public DiscordEventHandler(DiscordSocketClient client, CommandHandelingSendingAndUpdatingMessages commandHandler, ServerActivityLogger serverActivityLogger)
         {
             _client = client;
             _commandHandler = commandHandler;
+            _serverActivityLogger = serverActivityLogger;
         }
 
         public void InitDiscordEvents()
@@ -73,22 +75,23 @@ namespace OctoBot.Handeling
 
         private async Task ChannelCreated(SocketChannel channel)
         {
-            EveryLogHandeling.Client_ChannelCreated(channel);
+            _serverActivityLogger.Client_ChannelCreated(channel);
+          
         }
 
         private async Task ChannelDestroyed(SocketChannel channel)
         {
-            EveryLogHandeling.Client_ChannelDestroyed(channel);
+            _serverActivityLogger.Client_ChannelDestroyed(channel);
         }
 
         private async Task ChannelUpdated(SocketChannel channelBefore, SocketChannel channelAfter)
         {
-            EveryLogHandeling.Client_ChannelUpdated(channelBefore, channelAfter);
+            _serverActivityLogger.Client_ChannelUpdated(channelBefore, channelAfter);
         }
 
         private async Task Connected()
         {
-            EveryLogHandeling.Client_Connected();
+            _serverActivityLogger.Client_Connected();
         }
 
         private async Task CurrentUserUpdated(SocketSelfUser userBefore, SocketSelfUser userAfter)
@@ -98,7 +101,7 @@ namespace OctoBot.Handeling
 
         private async Task Disconnected(Exception exception)
         {
-            EveryLogHandeling.Client_Disconnected(exception);
+            _serverActivityLogger.Client_Disconnected(exception);
 
         }
 
@@ -114,7 +117,7 @@ namespace OctoBot.Handeling
 
         private async Task GuildMemberUpdated(SocketGuildUser userBefore, SocketGuildUser userAfter)
         {
-            EveryLogHandeling.Client_GuildMemberUpdated(userBefore, userAfter);
+            _serverActivityLogger.Client_GuildMemberUpdated(userBefore, userAfter);
         }
 
         private async Task GuildUnavailable(SocketGuild guild)
@@ -129,7 +132,7 @@ namespace OctoBot.Handeling
 
         private async Task JoinedGuild(SocketGuild guild)
         {
-            EveryLogHandeling.Client_JoinedGuild(guild);
+            _serverActivityLogger.Client_JoinedGuild(guild);
         }
 
         private async Task LatencyUpdated(int latencyBefore, int latencyAfter)
@@ -159,19 +162,19 @@ namespace OctoBot.Handeling
 
         private async Task MessageDeleted(Cacheable<IMessage, ulong> cacheMessage, ISocketMessageChannel channel)
         {
-            EveryLogHandeling.Client_MessageDeleted(cacheMessage, channel);
+            _serverActivityLogger.Client_MessageDeleted(cacheMessage, channel);
         }
 
         private async Task MessageReceived(SocketMessage message)
         {
             _commandHandler.HandleCommandAsync(message);
-            EveryLogHandeling.Client_MessageReceived(message);
+            _serverActivityLogger.Client_MessageReceived(message);
         }
 
         private async Task MessageUpdated(Cacheable<IMessage, ulong> cacheMessageBefore, SocketMessage messageAfter, ISocketMessageChannel channel)
         {
             _commandHandler._client_MessageUpdated(cacheMessageBefore, messageAfter, channel);
-            EveryLogHandeling.Client_MessageUpdated(cacheMessageBefore, messageAfter, channel);
+            _serverActivityLogger.Client_MessageUpdated(cacheMessageBefore, messageAfter, channel);
         }
 
         private async Task ReactionAdded(Cacheable<IUserMessage, ulong> cacheMessage, ISocketMessageChannel channel, SocketReaction reaction)
@@ -182,16 +185,16 @@ namespace OctoBot.Handeling
               ColorRoleReaction.ReactionAddedForRole(cacheMessage, channel, reaction);
              RoomRoleReaction.ReactionAddedForRole(cacheMessage, channel, reaction);
              RoomRoleReactionHandeling.ReactionAddedForRole(cacheMessage, channel, reaction);
-            EveryLogHandeling.Client_ReactionAddedForArtVotes(cacheMessage, channel, reaction);
-            EveryLogHandeling.Client_ReactionAddedAsyncForBlog(cacheMessage, channel, reaction);
+            _serverActivityLogger.Client_ReactionAddedForArtVotes(cacheMessage, channel, reaction);
+            _serverActivityLogger.Client_ReactionAddedAsyncForBlog(cacheMessage, channel, reaction);
 
 
         }
 
         private async Task ReactionRemoved(Cacheable<IUserMessage, ulong> cacheMessage, ISocketMessageChannel channel, SocketReaction reaction)
         {
-            EveryLogHandeling.Client_ReactionRemovedForBlog(cacheMessage, channel, reaction);
-            EveryLogHandeling.Client_ReactionRemovedForArtVotes(cacheMessage, channel, reaction);
+            _serverActivityLogger.Client_ReactionRemovedForBlog(cacheMessage, channel, reaction);
+            _serverActivityLogger.Client_ReactionRemovedForArtVotes(cacheMessage, channel, reaction);
         }
 
         private async Task ReactionsCleared(Cacheable<IUserMessage, ulong> cacheMessage, ISocketMessageChannel channel)
@@ -226,12 +229,12 @@ namespace OctoBot.Handeling
 
         private async Task RoleDeleted(SocketRole role)
         {
-            EveryLogHandeling.Client_RoleDeleted(role);
+            _serverActivityLogger.Client_RoleDeleted(role);
         }
 
         private async Task RoleUpdated(SocketRole roleBefore, SocketRole roleAfter)
         {
-            EveryLogHandeling.Client_RoleUpdated(roleBefore, roleAfter);
+            _serverActivityLogger.Client_RoleUpdated(roleBefore, roleAfter);
         }
 
         private async Task UserBanned(SocketUser user, SocketGuild guild)
@@ -247,7 +250,7 @@ namespace OctoBot.Handeling
         private async Task UserJoined(SocketGuildUser user)
         {
              Announcer.AnnounceUserJoin(user);
-            EveryLogHandeling.Client_UserJoined_ForRoleOnJoin(user);
+            _serverActivityLogger.Client_UserJoined_ForRoleOnJoin(user);
         }
 
         private async Task UserLeft(SocketGuildUser user)
