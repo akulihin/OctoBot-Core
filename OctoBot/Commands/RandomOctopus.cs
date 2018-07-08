@@ -3,8 +3,9 @@ using System.Threading.Tasks;
 using Discord;
 using Discord.Commands;
 using OctoBot.Configs.Users;
+using OctoBot.Custom_Library;
 using OctoBot.Handeling;
-using OctoBot.Services;
+using OctoBot.Helper;
 
 namespace OctoBot.Commands
 { 
@@ -45,15 +46,8 @@ namespace OctoBot.Commands
                     embed.WithAuthor(Context.User);
                     embed.WithImageUrl("" + octoToPost);
 
-                    if (Context.MessageContentForEdit != "edit")
-                    {
+
                         await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, embed);
-  
-                    }
-                    else if(Context.MessageContentForEdit == "edit")
-                    {
-                        await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, embed, "edit");
-                    }
 
 
 
@@ -123,16 +117,8 @@ namespace OctoBot.Commands
                         embed.WithAuthor(Context.User);
                         embed.WithImageUrl("" + octoToPost);
                         
-
-                        if (Context.MessageContentForEdit != "edit")
-                        {
                             await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, embed);
-  
-                        }
-                        else if(Context.MessageContentForEdit == "edit")
-                        {
-                            await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, embed, "edit");
-                        }
+
                     }
                 }
                 else

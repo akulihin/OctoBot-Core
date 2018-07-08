@@ -25,7 +25,7 @@ namespace OctoBot.CustomForServers
                     var rkn = Emote.Parse("<:RKN:445325930022436874>");
                     var realy = Emote.Parse("<:realy:374655750657540106>");
                     var feelsBadMan = Emote.Parse("<:FeelsBadMan:374655964843868162>");
-                    var woahMorfin = Emote.Parse("<:WoahMorfin:436787514813186050>");
+                    var woahMorfin = Emote.Parse("<:haHAA:463392036163289099>");
                     var thonk = Emote.Parse("<:thonk:445324435403309087>");
                     var akaShrug = Emote.Parse("<:AkaShrug:374802737596071936>");
                     var such = Emote.Parse("<:such:445322074781908993>");
@@ -153,7 +153,7 @@ namespace OctoBot.CustomForServers
                             await guildUser.AddRoleAsync(roleToGive);
                             break;
                         }
-                        case "WoahMorfin":
+                        case "haHAA":
                         {
                             var guildUser = Global.Client.GetGuild(338355570669256705).GetUser(reaction.UserId);
                             var roleToGive = Global.Client.GetGuild(338355570669256705).Roles

@@ -4,8 +4,7 @@ using System.Timers;
 using Discord;
 using OctoBot.Configs;
 using OctoBot.Configs.Users;
-using OctoBot.Handeling;
-using OctoBot.Services;
+using OctoBot.Helper;
 
 namespace OctoBot.Automated
 {

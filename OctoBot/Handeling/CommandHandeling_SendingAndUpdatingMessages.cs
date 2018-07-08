@@ -5,10 +5,10 @@ using System.Threading.Tasks;
 using Discord.Commands;
 using Discord.WebSocket;
 using OctoBot.Configs;
-using OctoBot.Configs.LvLingSystem;
-using OctoBot.Services;
 using Discord;
+using OctoBot.Automated;
 using OctoBot.Configs.Server;
+using OctoBot.Custom_Library;
 
 
 namespace OctoBot.Handeling
@@ -50,6 +50,10 @@ namespace OctoBot.Handeling
             {
                 return;
             }
+         
+            if(messageAfter.Author is SocketGuildUser userCheck && userCheck.IsMuted)
+                return;
+
 
             var before = (messageBefore.HasValue ? messageBefore.Value : null) as IUserMessage;
             if (before == null)
@@ -74,6 +78,7 @@ namespace OctoBot.Handeling
                 var context = new SocketCommandContextCustom(_client, message, "edit");
                 var argPos = 0;
 
+
                 if (message.Channel is SocketDMChannel)
                 {
                     await _commands.ExecuteAsync(
@@ -97,55 +102,66 @@ namespace OctoBot.Handeling
             await Task.CompletedTask;
         }
 
-        public static async Task SendingMess(SocketCommandContextCustom context, EmbedBuilder embed, string edit = null, [Remainder]string regularMess = null)
+        public static async Task SendingMess(SocketCommandContextCustom context, EmbedBuilder embed)
         {
-            if (edit == null && regularMess == null) 
+            if (context.MessageContentForEdit == null )
             {
                 var message = await context.Channel.SendMessageAsync("", false, embed.Build());
                 var kek = new Global.CommandRam(context.User, context.Message, message);
                 Global.CommandList.Add(kek);
             }
-            else if (edit == "edit" && regularMess == null)
+            else if (context.MessageContentForEdit == "edit" )
             {
                 foreach (var t in Global.CommandList)
                 {
                     if (t.UserSocketMsg.Id == context.Message.Id)
                     {
+                        if (context.Message.Content.Contains("top"))
+                            await t.BotSocketMsg.ModifyAsync(message =>
+                            {
+                                message.Content = "";
+                                message.Embed = null;
+                                //  message.Embed = embed.Build();
+                            });
+
                         await t.BotSocketMsg.ModifyAsync(message =>
                         {
                             message.Content = "";
+                            message.Embed = null;
                             message.Embed = embed.Build();
                         });
                     }
                 }
             }
-            else if (regularMess != null)
-            {
+           }
 
-                if (edit == null)
+
+        public static async Task SendingMess(SocketCommandContextCustom context, [Remainder]string regularMess = null)
+        {
+                if (context.MessageContentForEdit == null)
                 {
                     var message = await context.Channel.SendMessageAsync($"{regularMess}");
                     var kek = new Global.CommandRam(context.User, context.Message, message);
                     Global.CommandList.Add(kek);
                 }
-                else if (edit == "edit")
+                else if (context.MessageContentForEdit == "edit")
                 {
                     foreach (var t in Global.CommandList)
                     {
                         if (t.UserSocketMsg.Id == context.Message.Id)
                         {
-                       
-                            await t.BotSocketMsg.ModifyAsync(m =>
+
+                            await t.BotSocketMsg.ModifyAsync(message =>
                             {
-                                m.Embed = null;
-                                m.Content = regularMess.ToString();
+                                message.Content = "";
+                                message.Embed = null;
+                                if (regularMess != null) message.Content = regularMess.ToString();
                             });
                         }
                     }
-                }    
-            }
+                }
+            
         }
-
 
 
         public async Task HandleCommandAsync(SocketMessage msg)
@@ -156,6 +172,9 @@ namespace OctoBot.Handeling
             if (message == null) return;
             var context = new SocketCommandContextCustom(_client, message);
             var argPos = 0;
+
+            if(message.Author is SocketGuildUser userCheck && userCheck.IsMuted)
+                return;
 
 
             switch (message.Channel)
@@ -200,6 +219,9 @@ namespace OctoBot.Handeling
 
 
             var guild = ServerAccounts.GetServerAccount(context.Guild);
+            guild.MessagesReceivedAll += 1;
+            ServerAccounts.SaveServerAccounts();
+
             if (message.HasStringPrefix(guild.Prefix, ref argPos) || message.HasMentionPrefix(_client.CurrentUser, ref argPos))
             {
 

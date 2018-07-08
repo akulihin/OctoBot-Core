@@ -2,7 +2,7 @@
 using Discord;
 using Discord.WebSocket;
 
-namespace OctoBot.Services
+namespace OctoBot.Helper
 {
     public class HelperFunctions
     {
@@ -21,6 +21,8 @@ namespace OctoBot.Services
             await Task.Delay(seconds);
             await message.DeleteAsync();
         }
+
+
 
     }
 }

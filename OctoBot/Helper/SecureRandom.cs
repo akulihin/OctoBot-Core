@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Security.Cryptography;
 
-namespace OctoBot.Services
+namespace OctoBot.Helper
 {
     
     public class SecureRandom
@@ -24,7 +24,21 @@ namespace OctoBot.Services
             return (int)(min + randomInRange);
         }
 
-      
+        public static int Random(int max)
+        {
+            var randomNumber = new byte[1];
+
+            Generator.GetBytes(randomNumber);
+
+            var asc2ConvertBytes = Convert.ToDouble(randomNumber[0]);
+
+            var multy = Math.Max(0, (asc2ConvertBytes) / 255d);
+            var range = max - 0 + 1;
+            var randomInRange = Math.Floor(multy * range);
+
+            return (int)(0 + randomInRange);
+        }
+
     }
  
 }

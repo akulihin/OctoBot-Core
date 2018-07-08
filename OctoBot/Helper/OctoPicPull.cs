@@ -1,6 +1,6 @@
 ﻿
 
-namespace OctoBot.Services
+namespace OctoBot.Helper
 {
     public static class OctoPicPull
     {

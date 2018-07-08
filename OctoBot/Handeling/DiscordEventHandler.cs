@@ -3,7 +3,6 @@ using System.Threading.Tasks;
 using Discord;
 using Discord.WebSocket;
 using OctoBot.Automated;
-using OctoBot.Commands;
 using OctoBot.Commands.PersonalCommands;
 using OctoBot.CustomForServers;
 using OctoBot.Games.Game2048;
@@ -67,6 +66,7 @@ namespace OctoBot.Handeling
             _client.UserUnbanned += UserUnbanned;
             _client.UserUpdated += UserUpdated;
             _client.UserVoiceStateUpdated += UserVoiceStateUpdated;
+            
 
         }
 
@@ -169,6 +169,7 @@ namespace OctoBot.Handeling
         {
             _commandHandler.HandleCommandAsync(message);
             _serverActivityLogger.Client_MessageReceived(message);
+            _serverActivityLogger.Client_MessageRecivedForStats(message);
         }
 
         private async Task MessageUpdated(Cacheable<IMessage, ulong> cacheMessageBefore, SocketMessage messageAfter, ISocketMessageChannel channel)
@@ -208,7 +209,8 @@ namespace OctoBot.Handeling
             CheckForPull.CheckTimerForPull();
             CheckForMute.CheckTimer();
             CheckReminders.CheckTimer();
-            ForBot.TimerForChangeBotAvatar();
+            TimerForChangingAvatar.TimerForChangeBotAvatar();
+            CheckToDeleteVoiceChannel.CheckTimer();
             //  _client.Ready += YellowTurtle.StartTimer; //// Timer3
         }
 
@@ -270,7 +272,7 @@ namespace OctoBot.Handeling
 
         private async Task UserVoiceStateUpdated(SocketUser user, SocketVoiceState voiceStateBefore, SocketVoiceState voiceStateAfter)
         {
-            
+            _serverActivityLogger.Client_UserVoiceStateUpdatedForCreateVoiceChannel(user, voiceStateBefore, voiceStateAfter);
         }
     }
 }

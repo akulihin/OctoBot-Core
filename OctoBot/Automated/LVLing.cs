@@ -2,7 +2,7 @@
 using Discord.WebSocket;
 using OctoBot.Configs.Users;
 
-namespace OctoBot.Configs.LvLingSystem
+namespace OctoBot.Automated
 {
     internal class LvLing
     {

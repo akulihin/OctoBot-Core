@@ -8,15 +8,14 @@ using Discord.Commands;
 using Discord.WebSocket;
 using OctoBot.Configs;
 using OctoBot.Configs.Users;
-using OctoBot.Services;
+using OctoBot.Custom_Library;
 
 namespace OctoBot.Commands.PersonalCommands
 {
+    //Yellow Turtle Event ( Done)
     public class YellowTurtle : ModuleBase<SocketCommandContextCustom>
     {
-
-
-       
+   
         private static SocketTextChannel _channel;
         private static Timer _loopingTimer;
          

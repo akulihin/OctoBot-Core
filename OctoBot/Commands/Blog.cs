@@ -6,8 +6,8 @@ using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
 using OctoBot.Configs.Users;
+using OctoBot.Custom_Library;
 using OctoBot.Handeling;
-using OctoBot.Services;
 using static OctoBot.Configs.Global;
 
 namespace OctoBot.Commands
@@ -25,15 +25,10 @@ namespace OctoBot.Commands
             if (account.SubedToYou == null)
             {
               
-                if (Context.MessageContentForEdit != "edit")
-                {
-                    await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, null, null, $"На тебя никто не подписан, буль!");
+
+                    await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context,  $"На тебя никто не подписан, буль!");
   
-                }
-                else if(Context.MessageContentForEdit == "edit")
-                {
-                    await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, null, "edit", $"На тебя никто не подписан, буль!");
-                }
+
                 return;
             }
 
@@ -51,15 +46,10 @@ namespace OctoBot.Commands
             embed.WithFooter("Записная книжечка Осьминожек");
             embed.WithTitle("Твои подписчики:");
             embed.WithDescription($"{mess}");
-                if (Context.MessageContentForEdit != "edit")
-                {
+
                     await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, embed);
   
-                }
-                else if(Context.MessageContentForEdit == "edit")
-                {
-                    await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, embed, "edit");
-                }
+   
             }
             catch
             {
@@ -79,15 +69,10 @@ namespace OctoBot.Commands
             if (account.SubToPeople == null)
             {
                 
-                if (Context.MessageContentForEdit != "edit")
-                {
-                    await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, null, null, $"Ты и так ни на кого не подписан, буль!");
-  
-                }
-                else if(Context.MessageContentForEdit == "edit")
-                {
-                    await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, null, "edit", $"Ты и так ни на кого не подписан, буль!");
-                }
+
+                    await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, $"Ты и так ни на кого не подписан, буль!");
+
+
                 return;
             }
 
@@ -105,15 +90,10 @@ namespace OctoBot.Commands
             embed.WithFooter("Записная книжечка Осьминожек");
             embed.WithTitle("Твои подписки:");
             embed.WithDescription($"{mess}");
-                if (Context.MessageContentForEdit != "edit")
-                {
+
                     await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, embed);
   
-                }
-                else if(Context.MessageContentForEdit == "edit")
-                {
-                    await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, embed, "edit");
-                }
+
             }
             catch
             {
@@ -131,31 +111,19 @@ namespace OctoBot.Commands
             try {
             if (user.Id == 423593006436712458)
             {
-               
-                if (Context.MessageContentForEdit != "edit")
-                {
-                    await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, null, null, "Нельзя подписываться на осьминожку!");
+
+                    await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, "Нельзя подписываться на осьминожку!");
   
-                }
-                else if(Context.MessageContentForEdit == "edit")
-                {
-                    await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, null, "edit", "Нельзя подписываться на осьминожку!");
-                }
+
                 return;
             }
 
             if (user.IsBot)
             {
-                
-                if (Context.MessageContentForEdit != "edit")
-                {
-                    await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, null, null, "Нельзя подписываться на бота.");
+
+                    await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, "Нельзя подписываться на бота.");
   
-                }
-                else if(Context.MessageContentForEdit == "edit")
-                {
-                    await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, null, "edit", "Нельзя подписываться на бота.");
-                }
+
                 return;
             }
 
@@ -170,15 +138,10 @@ namespace OctoBot.Commands
                 if (accountSubs.Any(t => t == user.Id.ToString()))
                 {
                   
-                    if (Context.MessageContentForEdit != "edit")
-                    {
-                        await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, null, null, $"Ты уже подписан на {user.Username}.");
+
+                        await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context,  $"Ты уже подписан на {user.Username}.");
   
-                    }
-                    else if(Context.MessageContentForEdit == "edit")
-                    {
-                        await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, null, "edit", $"Ты уже подписан на {user.Username}.");
-                    }
+
                     return;
                 }
             }
@@ -189,15 +152,10 @@ namespace OctoBot.Commands
             el.SubedToYou += (Context.User.Id + "|");
             UserAccounts.SaveAccounts(Context.Guild.Id);
 
-                if (Context.MessageContentForEdit != "edit")
-                {
-                    await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, null, null,  $"Ты подписался на {user.Username}!\nЕсли хочешь отписаться введи команду ***unsub [user]**");
+
+                    await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, $"Ты подписался на {user.Username}!\nЕсли хочешь отписаться введи команду ***unsub [user]**");
   
-                }
-                else if(Context.MessageContentForEdit == "edit")
-                {
-                    await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, null, "edit",  $"Ты подписался на {user.Username}!\nЕсли хочешь отписаться введи команду ***unsub [user]**");
-                }
+   
             }
             catch
             {
@@ -216,17 +174,10 @@ namespace OctoBot.Commands
                 var account = UserAccounts.GetAccount(Context.User, Context.Guild.Id);
                 if (account.SubToPeople == null)
                 {
-                   
 
-                    if (Context.MessageContentForEdit != "edit")
-                    {
-                        await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, null, null,  "Ты и так ни на кого не подписан, буль!");
+                        await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context,  "Ты и так ни на кого не подписан, буль!");
   
-                    }
-                    else if(Context.MessageContentForEdit == "edit")
-                    {
-                        await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, null, "edit",  "Ты и так ни на кого не подписан, буль!");
-                    }
+
                     return;
                 }
 
@@ -244,17 +195,10 @@ namespace OctoBot.Commands
 
                     if (check >= accountSubs.Length && Convert.ToUInt64(t) != user.Id)
                     {
-                      
 
-                        if (Context.MessageContentForEdit != "edit")
-                        {
-                            await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, null, null,  $"Ты **не был** подписан на {user.Username}.");
+                            await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context,  $"Ты **не был** подписан на {user.Username}.");
   
-                        }
-                        else if(Context.MessageContentForEdit == "edit")
-                        {
-                            await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, null, "edit",  $"Ты **не был** подписан на {user.Username}.");
-                        }
+
                         return;
                     }
                 }
@@ -278,16 +222,10 @@ namespace OctoBot.Commands
 
                 UserAccounts.SaveAccounts(Context.Guild.Id);
 
-               
-                if (Context.MessageContentForEdit != "edit")
-                {
-                    await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, null, null,  $"Ты был успешно ансабнут от {user.Username}");
+
+                    await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, $"Ты был успешно ансабнут от {user.Username}");
   
-                }
-                else if(Context.MessageContentForEdit == "edit")
-                {
-                    await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, null, "edit",  $"Ты был успешно ансабнут от {user.Username}");
-                }
+  
             }
             catch
             {
@@ -307,17 +245,10 @@ namespace OctoBot.Commands
             var account = UserAccounts.GetAccount(Context.User, Context.Guild.Id);
             if (account.SubedToYou == null)
             {
-              
 
-                if (Context.MessageContentForEdit != "edit")
-                {
-                    await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, null, null, "На тебя никто не подписан ещё буль... Попробуй чем то завлечь людей сначала!");
+                    await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, "На тебя никто не подписан ещё буль... Попробуй чем то завлечь людей сначала!");
   
-                }
-                else if(Context.MessageContentForEdit == "edit")
-                {
-                    await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, null, "edit", "На тебя никто не подписан ещё буль... Попробуй чем то завлечь людей сначала!");
-                }
+
                 return;
             }
 
@@ -411,45 +342,30 @@ namespace OctoBot.Commands
             if (account.SubedToYou == null)
             {
                
-                if (Context.MessageContentForEdit != "edit")
-                {
-                    await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, null, null, "На тебя никто не подписан ещё буль... Попробуй чем то завлечь людей сначала!");
+
+                    await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context,  "На тебя никто не подписан ещё буль... Попробуй чем то завлечь людей сначала!");
   
-                }
-                else if(Context.MessageContentForEdit == "edit")
-                {
-                    await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, null, "edit", "На тебя никто не подписан ещё буль... Попробуй чем то завлечь людей сначала!");
-                }
+
                 return;
             }
 
                 if (url.Length < 5)
             {
                 
-                if (Context.MessageContentForEdit != "edit")
-                {
-                    await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, null, null, "буууу! Ссылка не в правильном формате!");
+ 
+                    await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, "буууу! Ссылка не в правильном формате!");
   
-                }
-                else if(Context.MessageContentForEdit == "edit")
-                {
-                    await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, null, "edit", "буууу! Ссылка не в правильном формате!");
-                }
+
                 return;
             }
             var httpsCheck = ($"{url[0]}{url[1]}{url[2]}{url[3]}{url[4]}");
             if (httpsCheck != "https")
             {
               
-                if (Context.MessageContentForEdit != "edit")
-                {
-                    await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, null, null, "буууу! Ссылка не в правильном формате!");
+
+                    await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, "буууу! Ссылка не в правильном формате!");
   
-                }
-                else if(Context.MessageContentForEdit == "edit")
-                {
-                    await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, null, "edit", "буууу! Ссылка не в правильном формате!");
-                }
+
                 return;
             }
 
@@ -524,9 +440,6 @@ namespace OctoBot.Commands
                     "boo... An error just appear >_< \nTry to use this command properly: **IBlog [HTTPS_url] [any text you want]**(send a blog **WITH PICTURE** to all of your followers)\n");
             }
         }
-
-
-
 
         public static async Task AddReactionForBlogMessages(List<IUserMessage> messageList, ISocketMessageChannel contextChannel)
         {

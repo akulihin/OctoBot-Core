@@ -1,4 +1,6 @@
-﻿namespace OctoBot.Configs.Server
+﻿using System.Collections.Concurrent;
+
+namespace OctoBot.Configs.Server
 {
     public class ServerSettings 
     {
@@ -9,6 +11,8 @@
         public int ServerActivityLog { get; set; }
         public ulong LogChannelId { get; set; }
         public string RoleOnJoin { get; set; }
+        public ulong MessagesReceivedAll { get; set; }
+        public ConcurrentDictionary<string, ulong> MessagesReceivedStatisctic { get; set; } = new ConcurrentDictionary<string, ulong>();
 
     }
 }

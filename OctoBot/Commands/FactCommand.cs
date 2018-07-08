@@ -4,8 +4,8 @@ using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
 using OctoBot.Configs.Users;
+using OctoBot.Custom_Library;
 using OctoBot.Handeling;
-using OctoBot.Services;
 
 namespace OctoBot.Commands
 {
@@ -31,16 +31,9 @@ namespace OctoBot.Commands
             var msg = await Context.Channel.GetMessageAsync(id);
             await msg.DeleteAsync();
             
-           
-                if (Context.MessageContentForEdit != "edit")
-                {
-                    await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, null, null, $"We wrote down this fact about {user.Mention}!");
-  
-                }
-                else if(Context.MessageContentForEdit == "edit")
-                {
-                    await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, null, "edit", $"We wrote down this fact about {user.Mention}!");
-                }
+
+                    await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context,  $"We wrote down this fact about {user.Mention}!");
+
             }
             catch
             {
@@ -59,15 +52,10 @@ namespace OctoBot.Commands
             if (account.Fuckt == null)
             {
                
-                if (Context.MessageContentForEdit != "edit")
-                {
-                    await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, null, null, "boole. :c\nWe could not find the facts about this user");
+   
+                    await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context,  "boole. :c\nWe could not find the facts about this user");
   
-                }
-                else if(Context.MessageContentForEdit == "edit")
-                {
-                    await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, null, "edit", "boole. :c\nWe could not find the facts about this user");
-                }
+
                 return;
             }
 
@@ -113,15 +101,9 @@ namespace OctoBot.Commands
             else
                 embed.AddField("Random fact: ", " " + randomFukt);
 
-                if (Context.MessageContentForEdit != "edit")
-                {
+
                     await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, embed);
-  
-                }
-                else if(Context.MessageContentForEdit == "edit")
-                {
-                    await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, embed, "edit");
-                }
+
             }
             catch
             {
@@ -140,15 +122,10 @@ namespace OctoBot.Commands
             {
                 if (account.Fuckt == null)
                 {
-                    if (Context.MessageContentForEdit != "edit")
-                    {
-                        await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, null, null, "boole. :c\nWe could not find the facts about this user");
+
+                        await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context,  "boole. :c\nWe could not find the facts about this user");
   
-                    }
-                    else if(Context.MessageContentForEdit == "edit")
-                    {
-                        await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, null, "edit", "boole. :c\nWe could not find the facts about this user");
-                    }
+
                     return;
                 }
 
@@ -192,15 +169,9 @@ namespace OctoBot.Commands
                     embed.AddField("Random fact: ", " " + randomFukt);
 
 
-                if (Context.MessageContentForEdit != "edit")
-                {
                     await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, embed);
   
-                }
-                else if(Context.MessageContentForEdit == "edit")
-                {
-                    await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, embed, "edit");
-                }
+
             }
             }
             catch
@@ -232,27 +203,17 @@ namespace OctoBot.Commands
                 embed.WithFooter("lil octo notebook");
                 embed.WithTitle("All the facts about you:");
                 embed.WithDescription($"{mess}\n**del [index]** to delete the fact");
-                if (Context.MessageContentForEdit != "edit")
-                {
+
                     await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, embed);
   
-                }
-                else if(Context.MessageContentForEdit == "edit")
-                {
-                    await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, embed, "edit");
-                }
+
             }
             else
             
-             if (Context.MessageContentForEdit != "edit")
-             {
-                 await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, null, null, "Boole :< You do not have 3rd level tolerance");
+    
+                 await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context,  "Boole :< You do not have 3rd level tolerance");
   
-             }
-             else if(Context.MessageContentForEdit == "edit")
-             {
-                 await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, null, "edit", "Boole :< You do not have 3rd level tolerance");
-             }
+
          }
          catch
          {
@@ -284,27 +245,16 @@ namespace OctoBot.Commands
                 embed.WithFooter("lil octo notebook");
                 embed.WithTitle("All the facts about you:");
                 embed.WithDescription($"{mess}\n**del [index]** to delete the fact");
-                if (Context.MessageContentForEdit != "edit")
-                {
+
                     await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, embed);
   
-                }
-                else if(Context.MessageContentForEdit == "edit")
-                {
-                    await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, embed, "edit");
-                }
+
           
             }
             else
-            if (Context.MessageContentForEdit != "edit")
-            {
-                await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, null, null, "Boole :< You do not have 4rd level tolerance");
-  
-            }
-            else if(Context.MessageContentForEdit == "edit")
-            {
-                await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, null, "edit", "Boole :< You do not have 4rd level tolerance");
-            }
+
+                await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context,  "Boole :< You do not have 4rd level tolerance");
+
             }
             catch
             {
@@ -334,28 +284,16 @@ namespace OctoBot.Commands
 
                 UserAccounts.SaveAccounts(Context.Guild.Id);
 
-      
-                if (Context.MessageContentForEdit != "edit")
-                {
-                    await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, null, null,  $"fact under index {index} was removed from the lil octo notebook ;c");
+
+                    await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context,   $"fact under index {index} was removed from the lil octo notebook ;c");
   
-                }
-                else if(Context.MessageContentForEdit == "edit")
-                {
-                    await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, null, "edit",  $"fact under index {index} was removed from the lil octo notebook ;c");
-                }
+
 
             }
             else
-            if (Context.MessageContentForEdit != "edit")
-            {
-                await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, null, null, "Boole :< You do not have 3rd level tolerance");
-  
-            }
-            else if(Context.MessageContentForEdit == "edit")
-            {
-                await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, null, "edit", "Boole :< You do not have 3rd level tolerance");
-            }
+
+                await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context,  "Boole :< You do not have 3rd level tolerance");
+
            }
            catch
            {
@@ -387,27 +325,16 @@ namespace OctoBot.Commands
 
                 UserAccounts.SaveAccounts(Context.Guild.Id);
 
-                if (Context.MessageContentForEdit != "edit")
-                {
-                    await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, null, null,  $"fact under index {index} was removed from the lil octo notebook ;c");
-  
-                }
-                else if(Context.MessageContentForEdit == "edit")
-                {
-                    await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, null, "edit",  $"fact under index {index} was removed from the lil octo notebook ;c");
-                }
+
+                    await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context,   $"fact under index {index} was removed from the lil octo notebook ;c");
+ 
 
             }
             else
-            if (Context.MessageContentForEdit != "edit")
-            {
-                await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, null, null, "Boole :< You do not have 10th level tolerance");
+
+                await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context,  "Boole :< You do not have 10th level tolerance");
   
-            }
-            else if(Context.MessageContentForEdit == "edit")
-            {
-                await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, null, "edit", "Boole :< You do not have 10th level tolerance");
-            }
+
             }
             catch
             {

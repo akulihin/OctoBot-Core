@@ -61,7 +61,7 @@ namespace OctoBot.Configs.Users
 
         public DateTime MuteTimer { get; set; }
         public ulong MarryTo { get; set; }
-
+        public List<CreateVoiceChannel> VoiceChannelList { get; internal set; } = new List<CreateVoiceChannel>();
 
         public struct CreateReminder
         {
@@ -75,7 +75,18 @@ namespace OctoBot.Configs.Users
             }
         }
 
-      
+        public struct CreateVoiceChannel
+        {
+            public DateTime LastTimeLeftChannel;
+            public ulong VoiceChannelId;
+            public ulong GuildId;
 
+            public CreateVoiceChannel(DateTime lastTimeLeftChannel, ulong voiceChannelId, ulong guildId)
+            {
+                LastTimeLeftChannel = lastTimeLeftChannel;
+                VoiceChannelId = voiceChannelId;
+                GuildId = guildId;
+            }
+        }
     }
 }

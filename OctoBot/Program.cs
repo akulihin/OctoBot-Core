@@ -39,7 +39,7 @@ namespace OctoBot
             await _client.StartAsync();
             Global.Client = _client;
 
-            ConsoleHandeling.ConsoleInput(_client);
+            SendMessagesUsingConsole.ConsoleInput(_client);
             await Task.Delay(-1);
         }
 

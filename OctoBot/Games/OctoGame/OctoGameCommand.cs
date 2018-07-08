@@ -6,11 +6,11 @@ using Discord;
 using Discord.Commands;
 using Newtonsoft.Json;
 using OctoBot.Configs;
+using OctoBot.Custom_Library;
 using OctoBot.Games.OctoGame.GameSpells;
 using OctoBot.Games.OctoGame.GameUsers;
 using OctoBot.Handeling;
 using OctoBot.Helper;
-using OctoBot.Services;
 
 namespace OctoBot.Games.OctoGame
 {
@@ -100,15 +100,10 @@ namespace OctoBot.Games.OctoGame
             embed.WithAuthor(Context.User);
             embed.WithColor(Color.Blue);
             embed.AddField($"Твой осьминожка!", $"**Имя:** {octoInfoArray[0]}\n**Цвет:** {octoInfoArray[1]}\n**Характер** {octoInfoArray[2]}\n**Лор:** {octoInfoArray[3]}");
-            if (Context.MessageContentForEdit != "edit")
-            {
+
                 await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, embed);
   
-            }
-            else if(Context.MessageContentForEdit == "edit")
-            {
-                await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, embed, "edit");
-            }
+
         }
 
         [Command("endGame")]
@@ -229,15 +224,10 @@ namespace OctoBot.Games.OctoGame
 
             var embed = new EmbedBuilder();
             embed.AddField("Введи Номер дерева скилла, у тебя 5 минута", "1 - AD\n2 - DEF\n3 - AGI\n4 - AP");
-            if (Context.MessageContentForEdit != "edit")
-            {
+
                 await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, embed);
   
-            }
-            else if(Context.MessageContentForEdit == "edit")
-            {
-                await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, embed, "edit");
-            }
+
             response = await AwaitForUserMessage.AwaitMessage(Context.User.Id, Context.Channel.Id, 300000);
             skill.SpellTree = Convert.ToInt32(response.ToString());
 

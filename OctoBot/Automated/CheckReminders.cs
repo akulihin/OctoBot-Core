@@ -79,7 +79,7 @@ namespace OctoBot.Automated
                                 if (!closedDm.Message.Contains("404") || !closedDm.Message.Contains("403")) continue;
                                 Console.WriteLine($"ERROR DM SENING {account.UserName} Closed DM: '{0}'",
                                     closedDm);
-                                account.ReminderList = null;
+                                account.ReminderList = new List<AccountSettings.CreateReminder>();
                                 UserAccounts.SaveAccounts(0);
                                 return;
                             }

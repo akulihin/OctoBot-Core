@@ -2,7 +2,7 @@
 using Discord.Commands;
 using Discord.WebSocket;
 
-namespace OctoBot.Services
+namespace OctoBot.Custom_Library
 {
     public class SocketCommandContextCustom : ICommandContext
     {

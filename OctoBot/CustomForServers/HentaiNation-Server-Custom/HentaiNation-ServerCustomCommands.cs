@@ -2,7 +2,7 @@
 using Discord;
 using Discord.Commands;
 using OctoBot.Configs;
-using OctoBot.Services;
+using OctoBot.Custom_Library;
 
 namespace OctoBot.CustomForServers
 {

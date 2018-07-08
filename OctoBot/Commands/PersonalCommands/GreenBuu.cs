@@ -6,6 +6,8 @@ using Discord;
 using Discord.WebSocket;
 using OctoBot.Configs;
 
+
+//Green Boo Event ( not done)
 namespace OctoBot.Commands.PersonalCommands
 {
     internal static class GreenBuuTimerClass

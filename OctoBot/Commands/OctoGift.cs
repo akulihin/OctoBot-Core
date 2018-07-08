@@ -3,8 +3,8 @@ using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
 using OctoBot.Configs.Users;
+using OctoBot.Custom_Library;
 using OctoBot.Handeling;
-using OctoBot.Services;
 
 namespace OctoBot.Commands
 {
@@ -41,15 +41,10 @@ namespace OctoBot.Commands
                 embed.AddField("Fees was applied (1488 OctoPoints)", $"{contextUser.Points} Octo Points left");
                 embed.WithImageUrl("https://i.imgur.com/dCJwloV.jpg");
 
-                if (Context.MessageContentForEdit != "edit")
-                {
+
                     await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, embed);
   
-                }
-                else if(Context.MessageContentForEdit == "edit")
-                {
-                    await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, embed, "edit");
-                }
+
 
             }
             else
@@ -95,15 +90,10 @@ namespace OctoBot.Commands
                 embed.AddField("Fees was applied (1488 OctoPoints)", $"{contextUser.Points} Octo Points left");
                 embed.WithImageUrl("https://i.imgur.com/xxE7EeX.jpg");
 
-                if (Context.MessageContentForEdit != "edit")
-                {
+
                     await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, embed);
   
-                }
-                else if(Context.MessageContentForEdit == "edit")
-                {
-                    await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, embed, "edit");
-                }
+
 
             }
             else
@@ -152,15 +142,10 @@ namespace OctoBot.Commands
                 embed.AddField("Fees was applied (1488 OctoPoints)", $"{contextUser.Points} Octo Points left");
                 embed.WithImageUrl("https://i.imgur.com/Ufky6UB.jpg");
 
-                if (Context.MessageContentForEdit != "edit")
-                {
+
                     await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, embed);
   
-                }
-                else if(Context.MessageContentForEdit == "edit")
-                {
-                    await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, embed, "edit");
-                }
+
 
             }
             else
@@ -187,15 +172,10 @@ namespace OctoBot.Commands
             embed.AddField("**Cooki!**", "`GiftCooki [user]` cost: **1488** ОктоПоинтов");
             embed.AddField("**Pinki~**", "`GiftPinki [user]` cost: **1488** ОктоПоинтов");
             embed.AddField("**Rainbow** :gay_pride_flag:", "`GiftRainbow [user]` cost: **1488** Octo Points");
-                if (Context.MessageContentForEdit != "edit")
-                {
+
                     await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, embed);
   
-                }
-                else if(Context.MessageContentForEdit == "edit")
-                {
-                    await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, embed, "edit");
-                }
+
             }
             catch
             {

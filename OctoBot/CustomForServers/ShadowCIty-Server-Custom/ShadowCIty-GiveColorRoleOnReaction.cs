@@ -4,9 +4,8 @@ using System.Threading.Tasks;
 using Discord;
 using Discord.WebSocket;
 using OctoBot.Configs;
-using OctoBot.CustomForServers;
 
-namespace OctoBot.Commands
+namespace OctoBot.CustomForServers
 {
     internal static class ColorRoleReaction
     {

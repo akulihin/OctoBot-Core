@@ -6,7 +6,7 @@ using OctoBot.Configs;
 
 namespace OctoBot.Handeling
 {
-    internal class ConsoleHandeling
+    internal class SendMessagesUsingConsole
     {
 
         internal static void ConsoleInput(DiscordSocketClient client)
