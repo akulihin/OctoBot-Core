@@ -9,7 +9,6 @@ namespace OctoBot.Configs.Users
 {
     public static class UserAccounts
     {
-
         private static readonly ConcurrentDictionary<ulong, List<AccountSettings>> UserAccountsDictionary =
             new ConcurrentDictionary<ulong, List<AccountSettings>>();
 
@@ -18,10 +17,8 @@ namespace OctoBot.Configs.Users
         {
             var guildList = ServerAccounts.GetAllServerAccounts();
             foreach (var guild in guildList)
-            {
                 UserAccountsDictionary.GetOrAdd(guild.ServerId,
                     x => DataStorage.LoadAccountSettings(guild.ServerId).ToList());
-            }
         }
 
         public static List<AccountSettings> GetOrAddUserAccountsForGuild(ulong guildId)
@@ -60,10 +57,7 @@ namespace OctoBot.Configs.Users
         internal static List<AccountSettings> GetAllAccountForAllGuild()
         {
             var accounts = new List<AccountSettings>();
-            foreach (var values in UserAccountsDictionary.Values)
-            {
-                accounts.AddRange(values);
-            }
+            foreach (var values in UserAccountsDictionary.Values) accounts.AddRange(values);
             return accounts;
         }
 
@@ -81,7 +75,6 @@ namespace OctoBot.Configs.Users
 
             var newAccount = new AccountSettings
             {
-
                 Id = user.Id,
                 UserName = user.Username
             };
@@ -89,8 +82,6 @@ namespace OctoBot.Configs.Users
             accounts.Add(newAccount);
             SaveAccounts(guildId);
             return newAccount;
-
         }
     }
 }
-

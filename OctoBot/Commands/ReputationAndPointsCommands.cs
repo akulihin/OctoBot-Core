@@ -19,7 +19,6 @@ namespace OctoBot.Commands
         [Description("Adding Octo Rep on a Account")]
         public async Task AddPoints(IGuildUser user, long rep)
         {
-
             var comander = UserAccounts.GetAccount(Context.User, Context.Guild.Id);
             if (comander.OctoPass >= 100)
             {
@@ -31,8 +30,10 @@ namespace OctoBot.Commands
                     $"{rep} Octo Reputation were credited, altogether {user.Mention} have {account.Rep} Octo Reputation!");
             }
             else
+            {
                 await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context,
                     "Boole! You do not have a tolerance of this level!");
+            }
         }
 
         [Command("OctoPoint")]
@@ -44,18 +45,18 @@ namespace OctoBot.Commands
             var comander = UserAccounts.GetAccount(Context.User, Context.Guild.Id);
             if (comander.OctoPass >= 100)
             {
-
                 var account = UserAccounts.GetAccount((SocketUser) user, Context.Guild.Id);
                 account.Points += points;
                 UserAccounts.SaveAccounts(Context.Guild.Id);
 
                 await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context,
                     $"{points} Octo Points were credited, altogether {user.Mention} have {account.Points} Octo Points!");
-
             }
             else
+            {
                 await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context,
                     "Boole! You do not have a tolerance of this level!");
+            }
         }
 
         [Command("pass", RunMode = RunMode.Async)]
@@ -134,7 +135,7 @@ namespace OctoBot.Commands
                         account.Points += (int) taxes;
                         passCheck.Points -= points;
 
-                        var toBank = (points * 1.1) - points;
+                        var toBank = points * 1.1 - points;
                         bot.Points += (int) toBank;
                         UserAccounts.SaveAccounts(Context.Guild.Id);
 
@@ -142,8 +143,10 @@ namespace OctoBot.Commands
                             $"Was transferred{points}\n {user.Mention} now have {account.Points} Octo Points!\nyou have left {passCheck.Points}\ntaxes: {taxes}");
                     }
                     else
+                    {
                         await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context,
                             $"You do not have enough Octo Points to pass them.");
+                    }
                 }
                 else
                 {

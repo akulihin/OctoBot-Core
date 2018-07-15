@@ -52,11 +52,9 @@ namespace OctoBot.Games.Game2048
 
         public static void MakeMove(ulong userId, GameWork.MoveDirection direction, RestUserMessage socketMsg)
         {
-            for (var i = 0; i < Global.OctopusGameMessIdList2048.Count ; i++) {
-               
+            for (var i = 0; i < Global.OctopusGameMessIdList2048.Count; i++)
                 if (userId == Global.OctopusGameMessIdList2048[i].OctoGameUserIdToTrack2048)
                 {
-                    
                     var game = Games.FirstOrDefault(g => g.PlayerId == userId);
                     var gamesId = Games.IndexOf(game);
 
@@ -68,11 +66,10 @@ namespace OctoBot.Games.Game2048
                     game.Move++;
 
                     Games[gamesId] = game;
-                  
+
                     UpdateMessage(game, userId);
                     return;
                 }
-            }
         }
 
         public static async void EndGame(ulong userId)
@@ -81,7 +78,7 @@ namespace OctoBot.Games.Game2048
             {
                 var game = Games.FirstOrDefault(g => g.PlayerId == userId);
                 Games.Remove(game);
-               
+
                 var builder = new StringBuilder();
                 builder.Append($"boole... where did it go?");
 
@@ -92,15 +89,13 @@ namespace OctoBot.Games.Game2048
             {
                 // ignored
             }
-
         }
-      
+
 
         public static async void UpdateMessage(GameStruct game, ulong userId)
         {
             try
             {
-
                 var globalAccount = Global.Client.GetUser(userId);
                 var chanelGuil = game.Message.Channel as IGuildChannel;
                 var account = UserAccounts.GetAccount(globalAccount, chanelGuil.Guild.Id);
@@ -110,7 +105,7 @@ namespace OctoBot.Games.Game2048
                     UserAccounts.SaveAccounts(chanelGuil.Guild.Id);
                 }
 
-               
+
                 var builder = new StringBuilder();
                 builder.Append("Score: ");
                 builder.Append(game.Score);
@@ -118,7 +113,6 @@ namespace OctoBot.Games.Game2048
                 builder.Append(game.Move);
                 builder.Append("\n```cpp\n");
                 builder.Append(FormatBoard(game.Grid));
-
 
 
                 if (game.State == GameWork.GameState.Lost)
@@ -157,7 +151,7 @@ namespace OctoBot.Games.Game2048
             {
                 for (var j = 0; j < 4; j++)
                 {
-                    var paddingCount = 4 - (board[i][j].ToString().Length);
+                    var paddingCount = 4 - board[i][j].ToString().Length;
                     builder.Append(board[i][j]);
                     for (var m = 0; m < paddingCount; m++) builder.Append(" ");
                     builder.Append("|");
@@ -178,6 +172,7 @@ namespace OctoBot.Games.Game2048
                     Console.Write(grid[i][j]);
                     Console.Write(" ");
                 }
+
                 Console.WriteLine();
             }
         }

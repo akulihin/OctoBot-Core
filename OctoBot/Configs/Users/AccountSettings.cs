@@ -3,9 +3,8 @@ using System.Collections.Generic;
 
 namespace OctoBot.Configs.Users
 {
-    public class AccountSettings  
+    public class AccountSettings
     {
-
         public string UserName { get; set; }
         public ulong Id { get; set; }
         public int IsModerator { get; set; }
@@ -46,7 +45,7 @@ namespace OctoBot.Configs.Users
         public string SubToPeople { get; set; }
 
         public string SubedToYou { get; set; }
-        
+
 
         public int Best2048Score { get; set; }
 
@@ -62,6 +61,8 @@ namespace OctoBot.Configs.Users
         public DateTime MuteTimer { get; set; }
         public ulong MarryTo { get; set; }
         public List<CreateVoiceChannel> VoiceChannelList { get; internal set; } = new List<CreateVoiceChannel>();
+        public DateTime LastOctoPic { get; set; }
+        public string MyPrefix { get; set; }
 
         public struct CreateReminder
         {

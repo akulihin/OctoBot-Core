@@ -21,7 +21,6 @@ namespace OctoBot.CustomForServers
                 }
                 else if (editCheck == 2)
                 {
-  
                     var pedoFedora = Emote.Parse("<:PedoFedora:396676199738507265>");
                     var gasm = Emote.Parse("<:Gasm:396672726783361034>");
                     var kappaPride = Emote.Parse("<:KappaPride:396676035715792896>");
@@ -38,7 +37,6 @@ namespace OctoBot.CustomForServers
                     var oSsloth = Emote.Parse("<:OSsloth:398276510831869952>");
                     var takai = Emote.Parse("<:Takai:406938709058125825>");
                     var pekaApple = Emote.Parse("<:pekaApple:402174155954585601>");
-
 
 
                     await cash.GetOrDownloadAsync().Result.RemoveAllReactionsAsync();
@@ -345,8 +343,6 @@ namespace OctoBot.CustomForServers
             {
                 Console.WriteLine("Reaction for Roles not workind. '{0}'", error);
             }
-
         }
-
     }
 }

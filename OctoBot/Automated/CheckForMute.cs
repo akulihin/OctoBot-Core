@@ -14,8 +14,6 @@ namespace OctoBot.Automated
 
         internal static Task CheckTimer()
         {
-
-
             _loopingTimer = new Timer
             {
                 AutoReset = true,
@@ -29,8 +27,8 @@ namespace OctoBot.Automated
             return Task.CompletedTask;
         }
 
-
         public static async void ChekAllMutes(object sender, ElapsedEventArgs e)
+        
         {
             try
             {
@@ -47,8 +45,6 @@ namespace OctoBot.Automated
 
                     if (account.MuteTimer <= now && account.MuteTimer != Convert.ToDateTime("0001-01-01T00:00:00"))
                     {
-
-
                         var roleToGive = Global.Client.GetGuild(338355570669256705).Roles
                             .SingleOrDefault(x => x.Name.ToString() == "Muted");
                         var wtf = Global.Client.GetGuild(338355570669256705).GetUser(account.Id);
@@ -80,13 +76,11 @@ namespace OctoBot.Automated
                                 .SendMessageAsync("", false, embed.Build());
                         }
                     }
-
                 }
             }
             catch (Exception error)
             {
                 Console.WriteLine("ERROR!!! ChekAllMutes(Big try) Does not work: '{0}'", error);
-
             }
         }
     }

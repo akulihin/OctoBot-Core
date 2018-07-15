@@ -8,11 +8,10 @@ namespace OctoBot.Handeling
 {
     internal class SendMessagesUsingConsole
     {
-
         internal static void ConsoleInput(DiscordSocketClient client)
         {
             var input = string.Empty;
-        
+
 
             while (input != null && input.Trim().ToLower() != "block")
             {
@@ -20,11 +19,9 @@ namespace OctoBot.Handeling
 
                 if (input != null && input.Trim().ToLower() == "mess")
                     ConsoleSendMessage(client);
-
             }
-
         }
-        
+
         private static async void ConsoleSendMessage(DiscordSocketClient client)
         {
             try
@@ -33,7 +30,6 @@ namespace OctoBot.Handeling
                 var guild = GetSelectedGuild(client.Guilds);
                 var textChannel = GetSelectedTextChannel(guild.TextChannels);
                 var msg = string.Empty;
-
 
 
                 while (msg != null && msg.Trim() == string.Empty)
@@ -48,9 +44,9 @@ namespace OctoBot.Handeling
                 var prefix = Config.Bot.Prefix.ToCharArray();
                 if (prefixCheck[0] == prefix[0])
                 {
-                  var mesToDel =  await textChannel.SendMessageAsync(msg);
-                   await mesToDel.DeleteAsync();
-                 
+                    var mesToDel = await textChannel.SendMessageAsync(msg);
+                    await mesToDel.DeleteAsync();
+
 
                     Console.WriteLine("Команда выполненая каппатан бу!");
                 }
@@ -60,7 +56,7 @@ namespace OctoBot.Handeling
                     Console.WriteLine("Отправлено!");
                 }
             }
-            catch(Exception)
+            catch (Exception)
             {
                 Console.WriteLine($"Осьминожки не могут сюда писать()");
             }
@@ -70,10 +66,7 @@ namespace OctoBot.Handeling
         {
             var textChannels = channels.ToList();
             var maxIntex = textChannels.Count - 1;
-            for (var i = 0; i <= maxIntex; i++)
-            {
-                Console.WriteLine($"{i} - {textChannels[i].Name}");
-            }
+            for (var i = 0; i <= maxIntex; i++) Console.WriteLine($"{i} - {textChannels[i].Name}");
             var selectedIndex = -1;
             while (selectedIndex < 0 || selectedIndex > maxIntex)
             {
@@ -84,6 +77,7 @@ namespace OctoBot.Handeling
                     selectedIndex = -1;
                 }
             }
+
             return textChannels[selectedIndex];
         }
 
@@ -91,10 +85,7 @@ namespace OctoBot.Handeling
         {
             var socketGuilds = guilds.ToList();
             var maxIntex = socketGuilds.Count - 1;
-            for (var i = 0; i <= maxIntex; i++)
-            {
-                Console.WriteLine($"{i} - {socketGuilds[i].Name}");
-            }
+            for (var i = 0; i <= maxIntex; i++) Console.WriteLine($"{i} - {socketGuilds[i].Name}");
             var selectedIndex = -1;
             while (selectedIndex < 0 || selectedIndex > maxIntex)
             {
@@ -105,6 +96,7 @@ namespace OctoBot.Handeling
                     selectedIndex = -1;
                 }
             }
+
             return socketGuilds[selectedIndex];
         }
     }

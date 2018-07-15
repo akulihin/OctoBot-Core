@@ -10,7 +10,6 @@ using OctoBot.Configs.Server;
 using OctoBot.Custom_Library;
 using OctoBot.Handeling;
 
-
 namespace OctoBot.Commands
 {
     public class StatsServer : ModuleBase<SocketCommandContextCustom>
@@ -28,14 +27,14 @@ namespace OctoBot.Commands
                         "Boole! Try different page <_<");
                     return;
                 }
+
                 var rolesList = Context.Guild.Roles.ToList();
 
                 const int usersPerPage = 8;
 
-                var lastPage = 1 + (rolesList.Count / (usersPerPage + 1));
+                var lastPage = 1 + rolesList.Count / (usersPerPage + 1);
                 if (page > lastPage)
                 {
-
                     await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context,
                         $"Boole. Last Page is {lastPage}");
                     return;
@@ -51,7 +50,7 @@ namespace OctoBot.Commands
 
                 for (var i = 1; i <= usersPerPage && i + usersPerPage * page <= orderedRolesList.Count; i++)
                 {
-                    var num = (i + usersPerPage * page) - 1;
+                    var num = i + usersPerPage * page - 1;
                     embB.AddField($"#{i + usersPerPage * page} {orderedRolesList[num].Name}",
                         $"**Members:** {orderedRolesList[num].Members.Count()}\n" +
                         $"**Color:** {orderedRolesList[num].Color}\n" +
@@ -60,6 +59,7 @@ namespace OctoBot.Commands
                         $"**Position:** {orderedRolesList[num].Position}\n" +
                         $"**ID:** {orderedRolesList[num].Id}\n\n**_____**", true);
                 }
+
                 await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, embB);
             }
             catch
@@ -91,10 +91,9 @@ namespace OctoBot.Commands
 
                 const int usersPerPage = 8;
 
-                var lastPage = 1 + (allTextChannelsList.Count / (usersPerPage + 1));
+                var lastPage = 1 + allTextChannelsList.Count / (usersPerPage + 1);
                 if (page > lastPage)
                 {
-
                     await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context,
                         $"Boole. Last Page is {lastPage}");
                     return;
@@ -105,12 +104,8 @@ namespace OctoBot.Commands
                 {
                     ulong num = 0;
                     foreach (var t in knownTextChannelsList)
-                    {
                         if (t1.Name == t.Key)
-                        {
                             num = t.Value;
-                        }
-                    }
 
 
                     guildAccount.MessagesReceivedStatisctic.AddOrUpdate(t1.Name, num, (key, value) => num);
@@ -131,13 +126,11 @@ namespace OctoBot.Commands
 
                 for (var i = 1; i <= usersPerPage && i + usersPerPage * page <= orderedKnownChannels.Count; i++)
                 {
-                    var num = (i - 1 + usersPerPage * page);
+                    var num = i - 1 + usersPerPage * page;
                     SocketTextChannel something = null;
                     foreach (var t in allTextChannelsList)
-                    {
                         if (orderedKnownChannels[num].Key == t.Name)
                             something = Context.Guild.GetTextChannel(t.Id);
-                    }
 
                     var cat = "error";
                     if (something == null)
@@ -155,6 +148,7 @@ namespace OctoBot.Commands
                         $"**Position:** {something.Position}\n" +
                         $"**ID:** {something.Id}\n\n**_____**", true);
                 }
+
                 await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, embB);
             }
             catch (Exception e)

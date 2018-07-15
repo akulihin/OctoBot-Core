@@ -1,10 +1,7 @@
-﻿
-
-namespace OctoBot.Helper
+﻿namespace OctoBot.Helper
 {
     public static class OctoPicPull
     {
-
         public static string[] OctoPics =
         {
             //индекс осьминога -1 к его номеру
@@ -151,17 +148,44 @@ namespace OctoBot.Helper
             "https://media.discordapp.net/attachments/370950995133464587/442770493599383562/IMG_20180506_112852.jpg?width=936&height=702",
             "https://media.discordapp.net/attachments/370950995133464587/442770492798009355/IMG_20180505_115640.jpg?width=936&height=702",
             "https://media.discordapp.net/attachments/370950995133464587/445467032176295947/IMG_20180506_121914.jpg?width=1872&height=1404"
-
-
         };
 
-
+        public static string[] OctoPicsPull =
+        {
+            "https://cdn.discordapp.com/attachments/436071383836000256/467125305535102976/20180712_201641.jpg",
+            "https://cdn.discordapp.com/attachments/436071383836000256/467125306331889664/20180712_201653.jpg",
+            "https://cdn.discordapp.com/attachments/436071383836000256/467125306331889665/20180712_201701.jpg",
+            "https://cdn.discordapp.com/attachments/436071383836000256/467125272328536094/20180712_201710.jpg",
+            "https://cdn.discordapp.com/attachments/436071383836000256/467125271963762690/20180712_201729.jpg", //5
+            "https://cdn.discordapp.com/attachments/436071383836000256/467125271963762688/20180712_201744.jpg",
+            "https://cdn.discordapp.com/attachments/436071383836000256/467125221225398285/20180712_201754.jpg",
+            "https://cdn.discordapp.com/attachments/436071383836000256/467125221225398283/20180712_201806.jpg",
+            "https://cdn.discordapp.com/attachments/436071383836000256/467125220759568384/20180712_201821.jpg",
+            "https://cdn.discordapp.com/attachments/436071383836000256/467125122378235904/20180712_201839.jpg", //10
+            "https://cdn.discordapp.com/attachments/436071383836000256/467125122189361173/20180712_201849.jpg",
+            "https://cdn.discordapp.com/attachments/436071383836000256/467125121920794624/20180712_201857.jpg",
+            "https://cdn.discordapp.com/attachments/436071383836000256/467125088999702529/20180712_201926.jpg",
+            "https://cdn.discordapp.com/attachments/436071383836000256/467125087884279820/20180712_201947.jpg",
+            "https://cdn.discordapp.com/attachments/436071383836000256/467125089431846922/20180712_201953.jpg", //15
+            "https://cdn.discordapp.com/attachments/436071383836000256/467125051804614685/20180712_202005.jpg",
+            "https://cdn.discordapp.com/attachments/436071383836000256/467125052064792577/20180712_202026.jpg",
+            "https://cdn.discordapp.com/attachments/436071383836000256/467125052064792576/20180712_202037.jpg",
+            "https://cdn.discordapp.com/attachments/436071383836000256/467124945617682432/20180712_202045.jpg",
+            "https://cdn.discordapp.com/attachments/436071383836000256/467125992910225418/20180712_203149.jpg", // 20
+            "https://cdn.discordapp.com/attachments/436071383836000256/467124944749199360/20180712_202059.jpg",
+            "https://media.discordapp.net/attachments/436071383836000256/467129243663466516/20180712_204433.jpg",
+            "https://cdn.discordapp.com/attachments/436071383836000256/467124913254170627/20180712_202111.jpg",
+            "https://cdn.discordapp.com/attachments/436071383836000256/467124913254170625/20180712_202139.jpg",
+            "https://cdn.discordapp.com/attachments/436071383836000256/467124893935337473/20180712_202157.jpg", // 25
+            "https://cdn.discordapp.com/attachments/436071383836000256/467124892199026699/20180712_202313.jpg",
+            "https://media.discordapp.net/attachments/436071383836000256/467124893935337472/20180712_202347.jpg",
+            "https://media.discordapp.net/attachments/436071383836000256/467129242803765248/20180712_204441.jpg"
+        };
     }
 
 
-        public static class OctoNamePull
+    public static class OctoNamePull
     {
-       
         public static string[] OctoNameRu =
         {
             "[Фиолетовый дракон](https://i.imgur.com/jAnjdX0.jpg)",
@@ -181,7 +205,7 @@ namespace OctoBot.Helper
             "[Фиолетовая Черепашка](https://i.imgur.com/ULdmEfb.jpg)",
 
 
-            "Жёлтый Буль",  //
+            "Жёлтый Буль", //
             "Красный Буль", //
             "[Зеленый Злюка](https://i.imgur.com/4LxTy7G.jpg)",
             "**????????**", // зеленый - другой
@@ -210,9 +234,7 @@ namespace OctoBot.Helper
             "[Серый Буль](https://i.imgur.com/VAhW7ij.jpg)",
             "[Чёрно-Серый Бууу](https://i.imgur.com/LHOfD3a.jpg)",
             "[Радужный](https://i.imgur.com/1x10cI1.jpg)"
-           // "[]()"
+            // "[]()"
         };
-
-
     }
 }

@@ -14,15 +14,20 @@ namespace OctoBot.Helper
             var waiter = Task.Delay(delayInMs, cancler.Token);
 
             Global.Client.MessageReceived += OnMessageReceived;
-            try { await waiter; }
-            catch (TaskCanceledException) { }
+            try
+            {
+                await waiter;
+            }
+            catch (TaskCanceledException)
+            {
+            }
+
             Global.Client.MessageReceived -= OnMessageReceived;
-           
+
             return response;
 
             async Task OnMessageReceived(SocketMessage message)
             {
-
                 if (message.Author.Id != userId || message.Channel.Id != channelId)
                     return;
                 response = message;

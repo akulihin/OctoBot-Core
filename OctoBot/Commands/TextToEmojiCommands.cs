@@ -21,7 +21,6 @@ namespace OctoBot.Commands
 
             var convertedText = "";
             foreach (var c in args)
-            {
                 switch (c.ToString())
                 {
                     case "\\":
@@ -32,14 +31,11 @@ namespace OctoBot.Commands
                         break;
                     default:
                         if (pattern.IsMatch(c.ToString()))
-                        {
                             convertedText += $":regional_indicator_{c}:";
-                        }
                         else if (char.IsDigit(c)) convertedText += $":{convertorArray[(int) char.GetNumericValue(c)]}:";
                         else convertedText += $"{c}";
                         break;
                 }
-            }
             await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context,
                 $"{convertedText}");
         }
@@ -64,20 +60,17 @@ namespace OctoBot.Commands
             var socketMsg = Context.Guild.GetTextChannel(chanelId).GetCachedMessage(messId) as SocketUserMessage;
 
             for (var i = 0; i < charArray.Length; i++)
-            {
                 if (patternLett.IsMatch(charArray[i].ToString()))
                 {
-                    var letter = (Convert.ToInt32(charArray[i]) % 32) - 1;
+                    var letter = Convert.ToInt32(charArray[i]) % 32 - 1;
                     var emo = new Emoji($"{letterArray[letter]}");
                     if (socketMsg != null) await socketMsg.AddReactionAsync(emo);
-
                 }
                 else if (patternNum.IsMatch(charArray[i].ToString()))
                 {
                     var emo = new Emoji($"{numArray[(int) char.GetNumericValue(charArray[i])]}");
                     if (socketMsg != null) await socketMsg.AddReactionAsync(emo);
                 }
-            }
         }
     }
 }

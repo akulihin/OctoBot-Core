@@ -36,7 +36,7 @@ namespace OctoBot.Games.Game2048
 
         public static CollapseRowResult CollapseSameNeighbours(int[] arr)
         {
-            var resultGrid = (int[])arr.Clone();
+            var resultGrid = (int[]) arr.Clone();
             var gainedScore = 0;
 
             for (var i = 3; i > 0; i--)
@@ -56,10 +56,7 @@ namespace OctoBot.Games.Game2048
         {
             var result = CloneGrid(grid);
 
-            for (var i = 0; i < 4; i++)
-            {
-                result[i] = SlideArray(result[i]);
-            }
+            for (var i = 0; i < 4; i++) result[i] = SlideArray(result[i]);
 
             return result;
         }
@@ -94,20 +91,17 @@ namespace OctoBot.Games.Game2048
 
         public static int[][] TransposeGrid(int[][] grid)
         {
-            int[][] tGrid = {
-            new []{0, 0, 0, 0},
-            new []{0, 0, 0, 0},
-            new []{0, 0, 0, 0},
-            new []{ 0, 0, 0, 0 }
-        };
+            int[][] tGrid =
+            {
+                new[] {0, 0, 0, 0},
+                new[] {0, 0, 0, 0},
+                new[] {0, 0, 0, 0},
+                new[] {0, 0, 0, 0}
+            };
 
             for (var i = 0; i < 4; i++)
-            {
-                for (var j = 0; j < 4; j++)
-                {
-                    tGrid[i][j] = grid[j][i];
-                }
-            }
+            for (var j = 0; j < 4; j++)
+                tGrid[i][j] = grid[j][i];
 
             return tGrid;
         }
@@ -115,12 +109,9 @@ namespace OctoBot.Games.Game2048
         public static bool GameIsWon(int[][] grid)
         {
             for (var i = 0; i < 4; i++)
-            {
-                for (var j = 0; j < 4; j++)
-                {
-                    if (grid[i][j] == 2147483647) return true;
-                }
-            }
+            for (var j = 0; j < 4; j++)
+                if (grid[i][j] == 2147483647)
+                    return true;
 
             return false;
         }
@@ -129,12 +120,9 @@ namespace OctoBot.Games.Game2048
         {
             var count = 0;
             for (var i = 0; i < 4; i++)
-            {
-                for (var j = 0; j < 4; j++)
-                {
-                    if (grid[i][j] == 0) count++;
-                }
-            }
+            for (var j = 0; j < 4; j++)
+                if (grid[i][j] == 0)
+                    count++;
 
             return count;
         }
@@ -142,13 +130,11 @@ namespace OctoBot.Games.Game2048
         public static bool GameIsLost(int[][] grid)
         {
             for (var i = 0; i < 4; i++)
+            for (var j = 0; j < 4; j++)
             {
-                for (var j = 0; j < 4; j++)
-                {
-                    if (grid[i][j] == 0) return false;
-                    if (TileHasSameNeighbour(grid, i, j))
-                        return false;
-                }
+                if (grid[i][j] == 0) return false;
+                if (TileHasSameNeighbour(grid, i, j))
+                    return false;
             }
 
             return true;
@@ -166,10 +152,7 @@ namespace OctoBot.Games.Game2048
         {
             var result = CloneGrid(grid);
 
-            for (var i = 0; i < 4; i++)
-            {
-                result[i] = result[i].Reverse().ToArray();
-            }
+            for (var i = 0; i < 4; i++) result[i] = result[i].Reverse().ToArray();
 
             return result;
         }
@@ -197,13 +180,9 @@ namespace OctoBot.Games.Game2048
             var validPositions = new List<PositionPoint>();
 
             for (var i = 0; i < 4; i++)
-            {
-                for (var j = 0; j < 4; j++)
-                {
-                    if (result[i][j] == 0)
-                        validPositions.Add(new PositionPoint(i, j));
-                }
-            }
+            for (var j = 0; j < 4; j++)
+                if (result[i][j] == 0)
+                    validPositions.Add(new PositionPoint(i, j));
 
             if (validPositions.Count == 0) return result;
 
@@ -214,9 +193,20 @@ namespace OctoBot.Games.Game2048
             return CloneGrid(result);
         }
 
-        public enum MoveDirection { Up, Down, Left, Right }
+        public enum MoveDirection
+        {
+            Up,
+            Down,
+            Left,
+            Right
+        }
 
-        public enum GameState { Playing, Lost, Won }
+        public enum GameState
+        {
+            Playing,
+            Lost,
+            Won
+        }
 
         public struct MoveResults
         {
@@ -267,29 +257,17 @@ namespace OctoBot.Games.Game2048
             workingGrid = collapseResult.NewBoard;
             workingGrid = SlideGrid(workingGrid);
 
-            if (mirrored)
-            {
-                workingGrid = MirrorGrid(workingGrid);
-            }
+            if (mirrored) workingGrid = MirrorGrid(workingGrid);
 
-            if (transposed)
-            {
-                workingGrid = TransposeGrid(workingGrid);
-            }
+            if (transposed) workingGrid = TransposeGrid(workingGrid);
 
             // Check for win state
 
             var resultGrid = CloneGrid(workingGrid);
 
-            if (GameIsWon(resultGrid))
-            {
-                return new MoveResults(GameState.Won, resultGrid, collapseResult.GainedScore);
-            }
+            if (GameIsWon(resultGrid)) return new MoveResults(GameState.Won, resultGrid, collapseResult.GainedScore);
 
-            if (GameIsLost(resultGrid))
-            {
-                return new MoveResults(GameState.Lost, resultGrid, collapseResult.GainedScore);
-            }
+            if (GameIsLost(resultGrid)) return new MoveResults(GameState.Lost, resultGrid, collapseResult.GainedScore);
 
             resultGrid = AddRandomTile(resultGrid);
 
@@ -315,13 +293,9 @@ namespace OctoBot.Games.Game2048
         public static int[][] CloneGrid(int[][] grid)
         {
             var newGrid = new int[4][];
-            for (var i = 0; i < 4; i++)
-            {
-                newGrid[i] = (int[])grid[i].Clone();
-            }
+            for (var i = 0; i < 4; i++) newGrid[i] = (int[]) grid[i].Clone();
 
             return newGrid;
         }
     }
-
 }

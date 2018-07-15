@@ -8,16 +8,13 @@ namespace OctoBot.Games.Game2048
 {
     public class GameBridge : ModuleBase<SocketCommandContextCustom>
     {
-
-
-
         [Command("2048")]
         public async Task Start1024Game()
         {
             if (NewGame.UserIsPlaying(Context.User.Id))
             {
-
-                await ReplyAsync("you are **already** playing, you need to finish what you started (well... or just use `*e2` command)");
+                await ReplyAsync(
+                    "you are **already** playing, you need to finish what you started (well... or just use `*e2` command)");
                 return;
             }
 
@@ -33,14 +30,11 @@ namespace OctoBot.Games.Game2048
 
 
             NewGame.CreateNewGame(Context.User.Id, message);
-            
-            var new2048Game = new Global.OctoGameMessAndUserTrack2048(message.Id, Context.User.Id, message, Context.User);
 
-           Global.OctopusGameMessIdList2048.Add(new2048Game);
-             
-          
+            var new2048Game =
+                new Global.OctoGameMessAndUserTrack2048(message.Id, Context.User.Id, message, Context.User);
 
-
+            Global.OctopusGameMessIdList2048.Add(new2048Game);
         }
 
         [Command("end2048")]
@@ -50,8 +44,5 @@ namespace OctoBot.Games.Game2048
             NewGame.EndGame(Context.User.Id);
             await Task.CompletedTask;
         }
-    
-
     }
-
 }

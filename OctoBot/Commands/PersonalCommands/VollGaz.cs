@@ -9,7 +9,6 @@ namespace OctoBot.Commands.PersonalCommands
 {
     public class VollGaz : ModuleBase<SocketCommandContextCustom>
     {
-
         [Command("Miserum")]
         public async Task Miserum()
         {
@@ -31,7 +30,6 @@ namespace OctoBot.Commands.PersonalCommands
                 var memeToPost = meme[randomIndex];
 
 
-
                 var color1 = new Random();
                 var color2 = new Random();
                 var color3 = new Random();
@@ -46,7 +44,6 @@ namespace OctoBot.Commands.PersonalCommands
                 embed.WithImageUrl("" + memeToPost);
 
                 await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, embed);
-
             }
             else
             {
@@ -85,8 +82,6 @@ namespace OctoBot.Commands.PersonalCommands
                 embed.WithImageUrl("https://i.imgur.com/wt8EN8R.jpg");
 
                 await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, embed);
-
-
             }
         }
 
@@ -138,7 +133,6 @@ namespace OctoBot.Commands.PersonalCommands
                 embed.WithImageUrl("" + url);
 
                 await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, embed);
-
             }
             else
             {
@@ -169,6 +163,3 @@ namespace OctoBot.Commands.PersonalCommands
         }
     }
 }
-
-
-

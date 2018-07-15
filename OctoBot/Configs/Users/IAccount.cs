@@ -1,8 +1,7 @@
 ﻿namespace OctoBot.Configs.Users
 {
-    public interface  IAccount
+    public interface IAccount
     {
         ulong Id { get; set; }
-   
     }
 }

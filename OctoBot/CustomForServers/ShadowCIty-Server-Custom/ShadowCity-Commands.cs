@@ -14,7 +14,6 @@ namespace OctoBot.CustomForServers
         [Command("буль228")]
         public async Task Boole()
         {
-
             //  await Context.Message.DeleteAsync();
 
             var peaceKeepo = Emote.Parse("<:PeaceKeepo:438257037667729408>");
@@ -55,7 +54,6 @@ namespace OctoBot.CustomForServers
             await socketMsg.AddReactionAsync(new Emoji("🌑"));
             await socketMsg.AddReactionAsync(mumu);
             await socketMsg.AddReactionAsync(new Emoji("🐱"));
-
         }
 
 
@@ -63,11 +61,7 @@ namespace OctoBot.CustomForServers
         public async Task Boooole()
         {
             var roles = Context.Guild.Roles.ToArray();
-            for (var i = 0; i < roles.Length; i++)
-            {
-                Console.WriteLine($"({i}){roles[i].Name} {roles[i].Id}");
-
-            }
+            for (var i = 0; i < roles.Length; i++) Console.WriteLine($"({i}){roles[i].Name} {roles[i].Id}");
 
             await Task.CompletedTask;
         }
@@ -76,11 +70,7 @@ namespace OctoBot.CustomForServers
         public async Task Booooole()
         {
             var chanels = Context.Guild.TextChannels.ToArray();
-            for (var i = 0; i < chanels.Length; i++)
-            {
-                Console.WriteLine($"({i}){chanels[i].Name} {chanels[i].Id}");
-
-            }
+            for (var i = 0; i < chanels.Length; i++) Console.WriteLine($"({i}){chanels[i].Name} {chanels[i].Id}");
 
             await Task.CompletedTask;
         }
@@ -88,7 +78,6 @@ namespace OctoBot.CustomForServers
         [Command("бульк228")]
         public async Task Boolek()
         {
-
             //  await Context.Message.DeleteAsync();
 
             var rkn = Emote.Parse("<:RKN:445325930022436874>");
@@ -107,7 +96,6 @@ namespace OctoBot.CustomForServers
             var pekaohmy = Emote.Parse("<:pekaohmy:374656330742497280>");
             var warframe = Emote.Parse("<:warframe:445467639242948618>");
             // var nintendoswitch = Emote.Parse("<:nintendoswitch:447209827501080596>");
-
 
 
             var embed = new EmbedBuilder();
@@ -141,9 +129,6 @@ namespace OctoBot.CustomForServers
                 $"Сделай сервер максимально удобным для себя! {new Emoji("<:pekaohmy:374656330742497280>")}");
 
 
-
-
-
             var mess = await Context.Channel.SendMessageAsync("", false, embed.Build());
 
             await mess.AddReactionAsync(rkn);
@@ -161,8 +146,6 @@ namespace OctoBot.CustomForServers
             await mess.AddReactionAsync(gacHiPride);
             await mess.AddReactionAsync(warframe);
             await mess.AddReactionAsync(pekaohmy);
-
-
         }
 
         [Command("roomApd")]
@@ -192,7 +175,7 @@ namespace OctoBot.CustomForServers
                 var embed = new EmbedBuilder();
                 embed.WithAuthor(Global.Client.GetUser(326736083847086081));
                 embed.WithColor(Color.Blue);
-                // embed.WithFooter("Записная книжечка Осьминожек");
+                // embed.WithFooter("lil octo notebook");
                 embed.WithFooter("буль.");
                 embed.AddField("Роль для рум",
                     "Чтобы **получить** или **снять** роль просто нажмите определенную эмоцию, или пропишите соответствующую команду в <#374914059679694848>\n" +
@@ -214,7 +197,6 @@ namespace OctoBot.CustomForServers
 
                 embed.AddField($"Игровые Комнаты:",
                     $"{new Emoji("<:hanzo:445324859690582018>")} - !hots - <#421637740137021450> и <#425354467022602258> Нет времени объяснять ─ фокуси танка\n" +
-
                     $"{new Emoji("<:yasuo:445323301137547264>")} - !lol - <#429345059486564352>, <#436522034231640064> пикай Ясуо вместе с Ривен и получай удовольствие\n" +
                     $"{new Emoji("<:gacHIPride:394782921749430273>")} -!r6 - стань радужным воином в <#436938171692089344>\n" +
                     $"**________**\n");
@@ -239,14 +221,11 @@ namespace OctoBot.CustomForServers
 
                 await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context,
                     "Бульк. Мы заапдейтили сообщение для рум!");
-
-
             }
             catch (Exception e)
             {
                 Console.WriteLine("ERROR: '{0}'", e);
             }
-
         }
 
 
@@ -266,7 +245,7 @@ namespace OctoBot.CustomForServers
 
                 var embed = new EmbedBuilder();
                 embed.WithAuthor(Global.Client.GetUser(326736083847086081));
-                embed.WithFooter("Записная книжечка Осьминожек");
+                embed.WithFooter("lil octo notebook");
                 embed.WithColor(Color.Green);
                 embed.AddField("Роль для цвета",
                     $"Чтобы **получить** или **снять** роль нажмите определенную эмоцию, или пропишите соответствующую команду в <#374914059679694848>\n" +
@@ -294,8 +273,6 @@ namespace OctoBot.CustomForServers
 
                 await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context,
                     "Бульк. Мы заапдейтили сообщение для цветов!");
-
-
             }
             catch (Exception e)
             {

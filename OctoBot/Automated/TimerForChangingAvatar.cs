@@ -5,9 +5,8 @@ using System.Threading.Tasks;
 using System.Timers;
 using Discord;
 using OctoBot.Configs;
+using OctoBot.Handeling;
 using OctoBot.Helper;
-
-
 
 namespace OctoBot.Automated
 {
@@ -17,7 +16,6 @@ namespace OctoBot.Automated
 
         internal static Task TimerForChangeBotAvatar()
         {
-
             _loopingTimerForOctoAva = new Timer
             {
                 AutoReset = true,
@@ -31,17 +29,25 @@ namespace OctoBot.Automated
 
         public static async void SetBotAva(object sender, ElapsedEventArgs e)
         {
-            var rand = new Random();
-            var randomIndex = rand.Next(OctoPicPull.OctoPics.Length);
-            var octoToPost = OctoPicPull.OctoPics[randomIndex];
+            try
+            {
+                var rand = new Random();
+                var randomIndex = rand.Next(OctoPicPull.OctoPics.Length);
+                var octoToPost = OctoPicPull.OctoPics[randomIndex];
 
-            var webClient = new WebClient();
-            var imageBytes = webClient.DownloadData(octoToPost);
+                var webClient = new WebClient();
+                var imageBytes = webClient.DownloadData(octoToPost);
 
-            var stream = new MemoryStream(imageBytes);
+                var stream = new MemoryStream(imageBytes);
 
-            var image = new Image(stream);
-            await Global.Client.CurrentUser.ModifyAsync(k => k.Avatar = image);
+                var image = new Image(stream);
+                await Global.Client.CurrentUser.ModifyAsync(k => k.Avatar = image);
+            }
+            catch (Exception ex)
+            {
+                ConsoleLogger.Log($"[Exception] (Change avatar) - {ex.Message}",
+                    ConsoleColor.DarkBlue);
+            }
         }
     }
 }

@@ -18,63 +18,26 @@ namespace OctoBot.Custom_Library
 
         public string MessageContentForEdit { get; }
 
-        public bool IsPrivate
-        {
-            get
-            {
-                return this.Channel is IPrivateChannel;
-            }
-        }
+        public bool IsPrivate => Channel is IPrivateChannel;
 
         public SocketCommandContextCustom(DiscordSocketClient client, SocketUserMessage msg, string edit = null)
         {
-            this.Client = client;
-            this.Guild = (msg.Channel as SocketGuildChannel)?.Guild;
-            this.Channel = msg.Channel;
-            this.User = msg.Author;
-            this.Message = msg;
-            this.MessageContentForEdit = edit;
-        }
-   
-
-        IDiscordClient ICommandContext.Client
-        {
-            get
-            {
-                return (IDiscordClient) this.Client;
-            }
+            Client = client;
+            Guild = (msg.Channel as SocketGuildChannel)?.Guild;
+            Channel = msg.Channel;
+            User = msg.Author;
+            Message = msg;
+            MessageContentForEdit = edit;
         }
 
-        IGuild ICommandContext.Guild
-        {
-            get
-            {
-                return (IGuild) this.Guild;
-            }
-        }
+        IDiscordClient ICommandContext.Client => Client;
 
-        IMessageChannel ICommandContext.Channel
-        {
-            get
-            {
-                return (IMessageChannel) this.Channel;
-            }
-        }
+        IGuild ICommandContext.Guild => Guild;
 
-        IUser ICommandContext.User
-        {
-            get
-            {
-                return (IUser) this.User;
-            }
-        }
+        IMessageChannel ICommandContext.Channel => Channel;
 
-        IUserMessage ICommandContext.Message
-        {
-            get
-            {
-                return (IUserMessage) this.Message;
-            }
-        }
+        IUser ICommandContext.User => User;
+
+        IUserMessage ICommandContext.Message => Message;
     }
 }

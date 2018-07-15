@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Concurrent;
 using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
@@ -34,7 +33,7 @@ namespace OctoBot.Commands
 
                 const int usersPerPage = 9;
 
-                var lastPage = 1 + (accounts.Count / (usersPerPage + 1));
+                var lastPage = 1 + accounts.Count / (usersPerPage + 1);
                 if (page > lastPage)
                 {
                     await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context,
@@ -52,16 +51,12 @@ namespace OctoBot.Commands
 
                 page--;
                 for (var j = 0; j < ordered.Count; j++)
-                {
                     if (ordered[j].Id == Context.User.Id)
                         embB.WithDescription(
                             $"**#{j + usersPerPage * page + 1} {Context.User.Username} {ordered[j].Points} OctoPoints**\n**______**");
 
-                }
-
                 for (var i = 1; i <= usersPerPage && i + usersPerPage * page <= ordered.Count; i++)
                 {
-
                     var account = ordered[i - 1 + usersPerPage * page];
                     var user = Global.Client.GetUser(account.Id);
                     embB.AddField($"#{i + usersPerPage * page} {user.Username}", $"{account.Points} OctoPoints", true);
@@ -77,14 +72,13 @@ namespace OctoBot.Commands
         }
 
         [Command("tops")]
-        [Description("Top by Subed To You Qty ( for BLog system)")]
+        [Description("Top by Subed To You Qty (for the Blog system)")]
         public async Task TopBySubc(int page = 1)
         {
             try
             {
                 if (page < 1)
                 {
-
                     await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context,
                         "Boole! Try different page <_<");
 
@@ -98,10 +92,9 @@ namespace OctoBot.Commands
 
                 const int usersPerPage = 9;
 
-                var lastPage = 1 + (accounts.Count / (usersPerPage + 1));
+                var lastPage = 1 + accounts.Count / (usersPerPage + 1);
                 if (page > lastPage)
                 {
-
                     await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context,
                         $"Boole. Last Page is {lastPage}");
 
@@ -109,10 +102,8 @@ namespace OctoBot.Commands
                 }
 
                 foreach (var t in accounts)
-                {
                     if (t.SubedToYou == null)
                         t.SubedToYou = "0";
-                }
 
                 var ordered = accounts.OrderByDescending(acc =>
                     acc.SubedToYou.Split(new[] {'|'}, StringSplitOptions.RemoveEmptyEntries).Length).ToList();
@@ -124,7 +115,6 @@ namespace OctoBot.Commands
 
                 page--;
                 for (var j = 0; j < ordered.Count; j++)
-                {
                     if (ordered[j].Id == Context.User.Id)
                     {
                         var size = ordered[j].SubedToYou.Split(new[] {'|'}, StringSplitOptions.RemoveEmptyEntries)
@@ -134,12 +124,10 @@ namespace OctoBot.Commands
                         embB.WithDescription(
                             $"**#{j + usersPerPage * page + 1} {Context.User.Username} {size} Subscribers**\n**______**");
                     }
-                }
 
 
                 for (var i = 1; i <= usersPerPage && i + usersPerPage * page <= ordered.Count; i++)
                 {
-
                     var account = ordered[i - 1 + usersPerPage * page];
                     var user = Global.Client.GetUser(account.Id);
 
@@ -150,7 +138,6 @@ namespace OctoBot.Commands
                 }
 
                 await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, embB);
-
             }
             catch
             {
@@ -168,7 +155,6 @@ namespace OctoBot.Commands
             {
                 if (page < 1)
                 {
-
                     await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context,
                         "Boole! Try different page <_<");
                     return;
@@ -189,10 +175,9 @@ namespace OctoBot.Commands
 
                 const int usersPerPage = 9;
 
-                var lastPage = 1 + (accounts.Count / (usersPerPage + 1));
+                var lastPage = 1 + accounts.Count / (usersPerPage + 1);
                 if (page > lastPage)
                 {
-
                     await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context,
                         $"Boole. Last Page is {lastPage}");
 
@@ -209,15 +194,12 @@ namespace OctoBot.Commands
 
                 page--;
                 for (var j = 0; j < ordered.Count; j++)
-                {
                     if (ordered[j].Id == Context.User.Id)
                         embB.WithDescription(
                             $"**#{j + usersPerPage * page + 1} {Context.User.Username} {Math.Round(ordered[j].Lvl, 2)} LVL**\n**______**");
-                }
 
                 for (var i = 1; i <= usersPerPage && i + usersPerPage * page <= ordered.Count; i++)
                 {
-
                     var account = ordered[i - 1 + usersPerPage * page];
                     var user = Global.Client.GetUser(account.Id);
                     embB.AddField($"#{i + usersPerPage * page} {user.Username}", $"{Math.Round(account.Lvl, 2)} LVL",
@@ -225,7 +207,6 @@ namespace OctoBot.Commands
                 }
 
                 await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, embB);
-
             }
             catch
             {
@@ -236,7 +217,7 @@ namespace OctoBot.Commands
 
         [Command("topr")]
         [Alias("topb")]
-        [Description("Top by Rating in Blogs ( for BLog system)")]
+        [Description("Top by Rating in Blogs (for the Blog system)")]
         public async Task TopByRating(int page = 1)
         {
             try
@@ -258,23 +239,18 @@ namespace OctoBot.Commands
                 foreach (var t in accounts)
                 {
                     if (t.BlogVotesQty <= 0)
-                    {
                         t.BlogAvarageScoreVotes = (float) 0.0;
-                    }
                     else
-                    {
                         t.BlogAvarageScoreVotes = (float) t.BlogVotesSum / t.BlogVotesQty;
-                    }
 
                     UserAccounts.SaveAccounts(Context.Guild.Id);
                 }
 
                 const int usersPerPage = 9;
 
-                var lastPage = 1 + (accounts.Count / (usersPerPage + 1));
+                var lastPage = 1 + accounts.Count / (usersPerPage + 1);
                 if (page > lastPage)
                 {
-
                     await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context,
                         $"Boole. Last Page is {lastPage}");
 
@@ -291,17 +267,13 @@ namespace OctoBot.Commands
 
                 page--;
                 for (var j = 0; j < ordered.Count; j++)
-                {
                     if (ordered[j].Id == Context.User.Id)
                         embB.WithDescription(
-                            $"**#{(j + usersPerPage * page) + 1} {Context.User.Username} {Math.Round(ordered[j].BlogAvarageScoreVotes, 2)}" +
+                            $"**#{j + usersPerPage * page + 1} {Context.User.Username} {Math.Round(ordered[j].BlogAvarageScoreVotes, 2)}" +
                             $" out of 5 ({ordered[j].BlogVotesQty} votes)**\n**______**");
-
-                }
 
                 for (var i = 1; i <= usersPerPage && i + usersPerPage * page <= ordered.Count; i++)
                 {
-
                     var account = ordered[i - 1 + usersPerPage * page];
                     var user = Global.Client.GetUser(account.Id);
                     embB.AddField($"#{i + usersPerPage * page} {user.Username}",
@@ -310,8 +282,6 @@ namespace OctoBot.Commands
                 }
 
                 await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, embB);
-
-
             }
             catch
             {
@@ -343,23 +313,18 @@ namespace OctoBot.Commands
                 foreach (var t in accounts)
                 {
                     if (t.ArtVotesQty <= 0)
-                    {
                         t.ArtAvarageScoreVotes = (float) 0.0;
-                    }
                     else
-                    {
                         t.ArtAvarageScoreVotes = (float) t.ArtVotesSum / t.ArtVotesQty;
-                    }
 
                     UserAccounts.SaveAccounts(Context.Guild.Id);
                 }
 
                 const int usersPerPage = 9;
 
-                var lastPage = 1 + (accounts.Count / (usersPerPage + 1));
+                var lastPage = 1 + accounts.Count / (usersPerPage + 1);
                 if (page > lastPage)
                 {
-
                     await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context,
                         $"Boole. Last Page is {lastPage}");
                     return;
@@ -375,16 +340,12 @@ namespace OctoBot.Commands
 
                 page--;
                 for (var j = 0; j < ordered.Count; j++)
-                {
                     if (ordered[j].Id == Context.User.Id)
                         embB.WithDescription(
-                            $"**#{(j + usersPerPage * page) + 1} {Context.User.Username} {Math.Round(ordered[j].ArtAvarageScoreVotes, 2)} out of 5 ({ordered[j].BlogVotesQty} votes)**\n**______**");
-
-                }
+                            $"**#{j + usersPerPage * page + 1} {Context.User.Username} {Math.Round(ordered[j].ArtAvarageScoreVotes, 2)} out of 5 ({ordered[j].BlogVotesQty} votes)**\n**______**");
 
                 for (var i = 1; i <= usersPerPage && i + usersPerPage * page <= ordered.Count; i++)
                 {
-
                     var account = ordered[i - 1 + usersPerPage * page];
                     var user = Global.Client.GetUser(account.Id);
                     embB.AddField($"#{i + usersPerPage * page} {user.Username}",

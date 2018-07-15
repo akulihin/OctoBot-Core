@@ -7,14 +7,13 @@ namespace OctoBot.Configs.Users
 {
     public static class DataStorage
     {
-
         //Save all AccountSettings
 
         public static void SaveAccountSettings(IEnumerable<AccountSettings> accounts, string idString, string json)
         {
             try
             {
-                var filePath = $@"OctoDataBase/GuildAccounts/account-{idString}.json";           
+                var filePath = $@"OctoDataBase/GuildAccounts/account-{idString}.json";
                 File.WriteAllText(filePath, json);
             }
             catch
@@ -22,7 +21,6 @@ namespace OctoBot.Configs.Users
                 Console.WriteLine("Failed To ReadFile(SaveAccountSettings). Will ty in 5 sec.");
             }
         }
-
 
 
         public static void SaveAccountSettings(IEnumerable<AccountSettings> accounts, ulong guildId)
@@ -44,7 +42,6 @@ namespace OctoBot.Configs.Users
 
         public static IEnumerable<AccountSettings> LoadAccountSettings(ulong guildId)
         {
-
             var filePath = $@"OctoDataBase/GuildAccounts/account-{guildId}.json";
             if (!File.Exists(filePath))
             {
@@ -65,7 +62,6 @@ namespace OctoBot.Configs.Users
                 var newList = new List<AccountSettings>();
                 SaveAccountSettings(newList, $"{guildId}-BACK_UP", json);
                 return newList;
-
             }
         }
 

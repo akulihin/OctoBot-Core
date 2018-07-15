@@ -9,9 +9,8 @@ namespace OctoBot.CustomForServers
 {
     internal static class RoomRoleReaction
     {
-
         public static async Task RemoveReactions(Cacheable<IUserMessage, ulong> cash,
-            ISocketMessageChannel channel, SocketReaction reaction, int editCheck, SocketUser globalAccount )
+            ISocketMessageChannel channel, SocketReaction reaction, int editCheck, SocketUser globalAccount)
         {
             try
             {
@@ -59,28 +58,28 @@ namespace OctoBot.CustomForServers
                 }
                 else if (editCheck == 3)
                 {
-                                                var peaceKeepo = Emote.Parse("<:PeaceKeepo:438257037667729408>");
-                            var praise = Emote.Parse("<:praise:445274481917952001>");
-                            var rem = Emote.Parse("<:rem:445275743719522304>");
-                            var steampunk = Emote.Parse("<:Steampunk:445276776676196353>");
-                            var mumu = Emote.Parse("<:mumu:445277916872310785>");
-                            var monkaS = Emote.Parse("<:monkaS:398183436613058570>");
-                            var pekaohmy = Emote.Parse("<:pekaohmy:374656330742497280>");
+                    var peaceKeepo = Emote.Parse("<:PeaceKeepo:438257037667729408>");
+                    var praise = Emote.Parse("<:praise:445274481917952001>");
+                    var rem = Emote.Parse("<:rem:445275743719522304>");
+                    var steampunk = Emote.Parse("<:Steampunk:445276776676196353>");
+                    var mumu = Emote.Parse("<:mumu:445277916872310785>");
+                    var monkaS = Emote.Parse("<:monkaS:398183436613058570>");
+                    var pekaohmy = Emote.Parse("<:pekaohmy:374656330742497280>");
 
-                             await cash.GetOrDownloadAsync().Result.RemoveAllReactionsAsync();
-                            await cash.GetOrDownloadAsync().Result.AddReactionAsync(rem);
-                            await cash.GetOrDownloadAsync().Result.AddReactionAsync(new Emoji("🦊"));
-                            await cash.GetOrDownloadAsync().Result.AddReactionAsync(peaceKeepo);
-                            await cash.GetOrDownloadAsync().Result.AddReactionAsync(steampunk);
-                            await cash.GetOrDownloadAsync().Result.AddReactionAsync(praise);
-                            await cash.GetOrDownloadAsync().Result.AddReactionAsync(monkaS);
-                            await cash.GetOrDownloadAsync().Result.AddReactionAsync(new Emoji("🐲"));
-                            await cash.GetOrDownloadAsync().Result.AddReactionAsync(new Emoji("🐼"));
-                            await cash.GetOrDownloadAsync().Result.AddReactionAsync(new Emoji("🦎"));
-                            await cash.GetOrDownloadAsync().Result.AddReactionAsync(new Emoji("🌑"));
-                            await cash.GetOrDownloadAsync().Result.AddReactionAsync(mumu);      
-                            await cash.GetOrDownloadAsync().Result.AddReactionAsync(new Emoji("🐱"));
-                            await cash.GetOrDownloadAsync().Result.AddReactionAsync(pekaohmy);   
+                    await cash.GetOrDownloadAsync().Result.RemoveAllReactionsAsync();
+                    await cash.GetOrDownloadAsync().Result.AddReactionAsync(rem);
+                    await cash.GetOrDownloadAsync().Result.AddReactionAsync(new Emoji("🦊"));
+                    await cash.GetOrDownloadAsync().Result.AddReactionAsync(peaceKeepo);
+                    await cash.GetOrDownloadAsync().Result.AddReactionAsync(steampunk);
+                    await cash.GetOrDownloadAsync().Result.AddReactionAsync(praise);
+                    await cash.GetOrDownloadAsync().Result.AddReactionAsync(monkaS);
+                    await cash.GetOrDownloadAsync().Result.AddReactionAsync(new Emoji("🐲"));
+                    await cash.GetOrDownloadAsync().Result.AddReactionAsync(new Emoji("🐼"));
+                    await cash.GetOrDownloadAsync().Result.AddReactionAsync(new Emoji("🦎"));
+                    await cash.GetOrDownloadAsync().Result.AddReactionAsync(new Emoji("🌑"));
+                    await cash.GetOrDownloadAsync().Result.AddReactionAsync(mumu);
+                    await cash.GetOrDownloadAsync().Result.AddReactionAsync(new Emoji("🐱"));
+                    await cash.GetOrDownloadAsync().Result.AddReactionAsync(pekaohmy);
                 }
             }
             catch
@@ -118,7 +117,7 @@ namespace OctoBot.CustomForServers
 
                             await guildUser.AddRoleAsync(roleToGive);
                             break;
-                        }   
+                        }
                         case "realy":
                         {
                             var guildUser = Global.Client.GetGuild(338355570669256705).GetUser(reaction.UserId);
@@ -274,7 +273,6 @@ namespace OctoBot.CustomForServers
                         }
                         case "yasuo":
                         {
-                            
                             var guildUser = Global.Client.GetGuild(338355570669256705).GetUser(reaction.UserId);
                             var roleToGive = Global.Client.GetGuild(338355570669256705).Roles
                                 .SingleOrDefault(x => x.Name.ToString() == "LoL");
@@ -288,7 +286,7 @@ namespace OctoBot.CustomForServers
                             }
 
                             await guildUser.AddRoleAsync(roleToGive);
-                              break;
+                            break;
                         }
                         case "gacHIPride":
                         {
@@ -309,12 +307,8 @@ namespace OctoBot.CustomForServers
                         }
                         case "pekaohmy" when reaction.UserId == 181514288278536193:
                         {
-                            
-             
-                            
                             var k = RemoveReactions(cash, channel, reaction, 2, globalAccount);
                             break;
-                            
                         }
                         case "warframe":
                         {
@@ -354,20 +348,14 @@ namespace OctoBot.CustomForServers
 
                             return;
                     }
-                    
+
                     var kk = RemoveReactions(cash, channel, reaction, 1, globalAccount);
-                 
                 }
-                
             }
-            catch(Exception error)
+            catch (Exception error)
             {
                 Console.WriteLine("Reaction for Roles not workind. '{0}'", error);
             }
-            
         }
-
     }
 }
-
-

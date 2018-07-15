@@ -15,8 +15,6 @@ namespace OctoBot.Commands
 {
     public class ServerManaging : ModuleBase<SocketCommandContextCustom>
     {
-
-
         [Command("purge")]
         [Alias("clean", "убрать", "clear")]
         //[RequireUserPermission(GuildPermission.Administrator)]
@@ -26,9 +24,9 @@ namespace OctoBot.Commands
             {
                 var check = Context.User as IGuildUser;
                 var comander = UserAccounts.GetAccount(Context.User, Context.Guild.Id);
-                if (check != null && (comander.OctoPass >= 100 || comander.IsModerator >= 1 || check.GuildPermissions.ManageMessages))
+                if (check != null && (comander.OctoPass >= 100 || comander.IsModerator >= 1 ||
+                                      check.GuildPermissions.ManageMessages))
                 {
-
                     var items = await Context.Channel.GetMessagesAsync(number + 1).FlattenAsync();
                     if (Context.Channel is ITextChannel channel) await channel.DeleteMessagesAsync(items);
                     var embed = new EmbedBuilder();
@@ -58,13 +56,21 @@ namespace OctoBot.Commands
         [Command("warn")]
         [Alias("варн", "предупреждение", "warning")]
         // [RequireUserPermission(GuildPermission.Administrator)]
-        public async Task WarnUser(IGuildUser user, [Remainder] string message)
+        public async Task WarnUser(IGuildUser user, [Remainder] string message = null)
         {
             try
             {
+                if (message == null)
+                {
+                    await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context,
+                        "Boole! You need to specify reason!");
+                    return;
+                }
+
                 var check = Context.User as IGuildUser;
                 var comander = UserAccounts.GetAccount(Context.User, Context.Guild.Id);
-                if (check != null && (comander.OctoPass >= 100 || comander.IsModerator >= 1 || check.GuildPermissions.ManageRoles ||
+                if (check != null && (comander.OctoPass >= 100 || comander.IsModerator >= 1 ||
+                                      check.GuildPermissions.ManageRoles ||
                                       check.GuildPermissions.ManageMessages))
                 {
                     var time = DateTime.Now.ToString("");
@@ -93,7 +99,6 @@ namespace OctoBot.Commands
                     await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context,
                         "Boole! You do not have a tolerance of this level!");
                 }
-
             }
             catch
             {
@@ -107,10 +112,17 @@ namespace OctoBot.Commands
         [Alias("кик")]
         [RequireUserPermission(GuildPermission.KickMembers)]
         [RequireBotPermission(GuildPermission.KickMembers)]
-        public async Task KickUser(IGuildUser user, string reason)
+        public async Task KickUser(IGuildUser user, [Remainder] string reason = null)
         {
             try
             {
+                if (reason == null)
+                {
+                    await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context,
+                        "Boole! You need to specify reason!");
+                    return;
+                }
+
                 await user.KickAsync(reason);
                 var time = DateTime.Now.ToString("");
                 var account = UserAccounts.GetAccount((SocketUser) user, Context.Guild.Id);
@@ -120,7 +132,7 @@ namespace OctoBot.Commands
                     .WithColor(Color.DarkRed)
                     .AddField("🥁 Kick", $"By {Context.User.Mention} in {Context.Channel}\n" +
                                          $"**{user.Mention} Have been kicked**\n" +
-                                         $"Reaseon: {reason}")
+                                         $"Reason: {reason}")
                     .WithThumbnailUrl(Context.User.GetAvatarUrl())
                     .WithTimestamp(DateTimeOffset.UtcNow);
                 var guild = ServerAccounts.GetServerAccount(Context.Guild);
@@ -138,10 +150,17 @@ namespace OctoBot.Commands
         [Alias("бан")]
         [RequireUserPermission(GuildPermission.BanMembers)]
         [RequireBotPermission(GuildPermission.BanMembers)]
-        public async Task BanUser(IGuildUser user, string reason)
+        public async Task BanUser(IGuildUser user, string reason = null)
         {
             try
             {
+                if (reason == null)
+                {
+                    await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context,
+                        "Boole! You need to specify reason!");
+                    return;
+                }
+
                 await user.Guild.AddBanAsync(user, 0, reason);
                 var time = DateTime.Now.ToString("");
                 var account = UserAccounts.GetAccount((SocketUser) user, Context.Guild.Id);
@@ -167,22 +186,26 @@ namespace OctoBot.Commands
 
 
         [Command("mute")]
-        public async Task MuteCommand(SocketGuildUser user, uint minute, [Remainder] string warningMess)
+        public async Task MuteCommand(SocketGuildUser user, uint minute, [Remainder] string warningMess = null)
         {
             try
             {
+                if (warningMess == null)
+                {
+                    await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context,
+                        "Boole! You need to specify reason!");
+                    return;
+                }
+
                 var check = Context.User as IGuildUser;
                 var commandre = UserAccounts.GetAccount(Context.User, Context.Guild.Id);
-                if (check != null && (commandre.OctoPass >= 100 || commandre.IsModerator > 0 || check.GuildPermissions.MuteMembers))
+                if (check != null && (commandre.OctoPass >= 100 || commandre.IsModerator > 0 ||
+                                      check.GuildPermissions.MuteMembers))
                 {
-
                     var hour = 0;
                     var timeFormat = $"{minute}m";
 
                     if (minute >= 60)
-                    {
-
-                        // ReSharper disable once NotAccessedVariable
                         for (var i = 0; minute >= 59; i++)
                         {
                             minute = minute - 59;
@@ -190,8 +213,6 @@ namespace OctoBot.Commands
 
                             timeFormat = $"{hour}h {minute}m";
                         }
-
-                    }
 
                     var timeString = timeFormat; //// MAde t ominutes
 
@@ -214,7 +235,6 @@ namespace OctoBot.Commands
 
 
                     await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, $"{user.Mention} бу!");
-
                 }
             }
             catch
@@ -222,7 +242,6 @@ namespace OctoBot.Commands
                 await ReplyAsync(
                     "boo... An error just appear >_< \nTry to use this command properly: **mute [user] [time_in_minutes] [Any_text]**\n");
             }
-
         }
 
         [Command("unmute")]
@@ -231,7 +250,8 @@ namespace OctoBot.Commands
         {
             var check = Context.User as IGuildUser;
             var commandre = UserAccounts.GetAccount(Context.User, Context.Guild.Id);
-            if (check != null && (commandre.OctoPass >= 100 || commandre.IsModerator >= 1 || check.GuildPermissions.MuteMembers))
+            if (check != null && (commandre.OctoPass >= 100 || commandre.IsModerator >= 1 ||
+                                  check.GuildPermissions.MuteMembers))
             {
                 await user.ModifyAsync(u => u.Mute = false);
                 var roleToGive = Global.Client.GetGuild(Context.Guild.Id).Roles
@@ -242,10 +262,7 @@ namespace OctoBot.Commands
                 UserAccounts.SaveAccounts(0);
 
 
-
-                await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, "как хочешь, буль...");
-
-
+                await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, "boole...");
             }
         }
 
@@ -253,7 +270,6 @@ namespace OctoBot.Commands
         [Alias("moder")]
         public async Task SetModerator(SocketGuildUser user)
         {
-
             var check = Context.User as IGuildUser;
             var commander = UserAccounts.GetAccount(Context.User, Context.Guild.Id);
             if (check != null && (Context.Guild.Owner.Id == Context.User.Id || commander.IsModerator >= 2 ||
@@ -266,7 +282,6 @@ namespace OctoBot.Commands
 
                 await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context,
                     $"{user.Mention} is now a moderator! Booole~");
-
             }
         }
     }

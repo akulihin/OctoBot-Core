@@ -8,8 +8,9 @@ namespace  OctoBot.Handeling
 {
     internal static class ConsoleLogger
     {
-
-        private static string _runTime = @"OctoDataBase/runtime.json";
+        private static string _runTime = @"OctoDataBase/Log.json";
+        //private static string _runTime = @"OctoDataBase/runtime.json";
+        //private const string LogFile = @"OctoDataBase/Log.json";
 
         internal static Task Log(LogMessage logMessage)
         {

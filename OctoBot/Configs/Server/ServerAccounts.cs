@@ -8,15 +8,16 @@ namespace OctoBot.Configs.Server
 {
     public static class ServerAccounts
     {
-
         private static readonly List<ServerSettings> Accounts;
 
-        private static string _serverAccountsFile = @"OctoDataBase/ServerAccounts.json";
+        private static readonly string _serverAccountsFile = @"OctoDataBase/ServerAccounts.json";
 
         static ServerAccounts()
         {
             if (ServerDataStorage.SaveExists(_serverAccountsFile))
+            {
                 Accounts = ServerDataStorage.LoadServerSettings(_serverAccountsFile).ToList();
+            }
             else
             {
                 Accounts = new List<ServerSettings>();
@@ -42,14 +43,12 @@ namespace OctoBot.Configs.Server
         private static ServerSettings GetOrCreateServerAccount(ulong id, string name)
         {
             var result = from a in Accounts
-                         where a.ServerId == id
-                         select a;
+                where a.ServerId == id
+                select a;
             var account = result.FirstOrDefault() ?? CreateServerAccount(id, name);
 
             return account;
         }
-
-       
 
 
         internal static List<ServerSettings> GetAllServerAccounts()
@@ -57,11 +56,10 @@ namespace OctoBot.Configs.Server
             return Accounts.ToList();
         }
 
-            internal static List<ServerSettings> GetFilteredServerAccounts(Func<ServerSettings, bool> filter)
-            {
-               
-                return Accounts.Where(filter).ToList();
-            }
+        internal static List<ServerSettings> GetFilteredServerAccounts(Func<ServerSettings, bool> filter)
+        {
+            return Accounts.Where(filter).ToList();
+        }
 
 
         private static ServerSettings CreateServerAccount(ulong id, string name)
@@ -79,6 +77,5 @@ namespace OctoBot.Configs.Server
             SaveServerAccounts();
             return newAccount;
         }
-
     }
 }

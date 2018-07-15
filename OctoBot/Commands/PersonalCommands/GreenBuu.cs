@@ -61,22 +61,18 @@ namespace OctoBot.Commands.PersonalCommands
                     // await _channel.SendMessageAsync( $"Мут тебе, бу! {randomSocketGuildUser.Mention}\nПосидишь немного!!");
 
 
-
                     Console.WriteLine("Done");
 
                     var muteTime = buu.Next(300000, 3600000);
 
                     await Task.Delay(muteTime);
                     await randomSocketGuildUser.RemoveRoleAsync(mutedRole);
-
                 }
-
             }
             catch
             {
                 //
             }
-
         }
     }
 }

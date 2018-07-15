@@ -11,8 +11,6 @@ namespace OctoBot.Commands
 {
     public class Fun : ModuleBase<SocketCommandContextCustom>
     {
-
-
         [Command("pick")]
         public async Task Pick([Remainder] string message)
         {
@@ -32,8 +30,6 @@ namespace OctoBot.Commands
 
 
                 await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, embed);
-
-
             }
             catch
             {
@@ -46,11 +42,8 @@ namespace OctoBot.Commands
         [Alias("пинг")]
         public async Task DefaultPing()
         {
-
             await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, $"{Context.User.Mention} pong!");
-
         }
-
 
 
         [Command("DM")]
@@ -60,7 +53,6 @@ namespace OctoBot.Commands
             {
                 var dmChannel = await Context.User.GetOrCreateDMChannelAsync();
                 await dmChannel.SendMessageAsync("Boole.");
-
             }
             catch
             {
@@ -102,8 +94,7 @@ namespace OctoBot.Commands
                 if (result)
                 {
                     var choise = Convert.ToInt32(response.Content);
-                    var bank = Math.Abs((amount * slots) / 5);
-
+                    var bank = Math.Abs(amount * slots / 5);
 
 
                     var rand = new Random();
@@ -119,11 +110,9 @@ namespace OctoBot.Commands
 
                         userAccount.Points += bank;
                         UserAccounts.SaveAccounts(Context.Guild.Id);
-
                     }
                     else
                     {
-
                         await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context,
                             $"booole. Yuor **{amount}** OctoPoints stayed with us. Btw, number was **{random}**");
 
@@ -131,16 +120,15 @@ namespace OctoBot.Commands
                         userAccount.Points -= amount;
                         octoAcccount.Points += amount;
                         UserAccounts.SaveAccounts(Context.Guild.Id);
-
                     }
                 }
                 else
 
 
+                {
                     await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context,
                         $"The choice should be between 0 and {slots}, answer only with a number.");
-
-
+                }
             }
             catch
             {
@@ -150,5 +138,38 @@ namespace OctoBot.Commands
             }
         }
 
+
+        [Command("myPrefix")]
+        public async Task SetMyPrefix([Remainder] string prefix = null)
+        {
+            var account = UserAccounts.GetAccount(Context.User, Context.Guild.Id);
+
+            if (prefix == null)
+            {
+                await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context,
+                    $"Your prefix: **{account.MyPrefix}**");
+                return;
+            }
+
+            if (prefix.Length < 100)
+            {
+                account.MyPrefix = prefix;
+                if (prefix.Contains("everyone") || prefix.Contains("here"))
+                {
+                    await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context,
+                        $"Boooooo! no `here` or `everyone` prefix!");
+                    return;
+                }
+
+                UserAccounts.SaveAccounts(Context.Guild.Id);
+                await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context,
+                    $"Booole~, your own prefix is now **{prefix}**");
+            }
+            else
+            {
+                await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context,
+                    "Booooo! Prefix have to be less than 100 characters");
+            }
+        }
     }
 }

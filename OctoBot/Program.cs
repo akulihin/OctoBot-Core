@@ -4,19 +4,21 @@ using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
 using Microsoft.Extensions.DependencyInjection;
+using OctoBot.Automated;
 using OctoBot.Configs;
 using OctoBot.Handeling;
 
 namespace OctoBot
 {
-
     public class ProgramOctoBot
     {
-
         private DiscordSocketClient _client;
         private IServiceProvider _services;
-        
-        private static void Main() => new ProgramOctoBot().RunBotAsync().GetAwaiter().GetResult();
+
+        private static void Main()
+        {
+            new ProgramOctoBot().RunBotAsync().GetAwaiter().GetResult();
+        }
 
         public async Task RunBotAsync()
         {
@@ -24,15 +26,15 @@ namespace OctoBot
             _client = new DiscordSocketClient(new DiscordSocketConfig
             {
                 LogLevel = LogSeverity.Verbose,
-                DefaultRetryMode = RetryMode.AlwaysRetry,       
-                MessageCacheSize = 10000             
+                DefaultRetryMode = RetryMode.AlwaysRetry,
+                MessageCacheSize = 10000
             });
 
             _services = ConfigureServices();
             _services.GetRequiredService<DiscordEventHandler>().InitDiscordEvents();
-           await _services.GetRequiredService<CommandHandelingSendingAndUpdatingMessages>().InitializeAsync();
-           
-            var botToken = Config.Bot.Token;     
+            await _services.GetRequiredService<CommandHandelingSendingAndUpdatingMessages>().InitializeAsync();
+
+            var botToken = Config.Bot.Token;
             await _client.SetGameAsync("Осьминожек! | *help");
 
             await _client.LoginAsync(TokenType.Bot, botToken);
@@ -50,10 +52,13 @@ namespace OctoBot
                 .AddSingleton<CommandService>()
                 .AddSingleton<CommandHandelingSendingAndUpdatingMessages>()
                 .AddSingleton<DiscordEventHandler>()
+                .AddSingleton<CheckIfCommandGiveRole>()
+                .AddSingleton<ReactionsHandelingForBlogAndArt>()
+                .AddSingleton<GiveRoleOnJoin>()
+                .AddSingleton<LvLing>()
+                .AddSingleton<CheckForVoiceChannelStateForVoiceCommand>()
                 .AddScoped<ServerActivityLogger>()
                 .BuildServiceProvider();
         }
-
     }
 }
-

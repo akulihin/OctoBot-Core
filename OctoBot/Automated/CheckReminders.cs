@@ -16,8 +16,6 @@ namespace OctoBot.Automated
 
         internal static Task CheckTimer()
         {
-
-
             _loopingTimer = new Timer
             {
                 AutoReset = true,
@@ -29,8 +27,6 @@ namespace OctoBot.Automated
         }
 
 
-
-        //client.GetUser(userId);
         public static async void CheckAllReminders(object sender, ElapsedEventArgs e)
         {
             try
@@ -51,7 +47,6 @@ namespace OctoBot.Automated
 
                     for (var j = 0; j < account.ReminderList?.Count; j++)
                     {
-
                         if (account.ReminderList[j].DateToPost > now)
                             continue;
 
@@ -66,18 +61,21 @@ namespace OctoBot.Automated
 
                             await dmChannel.SendMessageAsync("", false, embed.Build());
 
-                            removeLaterList.Add(account.ReminderList[j]);
+                            //  removeLaterList.Add(account.ReminderList[j]);
 
-                            //  account.ReminderList.RemoveAt(j);
-                           //   UserAccounts.SaveAccounts(0);
+                            account.ReminderList.RemoveAt(j);
+                            UserAccounts.SaveAccounts(0);
                         }
                         catch (Exception closedDm)
                         {
                             try
                             {
-                                ConsoleLogger.Log($" [REMINDER] TRY-CATCH DELETE ({account.UserName}) - {account.ReminderList[j].ReminderMessage}", ConsoleColor.DarkBlue);
+                                ConsoleLogger.Log(
+                                    $" [REMINDER] ({account.UserName}) - {account.ReminderList[j].ReminderMessage}",
+                                    ConsoleColor.DarkBlue);
                                 if (!closedDm.Message.Contains("404") || !closedDm.Message.Contains("403")) continue;
-                                Console.WriteLine($"ERROR DM SENING {account.UserName} Closed DM: '{0}'",
+                                Console.WriteLine(
+                                    $"ERROR DM SENING (TRY-CATCH DELETE) {account.UserName} Closed DM: '{0}'",
                                     closedDm);
                                 account.ReminderList = new List<AccountSettings.CreateReminder>();
                                 UserAccounts.SaveAccounts(0);
@@ -100,7 +98,6 @@ namespace OctoBot.Automated
             catch (Exception error)
             {
                 Console.WriteLine("ERROR!!! REMINDER(Big try) Does not work: '{0}'", error);
-
             }
         }
     }

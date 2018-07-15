@@ -1,16 +1,14 @@
-﻿
-
-namespace OctoBot.Games.OctoGame.GameSpells
+﻿namespace OctoBot.Games.OctoGame.GameSpells
 {
     public class SpellSetting
     {
-       
         public ulong SpellId { get; set; }
         public string SpellName { get; set; }
-        
+
         public int ActiveOrPassive { get; set; }
 
         public int SpellTree { get; set; }
+
         // 1 - AD
         // 2 - DEF
         // 3 - AGI
@@ -25,6 +23,7 @@ namespace OctoBot.Games.OctoGame.GameSpells
         public string Poisen { get; set; }
         public string Buff { get; set; }
         public string DeBuff { get; set; }
+
         public int WhereDmg { get; set; }
         /*
              0 = Regular
@@ -49,6 +48,5 @@ namespace OctoBot.Games.OctoGame.GameSpells
                 ActiveSkill = activeSkill;
             }
         }*/
-
     }
 }

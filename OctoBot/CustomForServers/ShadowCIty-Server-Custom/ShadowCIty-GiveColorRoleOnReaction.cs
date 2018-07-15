@@ -9,7 +9,6 @@ namespace OctoBot.CustomForServers
 {
     internal static class ColorRoleReaction
     {
-
         public static async Task ReactionAddedForRole(Cacheable<IUserMessage, ulong> cash,
             ISocketMessageChannel channel, SocketReaction reaction)
         {
@@ -34,7 +33,7 @@ namespace OctoBot.CustomForServers
                                 await guildUser.RemoveRoleAsync(roleToGive);
                                 await cash.GetOrDownloadAsync().Result
                                     .RemoveReactionAsync(reaction.Emote, globalAccount, RequestOptions.Default);
-                              var k =  RoomRoleReaction.RemoveReactions(cash, channel, reaction, 1, globalAccount);
+                                var k = RoomRoleReaction.RemoveReactions(cash, channel, reaction, 1, globalAccount);
                                 return;
                             }
 
@@ -51,7 +50,7 @@ namespace OctoBot.CustomForServers
                             if (roleList.Any(t => t.Name == "Fox"))
                             {
                                 await guildUser.RemoveRoleAsync(roleToGive);
-                                var k =  RoomRoleReaction.RemoveReactions(cash, channel, reaction, 1, globalAccount);
+                                var k = RoomRoleReaction.RemoveReactions(cash, channel, reaction, 1, globalAccount);
                                 return;
                             }
 
@@ -68,14 +67,14 @@ namespace OctoBot.CustomForServers
                             if (roleList.Any(t => t.Name == "Deus Vult"))
                             {
                                 await guildUser.RemoveRoleAsync(roleToGive);
-                                var k =  RoomRoleReaction.RemoveReactions(cash, channel, reaction, 1, globalAccount);
+                                var k = RoomRoleReaction.RemoveReactions(cash, channel, reaction, 1, globalAccount);
                                 return;
                             }
 
                             await guildUser.AddRoleAsync(roleToGive);
                             break;
                         }
-                        case "Steampunk" :
+                        case "Steampunk":
                         {
                             var guildUser = Global.Client.GetGuild(338355570669256705).GetUser(reaction.UserId);
                             var roleToGive = Global.Client.GetGuild(338355570669256705).Roles
@@ -85,14 +84,14 @@ namespace OctoBot.CustomForServers
                             if (roleList.Any(t => t.Name == "Steampunk"))
                             {
                                 await guildUser.RemoveRoleAsync(roleToGive);
-                                var k =  RoomRoleReaction.RemoveReactions(cash, channel, reaction, 1, globalAccount);
+                                var k = RoomRoleReaction.RemoveReactions(cash, channel, reaction, 1, globalAccount);
                                 return;
                             }
 
                             await guildUser.AddRoleAsync(roleToGive);
                             break;
                         }
-                        case "praise" :
+                        case "praise":
                         {
                             var guildUser = Global.Client.GetGuild(338355570669256705).GetUser(reaction.UserId);
                             var roleToGive = Global.Client.GetGuild(338355570669256705).Roles
@@ -102,14 +101,14 @@ namespace OctoBot.CustomForServers
                             if (roleList.Any(t => t.Name == "Слуги солнца"))
                             {
                                 await guildUser.RemoveRoleAsync(roleToGive);
-                                var k =  RoomRoleReaction.RemoveReactions(cash, channel, reaction, 1, globalAccount);
+                                var k = RoomRoleReaction.RemoveReactions(cash, channel, reaction, 1, globalAccount);
                                 return;
                             }
 
                             await guildUser.AddRoleAsync(roleToGive);
                             break;
                         }
-                        case "monkaS" :
+                        case "monkaS":
                         {
                             var guildUser = Global.Client.GetGuild(338355570669256705).GetUser(reaction.UserId);
                             var roleToGive = Global.Client.GetGuild(338355570669256705).Roles
@@ -119,14 +118,14 @@ namespace OctoBot.CustomForServers
                             if (roleList.Any(t => t.Name == "Meme-boy"))
                             {
                                 await guildUser.RemoveRoleAsync(roleToGive);
-                                var k =  RoomRoleReaction.RemoveReactions(cash, channel, reaction, 1, globalAccount);
+                                var k = RoomRoleReaction.RemoveReactions(cash, channel, reaction, 1, globalAccount);
                                 return;
                             }
 
                             await guildUser.AddRoleAsync(roleToGive);
                             break;
                         }
-                        case "🐲" :
+                        case "🐲":
                         {
                             var guildUser = Global.Client.GetGuild(338355570669256705).GetUser(reaction.UserId);
                             var roleToGive = Global.Client.GetGuild(338355570669256705).Roles
@@ -136,14 +135,14 @@ namespace OctoBot.CustomForServers
                             if (roleList.Any(t => t.Name == "Dragon"))
                             {
                                 await guildUser.RemoveRoleAsync(roleToGive);
-                                var k =  RoomRoleReaction.RemoveReactions(cash, channel, reaction, 1, globalAccount);
+                                var k = RoomRoleReaction.RemoveReactions(cash, channel, reaction, 1, globalAccount);
                                 return;
                             }
 
                             await guildUser.AddRoleAsync(roleToGive);
                             break;
                         }
-                        case "🐼" :
+                        case "🐼":
                         {
                             var guildUser = Global.Client.GetGuild(338355570669256705).GetUser(reaction.UserId);
                             var roleToGive = Global.Client.GetGuild(338355570669256705).Roles
@@ -153,14 +152,14 @@ namespace OctoBot.CustomForServers
                             if (roleList.Any(t => t.Name == "Panda"))
                             {
                                 await guildUser.RemoveRoleAsync(roleToGive);
-                                var k =  RoomRoleReaction.RemoveReactions(cash, channel, reaction, 1, globalAccount);
+                                var k = RoomRoleReaction.RemoveReactions(cash, channel, reaction, 1, globalAccount);
                                 return;
                             }
 
                             await guildUser.AddRoleAsync(roleToGive);
                             break;
                         }
-                        case "🦎" :
+                        case "🦎":
                         {
                             var guildUser = Global.Client.GetGuild(338355570669256705).GetUser(reaction.UserId);
                             var roleToGive = Global.Client.GetGuild(338355570669256705).Roles
@@ -170,14 +169,14 @@ namespace OctoBot.CustomForServers
                             if (roleList.Any(t => t.Name == "Lizards"))
                             {
                                 await guildUser.RemoveRoleAsync(roleToGive);
-                                var k =  RoomRoleReaction.RemoveReactions(cash, channel, reaction, 1, globalAccount);
+                                var k = RoomRoleReaction.RemoveReactions(cash, channel, reaction, 1, globalAccount);
                                 return;
                             }
 
                             await guildUser.AddRoleAsync(roleToGive);
                             break;
                         }
-                        case "🌑" :
+                        case "🌑":
                         {
                             var guildUser = Global.Client.GetGuild(338355570669256705).GetUser(reaction.UserId);
                             var roleToGive = Global.Client.GetGuild(338355570669256705).Roles
@@ -187,7 +186,7 @@ namespace OctoBot.CustomForServers
                             if (roleList.Any(t => t.Name == "Shadow"))
                             {
                                 await guildUser.RemoveRoleAsync(roleToGive);
-                                var k =  RoomRoleReaction.RemoveReactions(cash, channel, reaction, 1, globalAccount);
+                                var k = RoomRoleReaction.RemoveReactions(cash, channel, reaction, 1, globalAccount);
                                 return;
                             }
 
@@ -204,7 +203,7 @@ namespace OctoBot.CustomForServers
                             if (roleList.Any(t => t.Name == "Nazrin"))
                             {
                                 await guildUser.RemoveRoleAsync(roleToGive);
-                                var k =  RoomRoleReaction.RemoveReactions(cash, channel, reaction, 1, globalAccount);
+                                var k = RoomRoleReaction.RemoveReactions(cash, channel, reaction, 1, globalAccount);
                                 return;
                             }
 
@@ -213,7 +212,6 @@ namespace OctoBot.CustomForServers
                         }
                         case "🐱":
                         {
-                           
                             var guildUser = Global.Client.GetGuild(338355570669256705).GetUser(reaction.UserId);
                             var roleToGive = Global.Client.GetGuild(338355570669256705).Roles
                                 .SingleOrDefault(x => x.Name.ToString() == "Cat");
@@ -222,37 +220,31 @@ namespace OctoBot.CustomForServers
                             if (roleList.Any(t => t.Name == "Cat"))
                             {
                                 await guildUser.RemoveRoleAsync(roleToGive);
-                                var k =  RoomRoleReaction.RemoveReactions(cash, channel, reaction, 1, globalAccount);
+                                var k = RoomRoleReaction.RemoveReactions(cash, channel, reaction, 1, globalAccount);
                                 return;
                             }
 
                             await guildUser.AddRoleAsync(roleToGive);
-                            
 
-                           
+
                             break;
-                        } 
+                        }
                         case "pekaohmy" when reaction.UserId == 181514288278536193:
                         {
-                            
-
-                            var k =  RoomRoleReaction.RemoveReactions(cash, channel, reaction, 3, globalAccount);
-                            break;                    
+                            var k = RoomRoleReaction.RemoveReactions(cash, channel, reaction, 3, globalAccount);
+                            break;
                         }
                         default:
                             return;
                     }
-                   
-                    var kk =  RoomRoleReaction.RemoveReactions(cash, channel, reaction, 1, globalAccount);
-                    
-                }           
+
+                    var kk = RoomRoleReaction.RemoveReactions(cash, channel, reaction, 1, globalAccount);
+                }
             }
-            catch(Exception error)
+            catch (Exception error)
             {
                 Console.WriteLine("Reaction for Roles not workind. '{0}'", error);
-            }    
+            }
         }
     }
 }
-
-

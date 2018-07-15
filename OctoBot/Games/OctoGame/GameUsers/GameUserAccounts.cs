@@ -6,17 +6,17 @@ namespace OctoBot.Games.OctoGame.GameUsers
 {
     public static class GameUserAccounts
     {
+        private static readonly List<GameAccountSettings> _accounts;
 
-        private static List<GameAccountSettings> _accounts;
 
-
-        
-        private static string _accountsFile = @"OctoGameDataBase/GameAccounts.json";
+        private static readonly string _accountsFile = @"OctoGameDataBase/GameAccounts.json";
 
         static GameUserAccounts()
         {
             if (GameDataStorage.SaveExists(_accountsFile))
+            {
                 _accounts = GameDataStorage.LoadAccountSettings(_accountsFile).ToList();
+            }
             else
             {
                 _accounts = new List<GameAccountSettings>();
@@ -27,7 +27,6 @@ namespace OctoBot.Games.OctoGame.GameUsers
         public static void SaveAccounts()
         {
             GameDataStorage.SaveAccountSettings(_accounts, _accountsFile);
-
         }
 
         public static GameAccountSettings GetAccount(IUser user)
@@ -49,6 +48,7 @@ namespace OctoBot.Games.OctoGame.GameUsers
 
             return account;
         }
+
         private static GameAccountSettings CreateUserAccount(ulong id, string name)
         {
             var newAccount = new GameAccountSettings
@@ -61,9 +61,6 @@ namespace OctoBot.Games.OctoGame.GameUsers
             _accounts.Add(newAccount);
             SaveAccounts();
             return newAccount;
-
         }
-
-
     }
 }

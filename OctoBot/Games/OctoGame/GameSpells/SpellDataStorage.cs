@@ -9,10 +9,13 @@ namespace OctoBot.Games.OctoGame.GameSpells
     {
         public static void SaveAccountSettings(IEnumerable<SpellSetting> accounts, string filePath)
         {
-            try{
+            try
+            {
                 var json = JsonConvert.SerializeObject(accounts, Formatting.Indented);
                 File.WriteAllText(filePath, json);
-            } catch {
+            }
+            catch
+            {
                 Console.WriteLine("Failed To ReadFile(SaveAccountSettings). Will ty in 5 sec.");
             }
         }
@@ -21,17 +24,14 @@ namespace OctoBot.Games.OctoGame.GameSpells
 
         public static IEnumerable<SpellSetting> LoadAccountSettings(string filePath)
         {
-
             if (!File.Exists(filePath)) return null;
             var json = File.ReadAllText(filePath);
             return JsonConvert.DeserializeObject<List<SpellSetting>>(json);
-
         }
 
         public static bool SaveExists(string filePath)
         {
             return File.Exists(filePath);
         }
-
     }
 }
