@@ -17,8 +17,10 @@ namespace OctoBot.Commands
          * 1) "myprefix" or "myrefix custom_prefix"
          * 2) "add keyName Role" "keyName" - get role under word "ar" - all roles "dr word" - delte role
          * 3) role NameOfTheRome - asdding you the role
-         * 4)
-         * actually TODO: Сколько пишете, где, что, ники, сколько удалений или изменений
+         * 4) User Statistics (how many messages, where, editts, deletes.)
+         * 5) `*clear 5 @user` delete only user's messages
+         *
+         * actually TODO: 
          */
 
           

@@ -75,27 +75,35 @@ namespace OctoBot.Handeling
 
                 if (message.Channel is SocketDMChannel)
                 {
-                    await _commands.ExecuteAsync(
+                    var resultTask = await _commands.ExecuteAsync(
                         context,
                         argPos,
                         _services);
+                  
+                    if (!resultTask.IsSuccess  && !resultTask.ErrorReason.Contains("Unknown command")) SendingMess(context, $"Booole! {resultTask.ErrorReason}");
                     return;
                 }
 
-
                 var guild = ServerAccounts.GetServerAccount(context.Guild);
                 var account = UserAccounts.GetAccount(context.User, context.Guild.Id);
-                if (!message.HasStringPrefix(guild.Prefix + " ", ref argPos) &&
-                    !message.HasStringPrefix(guild.Prefix, ref argPos) &&
-                    !message.HasMentionPrefix(_client.CurrentUser, ref argPos) &&
-                    !message.HasStringPrefix(account.MyPrefix + " ", ref argPos) &&
-                    !message.HasStringPrefix(account.MyPrefix, ref argPos))
-                    continue;
+                if (message.HasStringPrefix(guild.Prefix, ref argPos) || message.HasStringPrefix(guild.Prefix + " ",
+                                                                          ref argPos)
+                                                                      || message.HasMentionPrefix(_client.CurrentUser,
+                                                                          ref argPos)
+                                                                      || message.HasStringPrefix(account.MyPrefix + " ",
+                                                                          ref argPos)
+                                                                      || message.HasStringPrefix(account.MyPrefix,
+                                                                          ref argPos))
+                {
+                    var resultTaskk = await _commands.ExecuteAsync(
+                        context,
+                        argPos,
+                        _services);
 
-                await _commands.ExecuteAsync(
-                    context,
-                    argPos,
-                    _services);
+
+                    if (!resultTaskk.IsSuccess  && !resultTaskk.ErrorReason.Contains("Unknown command")) SendingMess(context, $"Booole! {resultTaskk.ErrorReason}");
+                }
+
                 return;
             }
 
@@ -168,6 +176,9 @@ namespace OctoBot.Handeling
             if (message.Author is SocketGuildUser userCheck && userCheck.IsMuted)
                 return;
 
+            if(msg.Author.IsBot)
+                return;
+
 
             switch (message.Channel)
             {
@@ -189,6 +200,9 @@ namespace OctoBot.Handeling
 
                             File.AppendAllText(LogFile,
                                 $"{DateTime.Now.ToLongTimeString()} - DM: ERROR '{context.Channel}' {context.User}: {message} || {task.Result.ErrorReason} \n");
+
+                            if(!task.Result.ErrorReason.Contains("Unknown command"))
+                            SendingMess(context, $"Booole! {task.Result.ErrorReason}");
                         }
                         else
                         {
@@ -201,7 +215,7 @@ namespace OctoBot.Handeling
                                 $"{DateTime.Now.ToLongTimeString()} - DM: '{context.Channel}' {context.User}: {message} \n");
                         }
                     });
-                    await Task.CompletedTask;
+
                     return;
             }
 
@@ -233,6 +247,9 @@ namespace OctoBot.Handeling
 
                         File.AppendAllText(LogFile,
                             $"{DateTime.Now.ToLongTimeString()} - ERROR '{context.Channel}' {context.User}: {message} || {task.Result.ErrorReason} \n");
+
+                        if(!task.Result.ErrorReason.Contains("Unknown command"))
+                        SendingMess(context, $"Booole! {task.Result.ErrorReason}");
                     }
                     else
                     {

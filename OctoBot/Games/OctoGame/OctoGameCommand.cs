@@ -294,7 +294,7 @@ namespace OctoBot.Games.OctoGame
             }
             catch
             {
-                await ReplyAsync("Такого скила нету. Наши скиллы начинаються с ид **1000**");
+             //   await ReplyAsync("Такого скила нету. Наши скиллы начинаються с ид **1000**");
             }
         }
 

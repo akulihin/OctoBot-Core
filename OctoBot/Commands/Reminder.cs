@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Globalization;
+using System.Linq;
 using System.Threading.Tasks;
 using Discord;
 using Discord.Commands;
@@ -7,6 +8,7 @@ using Discord.WebSocket;
 using OctoBot.Configs;
 using OctoBot.Configs.Users;
 using OctoBot.Custom_Library;
+using OctoBot.Custom_Library.DiscordBotsList.Api;
 using OctoBot.Handeling;
 using OctoBot.Helper;
 using static OctoBot.Configs.Users.AccountSettings;
@@ -15,6 +17,8 @@ namespace OctoBot.Commands
 {
     public class ReminderFormat
     {
+
+     
         public static string[] Formats =
         {
             // Used to parse stuff like 1d14h2m11s and 1d 14h 2m 11s could add/remove more if needed
@@ -44,6 +48,15 @@ namespace OctoBot.Commands
 
     public class Reminder : ModuleBase<SocketCommandContextCustom>
     {
+        private readonly AuthDiscordBotListApi _dblApi = new AuthDiscordBotListApi(423593006436712458, Config.Bot.DbLtoken);
+        public async Task<bool> HasVoted(ulong userId)
+        {
+            var url = "https://discordbots.org/api/bots/423593006436712458/check?userId=" + userId;
+            var response = await _dblApi.RestClient.SetAuthorization(Config.Bot.DbLtoken).GetAsync(url);
+            return response.Body.Contains('1');
+        }
+
+
         [Command("Remind")]
         [Priority(1)]
         [Alias("Напомнить", "напомни мне", "напиши мне", "напомни", "алярм", " Напомнить", " напомни мне",
@@ -52,6 +65,16 @@ namespace OctoBot.Commands
         {
             try
             {
+                
+                if (!await HasVoted(Context.User.Id))
+                {
+                    await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context,
+                        "Boole-Boole. To use this command, you have to vote here: <https://discordbots.org/bot/423593006436712458>\n" +
+                        "**Please vote every day**, but I will ask it only once a month though " +
+                        $"{new Emoji("<:octo_hi:465374417644552192>")}");
+                    return;
+                }
+
                 string[] splittedArgs = { };
 
                 if (args.Contains("  через ")) splittedArgs = args.Split(new[] {"  через "}, StringSplitOptions.None);
@@ -135,6 +158,16 @@ namespace OctoBot.Commands
         {
             try
             {
+             
+                if (!await HasVoted(Context.User.Id))
+                {
+                    await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context,
+                        "Boole-Boole. To use this command, you have to vote here: <https://discordbots.org/bot/423593006436712458>\n" +
+                        "**Please vote every day**, but I will ask it only once a month though " +
+                        $"{new Emoji("<:octo_hi:465374417644552192>")}");
+                    return;
+                }
+
                 if (minute > 1439)
                 {
                     await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context,
@@ -207,6 +240,15 @@ namespace OctoBot.Commands
         {
             try
             {
+                
+                if (!await HasVoted(Context.User.Id))
+                {
+                    await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context,
+                        "Boole-Boole. To use this command, you have to vote here: <https://discordbots.org/bot/423593006436712458>\n" +
+                        "**Please vote every day**, but I will ask it only once a month though " +
+                        $"{new Emoji("<:octo_hi:465374417644552192>")}");
+                    return;
+                }
                 //       var commander = UserAccounts.GetAccount(Context.User, Context.Guild.Id);
 
 

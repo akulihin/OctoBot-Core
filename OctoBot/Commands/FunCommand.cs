@@ -33,8 +33,8 @@ namespace OctoBot.Commands
             }
             catch
             {
-                await ReplyAsync(
-                    "boo... An error just appear >_< \nTry to use this command properly: **pick option1|option2|option3**(output random option (can be as many as you want))\n");
+             //   await ReplyAsync(
+             //       "boo... An error just appear >_< \nTry to use this command properly: **pick option1|option2|option3**(output random option (can be as many as you want))\n");
             }
         }
 
@@ -56,8 +56,8 @@ namespace OctoBot.Commands
             }
             catch
             {
-                await ReplyAsync(
-                    "boo... An error just appear >_< \nTry to use this command properly: **DM**(sends you a DM)\n");
+             //   await ReplyAsync(
+             //       "boo... An error just appear >_< \nTry to use this command properly: **DM**(sends you a DM)\n");
             }
         }
 
@@ -132,9 +132,9 @@ namespace OctoBot.Commands
             }
             catch
             {
-                await ReplyAsync(
-                    "boo... An error just appear >_< \nTry to use this command properly: **guess [rate_num]**(like cassino, ty it!)\n" +
-                    "Alias: Рулетка, угадайка");
+            //    await ReplyAsync(
+            //        "boo... An error just appear >_< \nTry to use this command properly: **guess [rate_num]**(like cassino, ty it!)\n" +
+            //        "Alias: Рулетка, угадайка");
             }
         }
 

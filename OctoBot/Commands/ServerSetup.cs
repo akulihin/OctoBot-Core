@@ -77,23 +77,36 @@ namespace OctoBot.Commands
         [Command("SetLog")]
         [Alias("SetLogs")]
         [RequireUserPermission(GuildPermission.Administrator)]
-        public async Task SetServerActivivtyLog(ulong logChannel = 0)
+        public async Task SetServerActivivtyLog(IGuildChannel logChannel = null)
         {
             var guild = ServerAccounts.GetServerAccount(Context.Guild);
 
-            if (logChannel != 0)
+            if (logChannel != null)
             {
                 try
                 {
-                    var channel = Context.Guild.GetTextChannel(logChannel);
+                    var channel = logChannel;
+                    if ((channel as ITextChannel) == null)
+                    {
+                        await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context,
+                            $"Booole >_< **an error** Maybe I am not an Administrator of this server? I need this permission to access audit, manage channel, emojis and users.");
+                        return;
+                    }
+                       
+
                     guild.LogChannelId = channel.Id;
                     guild.ServerActivityLog = 1;
                     ServerAccounts.SaveServerAccounts();
+
+                    var text2 =
+                        $"Boole! Now we log everything to {((ITextChannel) channel).Mention}, you may rename and move it.";
+
+                    await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, text2);
                 }
                 catch
                 {
-                    await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context,
-                        $"Booole >_< **an error** Maybe I am not an Administrator of this server? I need this permission to access audit, manage channel, emojis and users.");
+                 //   await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context,
+                  //      $"Booole >_< **an error** Maybe I am not an Administrator of this server? I need this permission to access audit, manage channel, emojis and users.");
                 }
 
                 return;
@@ -144,8 +157,8 @@ namespace OctoBot.Commands
                     }
                     catch
                     {
-                        await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context,
-                            $"Booole >_< **an error** Maybe I am not an Administrator of this server? I need this permission to access audit, manage channel, emojis and users.");
+                     //   await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context,
+                     //       $"Booole >_< **an error** Maybe I am not an Administrator of this server? I need this permission to access audit, manage channel, emojis and users.");
                     }
 
                     break;
@@ -309,9 +322,9 @@ namespace OctoBot.Commands
 
                 await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, embed);
             }
-            catch (Exception e)
+            catch 
             {
-                Console.WriteLine(e.Message);
+             //   Console.WriteLine(e.Message);
             }
         }
 

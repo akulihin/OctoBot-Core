@@ -11,6 +11,9 @@ namespace OctoBot.Commands
 {
     public class OctopusPic : ModuleBase<SocketCommandContextCustom>
     {
+#pragma warning disable CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
+#pragma warning disable CS1998 // This async method lacks 'await' operators and will run synchronously. Consider using the 'await' operator to await non-blocking API calls, or 'await Task.Run(...)' to do CPU-bound work on a background thread.
+
         [Command("octo")]
         [Alias("окто", "octopus", "Осьминог", "Осьминожка", "Осьминога", "o", "oct", "о")]
         public async Task OctopusPicture()
@@ -36,7 +39,7 @@ namespace OctoBot.Commands
                 if (index == 5 || index == 38 || index == 69)
                 {
                     var lll = await Context.Channel.SendMessageAsync("boole");
-                    var k = HelperFunctions.DeleteMessOverTime(lll, 6);
+                    HelperFunctions.DeleteMessOverTime(lll, 6);
                 }
                 else
                 {
@@ -65,20 +68,20 @@ namespace OctoBot.Commands
                     if (octoIndex == 19)
                     {
                         var lll = await Context.Channel.SendMessageAsync("Ooooo, it was I who just passed Dark Souls!");
-                        var k = HelperFunctions.DeleteMessOverTime(lll, 6);
+                        HelperFunctions.DeleteMessOverTime(lll, 6);
                     }
 
                     if (octoIndex == 9)
                     {
                         var lll = await Context.Channel.SendMessageAsync("I'm drawing an octopus :3");
-                        var k = HelperFunctions.DeleteMessOverTime(lll, 6);
+                        HelperFunctions.DeleteMessOverTime(lll, 6);
                     }
 
                     if (octoIndex == 26)
                     {
                         var lll = await Context.Channel.SendMessageAsync(
                             "Oh, this is New Year! time to gift turtles!!");
-                        var k = HelperFunctions.DeleteMessOverTime(lll, 6);
+                        HelperFunctions.DeleteMessOverTime(lll, 6);
                     }
                 }
             }
@@ -130,12 +133,14 @@ namespace OctoBot.Commands
                         embed.WithAuthor(Context.User);
                         embed.WithImageUrl("" + octoToPost);
 
+
                         await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, embed);
+                      
                     }
                 }
                 else
                 {
-                    await Context.Channel.SendMessageAsync("Boole! You do not have a tolerance of this level!");
+                    await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, "Boole! You do not have a tolerance of this level!");
                 }
             }
             catch

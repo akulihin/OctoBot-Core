@@ -6,6 +6,7 @@ using Discord.WebSocket;
 using OctoBot.Configs;
 using OctoBot.Configs.Users;
 using OctoBot.Custom_Library;
+using OctoBot.Custom_Library.DiscordBotsList.Api;
 using OctoBot.Handeling;
 using OctoBot.Helper;
 
@@ -13,6 +14,9 @@ namespace OctoBot.Commands
 {
     public class DailyPull : ModuleBase<SocketCommandContextCustom>
     {
+        private readonly AuthDiscordBotListApi _dblApi =
+            new AuthDiscordBotListApi(423593006436712458, Config.Bot.DbLtoken);
+
         public enum DailyPullResult
         {
             Success,
@@ -28,8 +32,17 @@ namespace OctoBot.Commands
 
             account.DailyPullPoints += 1;
             account.LastDailyPull = DateTime.UtcNow;
+
             UserAccounts.SaveAccounts(guilid);
             return DailyPullResult.Success;
+        }
+
+
+        public async Task<bool> HasVoted(ulong userId)
+        {
+            var url = "https://discordbots.org/api/bots/423593006436712458/check?userId=" + userId;
+            var response = await _dblApi.RestClient.SetAuthorization(Config.Bot.DbLtoken).GetAsync(url);
+            return response.Body.Contains('1');
         }
 
 
@@ -42,9 +55,9 @@ namespace OctoBot.Commands
             if (Context.Guild.Id != 377879473158356992)
             {
                 var userForActrivityChack = UserAccounts.GetAccount(Context.User, Context.Guild.Id);
-                if (userForActrivityChack.Lvl < 10)
+                if (userForActrivityChack.Lvl < 1)
                 {
-                    var text = "You have to be lvl 10 or more, to use pull\n" +
+                    var text = "You have to be lvl 1 or more, to use pull\n" +
                                "You may check your lvl using `stats` command";
                     await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, text);
                     return;
@@ -52,6 +65,16 @@ namespace OctoBot.Commands
             }
 
             var account = UserAccounts.GetAccount(Context.User, 0);
+
+
+            if (!await HasVoted(Context.User.Id))
+            {
+                await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context,
+                    "Boole-Boole. To use this command, you have to vote here: <https://discordbots.org/bot/423593006436712458>\n" +
+                    $"{new Emoji("<:octo_hi:465374417644552192>")}");
+                return;
+            }
+
             var result = GetDailyPull(Context.User, 0);
             var difference = DateTime.UtcNow - account.LastDailyPull;
             var embed = new EmbedBuilder();
@@ -61,9 +84,7 @@ namespace OctoBot.Commands
             {
                 case DailyPullResult.AlreadyRecieved:
                     embed.AddField("Pull Points",
-                        $"You **already** have received 1 point, {Context.User.Username}. You have {account.DailyPullPoints} points. Try again in {23 - (int) difference.TotalHours} hours\n" +
-                        "**_____**\n" +
-                        "If you like octopuses, please, leave a vote here: https://discordbots.org/bot/423593006436712458. \nBoole!");
+                        $"You **already** have received 1 point, {Context.User.Username}. You have {account.DailyPullPoints} points. Try again in {23 - (int) difference.TotalHours} hours\n");
                     if (account.DailyPullPoints - 1 > OctoPicPull.OctoPicsPull.Length)
                         embed.WithImageUrl(OctoPicPull.OctoPicsPull[27]);
                     else if (account.DailyPullPoints <= 0)
@@ -77,27 +98,21 @@ namespace OctoBot.Commands
                     if (account.DailyPullPoints == 28)
                     {
                         embed.AddField("Pull Points",
-                            $"**You have all {account.DailyPullPoints} points!!**Within a minute, our turtles will send you a key in DM!\n" +
-                            "**_____**\n" +
-                            "If you like octopuses, please, leave a vote here: https://discordbots.org/bot/423593006436712458. \nBoole!");
+                            $"**You have all {account.DailyPullPoints} points!!**Within a minute, our turtles will send you a key in DM!\n");
                         embed.WithImageUrl(OctoPicPull.OctoPicsPull[account.DailyPullPoints - 1]);
                         await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, embed);
                     }
                     else if (account.DailyPullPoints < 28)
                     {
                         embed.AddField("Pull Points",
-                            $"**You got 1 point!** You have now {account.DailyPullPoints} points. Try again in 1 day, to get another point!\n" +
-                            "**_____**\n" +
-                            "If you like octopuses, please, leave a vote here: https://discordbots.org/bot/423593006436712458. \nBoole!");
+                            $"**You got 1 point!** You have now {account.DailyPullPoints} points. Try again in 1 day, to get another point!\n");
                         embed.WithImageUrl(OctoPicPull.OctoPicsPull[account.DailyPullPoints - 1]);
                         await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, embed);
                     }
                     else // BACK UP
                     {
                         embed.AddField("Pull Points",
-                            $"**You got 1 point!** You have now {account.DailyPullPoints} points. Try again in 1 day, to get another point!\n" +
-                            "**_____**\n" +
-                            "If you like octopuses, please, leave a vote here: https://discordbots.org/bot/423593006436712458. \nBoole!");
+                            $"**You got 1 point!** You have now {account.DailyPullPoints} points. Try again in 1 day, to get another point!\n");
                         embed.WithImageUrl(OctoPicPull.OctoPicsPull[27]);
                         await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, embed);
                     }
@@ -129,8 +144,8 @@ namespace OctoBot.Commands
             }
             catch
             {
-                await ReplyAsync(
-                    "boooo... An error just appear >_< \nTry to use this command properly: **AddKey Gamename && key (platform)**\n");
+                //  await ReplyAsync(
+                //      "boooo... An error just appear >_< \nTry to use this command properly: **AddKey Gamename && key (platform)**\n");
             }
         }
 
@@ -197,8 +212,8 @@ namespace OctoBot.Commands
             }
             catch
             {
-                await ReplyAsync(
-                    "boo... An error just appear >_< \nTry to use this command properly: **Keys** (show all **YOUR** keys)\n");
+                //   await ReplyAsync(
+                //       "boo... An error just appear >_< \nTry to use this command properly: **Keys** (show all **YOUR** keys)\n");
             }
         }
 
@@ -239,8 +254,8 @@ namespace OctoBot.Commands
             }
             catch
             {
-                await ReplyAsync(
-                    "boo... An error just appear >_< \nTry to use this command properly: **Keys** (show all **YOUR** keys)\n");
+                //   await ReplyAsync(
+                //       "boo... An error just appear >_< \nTry to use this command properly: **Keys** (show all **YOUR** keys)\n");
             }
         }
 
@@ -318,11 +333,11 @@ namespace OctoBot.Commands
                 account.PullToChoose = null;
                 UserAccounts.SaveAccounts(0);
             }
-            catch (Exception e)
+            catch
             {
-                Console.WriteLine(e);
-                await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context,
-                    "You do not have any keys, or there is an error. Please contact mylorik#2828 for more info");
+                //    Console.WriteLine(e);
+                //    await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context,
+                //        "You do not have any keys, or there is an error. Please contact mylorik#2828 for more info");
             }
         }
 
@@ -332,7 +347,7 @@ namespace OctoBot.Commands
         {
             var account = UserAccounts.GetAccount(user, 0);
             account.DailyPullPoints += pullPoints;
-            UserAccounts.SaveAccounts(Context.Guild.Id);
+            UserAccounts.SaveAccounts(0);
             var embed = new EmbedBuilder();
             embed.WithColor(Color.DarkMagenta);
             embed.AddField("буууль~",

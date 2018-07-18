@@ -57,6 +57,7 @@ namespace OctoBot
                 .AddSingleton<GiveRoleOnJoin>()
                 .AddSingleton<LvLing>()
                 .AddSingleton<CheckForVoiceChannelStateForVoiceCommand>()
+                .AddSingleton<UserSkatisticsCounter>()
                 .AddScoped<ServerActivityLogger>()
                 .BuildServiceProvider();
         }

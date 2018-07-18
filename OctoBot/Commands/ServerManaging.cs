@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
@@ -18,17 +20,45 @@ namespace OctoBot.Commands
         [Command("purge")]
         [Alias("clean", "убрать", "clear")]
         //[RequireUserPermission(GuildPermission.Administrator)]
-        public async Task Delete(int number)
+        public async Task Delete(int number, IGuildUser user = null)
         {
             try
             {
+                if(number > 50 || number < 0)
+                    return;
+
                 var check = Context.User as IGuildUser;
                 var comander = UserAccounts.GetAccount(Context.User, Context.Guild.Id);
                 if (check != null && (comander.OctoPass >= 100 || comander.IsModerator >= 1 ||
                                       check.GuildPermissions.ManageMessages))
                 {
-                    var items = await Context.Channel.GetMessagesAsync(number + 1).FlattenAsync();
-                    if (Context.Channel is ITextChannel channel) await channel.DeleteMessagesAsync(items);
+                    if (user == null)
+                    {
+                        var items = await Context.Channel.GetMessagesAsync(number + 1).FlattenAsync();
+                        if (Context.Channel is ITextChannel channel) await channel.DeleteMessagesAsync(items);
+                    }
+                    else
+                    {
+                        var items = Context.Channel.GetCachedMessages();
+                        List<ulong> messagesToDelte = new List<ulong>();
+                        var count = 0;
+                        var messagesList = items.ToList();
+
+                        for (var i = 0; i < messagesList.Count-1; i++)
+                        {
+                            if(count == number)
+                                continue;
+                            if (messagesList[i].Author == user as SocketUser)
+                            {
+                                messagesToDelte.Add(messagesList[i].Id);
+                                count++;
+                            }
+                        }
+                        if(count <= 0)
+                            return;
+                        if (Context.Channel is ITextChannel channel) await channel.DeleteMessagesAsync(messagesToDelte);
+                    }
+
                     var embed = new EmbedBuilder();
                     embed.WithColor(Color.DarkRed);
                     embed.AddField($"🛡️**PURGE** {number}", $"Used By {Context.User.Mention} in {Context.Channel}")
@@ -47,9 +77,9 @@ namespace OctoBot.Commands
             }
             catch
             {
-                await ReplyAsync(
-                    "boo... An error just appear >_< \nTry to use this command properly: **clear [number]**\n" +
-                    "Alias: purge, clean, убрать");
+             //   await ReplyAsync(
+             //       "boo... An error just appear >_< \nTry to use this command properly: **clear [number]**\n" +
+             //       "Alias: purge, clean, убрать");
             }
         }
 
@@ -102,9 +132,9 @@ namespace OctoBot.Commands
             }
             catch
             {
-                await ReplyAsync(
-                    "boo... An error just appear >_< \nTry to use this command properly: **warn [user_ping(or user ID)] [reason_mesasge]**\n" +
-                    "Alias: варн, warning, предупреждение");
+             //   await ReplyAsync(
+            //        "boo... An error just appear >_< \nTry to use this command properly: **warn [user_ping(or user ID)] [reason_mesasge]**\n" +
+            //        "Alias: варн, warning, предупреждение");
             }
         }
 
@@ -140,9 +170,9 @@ namespace OctoBot.Commands
             }
             catch
             {
-                await ReplyAsync(
-                    "boo... An error just appear >_< \nTry to use this command properly: **kick [user_ping(or user ID)] [reason_mesasge]**\n" +
-                    "Alias: кик");
+             //   await ReplyAsync(
+             //       "boo... An error just appear >_< \nTry to use this command properly: **kick [user_ping(or user ID)] [reason_mesasge]**\n" +
+             //       "Alias: кик");
             }
         }
 
@@ -178,9 +208,9 @@ namespace OctoBot.Commands
             }
             catch
             {
-                await ReplyAsync(
-                    "boo... An error just appear >_< \nTry to use this command properly: **ban [user_ping(or user ID)] [reason_mesasge]**\n" +
-                    "Alias: бан");
+             //   await ReplyAsync(
+             //       "boo... An error just appear >_< \nTry to use this command properly: **ban [user_ping(or user ID)] [reason_mesasge]**\n" +
+            //        "Alias: бан");
             }
         }
 
@@ -239,8 +269,8 @@ namespace OctoBot.Commands
             }
             catch
             {
-                await ReplyAsync(
-                    "boo... An error just appear >_< \nTry to use this command properly: **mute [user] [time_in_minutes] [Any_text]**\n");
+             //   await ReplyAsync(
+            //        "boo... An error just appear >_< \nTry to use this command properly: **mute [user] [time_in_minutes] [Any_text]**\n");
             }
         }
 

@@ -64,8 +64,8 @@ namespace OctoBot.Commands
             }
             catch
             {
-                await ReplyAsync(
-                    "boo... An error just appear >_< \nTry to use this command properly: **top [page_number]**(Top By Activity)\nAlias: topl");
+             //   await ReplyAsync(
+             //       "boo... An error just appear >_< \nTry to use this command properly: **top [page_number]**(Top By Activity)\nAlias: topl");
             }
         }
 
@@ -151,9 +151,9 @@ namespace OctoBot.Commands
 
                 await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, embB);
             }
-            catch (Exception e)
+            catch
             {
-                Console.WriteLine(e.Message);
+             //   Console.WriteLine(e.Message);
             }
         }
     }

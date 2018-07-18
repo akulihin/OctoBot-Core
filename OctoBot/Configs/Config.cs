@@ -131,6 +131,6 @@ namespace OctoBot.Configs
     public struct BotConfig
     {
         public string Token;
-        public string Prefix;
+        public string DbLtoken;
     }
 }

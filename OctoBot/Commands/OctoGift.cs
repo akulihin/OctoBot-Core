@@ -52,8 +52,8 @@ namespace OctoBot.Commands
             }
             catch
             {
-                await ReplyAsync("boo... An error just appear >_< \nTry to use this command properly: **GiftCooki**\n" +
-                                 "Alias: ПодаритьКуки");
+             //   await ReplyAsync("boo... An error just appear >_< \nTry to use this command properly: **GiftCooki**\n" +
+             //                    "Alias: ПодаритьКуки");
             }
         }
 
@@ -99,8 +99,8 @@ namespace OctoBot.Commands
             }
             catch
             {
-                await ReplyAsync("boo... An error just appear >_< \nTry to use this command properly: **GiftPinki**\n" +
-                                 "Alias: ПодаритьПинки");
+            //    await ReplyAsync("boo... An error just appear >_< \nTry to use this command properly: **GiftPinki**\n" +
+            //                     "Alias: ПодаритьПинки");
             }
         }
 
@@ -147,9 +147,9 @@ namespace OctoBot.Commands
             }
             catch
             {
-                await ReplyAsync(
-                    "boo... An error just appear >_< \nTry to use this command properly: **GiftRainbow**\n" +
-                    "Alias: ПодаритьРадужного");
+             //   await ReplyAsync(
+              //      "boo... An error just appear >_< \nTry to use this command properly: **GiftRainbow**\n" +
+             //       "Alias: ПодаритьРадужного");
             }
         }
 
@@ -171,8 +171,8 @@ namespace OctoBot.Commands
             }
             catch
             {
-                await ReplyAsync("boo... An error just appear >_< \nTry to use this command properly: **AllOcto**\n" +
-                                 "Alias: ВсеОкто");
+             //   await ReplyAsync("boo... An error just appear >_< \nTry to use this command properly: **AllOcto**\n" +
+             //                    "Alias: ВсеОкто");
             }
         }
     }

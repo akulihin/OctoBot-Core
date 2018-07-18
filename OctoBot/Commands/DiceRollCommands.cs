@@ -50,9 +50,9 @@ namespace OctoBot.Commands
             }
             catch
             {
-                await ReplyAsync(
-                    "boo... An error just appear >_< \nTry to use this command properly: **roll [times] [max_value_of_roll]**\n" +
-                    "Alias: Роллл, Ролл");
+             //   await ReplyAsync(
+             //       "boo... An error just appear >_< \nTry to use this command properly: **roll [times] [max_value_of_roll]**\n" +
+             //       "Alias: Роллл, Ролл");
             }
         }
 
@@ -69,9 +69,9 @@ namespace OctoBot.Commands
             }
             catch
             {
-                await ReplyAsync(
-                    "boo... An error just appear >_< \nTry to use this command properly: **roll [max_value_of_roll]**\n" +
-                    "Alias: Роллл, Ролл");
+              //  await ReplyAsync(
+              //      "boo... An error just appear >_< \nTry to use this command properly: **roll [max_value_of_roll]**\n" +
+              //      "Alias: Роллл, Ролл");
             }
         }
 

@@ -35,9 +35,9 @@ namespace OctoBot.Commands
             }
             catch
             {
-                await ReplyAsync(
-                    "boo... An error just appear >_< \nTry to use this command properly: **fact [user_ping(or user ID)] [message]**(write down a fact about user!)\n" +
-                    "Alias: факт, write, fact, write down");
+             //   await ReplyAsync(
+             //       "boo... An error just appear >_< \nTry to use this command properly: **fact [user_ping(or user ID)] [message]**(write down a fact about user!)\n" +
+             //       "Alias: факт, write, fact, write down");
             }
         }
 
@@ -98,8 +98,8 @@ namespace OctoBot.Commands
             }
             catch
             {
-                await ReplyAsync(
-                    "boo... An error just appear >_< \nTry to use this command properly: **fact [user_ping(or user ID)]**(show a random fact about user)");
+             //   await ReplyAsync(
+             //       "boo... An error just appear >_< \nTry to use this command properly: **fact [user_ping(or user ID)]**(show a random fact about user)");
             }
         }
 
@@ -160,8 +160,8 @@ namespace OctoBot.Commands
             }
             catch
             {
-                await ReplyAsync(
-                    "boo... An error just appear >_< \nTry to use this command properly: **fact [user_ping(or user ID)] [index]**(show [index] fact about user)");
+             //   await ReplyAsync(
+             //       "boo... An error just appear >_< \nTry to use this command properly: **fact [user_ping(or user ID)] [index]**(show [index] fact about user)");
             }
         }
 
@@ -198,8 +198,8 @@ namespace OctoBot.Commands
             }
             catch
             {
-                await ReplyAsync(
-                    "boo... An error just appear >_< \nTry to use this command properly: **allfacts [user_ping(or user ID)]**(show all of your facts)\n");
+             //   await ReplyAsync(
+             //       "boo... An error just appear >_< \nTry to use this command properly: **allfacts [user_ping(or user ID)]**(show all of your facts)\n");
             }
         }
 
@@ -235,9 +235,9 @@ namespace OctoBot.Commands
             }
             catch
             {
-                await ReplyAsync(
-                    "boo... An error just appear >_< \nTry to use this command properly: **allfacts [user_ping(or user ID)]**(show all facts about user)\n" +
-                    "Alias: allfact, all facts, ВсеФакты, Все Факты ");
+             //   await ReplyAsync(
+             //       "boo... An error just appear >_< \nTry to use this command properly: **allfacts [user_ping(or user ID)]**(show all facts about user)\n" +
+             //       "Alias: allfact, all facts, ВсеФакты, Все Факты ");
             }
         }
 
@@ -273,9 +273,9 @@ namespace OctoBot.Commands
             }
             catch
             {
-                await ReplyAsync(
-                    "boo... An error just appear >_< \nTry to use this command properly: **del [index]**(delete [index] fact)\n" +
-                    "Alias: УдалитьФакт");
+            //    await ReplyAsync(
+            //        "boo... An error just appear >_< \nTry to use this command properly: **del [index]**(delete [index] fact)\n" +
+            //        "Alias: УдалитьФакт");
             }
         }
 
@@ -312,9 +312,9 @@ namespace OctoBot.Commands
             }
             catch
             {
-                await ReplyAsync(
-                    "boo... An error just appear >_< \nTry to use this command properly: **del [user_ping(or user ID)] [index]**(delete [index] fact of the user)\n" +
-                    "Alias: УдалитьФакт");
+             //   await ReplyAsync(
+             //       "boo... An error just appear >_< \nTry to use this command properly: **del [user_ping(or user ID)] [index]**(delete [index] fact of the user)\n" +
+             //       "Alias: УдалитьФакт");
             }
         }
     }

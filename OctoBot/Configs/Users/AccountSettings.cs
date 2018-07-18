@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 
 namespace OctoBot.Configs.Users
@@ -59,10 +60,11 @@ namespace OctoBot.Configs.Users
         public double ArtAvarageScoreVotes { get; set; }
 
         public DateTime MuteTimer { get; set; }
-        public ulong MarryTo { get; set; }
         public List<CreateVoiceChannel> VoiceChannelList { get; internal set; } = new List<CreateVoiceChannel>();
         public DateTime LastOctoPic { get; set; }
         public string MyPrefix { get; set; }
+
+        public ConcurrentDictionary<string, ulong> UserStatistics { get; set; } = new ConcurrentDictionary<string, ulong>();
 
         public struct CreateReminder
         {

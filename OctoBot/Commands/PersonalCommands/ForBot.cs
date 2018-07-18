@@ -53,13 +53,14 @@ namespace OctoBot.Commands.PersonalCommands
                 await Context.Message.DeleteAsync();
                 await ReplyAsync($"Avatar have been set to `{link}`");
             }
-            catch (Exception e)
+            catch 
             {
+                /*
                 var embed = new EmbedBuilder();
                 embed.WithFooter("lil octo notebook");
                 embed.AddField("Ошибка", $"Не можем поставить аватарку: {e.Message}");
 
-                await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, embed);
+                await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, embed);*/
             }
         }
 
@@ -77,13 +78,14 @@ namespace OctoBot.Commands.PersonalCommands
                 await ReplyAsync($"Changed game to `{gamename}`");
                 await Context.Message.DeleteAsync();
             }
-            catch (Exception e)
+            catch 
             {
+                /*
                 var embed = new EmbedBuilder();
                 embed.WithFooter("lil octo notebook");
                 embed.AddField("Ошибка", $"Не можем изменить игру: {e.Message}");
 
-                await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, embed);
+                await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, embed);*/
             }
         }
 
@@ -105,13 +107,13 @@ namespace OctoBot.Commands.PersonalCommands
             {
                 await Context.Guild.GetUser(username.Id).ModifyAsync(x => x.Nickname = name);
             }
-            catch (Exception e)
+            catch
             {
-                var embed = new EmbedBuilder();
+                /*var embed = new EmbedBuilder();
                 embed.WithFooter("lil octo notebook");
                 embed.AddField("Ошибка", $"Не можем изменить ник: {e.Message}");
 
-                await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, embed);
+                await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, embed);*/
             }
         }
 
@@ -144,7 +146,7 @@ namespace OctoBot.Commands.PersonalCommands
             }
             catch
             {
-                await ReplyAsync("We cannot update this message!");
+             //   await ReplyAsync("We cannot update this message!");
             }
         }
 
@@ -168,7 +170,7 @@ namespace OctoBot.Commands.PersonalCommands
             }
             catch
             {
-                await ReplyAsync("We cannot update this message!");
+              //  await ReplyAsync("We cannot update this message!");
             }
         }
 
@@ -185,7 +187,7 @@ namespace OctoBot.Commands.PersonalCommands
             }
             catch
             {
-                await ReplyAsync("We cannot send this message!");
+              //  await ReplyAsync("We cannot send this message!");
             }
         }
 

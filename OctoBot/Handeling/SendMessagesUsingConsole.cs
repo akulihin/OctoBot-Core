@@ -41,8 +41,7 @@ namespace OctoBot.Handeling
 
                 if (msg == null) return;
                 var prefixCheck = msg.ToCharArray();
-                var prefix = Config.Bot.Prefix.ToCharArray();
-                if (prefixCheck[0] == prefix[0])
+                if (prefixCheck[0] == '*')
                 {
                     var mesToDel = await textChannel.SendMessageAsync(msg);
                     await mesToDel.DeleteAsync();
@@ -56,7 +55,7 @@ namespace OctoBot.Handeling
                     Console.WriteLine("Отправлено!");
                 }
             }
-            catch (Exception)
+            catch
             {
                 Console.WriteLine($"Осьминожки не могут сюда писать()");
             }

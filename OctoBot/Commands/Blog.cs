@@ -49,9 +49,9 @@ namespace OctoBot.Commands
             }
             catch
             {
-                await ReplyAsync(
-                    "boo... An error just appear >_< \nTry to use this command properly: **Subc**(showing all of yuor followers)\n" +
-                    "Alias: MySubc, subscribers, подписчики");
+            //    await ReplyAsync(
+             //       "boo... An error just appear >_< \nTry to use this command properly: **Subc**(showing all of yuor followers)\n" +
+            //        "Alias: MySubc, subscribers, подписчики");
             }
         }
 
@@ -91,9 +91,9 @@ namespace OctoBot.Commands
             }
             catch
             {
-                await ReplyAsync(
-                    "boo... An error just appear >_< \nTry to use this command properly: **subs**(showing all people you follow)\n" +
-                    "Alias: MySubs, Subscriptions, подписки");
+           //     await ReplyAsync(
+           //         "boo... An error just appear >_< \nTry to use this command properly: **subs**(showing all people you follow)\n" +
+           //         "Alias: MySubs, Subscriptions, подписки");
             }
         }
 
@@ -151,9 +151,9 @@ namespace OctoBot.Commands
             }
             catch
             {
-                await ReplyAsync(
-                    "boo... An error just appear >_< \nTry to use this command properly: **Sub [user_ping (or user ID)**(follow someone's blog)\n" +
-                    "Alias: follow");
+            //    await ReplyAsync(
+            //        "boo... An error just appear >_< \nTry to use this command properly: **Sub [user_ping (or user ID)**(follow someone's blog)\n" +
+            //        "Alias: follow");
             }
         }
 
@@ -214,9 +214,9 @@ namespace OctoBot.Commands
             }
             catch
             {
-                await ReplyAsync(
-                    "boo... An error just appear >_< \nTry to use this command properly: **unSub [user_ping (or user ID)]**(unfollow someone's blog)\n" +
-                    "Alias: unfollow");
+            //    await ReplyAsync(
+            //        "boo... An error just appear >_< \nTry to use this command properly: **unSub [user_ping (or user ID)]**(unfollow someone's blog)\n" +
+            //        "Alias: unfollow");
             }
         }
 
@@ -305,8 +305,8 @@ namespace OctoBot.Commands
             }
             catch
             {
-                await ReplyAsync(
-                    "boo... An error just appear >_< \nTry to use this command properly: **Blog [any text you want]**(send a blog to all of your followers)\n");
+              //  await ReplyAsync(
+             //       "boo... An error just appear >_< \nTry to use this command properly: **Blog [any text you want]**(send a blog to all of your followers)\n");
             }
         }
 
@@ -408,8 +408,8 @@ namespace OctoBot.Commands
             }
             catch
             {
-                await ReplyAsync(
-                    "boo... An error just appear >_< \nTry to use this command properly: **IBlog [HTTPS_url] [any text you want]**(send a blog **WITH PICTURE** to all of your followers)\n");
+              //  await ReplyAsync(
+             //       "boo... An error just appear >_< \nTry to use this command properly: **IBlog [HTTPS_url] [any text you want]**(send a blog **WITH PICTURE** to all of your followers)\n");
             }
         }
 
@@ -433,11 +433,12 @@ namespace OctoBot.Commands
             }
             catch
             {
+
                 Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine("AddReactionForBlogMessages CATCH");
                 Console.ResetColor();
-                await contextChannel.SendMessageAsync(
-                    $"Произошла какая-то ошибка, попробуй отправить снова");
+              //  await contextChannel.SendMessageAsync(
+             //       $"Произошла какая-то ошибка, попробуй отправить снова");
             }
         }
     }

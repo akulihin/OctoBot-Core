@@ -66,8 +66,8 @@ namespace OctoBot.Commands
             }
             catch
             {
-                await ReplyAsync(
-                    "boo... An error just appear >_< \nTry to use this command properly: **topp [page_number]**(Top By Activity)\nAlias: topo");
+             //   await ReplyAsync(
+             //       "boo... An error just appear >_< \nTry to use this command properly: **topp [page_number]**(Top By Activity)\nAlias: topo");
             }
         }
 
@@ -141,8 +141,8 @@ namespace OctoBot.Commands
             }
             catch
             {
-                await ReplyAsync(
-                    "boo... An error just appear >_< \nTry to use this command properly: **tops [page_number]**(Top By Subs Qty)");
+             //   await ReplyAsync(
+             //       "boo... An error just appear >_< \nTry to use this command properly: **tops [page_number]**(Top By Subs Qty)");
             }
         }
 
@@ -210,8 +210,8 @@ namespace OctoBot.Commands
             }
             catch
             {
-                await ReplyAsync(
-                    "boo... An error just appear >_< \nTry to use this command properly: **top [page_number]**(Top By Activity)\nAlias: topl");
+              //  await ReplyAsync(
+              //      "boo... An error just appear >_< \nTry to use this command properly: **top [page_number]**(Top By Activity)\nAlias: topl");
             }
         }
 
@@ -285,8 +285,8 @@ namespace OctoBot.Commands
             }
             catch
             {
-                await ReplyAsync(
-                    "boo... An error just appear >_< \nTry to use this command properly: **topr [page_number]**(Top by blog rating)\nAlias: topb");
+             //   await ReplyAsync(
+             //       "boo... An error just appear >_< \nTry to use this command properly: **topr [page_number]**(Top by blog rating)\nAlias: topb");
             }
         }
 
@@ -357,8 +357,8 @@ namespace OctoBot.Commands
             }
             catch
             {
-                await ReplyAsync(
-                    "boo... An error just appear >_< \nTry to use this command properly: **topa [page_number]**(Top by :art: rating messages)");
+             //   await ReplyAsync(
+             //       "boo... An error just appear >_< \nTry to use this command properly: **topa [page_number]**(Top by :art: rating messages)");
             }
         }
 

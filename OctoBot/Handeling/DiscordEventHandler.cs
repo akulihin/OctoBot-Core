@@ -23,12 +23,13 @@ namespace OctoBot.Handeling
         private readonly GiveRoleOnJoin _giveRoleOnJoin;
         private readonly CheckForVoiceChannelStateForVoiceCommand _checkForVoiceChannelStateForVoiceCommand;
         private readonly LvLing _lvLing;
+        private readonly UserSkatisticsCounter _userSkatisticsCounter;
 
         public DiscordEventHandler(DiscordSocketClient client, CommandHandelingSendingAndUpdatingMessages commandHandler
             , ServerActivityLogger serverActivityLogger, CheckIfCommandGiveRole checkIfCommandGiveRole,
             CheckForVoiceChannelStateForVoiceCommand checkForVoiceChannelStateForVoiceCommand,
             GiveRoleOnJoin giveRoleOnJoin, ReactionsHandelingForBlogAndArt reactionsHandelingForBlogAndArt,
-            LvLing lvLing)
+            LvLing lvLing, UserSkatisticsCounter userSkatisticsCounter)
         {
             _client = client;
             _commandHandler = commandHandler;
@@ -38,6 +39,7 @@ namespace OctoBot.Handeling
             _giveRoleOnJoin = giveRoleOnJoin;
             _reactionsHandelingForBlogAndArt = reactionsHandelingForBlogAndArt;
             _lvLing = lvLing;
+            _userSkatisticsCounter = userSkatisticsCounter;
         }
 
         public void InitDiscordEvents()
@@ -159,23 +161,36 @@ namespace OctoBot.Handeling
 
         private async Task MessageDeleted(Cacheable<IMessage, ulong> cacheMessage, ISocketMessageChannel channel)
         {
+            if(!cacheMessage.HasValue)
+                return;
+            if(cacheMessage.Value.Author.IsBot)
+                return;
             _serverActivityLogger.Client_MessageDeleted(cacheMessage, channel);
+            _userSkatisticsCounter.Client_MessageDeleted(cacheMessage, channel);
         }
 
         private async Task MessageReceived(SocketMessage message)
         {
+            if(message.Author.IsBot)
+                return;
             _checkIfCommandGiveRole.Client_MessageReceived(message, _client);
             _commandHandler.HandleCommandAsync(message);
             _serverActivityLogger.Client_MessageReceived(message);
             _serverActivityLogger.Client_MessageRecivedForServerStatistics(message);
             _lvLing.Client_UserSentMess(message);
+            _userSkatisticsCounter.Clien_MessageReceived(message);
         }
 
         private async Task MessageUpdated(Cacheable<IMessage, ulong> cacheMessageBefore, SocketMessage messageAfter,
             ISocketMessageChannel channel)
         {
+            if(!cacheMessageBefore.HasValue)
+                return;
+            if(cacheMessageBefore.Value.Author.IsBot)
+                return;
             _commandHandler._client_MessageUpdated(cacheMessageBefore, messageAfter, channel);
             _serverActivityLogger.Client_MessageUpdated(cacheMessageBefore, messageAfter, channel);
+            _userSkatisticsCounter.Client_MessageUpdated(cacheMessageBefore, messageAfter, channel);       
         }
 
         private async Task ReactionAdded(Cacheable<IUserMessage, ulong> cacheMessage, ISocketMessageChannel channel,
@@ -194,6 +209,7 @@ namespace OctoBot.Handeling
         private async Task ReactionRemoved(Cacheable<IUserMessage, ulong> cacheMessage, ISocketMessageChannel channel,
             SocketReaction reaction)
         {
+            if (reaction.User.Value.IsBot) return;
             _reactionsHandelingForBlogAndArt.Client_ReactionRemovedForBlog(cacheMessage, channel, reaction);
             _reactionsHandelingForBlogAndArt.Client_ReactionRemovedForArtVotes(cacheMessage, channel, reaction);
         }

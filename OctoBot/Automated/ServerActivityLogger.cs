@@ -67,6 +67,40 @@ namespace OctoBot.Automated
                 }
             }
 
+
+
+
+
+
+            if (guild?.Guild.Id == 338355570669256705 && mess.Channel.Id == 374635063976919051)
+            {
+                var embed = new EmbedBuilder();
+                embed.WithColor(Color.Green);
+                embed.WithAuthor(mess.Author);
+                embed.AddField($"{mess.Author.Username}", $"{mess.Content}");
+
+                if (mess.Content.Length > 1)
+                    Global.Client.GetGuild(375104801018609665).GetTextChannel(468227956230324224)
+                        .SendMessageAsync("", false, embed.Build());
+
+                if (mess.Attachments.Any())
+                {
+                    await Client.GetGuild(375104801018609665).GetTextChannel(468227956230324224)
+                        .SendMessageAsync($"{mess.Attachments.FirstOrDefault()?.Url}");
+                }
+            }
+            else if (guild?.Guild.Id == 375104801018609665 && mess.Channel.Id == 468227956230324224)
+            {
+                if (mess.Content.Length > 1)
+                    Global.Client.GetGuild(338355570669256705).GetTextChannel(374635063976919051)
+                        .SendMessageAsync($"{mess.Content}");
+
+                if (mess.Attachments.Any())
+                {
+                    await Client.GetGuild(338355570669256705).GetTextChannel(374635063976919051)
+                        .SendMessageAsync($"{mess.Attachments.FirstOrDefault()?.Url}");
+                }
+            }
             ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
             ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
             if (mess.Channel is IGuildChannel channel)
@@ -190,12 +224,11 @@ namespace OctoBot.Automated
 
                     if (arg is ITextChannel channel)
                     {
-                        var log = await channel.Guild.GetAuditLogAsync(1);
+                       var log = await channel.Guild.GetAuditLogsAsync(1);
                         var audit = log.ToList();
-
-
                         var name = audit[0].Action == ActionType.ChannelDeleted ? audit[0].User.Mention : "error";
                         var auditLogData = audit[0].Data as ChannelDeleteAuditLogData;
+                       
                         embed.AddField("🚫 Channel Destroyed", $"Name: {arg.Name}\n" +
                                                                $"WHO: {name}\n" +
                                                                $"Type {auditLogData?.ChannelType}\n" +
@@ -252,7 +285,7 @@ namespace OctoBot.Automated
                         return;
                     }
 
-                    var log = await channel.Guild.GetAuditLogAsync(1);
+                    var log = await channel.Guild.GetAuditLogsAsync(1);
                     var audit = log.ToList();
 
 
@@ -287,7 +320,7 @@ namespace OctoBot.Automated
                         return;
                     }
 
-                    var log = await voiceChannel.Guild.GetAuditLogAsync(1);
+                    var log = await voiceChannel.Guild.GetAuditLogsAsync(1);
                     var audit = log.ToList();
 
                     var name = audit[0].Action == ActionType.ChannelCreated ? audit[0].User.Mention : "error";
@@ -490,14 +523,19 @@ namespace OctoBot.Automated
                 embed.WithFooter("Boole.");
                 embed.AddField("Boole!",
                     $"{new Emoji("<:octo_hi:465374417644552192>")} We are **Octopuses** and we do many thing, you may check it via `Help` commands\n" +
-                    $"Set Prefix: `{Client.CurrentUser.Mention} setPrefix whatever_you_want`\n" +
-                    "Set Channel for logs: `SetLog` OR `SetLog Channel_ID`(I can logg ANY files and even 2000 lenght messages), `offLog` to turn it off\n" +
-                    "Set Role On Join: `RoleOnJoin role` will give the role every user who joined the server\n");
+                    $"**_____**\n" +
+                    $"**Set Prefix:** `{Client.CurrentUser.Mention} setPrefix whatever_you_want`\n" +
+                    "**Set Channel for logs:** `SetLog` OR `SetLog #channel`(I can logg ANY files and even 2000 lenght messages), `offLog` to turn it off\n" +
+                    "**Set Role On Join:** `RoleOnJoin role` will give the role every user who joined the server\n" +
+                    "**Set Commands To Get Roles:** `add KeyName RoleName` where **KeyName** anything you want(even emoji), and **RoleName** is a role, you want to get by using `*KeyName`\n" +
+                    "So now, by saying ***KeyName** you will get **RoleName** role if it exist\n");
                 embed.AddField("Main Features", "1) Full logging\n" +
                                                 "2) Reminders \n" +
                                                 "3) command `Octo` or `oct`\n" +
                                                 "4) command `pull` -  points to get steam game\n" +
-                                                "5) command `voice` - will create a voice channel, the owner will have full permissions on this channel and if no one using it - gets deleted in 10 minutes\n");
+                                                "5) command `voice` - will create a voice channel, the owner will have full permissions on this channel and if no one using it - gets deleted in 10 minutes\n" +
+                                                "6) commands `top` - will give you statistics about the server or users ( learn more using help)\n" +
+                                                "7) command `help` A lot of help.");
                 embed.AddField("_____",
                     "**You can edit your previous commands, and OctoBot will edit previous response to that command**, so you don't have to spam Channels with messages\n" +
                     "We need an admin role (see channel, manage emojis, messages, roles, channels, **Audit log** access, etc...) to logg all info to `SetLog`, otherwise, I will not log anything.\n" +
@@ -509,9 +547,9 @@ namespace OctoBot.Automated
 
                 await mess.AddReactionAsync(emoji);
             }
-            catch (Exception e)
+            catch
             {
-                Console.WriteLine(e.Message);
+             //   Console.WriteLine(e.Message);
             }
         }
 
@@ -756,7 +794,7 @@ namespace OctoBot.Automated
                     return;
                 if (messageBefore.Value.Channel is ITextChannel kek)
                 {
-                    var log = await kek.Guild.GetAuditLogAsync(1);
+                    var log = await kek.Guild.GetAuditLogsAsync(1);
                     var audit = log.ToList();
 
                     var name = $"{messageBefore.Value.Author.Mention}";
@@ -876,9 +914,9 @@ namespace OctoBot.Automated
                     }
                 }
             }
-            catch (Exception e)
+            catch 
             {
-                Console.WriteLine(e);
+             //   Console.WriteLine(e);
             }
         }
 

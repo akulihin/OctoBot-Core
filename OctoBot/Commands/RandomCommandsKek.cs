@@ -1,15 +1,22 @@
-﻿
+﻿/*using System;
+using System.Globalization;
+using System.IO;
+using System.Linq;
+using System.Net;
+using System.Threading.Tasks;
+using Discord;
 using Discord.Commands;
-
+using Newtonsoft.Json;
+*/
 
 namespace OctoBot.Commands
 {
-    public class RandomCommandsKek : ModuleBase<SocketCommandContext>
+    public class RandomCommandsKek //: ModuleBase<SocketCommandContext>
     {
 
 
+        
         /*
-
         internal static readonly string CaptchaCss = "<style>@import url('https://fonts.googleapis.com/css?family=Roboto');body{margin: 0px;font-family: 'Roboto', sans-serif;}</style> \n <meta charset=\"utf-8\"> \n";
         internal static readonly string CaptchaHtml = "<div style=\"background: url('https://i.imgur.com/j5Bo9iF.png'); width: 323px; height: 90px;\"><p style=\"color: white; font-size: 14px; font-weight: 400; position: fixed; top: 21px; left: 62px; text-overflow: ellipsis;width: 184px;white-space: nowrap; overflow: hidden;\">{0}</p></div>";
         internal static readonly string CaretakerHtmLp1 = "<style>body{ background-color: #36393e; }</style><div style=\"background-image: url('";
@@ -264,9 +271,7 @@ namespace OctoBot.Commands
             embed.AddField("First name", firstName);
             embed.AddField("Last name", lastName);
 
-                            if (Context.MessageContentForEdit != "edit")
-        }
-        */
-
+                      
+        }*/
     }
 }
