@@ -1,5 +1,6 @@
 ﻿using Miki.Rest;
-namespace OctoBot.Custom_Library.DiscordBotsList.Api
+
+namespace OctoBot.Custom_Library.DiscordBotsList.Api.Custom
 {
     public class AuthDiscordBotListApi 
     {

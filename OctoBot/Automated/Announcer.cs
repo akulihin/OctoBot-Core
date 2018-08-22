@@ -1,5 +1,4 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Discord.WebSocket;
 
 namespace OctoBot.Automated
@@ -10,7 +9,6 @@ namespace OctoBot.Automated
         {
             var guild = user.Guild;
             var channel = guild.DefaultChannel;
-            Console.WriteLine($"{user}, Присойденился к серверу ");
 
 
             var kek = 1; // DELETE

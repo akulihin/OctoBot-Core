@@ -19,15 +19,14 @@ namespace OctoBot.Automated
             _loopingTimer = new Timer
             {
                 AutoReset = true,
-                Interval = 5000,
+                Interval = 20000,
                 Enabled = true
             };
-            _loopingTimer.Elapsed += CheckAllReminders;
+            _loopingTimer.Elapsed += CheckForBirthdayRole;
             return Task.CompletedTask;
         }
 
-
-        public static async void CheckAllReminders(object sender, ElapsedEventArgs e)
+        public static async void CheckForBirthdayRole(object sender, ElapsedEventArgs e)
         {
             try
             {
@@ -47,7 +46,7 @@ namespace OctoBot.Automated
 
                     for (var j = 0; j < account.ReminderList?.Count; j++)
                     {
-                        if (account.ReminderList[j].DateToPost > now)
+                        if (account.ReminderList[j].DateToPost > now || removeLaterList.Any( x => x.ReminderMessage == account.ReminderList[j].ReminderMessage))
                             continue;
 
                         try
@@ -56,15 +55,12 @@ namespace OctoBot.Automated
                             var embed = new EmbedBuilder();
                             embed.WithFooter("lil octo notebook");
                             embed.WithColor(Color.Teal);
-                            embed.WithTitle("Розовенькая черепашка напоминает тебе:");
+                            embed.WithTitle("Pink turtle remindinds you:");
                             embed.WithDescription($"\n{account.ReminderList[j].ReminderMessage}");
 
                             await dmChannel.SendMessageAsync("", false, embed.Build());
 
-                            //  removeLaterList.Add(account.ReminderList[j]);
-
-                            account.ReminderList.RemoveAt(j);
-                            UserAccounts.SaveAccounts(0);
+                            removeLaterList.Add(account.ReminderList[j]);
                         }
                         catch (Exception closedDm)
                         {
@@ -90,9 +86,11 @@ namespace OctoBot.Automated
                         }
                     }
 
-                    if (!removeLaterList.Any()) continue;
-                    removeLaterList.ForEach(item => account.ReminderList.Remove(item));
-                    UserAccounts.SaveAccounts(0);
+                    if (removeLaterList.Any())
+                    {
+                        removeLaterList.ForEach(item => account.ReminderList.Remove(item));
+                        UserAccounts.SaveAccounts(0);
+                    }
                 }
             }
             catch (Exception error)

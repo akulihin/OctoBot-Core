@@ -1,5 +1,4 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
 using Discord.WebSocket;
 using OctoBot.Configs.Server;
@@ -14,13 +13,12 @@ namespace OctoBot.Automated
         public async Task UserJoined_ForRoleOnJoin(SocketGuildUser arg)
         {
             var guid = ServerAccounts.GetServerAccount(arg.Guild);
-            Console.WriteLine($"{guid.RoleOnJoin}");
 
             if (guid.RoleOnJoin == null)
                 return;
 
             var roleToGive = arg.Guild.Roles
-                .SingleOrDefault(x => x.Name.ToString() == $"{guid.RoleOnJoin}");
+                .SingleOrDefault(x => x.Name.ToString().ToLower() == $"{guid.RoleOnJoin.ToLower()}");
 
             await arg.AddRoleAsync(roleToGive);
         }

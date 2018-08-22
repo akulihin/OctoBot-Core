@@ -8,7 +8,7 @@ namespace OctoBot.Commands
 {
 
 
-    public class HelpCommand : ModuleBase<SocketCommandContextCustom>
+    public class HelpCommand : ModuleBase<ShardedCommandContextCustom>
     {
 
         //TODO//TODO//TODO//TODO//TODO//TODO//TODO//TODO//TODO//TODO//TODO//TODO//TODO
@@ -19,6 +19,7 @@ namespace OctoBot.Commands
          * 3) role NameOfTheRome - asdding you the role
          * 4) User Statistics (how many messages, where, editts, deletes.)
          * 5) `*clear 5 @user` delete only user's messages
+         * 6) добавить войс в хелп
          *
          * actually TODO: 
          */
@@ -78,7 +79,7 @@ namespace OctoBot.Commands
 
             embed.WithFooter("lil octo notebook");
             embed.WithColor(Color.LightOrange);
-            await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, embed);
+            await CommandHandeling.ReplyAsync(Context, embed);
 
         }
 
@@ -107,7 +108,7 @@ namespace OctoBot.Commands
 
             embed.WithFooter("lil octo notebook");
             embed.WithColor(Color.LightOrange);
-                await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, embed);
+                await CommandHandeling.ReplyAsync(Context, embed);
 
 
             // embed.AddField("цитата [имя] [текст...] ", "Фейковая цитата от @юзера (*скриншот* с цветом, аватаркой, и текст)"); //font is NOT INCLUDET
@@ -131,7 +132,7 @@ namespace OctoBot.Commands
             embed.WithFooter("lil octo notebook");
             embed.WithColor(Color.LightOrange);
 
-            await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, embed);
+            await CommandHandeling.ReplyAsync(Context, embed);
 
         }
 
@@ -145,34 +146,33 @@ namespace OctoBot.Commands
 
 
 
-            embed.AddField("Remind", "**Remind any_text in time** - create the reminder\n" +
-                                     "**RemindTO User_ID any_text IN TIME**  Will remind the user. (user will see, WHO made this reminder.)\n" +
-                                     "**Re time_in_min any_text** Abbreviated form. Example: **Re 180 Boole, I love boole!**\n" +
-                                     "__**in**__  is the key word. It has to be between the message and time\n" +
-                                     "**---------------------------------------------**\n" +
+            embed.AddField("Remind", "**Remind** any_text **in time** - create the reminder, example: `remind pull point in 20h`\n" +
+                                     "**RemindTo User_ID** any_text **in Time** -  Will remind the user. (user will see, WHO made this reminder.)\n" +
+                                     "**Re time_in_min any_text** - Abbreviated form. Example: `Re 180 Boole, I love boole!`\n" +
+                                     "**_____**\n"+
+                                     "**IN** is the key word. It has to be between the message and time\n" +
                                      "_______\n");
 
             embed.AddField("Time", "Rule: **day > hour > min > sec**\n" +
                                    "Any part may be dismissed, but others have to be in the order you see above\n" +
                                    "You may say **1h30m** or with spaces **1d 3h 15m 30s** , **15m 44s**.\n" +
                                    "Max values: `23h` `59m` `59s` (you may say 24h instead of 1d)\n" +
-                                   "**---------------------------------------------**\n" +
-                                   " _______\n");
+                                   "**_______**\n");
 
             embed.AddField("Extra:",
                 "Bot will always give you feedback, good or bad.\n" +
                 "Bot will send you the DM with the reminder on time.\n" +
                 "Reminders will be saved even if bot crashed\n" +
+                "**_____**\n" +
                 "**List** - shows all your reminders\n" +
                 "**delete index** = will delete the reminder under the index\n" +
                 "**date** - date now by UTC\n" +
                 "**you may create reminder using direct DM to the bot**\n" +
-                "**---------------------------------------------**\n" +
-                " _______\n");
+                "**_______**\n");
             embed.WithFooter("lil octo notebook");
             embed.WithColor(Color.LightOrange);
 
-            await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, embed);
+            await CommandHandeling.ReplyAsync(Context, embed);
         }
 
 
@@ -182,13 +182,15 @@ namespace OctoBot.Commands
         public async Task HelpAdmin()
         {
             var embed = new EmbedBuilder();
-            embed.AddField("Moderation:", "**clean amount** - delete messages (100 limit), can say **purge** or **clear**\n" +
+            embed.AddField("Moderation:", "**clean amount** - delete messages (50 limit), can say **purge** or **clear**\n" +
+                                          "**clear amount @user - delete messages (50 limit) of that user!, so it will not touch anyone else." +
                                           "**warn @user any_text** - warning you can see by saying **stats @user**\n" +
                                           "**kick @user reason** - Kick\n" +
                                           "**ban @user reason** - Ban\n" +
                                           "**mute @user time_in_minutes reason** - Mute, cannot talk in voice room, giving `Mute` role\n" +
                                           "**unmute @user** unmuting.\n" +
                                           "**moder @user** - user is now moderator for Bot only ( if you are moderator, you do not need this)\n" +
+                                          "**stats @user** - will show everything about the user" +
                                           "**_____**");
             embed.AddField("Server Managment", "**ServerStats** - Showing usefull Server Statistics\n" +
                                                "**topChan** - Statistics fore Channels\n" +
@@ -210,7 +212,7 @@ namespace OctoBot.Commands
             embed.WithFooter("lil octo notebook");
             embed.WithColor(Color.LightOrange);
 
-                await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, embed);
+                await CommandHandeling.ReplyAsync(Context, embed);
   
         }
 
@@ -244,7 +246,7 @@ namespace OctoBot.Commands
             embed.WithFooter("lil octo notebook");
             embed.WithColor(Color.LightOrange);
 
-                await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, embed);
+                await CommandHandeling.ReplyAsync(Context, embed);
   
         }
 
@@ -275,7 +277,7 @@ namespace OctoBot.Commands
             embed.WithFooter("lil octo notebook");
             embed.WithColor(Color.Blue);
 
-                await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, embed);
+                await CommandHandeling.ReplyAsync(Context, embed);
         }  
     }
 }
@@ -323,7 +325,7 @@ namespace OctoBot.Commands
       
             embed.WithFooter("lil octo notebook");
             embed.WithColor(Color.LightOrange);
-                await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, embed);
+                await CommandHandeling.ReplyAsync(Context, embed);
 
         }
        
@@ -355,7 +357,7 @@ namespace OctoBot.Commands
 
             embed.WithFooter("lil octo notebook");
             embed.WithColor(Color.LightOrange);
-                await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, embed);
+                await CommandHandeling.ReplyAsync(Context, embed);
 
 
             // embed.AddField("цитата [имя] [текст...] ", "Фейковая цитата от @юзера (*скриншот* с цветом, аватаркой, и текст)"); //font is NOT INCLUDET
@@ -403,7 +405,7 @@ namespace OctoBot.Commands
             embed.WithFooter("lil octo notebook");
             embed.WithColor(Color.LightOrange);
 
-                await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, embed);
+                await CommandHandeling.ReplyAsync(Context, embed);
         }
 
 
@@ -426,7 +428,7 @@ namespace OctoBot.Commands
             embed.WithFooter("lil octo notebook");
             embed.WithColor(Color.LightOrange);
 
-                await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, embed);
+                await CommandHandeling.ReplyAsync(Context, embed);
   
         }
 
@@ -460,7 +462,7 @@ namespace OctoBot.Commands
             embed.WithFooter("lil octo notebook");
             embed.WithColor(Color.LightOrange);
 
-                await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, embed);
+                await CommandHandeling.ReplyAsync(Context, embed);
   
         }
 
@@ -491,7 +493,7 @@ namespace OctoBot.Commands
             embed.WithFooter("lil octo notebook");
             embed.WithColor(Color.Blue);
 
-                await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, embed);
+                await CommandHandeling.ReplyAsync(Context, embed);
         }
 
         [Command("HelpExtra")]
@@ -512,7 +514,7 @@ namespace OctoBot.Commands
             embed.WithFooter("lil octo notebook");
             embed.WithColor(Color.LightOrange);
 
-                await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, embed);
+                await CommandHandeling.ReplyAsync(Context, embed);
   
         }
         */

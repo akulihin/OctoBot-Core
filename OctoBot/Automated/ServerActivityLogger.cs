@@ -21,10 +21,10 @@ namespace OctoBot.Automated
 #pragma warning disable CS1998 // This async method lacks 'await' operators and will run synchronously. Consider using the 'await' operator to await non-blocking API calls, or 'await Task.Run(...)' to do CPU-bound work on a background thread.
 
 
-        public readonly DiscordSocketClient Client;
+        public readonly DiscordShardedClient Client;
         public readonly IServiceProvider Services;
 
-        public ServerActivityLogger(DiscordSocketClient client, IServiceProvider services)
+        public ServerActivityLogger(DiscordShardedClient client, IServiceProvider services)
         {
             Client = client;
             Services = services;
@@ -106,7 +106,7 @@ namespace OctoBot.Automated
             if (mess.Channel is IGuildChannel channel)
             {
                 var serverAcc = ServerAccounts.GetServerAccount((SocketGuild) channel.Guild);
-                serverAcc.MessagesReceivedStatisctic.AddOrUpdate(channel.Name, 1, (key, oldValue) => oldValue + 1);
+                serverAcc.MessagesReceivedStatisctic.AddOrUpdate(channel.Id.ToString(), 1, (key, oldValue) => oldValue + 1);
                 ServerAccounts.SaveServerAccounts();
             }
         }
@@ -517,7 +517,7 @@ namespace OctoBot.Automated
 
                 var embed = new EmbedBuilder();
                 await Client.GetGuild(375104801018609665).GetTextChannel(460612886188916736).SendMessageAsync(
-                    $"<@181514288278536193> OctoBot have been connected to {arg.Name}");
+                    $"<@181514288278536193> OctoBot have been connected to {arg.Name}({arg.MemberCount}) - {arg.Id}");
 
                 embed.WithColor(Color.Blue);
                 embed.WithFooter("Boole.");
@@ -584,7 +584,7 @@ namespace OctoBot.Automated
             await commands.AddModulesAsync(
                 Assembly.GetEntryAssembly(),
                 Services);
-            var tempTask = new CommandHandelingSendingAndUpdatingMessages(Services, commands, Client);
+            var tempTask = new CommandHandeling(Services, commands, Client);
             await tempTask.HandleCommandAsync(messageAfter);
         }
 
@@ -598,6 +598,9 @@ namespace OctoBot.Automated
                 var after = messageAfter as IUserMessage;
                 var octoBot = currentIGuildChannel.GetUserAsync(Global.Client.CurrentUser.Id);
                 var guild = ServerAccounts.GetServerAccount(currentIGuildChannel);
+
+               // if(messageAfter.Content.ToArray().Except(messageBefore.Value.Content.ToArray()).Count() < guild.LoggingMessEditIgnoreChar)
+               //     return;
 
                 var ss = 0;
                 foreach (var t in Global.CommandList)
@@ -767,6 +770,7 @@ namespace OctoBot.Automated
         {
             try
             {
+
                 if (messageBefore.Value == null)
                     return;
 
@@ -792,8 +796,9 @@ namespace OctoBot.Automated
 
                 if (messageBefore.Value.Author.IsBot)
                     return;
-                if (messageBefore.Value.Channel is ITextChannel kek)
+                if (messageBefore.Value.Channel is ITextChannel)
                 {
+                    /*
                     var log = await kek.Guild.GetAuditLogsAsync(1);
                     var audit = log.ToList();
 
@@ -803,7 +808,7 @@ namespace OctoBot.Automated
                     if (check?.ChannelId == messageBefore.Value.Channel.Id &&
                         audit[0].Action == ActionType.MessageDeleted)
                         name = $"{audit[0].User.Mention}";
-
+*/
                     var embedDel = new EmbedBuilder();
 
                     embedDel.WithFooter($"MessId: {messageBefore.Id}");
@@ -813,7 +818,7 @@ namespace OctoBot.Automated
                     embedDel.WithColor(Color.Red);
                     embedDel.WithTitle("🗑 Deleted Message");
                     embedDel.WithDescription($"Where: <#{messageBefore.Value.Channel.Id}>\n" +
-                                             $"WHO: **{name}** (not always correct)\n" +
+                                             //$"WHO: **{name}** (not always correct)\n" +
                                              $"Mess Author: **{messageBefore.Value.Author}**\n");
 
 
@@ -914,7 +919,7 @@ namespace OctoBot.Automated
                     }
                 }
             }
-            catch 
+            catch
             {
              //   Console.WriteLine(e);
             }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using Discord;
 using Discord.Commands;
@@ -9,9 +10,9 @@ using OctoBot.Handeling;
 
 namespace OctoBot.Commands
 {
-    public class StatsUser : ModuleBase<SocketCommandContextCustom>
+    public class StatsUser : ModuleBase<ShardedCommandContextCustom>
     {
-        [Command("stats")]
+        [Command("stats", RunMode = RunMode.Async)]
         [Alias("статы")]
         public async Task Xp()
         {
@@ -24,6 +25,8 @@ namespace OctoBot.Commands
 
                 var usedNicks = "";
                 var usedNicks2 = "";
+                var usedNicks3 = "";
+                var usedNicks4 = "";
                 if (account.ExtraUserName != null)
                 {
                     var extra = account.ExtraUserName.Split(new[] {'|'}, StringSplitOptions.RemoveEmptyEntries);
@@ -31,10 +34,14 @@ namespace OctoBot.Commands
                     for (var i = 0; i < extra.Length; i++)
                         if (i == extra.Length - 1)
                             usedNicks += extra[i];
-                        else if (usedNicks.Length <= 1000)
+                        else if (usedNicks.Length <= 970)
                             usedNicks += extra[i] + ", ";
-                        else
+                        else if (usedNicks2.Length <= 970)
                             usedNicks2 += extra[i] + ", ";
+                        else if (usedNicks3.Length <= 970)
+                            usedNicks3 += extra[i] + ", ";
+                        else if (usedNicks4.Length <= 970)
+                            usedNicks4 += extra[i] + ", ";
                 }
                 else
                 {
@@ -62,16 +69,36 @@ namespace OctoBot.Commands
                 if (account.Warnings != null)
                     warns = account.Warnings.Split(new[] {'|'}, StringSplitOptions.RemoveEmptyEntries);
 
+                var statList = account.UserStatistics.ToList();
+                ulong allMessages = 0;
+                ulong editMesages = 0;
+                ulong deletedMessages = 0;
+                var mostActiveChannel = "";
+
+                foreach (var t in statList)
+                {
+                    if (t.Key == "all")
+                        allMessages = t.Value;
+                    if (t.Key == "updated")
+                        editMesages = t.Value;
+                    if (t.Key == "deleted")
+                        deletedMessages = t.Value;
+                }
+
+
+                var ordered = statList.OrderByDescending(x => x.Value).ToList();
+                if (ordered.Count <= 2)
+                    mostActiveChannel += "Not yet";
+                else
+                mostActiveChannel += $"<#{Convert.ToUInt64(ordered[1].Key)}> - {ordered[1].Value} messages";
+               
                 var embed = new EmbedBuilder();
+                var user = Context.User as IGuildUser;
 
-                embed.WithColor(Color.Blue);
-                embed.WithAuthor(Context.User);
-                embed.WithFooter("lil octo notebook");
                 embed.AddField("ID", "" + Context.User.Id, true);
-                embed.AddField("Status", "" + Context.User.Status, true);
-
                 embed.AddField("UserName", "" + Context.User, true);
-
+                embed.AddField("Registered", "" + user?.CreatedAt, true);
+                embed.AddField("Joined", "" + user?.JoinedAt, true);
                 embed.AddField("NickName", "" + Context.User.Mention, true);
                 embed.AddField("Octo Points", "" + account.Points, true);
                 embed.AddField("Octo Reputation", "" + account.Rep, true);
@@ -84,14 +111,33 @@ namespace OctoBot.Commands
                 else
                     embed.AddField("Warnings", "Clear.", true);
 
+                embed.AddField("All Messages", $"{allMessages}", true);
+                embed.AddField("All Edited Messages", $"{editMesages}", true);
+                embed.AddField("All Deleted Messages", $"{deletedMessages}", true);
+                embed.AddField("Channel Most Active In", $"{mostActiveChannel}", true);
+
+
                 embed.AddField("OctoCollection ", "" + octopuses);
                 embed.AddField("Used Nicknames", "" + usedNicks);
-                if (usedNicks2.Length >= 5)
-                    embed.AddField("Extra Nicknames", "" + usedNicks2);
+
                 embed.WithThumbnailUrl(Context.User.GetAvatarUrl());
                 //embed.AddField("Роли", ""+avatar);
 
-                await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, embed);
+                await CommandHandeling.ReplyAsync(Context, embed);
+                if (usedNicks2.Length >= 2)
+                {
+                    var usedEmbed = new EmbedBuilder();
+
+                    usedEmbed.AddField("Used Nicknames Co-nt:", $"{usedNicks2}");
+                    if (usedNicks3.Length >= 2)
+                        usedEmbed.AddField("boole?!", $"{usedNicks3}");
+                    if (usedNicks4.Length >= 2)
+                        usedEmbed.AddField("It's time to stop.", $"{usedNicks4}");
+                    usedEmbed.WithColor(Color.Blue);
+                    usedEmbed.WithAuthor(Context.User);
+                    usedEmbed.WithFooter("lil octo notebook");
+                    await CommandHandeling.ReplyAsync(Context, usedEmbed);
+                }
             }
             catch
             {
@@ -99,14 +145,14 @@ namespace OctoBot.Commands
             }
         }
 
-        [Command("stats")]
+        [Command("stats", RunMode = RunMode.Async)]
         [Alias("Статы")]
         public async Task CheckUser(IGuildUser user)
         {
             try
             {
                 var comander = UserAccounts.GetAccount(Context.User, Context.Guild.Id);
-                if (comander.OctoPass >= 4)
+                if (comander.OctoPass >= 4 || ((IGuildUser) Context.User).GuildPermissions.ManageMessages)
                 {
                     var account = UserAccounts.GetAccount((SocketUser) user, Context.Guild.Id);
 
@@ -114,6 +160,8 @@ namespace OctoBot.Commands
 
                     var usedNicks = "";
                     var usedNicks2 = "";
+                    var usedNicks3 = "";
+                    var usedNicks4 = "";
                     if (account.ExtraUserName != null)
                     {
                         var extra = account.ExtraUserName.Split(new[] {'|'}, StringSplitOptions.RemoveEmptyEntries);
@@ -121,10 +169,14 @@ namespace OctoBot.Commands
                         for (var i = 0; i < extra.Length; i++)
                             if (i == extra.Length - 1)
                                 usedNicks += extra[i];
-                            else if (usedNicks.Length <= 1000)
+                            else if (usedNicks.Length <= 970)
                                 usedNicks += extra[i] + ", ";
-                            else
+                            else if (usedNicks2.Length <= 970)
                                 usedNicks2 += extra[i] + ", ";
+                            else if (usedNicks3.Length <= 970)
+                                usedNicks3 += extra[i] + ", ";
+                            else if (usedNicks4.Length <= 970)
+                                usedNicks4 += extra[i] + ", ";
                     }
                     else
                     {
@@ -154,12 +206,31 @@ namespace OctoBot.Commands
                     {
                         var warns = account.Warnings.Split(new[] {'|'}, StringSplitOptions.RemoveEmptyEntries);
                         warnings = "";
-                        for (var index = 0; index < warns.Length; index++)
+                        foreach (var t in warns)
                         {
-                            var t = warns[index];
                             warnings += t + "\n";
                         }
                     }
+
+                    var statList = account.UserStatistics.ToList();
+                    ulong allMessages = 0;
+                    ulong editMesages = 0;
+                    ulong deletedMessages = 0;
+                    var mostActiveChannel = "N/A";
+
+                    foreach (var t in statList)
+                    {
+                        if (t.Key == "all")
+                            allMessages = t.Value;
+                        if (t.Key == "updated")
+                            editMesages = t.Value;
+                        if (t.Key == "deleted")
+                            deletedMessages = t.Value;
+                    }
+
+                    var ordered = statList.OrderByDescending(x => x.Value).ToList();
+                    
+                    mostActiveChannel = $"<#{Convert.ToUInt64(ordered[1].Key)}> - {ordered[1].Value} messages";
 
                     var embed = new EmbedBuilder();
 
@@ -167,9 +238,8 @@ namespace OctoBot.Commands
                     embed.WithAuthor(user);
                     embed.WithFooter("lil octo notebook");
                     embed.AddField("ID", "" + user.Id, true);
-                    embed.AddField("Status", "" + user.Status, true);
-                    embed.AddField("Registered", "" + user.CreatedAt, true);
                     embed.AddField("UserName", "" + user, true);
+                    embed.AddField("Registered", "" + user.CreatedAt, true);
                     embed.AddField("Joined", "" + user.JoinedAt, true);
                     embed.AddField("NickName", "" + user.Mention, true);
                     embed.AddField("Octo Points", "" + account.Points, true);
@@ -178,20 +248,40 @@ namespace OctoBot.Commands
                     embed.AddField("User LVL", "" + Math.Round(account.Lvl, 2), true);
                     embed.AddField("Pull Points", "" + account.DailyPullPoints, true);
                     embed.AddField("Best 2048 Game Score", $"{account.Best2048Score}", true);
+                    embed.AddField("All Messages", $"{allMessages}", true);
+                    embed.AddField("All Edited Messages", $"{editMesages}", true);
+                    embed.AddField("All Deleted Messages", $"{deletedMessages}", true);
+                    embed.AddField("Channel Most Active In", $"{mostActiveChannel}", true);
+
+
+
+
                     embed.AddField("Warnings", "" + warnings);
 
                     embed.AddField("OctoCollection ", "" + octopuses);
                     embed.AddField("Used Nicknames", "" + usedNicks);
-                    if (usedNicks2.Length >= 5)
-                        embed.AddField("Extra Nicknames", "" + usedNicks2);
                     embed.WithThumbnailUrl(user.GetAvatarUrl());
 
 
-                    await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context, embed);
+                    await CommandHandeling.ReplyAsync(Context, embed);
+                    if (usedNicks2.Length >= 2)
+                    {
+                        var usedEmbed = new EmbedBuilder();
+
+                        usedEmbed.AddField("Used Nicknames Co-nt:", $"{usedNicks2}");
+                        if (usedNicks3.Length >= 2)
+                            usedEmbed.AddField("boole?!", $"{usedNicks3}");
+                        if (usedNicks4.Length >= 2)
+                            usedEmbed.AddField("It's time to stop.", $"{usedNicks4}");
+                        usedEmbed.WithColor(Color.Blue);
+                        usedEmbed.WithAuthor(user);
+                        usedEmbed.WithFooter("lil octo notebook");
+                        await CommandHandeling.ReplyAsync(Context, usedEmbed);
+                    }
                 }
                 else
                 {
-                    await CommandHandelingSendingAndUpdatingMessages.SendingMess(Context,
+                    await CommandHandeling.ReplyAsync(Context,
                         "Boole! You do not have a tolerance of this level!");
                 }
             }
