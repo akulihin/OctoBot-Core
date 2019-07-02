@@ -18,6 +18,38 @@ namespace OctoBot.Commands.PersonalCommands
 {
     public class ForBot : ModuleBase<ShardedCommandContextCustom>
     {
+
+        [Command("cmd")]
+        [Description("****")]
+        public async Task Restart(string cmd)
+        {
+            if (Context.User.Id != 181514288278536193 || Context.User.Id != 238337696316129280)
+            {
+                await CommandHandeling.ReplyAsync(Context,
+                    "no.");
+                return;
+            }
+
+            var escapedArgs = cmd.Replace("\"", "\\\"");
+            
+            var process = new Process()
+            {
+                StartInfo = new ProcessStartInfo
+                {
+                    FileName = "/bin/bash",
+                    Arguments = $"-c \"{escapedArgs}\"",
+                    RedirectStandardOutput = true,
+                    UseShellExecute = false,
+                    CreateNoWindow = true,
+                }
+            };
+            process.Start();
+            string result = process.StandardOutput.ReadToEnd();
+            process.WaitForExit();
+            await CommandHandeling.ReplyAsync(Context,
+                $"{result}");
+        }
+
         [Command("LG")]
         [Alias("topGuild")]
         [RequireOwner]
