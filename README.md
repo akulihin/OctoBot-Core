@@ -8,7 +8,7 @@
 
 **THE FILE IN PROGRESS EDITING**
 
-**You can add this bot to your server using this webSite: https://discordbots.org/bot/423593006436712458**
+**You can add this bot to your server using this webSite: https://top.gg/bot/423593006436712458**
 
 **Also, there will be _better explanation_ of what the bot does for the server, and how to use it (bot do have a welcome message so you will understand what it does)**
 
